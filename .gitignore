@@ -1,0 +1,7 @@
+apache2/
+mysql/
+
+vendor/
+node_modules/
+
+php.ini
