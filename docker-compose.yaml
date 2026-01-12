@@ -1,0 +1,31 @@
+version: "3"
+services:
+  reclaim-server:
+    build:
+      context: ./
+      dockerfile: Dockerfile_server
+    container_name: server
+    ports:
+      - 49152:80 # port is solely for development
+    volumes:
+      - ./src:/var/www/ReClaim/src
+    networks: 
+      - backend
+    depends_on:
+      - reclaim-database
+  reclaim-database:
+    build: 
+      context: ./
+      dockerfile: Dockerfile_database
+    container_name: database
+    restart: "unless-stopped"
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql:/var/lib/mysql
+    networks:
+      - backend
+networks:
+  backend:
+volumes:
+  mysql:
