@@ -4,7 +4,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile_server
-    container_name: server
+    container_name: reclaim-server
     ports:
       - 49152:80 # port is solely for development
     volumes:
@@ -17,10 +17,10 @@ services:
     build: 
       context: ./
       dockerfile: Dockerfile_database
-    container_name: database
+    container_name: reclaim-database
     restart: "unless-stopped"
     ports:
-      - 3306:3306
+      - 3307:3306
     volumes:
       - mysql:/var/lib/mysql
     networks:
