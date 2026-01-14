@@ -13,7 +13,7 @@ RUN pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug
 
 RUN docker-php-ext-configure gd --with-webp --with-jpeg 
 RUN docker-php-ext-install -j$(nproc) pdo_mysql mysqli zip gd
-RUN docker-php-ext-enable pdo_mysql mysqli zip gd
+# RUN docker-php-ext-enable pdo_mysql mysqli zip gd
 
 COPY --link --chmod=644 /apache2/apache2.conf /etc/apache2/
 COPY --link --chmod=644 /apache2/sites-available/ReClaim.conf /etc/apache2/sites-available/
@@ -21,15 +21,22 @@ COPY --link --chmod=644 /apache2/envvars /etc/apache2/
 
 COPY --link --chmod=644 /php.ini /usr/local/etc/php/
 
-COPY --link --chmod=755 /.htaccess /var/www/ReClaim/
+COPY ./public /var/www/ReClaim/public
 COPY --link --chmod=644 /router.php /var/www/ReClaim/
 COPY --link --chmod=644 /routes.php /var/www/ReClaim/
+COPY ./src /var/www/ReClaim/src
 
-RUN a2enmod rewrite
+# Set ownership and permissions so Apache can read it
+RUN chown -R www-data:www-data /var/www/ReClaim/public
+RUN chmod -R 755 /var/www/ReClaim/public
 RUN a2ensite ReClaim && a2dissite 000-default
+RUN a2enmod rewrite
 
 RUN adduser webuser
 RUN adduser --group webgroup
 RUN adduser webuser webgroup
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "curl -f http://localhost/" ]
+
+# Run Apache in foreground
+CMD ["apache2-foreground"]

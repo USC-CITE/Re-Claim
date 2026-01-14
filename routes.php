@@ -2,4 +2,6 @@
 
 require_once __DIR__.'/router.php';
 
-get('/', './src/index.php');
+get('/', function(){
+    echo "Hello index from sda folder";
+});
