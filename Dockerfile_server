@@ -15,15 +15,13 @@ RUN docker-php-ext-configure gd --with-webp --with-jpeg
 RUN docker-php-ext-install -j$(nproc) pdo_mysql mysqli zip gd
 # RUN docker-php-ext-enable pdo_mysql mysqli zip gd
 
-COPY --link --chmod=644 /apache2/apache2.conf /etc/apache2/
+COPY --link --chmod=644 /apache2/apache2.conf /etc/apache2/ 
 COPY --link --chmod=644 /apache2/sites-available/ReClaim.conf /etc/apache2/sites-available/
 COPY --link --chmod=644 /apache2/envvars /etc/apache2/
 
 COPY --link --chmod=644 /php.ini /usr/local/etc/php/
 
 COPY ./public /var/www/ReClaim/public
-COPY --link --chmod=644 /router.php /var/www/ReClaim/
-COPY --link --chmod=644 /routes.php /var/www/ReClaim/
 COPY ./src /var/www/ReClaim/src
 
 # Set ownership and permissions so Apache can read it
