@@ -1,3 +1,9 @@
+<!--
+    * Layer: View
+    * Purpose: UI rendering and templates
+    * Rules: No business logic or DB access
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

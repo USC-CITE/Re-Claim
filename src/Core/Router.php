@@ -9,6 +9,11 @@ Code version: n/a
 Type: source code
 Description: lightweight object-oriented router support
 Availability: https://github.com/phprouter/main
+
+ * HTTP router for the application.
+ * Maps HTTP methods and URIs to callables.
+ * Dispatches requests to controllers or closures.
+ 
 */
 
 class Router{

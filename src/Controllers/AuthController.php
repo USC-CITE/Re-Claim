@@ -1,4 +1,10 @@
 <?php 
+/**
+    * Layer: Controller
+    * Purpose: Handle HTTP requests and responses
+    * Rules: No direct DB queries or HTML markup
+*/
+
 namespace App\Controllers;
 
 class AuthController{
