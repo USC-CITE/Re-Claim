@@ -26,5 +26,7 @@ $router->get('/', function () {
     echo "Hello from public!";
 });
 $router->get('/login', [AuthController::class, 'showLogin']);
+$router->post('/login', [AuthController::class, 'login']);
+
 
 $router->dispatch();
