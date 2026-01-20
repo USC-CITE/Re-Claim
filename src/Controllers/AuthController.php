@@ -23,6 +23,10 @@ class AuthController{
         }
         echo 'Invalid credentials!';
     }
+
+    public static function showRegister(){
+        require __DIR__ . '/../Views/auth/register.php';
+    }
 }
 
 ?>
