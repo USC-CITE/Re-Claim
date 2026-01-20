@@ -17,7 +17,7 @@
 <form method="POST" action="/login">
     <label>
         Email:
-        <input type="email" name="email" required>
+        <input type="email" name="email" required placeholder="example@wvsu.edu.ph">>
     </label>
     <br><br>
 
