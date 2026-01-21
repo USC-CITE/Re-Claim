@@ -5,16 +5,14 @@
      * All HTTP requests pass through this file.
      * Contains no business logic.
  */
-
-require_once __DIR__ . "/../src/Core/Router.php";
-require_once __DIR__ . '/../src/Core/Database.php';
-require_once __DIR__ . "/../src/Controllers/AuthController.php";
+require __DIR__ . '/../src/init.php';
 
 // Declare as variable the dictionary that config.php returns
 $config = require_once __DIR__ . '/../src/Config/config.php';
 
 use App\Controllers\AuthController;
 use App\Core\Router;
+use App\Core\Database;  
 
 $router = new Router();
 
@@ -28,6 +26,9 @@ $router->get('/', function () {
 $router->get('/login', [AuthController::class, 'showLogin']);
 $router->post('/login', [AuthController::class, 'login']);
 $router->get('/register', [AuthController::class, 'showRegister']);
-$router->post('/register', [AuthController::class, 'register']);
+$router->post('/register', function () use ($config) {
+    AuthController::register($config);
+});
+
 
 $router->dispatch();
