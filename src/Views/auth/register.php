@@ -14,7 +14,7 @@
 
 <h2>Register</h2>
 
-<form method="POST" action="/login">
+<form method="POST" action="/register">
     <label>
         First Name:
         <input type="firstname" name="firstname" required placeholder="John">
