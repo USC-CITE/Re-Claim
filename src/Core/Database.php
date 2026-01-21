@@ -10,6 +10,10 @@
  * Where it's applied:
  * Instantiated by models or a bootstrap file (index.php).
  */
+
+namespace App\Core;
+use PDO;
+
 class Database{
     private static $pdo;
 
