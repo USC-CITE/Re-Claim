@@ -42,9 +42,10 @@ class AuthController{
         $email = trim($_POST["email"] ?? "");
         $password = trim($_POST["password"] ?? "");
         $confirmPass = trim($_POST["confirm-pass"] ?? "");
+        $phoneNum = trim($_POST['phone-num'] ?? ""); 
 
         // Validate data
-        if(!$firstName || !$lastName || !$email || !$password || !$confirmPass){
+        if(!$firstName || !$lastName || !$email || !$password || !$confirmPass || !$phoneNum){
             echo "All fields are mandatory!";
             return;
         }
@@ -62,7 +63,7 @@ class AuthController{
             'last_name' => $lastName, 
             'email' => $email, 
             'password' => $password,
-            'phone' => ' ' ]);
+            'phone' => $phoneNum ]);
 
         echo $success ? 'User registered successfully!' : 'Registration failed.';
     }
