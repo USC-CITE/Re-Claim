@@ -41,6 +41,14 @@
         <input type="confirm-pass" name="confirm-pass" required>
     </label>
     <br><br>
+    
+    <label>
+        Phone Number:
+        <input type="phone-num" name="phone-num" required>
+    </label>
+    <br><br>
+
+    <!-- TODO: Add social media link field -->
 
     <button type="submit">Register</button>
 </form>
