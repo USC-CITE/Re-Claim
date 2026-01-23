@@ -58,11 +58,16 @@ class AuthController{
             return;
         }
 
+       
+
         // Check password if matching
         if($password !== $confirmPass){
             echo "Password does not match!";
             return;
-        }
+        } 
+
+        // Hash password
+        $hashPass = password_hash($password, PASSWORD_DEFAULT);
 
        // Utilize UserModel create method to insert into database
         $model = new UserModel($config);
@@ -70,7 +75,7 @@ class AuthController{
             'first_name' => $firstName,
             'last_name' => $lastName, 
             'email' => $email, 
-            'password' => $password,
+            'hashedPass' => $hashPass,
             'phone' => $phoneNum ]);
 
         echo $success ? 'User registered successfully!' : 'Registration failed.';

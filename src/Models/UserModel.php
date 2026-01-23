@@ -29,7 +29,7 @@ class UserModel {
             'first'    => $data['first_name'],
             'last'     => $data['last_name'],
             'email'    => $data['email'],
-            'password' => password_hash($data['password'], PASSWORD_DEFAULT),
+            'password' => $data['hashedPass'],
             'phone'    => $data['phone_number'] ?? '' 
         ]);
     }
