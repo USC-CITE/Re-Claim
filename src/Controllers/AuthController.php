@@ -17,8 +17,16 @@ class AuthController{
     }
 
     public static function login(){
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+
+        // Fetch form fields
+        $email = trim($_POST['email'] ?? '');
+        $password = trim($_POST['password'] ?? '');
+
+        // Validate email format
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            echo "$email is not a valid email address";
+            return;
+        }
 
         // TODO: this is for testing purposes only
         if($email === 'test@wvsu.edu.ph' && $password === '123'){
