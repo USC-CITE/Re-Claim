@@ -57,7 +57,7 @@ class AuthController{
             }
 
             if (!str_ends_with($email, '@wvsu.edu.ph')) {
-                throw new Exception("Registration is restricted to WVSU email addresses only (@wvsu.edu.ph).");
+                return $email;
             }
 
             // Check password if matching
