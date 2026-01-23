@@ -56,7 +56,7 @@ class AuthController{
                 throw new Exception("All fields are mandatory!");
             }
 
-            if (!str_ends_with($email, '@wvsu.edu.ph')) {
+            if (!str_ends_with($email, '@wvsu.edu.ph') || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 return $email;
             }
 
