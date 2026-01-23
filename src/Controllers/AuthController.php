@@ -24,9 +24,8 @@ class AuthController{
         $password = trim($_POST['password'] ?? '');
 
         // Validate email format
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            echo "$email is not a valid email address";
-            return;
+        if (!str_ends_with($email, '@wvsu.edu.ph') || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return $email;
         }
 
         // TODO: this is for testing purposes only
