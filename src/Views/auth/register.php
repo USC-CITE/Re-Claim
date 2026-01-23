@@ -38,7 +38,7 @@
     </label>
     <label>
         Confirm Password:
-        <input type="confirm-pass" name="confirm-pass" required>
+        <input type="password" name="confirm-pass" required>
     </label>
     <br><br>
     
