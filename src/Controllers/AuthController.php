@@ -73,7 +73,7 @@ class AuthController{
                 'first_name' => $firstName,
                 'last_name' => $lastName, 
                 'email' => $email, 
-                'password' => $password,
+                'hashedPass' => $hashPass,
                 'phone_number' => $phoneNum 
             ]);
 
