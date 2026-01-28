@@ -8,7 +8,7 @@
 <body>
     <form method="POST" action="/verify">
         <h2>Enter OTP</h2>
-        <input type="text" name="verification_code" placeholder="Enter OTP" required>
+        <input type="text" name="otp" placeholder="Enter OTP" required>
         <button type="submit">Verify</button>
     </form>
 
