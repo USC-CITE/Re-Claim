@@ -17,6 +17,14 @@ class AuthController{
         require __DIR__ . '/../Views/auth/login.php';
     }
 
+    public static function showRegister(){
+        require __DIR__ . '/../Views/auth/register.php';
+    }
+
+    public static function showVerify(){
+        require __DIR__ . '/../Views/mainpages/verify.php';
+    }
+
     public static function login(){
 
         // Fetch form fields
@@ -36,9 +44,7 @@ class AuthController{
         echo 'Invalid credentials!';
     }
 
-    public static function showRegister(){
-        require __DIR__ . '/../Views/auth/register.php';
-    }
+    
 
     public static function register(array $config){
         try {
@@ -105,6 +111,26 @@ class AuthController{
         }
     }
 
+    public static function verify(array $config)
+    {
+        session_start();
 
+        $email = $_SESSION['pending_email'] ?? null;
+        $otp   = trim($_POST['otp'] ?? '');
+
+        if (!$email || !$otp) {
+            echo "Session expired. Please register again.";
+            return;
+        }
+
+        $model = new UserModel($config);
+
+        if ($model->verifyOtp($email, $otp)) {
+            unset($_SESSION['pending_email']);
+            echo "Email verified successfully!";
+        } else {
+            echo "Invalid or expired OTP.";
+        }
+    }
 }
 ?>
