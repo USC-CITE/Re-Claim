@@ -31,6 +31,8 @@ $router->post('/register', function () use ($config) {
     AuthController::register($config);
 });
 $router->get('/verify', [AuthController::class, 'showVerify']);
-
+$router->post('/verify', function() use ($config) {
+    AuthController::verify($config);
+});
 
 $router->dispatch();
