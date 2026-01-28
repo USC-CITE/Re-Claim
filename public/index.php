@@ -30,6 +30,7 @@ $router->get('/register', [AuthController::class, 'showRegister']);
 $router->post('/register', function () use ($config) {
     AuthController::register($config);
 });
+$router->get('/verify', [AuthController::class, 'showVerify']);
 
 
 $router->dispatch();
