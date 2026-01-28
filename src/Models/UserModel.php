@@ -44,4 +44,26 @@ class UserModel {
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
+    function verifyOtp(string $email, string $otp): bool{
+
+        // We utilized our findByEmail helper function
+        $user = $this->findByEmail($email);
+
+        // If user does not exist
+        if(!$user){
+            return false;
+        }
+
+        // If otp exceeds time expiration
+        if($user['verification_expiry'] < date('Y-m-d H:i:s')) return false;
+
+        // If otp sent by user does not match from the otp that we generated
+        if(!password_verify($otp, $user['verification_code'])) return false;
+
+        $stmt = $this->db->prepare("
+            UPDATE users SET email_verified = 1, verification_code = NULL, verification_expiry = NULL 
+            WHERE wvsu_email = :email
+        ");
+        return $stmt->execute(['email' => $email]);
+    }
 }
