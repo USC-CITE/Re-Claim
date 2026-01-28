@@ -48,8 +48,15 @@ class AuthController{
             $email = trim($_POST["email"] ?? "");
             $password = trim($_POST["password"] ?? "");
             $confirmPass = trim($_POST["confirm-pass"] ?? "");
-            $phoneNum = trim($_POST['phone-num'] ?? ""); 
+            $phoneNum = trim($_POST['phone-num'] ?? "");
 
+            // Generate OTP
+            $otp = random_int(100000, 999999); // secure 6-digit OTP
+
+            // Hash generated OTP
+            $v_code_hashed = password_hash($otp, PASSWORD_DEFAULT);
+            
+            $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
             // Validation Logic
             if(!$firstName || !$lastName || !$email || !$password || !$confirmPass || !$phoneNum){
                 throw new Exception("All fields are mandatory!");
@@ -74,8 +81,14 @@ class AuthController{
                 'last_name' => $lastName, 
                 'email' => $email, 
                 'hashedPass' => $hashPass,
-                'phone_number' => $phoneNum 
+                'phone_number' => $phoneNum,
+                'v_code_hashed' => $v_code_hashed,
+                'v_code_expiry' => $expires
+
             ]);
+
+            // Store user email to be used in OTP verification
+            $_SESSION['pending_email'] = $email;
 
             echo 'User registered successfully!';
 
@@ -84,12 +97,14 @@ class AuthController{
                 echo "Registration failed: The email address '$email' is already in use.";
             } else {
                 error_log("Database Error: " . $e->getMessage());
-                echo "An unexpected error occurred during registration. Please try again later.";
+                echo "An unexpected error occurred during registration. Please try again later." . $e->getMessage();
             }
         } catch (Exception $e) {
             // General Error Handling (Validation, etc.)
             echo "Error: " . $e->getMessage();
         }
     }
+
+
 }
 ?>
