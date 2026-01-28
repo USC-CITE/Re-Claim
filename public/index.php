@@ -30,5 +30,8 @@ $router->post('/register', function () use ($config) {
     AuthController::register($config);
 });
 
+$router->get('/lost/post', function () {
+    require __DIR__ . '/../src/Views/lost/post.php';
+});
 
 $router->dispatch();
