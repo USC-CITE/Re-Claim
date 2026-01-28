@@ -8,6 +8,7 @@
 namespace App\Controllers;
 
 use App\Core\Database;
+use App\Helpers\Mailer;
 use App\Models\UserModel;
 use PDOException;
 use Exception;
@@ -47,6 +48,7 @@ class AuthController{
     
 
     public static function register(array $config){
+        session_start();
         try {
             // Handle data submitted by the user
             $firstName = trim($_POST["firstname"] ?? "");
@@ -95,9 +97,15 @@ class AuthController{
 
             // Store user email to be used in OTP verification
             $_SESSION['pending_email'] = $email;
+            
+            // Send OTP via Gmail
+            if (Mailer::sendOtp($email, $firstName, $otp)) {
+                echo "Registration successful! Check your email for the OTP.";
+            } else {
+                echo "Registration successful, but failed to send OTP email. Please contact support.";
+            }
 
-            echo 'User registered successfully!';
-
+            header('Location: /verify');
         } catch (PDOException $e) {
             if ($e->errorInfo[1] === 1062) {
                 echo "Registration failed: The email address '$email' is already in use.";
@@ -116,8 +124,8 @@ class AuthController{
         session_start();
 
         $email = $_SESSION['pending_email'] ?? null;
-        $otp   = trim($_POST['otp'] ?? '');
-
+        $otp = trim($_POST['otp'] ?? '');
+        
         if (!$email || !$otp) {
             echo "Session expired. Please register again.";
             return;
