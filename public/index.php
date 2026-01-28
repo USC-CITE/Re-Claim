@@ -21,7 +21,7 @@ $db = Database::connect($config['db']);
 
 /* Routes */
 $router->get('/', function () {
-    require __DIR__ . "/../src/Views/mainpages/index.php";
+    require __DIR__ . "/../src/Views/mainpages/view_index.php";
     
 });
 $router->get('/login', [AuthController::class, 'showLogin']);
