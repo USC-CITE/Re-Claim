@@ -47,8 +47,18 @@ class LostItemController
             }
 
             // ---- Image upload handling ----
-            if (!isset($_FILES['item_image']) || $_FILES['item_image']['error'] !== UPLOAD_ERR_OK) {
-                throw new Exception('Image upload failed.');
+            // SIZE LIMIT handled in php.ini (post_max_size = 8M)
+            if (empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH'])) {
+                $maxPost = ini_get('post_max_size');
+                throw new Exception("Uploaded file is too large. Maximum allowed size is {$maxPost}.");
+            }
+
+            if (!isset($_FILES['item_image'])) {
+                throw new Exception('Please upload an image.');
+            }
+
+            if ($_FILES['item_image']['error'] !== UPLOAD_ERR_OK) {
+                throw new Exception('Image upload error. Please try again.');
             }
 
             $allowedTypes = [
@@ -62,7 +72,7 @@ class LostItemController
             $mimeType = mime_content_type($tmpPath);
 
             if (!isset($allowedTypes[$mimeType])) {
-                throw new Exception('Invalid image format.');
+                throw new Exception('Invalid image format. Allowed: JPG, PNG, WEBP, AVIF.');
             }
 
             $extension = $allowedTypes[$mimeType];
