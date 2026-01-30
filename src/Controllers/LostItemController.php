@@ -15,6 +15,7 @@ class LostItemController
 {
     public static function showPostForm()
     {
+        $user = $_SESSION['user'] ?? null;
         require __DIR__ . '/../Views/lost/post.php';
     }
 

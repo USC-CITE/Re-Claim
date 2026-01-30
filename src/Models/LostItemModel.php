@@ -18,7 +18,6 @@ class LostItemModel
 
     public function __construct(array $config)
     {
-        // Follow existing pattern used in UserModel
         $this->db = Database::connect($config['db']);
     }
     

@@ -31,10 +31,6 @@ $router->post('/register', function () use ($config) {
     AuthController::register($config);
 });
 
-$router->get('/lost/post', function () {
-    require __DIR__ . '/../src/Views/lost/post.php';
-});
-
 /* Lost Item */
 $router->get('/lost/post', [LostItemController::class, 'showPostForm']);
 $router->post('/lost/post', [LostItemController::class, 'submitPostForm']);

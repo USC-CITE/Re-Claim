@@ -30,6 +30,17 @@ class AuthController{
 
         // TODO: this is for testing purposes only
         if($email === 'test@wvsu.edu.ph' && $password === '123'){
+
+            //TEST USER SESSION
+            $_SESSION['user'] = [
+                'first_name' => 'Test',
+                'last_name' => 'User',
+                'contact_details' => 'test@wvsu.edu.ph',
+                'email' => $email,
+            ];
+
+            //header('Location: /lost/post');
+
             echo 'Test successful!';
             return;
         }   

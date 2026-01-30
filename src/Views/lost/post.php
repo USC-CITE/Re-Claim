@@ -14,7 +14,7 @@
 
 <h2>Post a Lost Item</h2>
 
-<form method="POST" action="#" enctype="multipart/form-data">
+<form method="POST" action="/lost/post" enctype="multipart/form-data">
 
     <!-- Image Upload -->
     <label>
@@ -168,17 +168,17 @@
     <!-- User Info -->
     <label>
         First Name:
-        <input type="text" name="first_name" required>
+        <input type="text" name="first_name" required value="<?= isset($user['first_name']) ? htmlspecialchars($user['first_name']) : '' ?>">
     </label>
 
     <label>
         Last Name:
-        <input type="text" name="last_name" required>
+        <input type="text" name="last_name" required value="<?= isset($user['last_name']) ? htmlspecialchars($user['last_name']) : '' ?>">
     </label>
 
     <label>
         Contact Details:
-        <input type="text" name="contact_details" required placeholder="Phone number or email">
+        <input type="text" name="contact_details" required value="<?= isset($user['contact_details']) ? htmlspecialchars($user['contact_details']) : '' ?>">
     </label>
 
     <button type="submit">Post Lost Item</button>
