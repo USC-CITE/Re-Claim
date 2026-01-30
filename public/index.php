@@ -11,6 +11,7 @@ require __DIR__ . '/../src/init.php';
 $config = require_once __DIR__ . '/../src/Config/config.php';
 
 use App\Controllers\AuthController;
+use App\Controllers\LostItemController;
 use App\Core\Router;
 use App\Core\Database;  
 
@@ -33,5 +34,10 @@ $router->post('/register', function () use ($config) {
 $router->get('/lost/post', function () {
     require __DIR__ . '/../src/Views/lost/post.php';
 });
+
+/* Lost Item */
+$router->get('/lost/post', [LostItemController::class, 'showPostForm']);
+$router->post('/lost/post', [LostItemController::class, 'submitPostForm']);
+
 
 $router->dispatch();
