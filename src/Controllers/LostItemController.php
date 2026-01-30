@@ -41,6 +41,19 @@ class LostItemController
                 [$latitude, $longitude] = explode(',', $coords);
             }
 
+            // Date lost / last seen (required)
+            $dateLost = $_POST['date_lost'] ?? '';
+            $dt = \DateTime::createFromFormat('Y-m-d', $dateLost);
+            if (!$dt || $dt->format('Y-m-d') !== $dateLost) {
+                throw new Exception('Please provide a valid date.');
+            }
+
+            // Disallow selection of future dates
+            $today = new \DateTime('today');
+            if ($dt > $today) {
+                throw new Exception('Date lost cannot be in the future.');
+            }
+
             // Category tags
             $categories = $_POST['category'] ?? [];
             if (!is_array($categories)) {
@@ -116,6 +129,7 @@ class LostItemController
                 'location_name' => $locationName,
                 'latitude' => $latitude,
                 'longitude' => $longitude,
+                'date_lost' => $dateLost,
                 'category' => $categoryJson,
                 'description' => $description,
                 'first_name' => $firstName,

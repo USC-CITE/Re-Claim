@@ -144,13 +144,18 @@
             </option>
         </select>
 
+        <!-- Room Number for specified buildings -->
         <label id="room-number-wrapper" style="display: none;">
             Room Number:
             <input type="text" name="room_number" id="room_number" placeholder="e.g., 203">
         </label>
-
     </label>
 
+    <!-- Date Lost -->
+    <label>
+        Date Lost:
+        <input type="date" name="date_lost" required>
+    </label>
 
     <!-- Optional Description -->
     <label>

@@ -24,14 +24,15 @@ class LostItemModel
     public function create(array $data): bool
     {
         $sql = "INSERT INTO lost_items 
-                (image_path, location_name, latitude, longitude, category, description, first_name, last_name, contact_details, user_id)
+                (image_path, date_lost, location_name, latitude, longitude, category, description, first_name, last_name, contact_details, user_id)
                 VALUES
-                (:image_path, :location_name, :latitude, :longitude, :category, :description, :first_name, :last_name, :contact_details, :user_id)";
+                (:image_path, :date_lost, :location_name, :latitude, :longitude, :category, :description, :first_name, :last_name, :contact_details, :user_id)";
 
         $stmt = $this->db->prepare($sql);
 
         return $stmt->execute([
             'image_path'       => $data['image_path'],
+            'date_lost'        => $data['date_lost'],
             'location_name'    => $data['location_name'],
             'latitude'         => $data['latitude'],
             'longitude'        => $data['longitude'],
