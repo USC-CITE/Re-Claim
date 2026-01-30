@@ -28,6 +28,7 @@
         >
     </label>
 
+    <!-- TODO: Update selection method once UI design is finalized -->
     <!-- Location Selection -->
     <label>
         Last Known Location:
@@ -51,11 +52,11 @@
             </option>
 
             <option value="Quezon Hall|10.713140,122.562691">
-                Quezon Hall (Specify Room)
+                Quezon Hall
             </option>
 
             <option value="Rizal Hall|10.713691,122.561374">
-                Rizal Hall (Specify Room)
+                Rizal Hall
             </option>
 
             <option value="CBM Building / Claro M. Recto Hall|10.712056,122.563951">
@@ -135,14 +136,19 @@
             </option>
 
             <option value="PESCAR Building / Ramon Magsaysay Hall|10.712845,122.563332">
-                PESCAR Building / Ramon Magsaysay Hall (Specify Room)
+                PESCAR Building / Ramon Magsaysay Hall
             </option>
 
             <option value="New Academic Building|10.713086,122.563506">
-                New Academic Building (Specify Room)
+                New Academic Building
             </option>
-
         </select>
+
+        <label id="room-number-wrapper" style="display: none;">
+            Room Number:
+            <input type="text" name="room_number" id="room_number" placeholder="e.g., 203">
+        </label>
+
     </label>
 
 
@@ -184,5 +190,38 @@
     <button type="submit">Post Lost Item</button>
 </form>
 
+<script>
+    (function () {
+        const locationSelect = document.querySelector('select[name="location"]');
+        const roomWrapper = document.getElementById('room-number-wrapper');
+        const roomInput = document.getElementById('room_number');
+
+        // Locations that require a room number
+        const requiresRoom = new Set([
+            'Quezon Hall',
+            'Rizal Hall',
+            'PESCAR Building / Ramon Magsaysay Hall',
+            'New Academic Building'
+        ]);
+
+        //TODO: Add logic to validate room numbers based on building
+        function updateRoomField() {
+            const value = locationSelect.value || '';
+            const name = value.includes('|') ? value.split('|')[0] : '';
+
+            if (requiresRoom.has(name)) {
+                roomWrapper.style.display = 'block';
+                roomInput.required = true;
+            } else {
+                roomWrapper.style.display = 'none';
+                roomInput.required = false;
+                roomInput.value = '';
+            }
+        }
+
+        locationSelect.addEventListener('change', updateRoomField);
+        updateRoomField(); // run on load
+    })();
+</script>
 </body>
 </html>
