@@ -44,8 +44,4 @@ class LostItemModel
             'user_id'          => $data['user_id'],
         ]);
     }
-
-    // Future methods:
-    // public function findById(int $id): array
-    // public function findAll(): array
 }
