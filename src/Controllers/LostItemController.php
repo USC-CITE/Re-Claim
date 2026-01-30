@@ -24,19 +24,13 @@ class LostItemController
         $config = require __DIR__ . '/../Config/config.php';
 
         try {
-            // required fields
-            $locationRaw = $_POST['location'] ?? '';
-            $category = trim($_POST['category'] ?? '');
+            // fetch form fields
             $firstName = trim($_POST['first_name'] ?? '');
             $lastName = trim($_POST['last_name'] ?? '');
             $contact = trim($_POST['contact_details'] ?? '');
-
-            // optional
-            $description = trim($_POST['description'] ?? '');
-            if ($description === '') {
-                $description = null;
-            }
-
+            
+            // Location
+            $locationRaw = $_POST['location'] ?? '';
             // parse location: "Name|lat,long"
             $locationName = '';
             $latitude = null;
@@ -45,6 +39,23 @@ class LostItemController
             if ($locationRaw) {
                 [$locationName, $coords] = explode('|', $locationRaw);
                 [$latitude, $longitude] = explode(',', $coords);
+            }
+
+            // Category tags
+            $categories = $_POST['category'] ?? [];
+            if (!is_array($categories)) {
+                $categories = [$categories];
+            }
+            $categories = array_values(array_filter(array_map('trim', $categories)));
+            if (count($categories) === 0) {
+                throw new Exception('Please select at least one category.');
+            }
+            $categoryJson = json_encode($categories);
+
+            // Description (optional)
+            $description = trim($_POST['description'] ?? '');
+            if ($description === '') {
+                $description = null;
             }
 
             // ---- Image upload handling ----
@@ -80,10 +91,8 @@ class LostItemController
 
             // Generate safe unique filename
             $timestamp = date('Ymd_His');
-            $categoryTag = strtoupper(substr($category, 0, 3)); // WAL, BAG, ID, etc.
             $uniqueId = strtoupper(substr(uniqid(), -6));
-
-            $fileName = "lost_{$categoryTag}_{$timestamp}_LST{$uniqueId}.{$extension}";
+            $fileName = "lost{$timestamp}_LST{$uniqueId}.{$extension}";
 
             // Destination path
             $uploadDir = __DIR__ . '/../../public/uploads/lost_items/';
@@ -107,7 +116,7 @@ class LostItemController
                 'location_name' => $locationName,
                 'latitude' => $latitude,
                 'longitude' => $longitude,
-                'category' => $category,
+                'category' => $categoryJson,
                 'description' => $description,
                 'first_name' => $firstName,
                 'last_name' => $lastName,

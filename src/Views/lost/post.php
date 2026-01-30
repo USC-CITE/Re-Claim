@@ -160,13 +160,16 @@
 
     <!-- Category -->
     <label>
-        Category:
-        <select name="category" required>
-            <option value="">-- Select Category --</option>
-            <option value="ID">ID</option>
-            <option value="Wallet">Wallet</option>
-            <option value="Phone">Phone</option>
-            <option value="Bag">Bag</option>
+        Category Tags (optional):
+        <select name="category[]" multiple>
+            <option value="Books">Books</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Personal">Personal</option>
+            <option value="IDs/Documents">IDs/Documents</option>
+            <option value="Bags">Bags</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Stationery">Stationery</option>
             <option value="Others">Others</option>
         </select>
     </label>
