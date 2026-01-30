@@ -23,6 +23,13 @@ class AuthController{
     }
 
     public static function showVerify(){
+        session_start();
+        
+        // Check if verify_message field
+        if(!empty($_SESSION['verify_message'])){
+            echo "<p>" . htmlspecialchars($_SESSION['verify_message']) . "</p>";
+            unset($_SESSION['verify_message']);
+        }
         require __DIR__ . '/../Views/mainpages/verify.php';
     }
 
@@ -100,9 +107,9 @@ class AuthController{
             
             // Send OTP via Gmail
             if (Mailer::sendOtp($email, $firstName, $otp)) {
-                echo "Registration successful! Check your email for the OTP.";
+                $_SESSION['verify_message'] = "Registration successful! Check your email for the OTP.";
             } else {
-                echo "Registration successful, but failed to send OTP email. Please contact support.";
+                $SESSION['verify_message'] = "Registration successful, but failed to send OTP email. Please contact support.";
             }
 
             header('Location: /verify');
