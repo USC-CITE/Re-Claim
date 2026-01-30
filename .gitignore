@@ -5,3 +5,6 @@ vendor/
 node_modules/
 
 php.ini
+
+/public/uploads/
+/public/uploads/lost_items/

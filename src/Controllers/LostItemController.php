@@ -46,8 +46,45 @@ class LostItemController
                 [$latitude, $longitude] = explode(',', $coords);
             }
 
-            // TEMP placeholder for image_path (upload handling later)
-            $imagePath = 'TEMP_UPLOAD_PENDING';
+            // ---- Image upload handling ----
+            if (!isset($_FILES['item_image']) || $_FILES['item_image']['error'] !== UPLOAD_ERR_OK) {
+                throw new Exception('Image upload failed.');
+            }
+
+            $allowedTypes = [
+                'image/jpeg' => 'jpg',
+                'image/png'  => 'png',
+                'image/webp' => 'webp',
+                'image/avif' => 'avif',
+            ];
+
+            $tmpPath = $_FILES['item_image']['tmp_name'];
+            $mimeType = mime_content_type($tmpPath);
+
+            if (!isset($allowedTypes[$mimeType])) {
+                throw new Exception('Invalid image format.');
+            }
+
+            $extension = $allowedTypes[$mimeType];
+
+            // Generate safe unique filename
+            $timestamp = date('Ymd_His');
+            $categoryTag = strtoupper(substr($category, 0, 3)); // WAL, BAG, ID, etc.
+            $uniqueId = strtoupper(substr(uniqid(), -6));
+
+            $fileName = "lost_{$categoryTag}_{$timestamp}_LST{$uniqueId}.{$extension}";
+
+            // Destination path
+            $uploadDir = __DIR__ . '/../../public/uploads/lost_items/';
+            $destination = $uploadDir . $fileName;
+
+            if (!move_uploaded_file($tmpPath, $destination)) {
+                throw new Exception('Failed to save uploaded image.');
+            }
+
+            // Path saved to DB (relative to public)
+            $imagePath = 'uploads/lost_items/' . $fileName;
+            // ---- End image upload handling ----
 
             // user_id is optional for now (auto-fill later)
             $userId = null;
