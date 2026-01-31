@@ -34,5 +34,6 @@ $router->get('/verify', [AuthController::class, 'showVerify']);
 $router->post('/verify', function() use ($config) {
     AuthController::verify($config);
 });
+$router->post('/resend-otp', fn() => AuthController::resendOtp($config));
 
 $router->dispatch();
