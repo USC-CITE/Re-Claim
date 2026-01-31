@@ -121,7 +121,7 @@
 
             <label>
                 Contact Details:
-                <input type="text" name="contact_details" required value="<?= isset($user['contact_details']) ? htmlspecialchars($user['contact_details']) : '' ?>">
+                <input type="text" name="contact_details" required value="<?= isset($user['phone_number']) ? htmlspecialchars($user['phone_number']) : '' ?>">
             </label>
         </fieldset>
 
