@@ -100,7 +100,13 @@
                 <textarea name="description" rows="4" placeholder="Color, brand, or distinguishing marks" required></textarea>
             </label>
 
-    </fieldset>
+            <label>
+                Date & Time Found:
+                <input type="datetime-local" name="date_found" value="<?= date('Y-m-d\TH:i'); ?>" required>
+            </label>
+
+        </fieldset>
+
     </form>
             
 </main>
@@ -143,6 +149,14 @@
             roomInput.required = false;
         }
     });
+
+    // Set the Date & Time Found field to the browser's local time (fix timezone mismatch)
+    const dtInput = document.querySelector('input[name="date_found"]');
+    if (dtInput) {
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        dtInput.value = now.toISOString().slice(0,16);
+    }
 
 </script>
 </body>
