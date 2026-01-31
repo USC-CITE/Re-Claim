@@ -78,6 +78,7 @@ class AuthController{
             }
 
             if (!str_ends_with($email, '@wvsu.edu.ph') || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                echo "[DEBUG]: Invalid email format";
                 return $email;
             }
 
@@ -143,7 +144,7 @@ class AuthController{
         if ($model->verifyOtp($email, $otp)) {
             unset($_SESSION['pending_email']);
             echo "Email verified successfully!";
-        } else {
+        } else {    
             echo "Invalid or expired OTP.";
         }
     }
