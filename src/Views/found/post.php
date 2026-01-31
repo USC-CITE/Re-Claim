@@ -73,7 +73,15 @@
                 <input type="text" name="room_number" id="room_number" placeholder="e.g., 203">
             </label>
         </fieldset>
+        <fieldset>
+            <legend>Item Details</legend>
 
+            <label>
+                Item Name:
+                <input type="text" name="item_name" id="item_name" required placeholder="e.g., Black Wallet">
+            </label>
+            
+    </fieldset>
     </form>
             
 </main>
