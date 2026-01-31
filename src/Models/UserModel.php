@@ -66,4 +66,16 @@ class UserModel {
         ");
         return $stmt->execute(['email' => $email]);
     }
+
+    public function updateOtp(string $email, string $hashed, string $expires): bool {
+        $stmt = $this->db->prepare(
+            "UPDATE users SET verification_code = :code, verification_expiry = :expiry WHERE wvsu_email = :email"
+        );
+
+        return $stmt->execute([
+            'code' => $hashed,
+            'expiry' => $expires,
+            'email' => $email
+        ]);
+    }
 }
