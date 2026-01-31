@@ -106,7 +106,29 @@
             </label>
 
         </fieldset>
+        
+        <fieldset>
+            <legend>Contact Information</legend>
+            <label>
+                First Name:
+                <input type="text" name="first_name" required value="<?= isset($user['first_name']) ? htmlspecialchars($user['first_name']) : '' ?>">
+            </label>
 
+            <label>
+                Last Name:
+                <input type="text" name="last_name" required value="<?= isset($user['last_name']) ? htmlspecialchars($user['last_name']) : '' ?>">
+            </label>
+
+            <label>
+                Contact Details:
+                <input type="text" name="contact_details" required value="<?= isset($user['contact_details']) ? htmlspecialchars($user['contact_details']) : '' ?>">
+            </label>
+        </fieldset>
+
+        <div class="grid">
+            <button type="submit">Post Item</button>
+            <button type="button" class="secondary" onclick="window.location.href='/'">Cancel</button>
+        </div>
     </form>
             
 </main>
