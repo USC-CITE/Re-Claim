@@ -67,8 +67,23 @@
                     <option value="New Academic Building|10.713086,122.563506">New Academic Building</option>
                 </select>
             </label>
+            
 </main>
+<script>
+    // Preview Image Logic
+    document.getElementById('item_image').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById('preview-image');
+                img.src = e.target.result;
+                img.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
 
-
+</script>
 </body>
 </html>
