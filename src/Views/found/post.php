@@ -15,6 +15,8 @@
     <h2>Post a Found Item</h2>
     
     <form method="POST" action="/found/post" enctype="multipart/form-data">
+        <?php \App\Core\Router::setCsrf(); ?>
+        
         <fieldset>
             <legend>Item Photo</legend>
             <label>

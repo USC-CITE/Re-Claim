@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Models\FoundItemModel;
+use App\Core\Router;
 use PDOException;
 use Exception;
 use DateTime;
@@ -18,7 +19,7 @@ class FoundItemController
         
         require __DIR__ . '/../Views/found/index.php';
     }
-    
+
     public static function showPostForm()
     {
         // Auto-fill fields if user is logged in
@@ -28,6 +29,11 @@ class FoundItemController
 
     public static function submitPostForm()
     {
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token. Please refresh the page and try again.");
+        }
+
         $config = require __DIR__ . '/../Config/config.php';
 
         try {
