@@ -93,6 +93,7 @@
                     <option value="Accessories">Accessories</option>
                     <option value="Stationery">Stationery</option>
                     <option value="Others">Others</option>
+                </select>
             </label>
 
             <label>

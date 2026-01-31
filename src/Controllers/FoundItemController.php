@@ -10,7 +10,15 @@ use DateTimeZone;
 class FoundItemController
 {
 
-
+    public static function index()
+    {
+        $config = require __DIR__ . '/../Config/config.php';
+        $model = new FoundItemModel($config);
+        $foundItems = $model->getAll();
+        
+        require __DIR__ . '/../Views/found/index.php';
+    }
+    
     public static function showPostForm()
     {
         // Auto-fill fields if user is logged in
