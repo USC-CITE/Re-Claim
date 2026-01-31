@@ -25,10 +25,10 @@ class AuthController{
     public static function showVerify(){
         session_start();
         
-        // Check if verify_message field
-        if(!empty($_SESSION['verify_message'])){
-            echo "<p>" . htmlspecialchars($_SESSION['verify_message']) . "</p>";
-            unset($_SESSION['verify_message']);
+        // Check if verify_message field 
+        if(!empty($_SESSION['message'])){
+            echo "<p>" . htmlspecialchars($_SESSION['message']) . "</p>";
+            unset($_SESSION['message']);
         }
         require __DIR__ . '/../Views/mainpages/verify.php';
     }
@@ -67,7 +67,7 @@ class AuthController{
 
             // Generate OTP
             $otp = random_int(100000, 999999); // secure 6-digit OTP
-
+    
             // Hash generated OTP
             $v_code_hashed = password_hash($otp, PASSWORD_DEFAULT);
             
@@ -105,12 +105,13 @@ class AuthController{
 
             // Store user email to be used in OTP verification
             $_SESSION['pending_email'] = $email;
+            $_SESSION['first_name'] = $firstName;
             
             // Send OTP via Gmail
             if (Mailer::sendOtp($email, $firstName, $otp)) {
-                $_SESSION['verify_message'] = "Registration successful! Check your email for the OTP.";
+                $_SESSION['message'] = "Registration successful! Check your email for the OTP.";
             } else {
-                $SESSION['verify_message'] = "Registration successful, but failed to send OTP email. Please contact support.";
+                $SESSION['message'] = "Registration successful, but failed to send OTP email. Please contact support.";
             }
 
             header('Location: /verify');
@@ -147,6 +148,33 @@ class AuthController{
         } else {    
             echo "Invalid or expired OTP.";
         }
+    }
+
+    public static function resendOtp(array $config){
+        session_start();
+
+        $firstName = $_SESSION['first_name'] ?? null;
+        $email = $_SESSION['pending_email'] ?? null;
+
+        if(!$email){
+            echo "Session expired. Please register again";
+            return;
+        }
+
+        $otp = random_int(100000, 999999);
+        $hashed = password_hash($otp, PASSWORD_DEFAULT);
+        $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
+
+        $model = new UserModel($config);
+        $model->updateOtp($email, $hashed, $expires);
+
+        if(Mailer::sendOtp($email, $firstName, $otp)){
+            $_SESSION['message'] = "New OTP sent to your email";
+        }else{
+            $SESSION['message'] = "OTP generated, but failed to sent to your email.";
+        }
+        header('Location: /verify');
+
     }
 }
 ?>
