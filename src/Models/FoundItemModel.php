@@ -25,14 +25,15 @@ class FoundItemModel
     public function create(array $data): bool
     {
         $sql = "INSERT INTO found_items 
-                (image_path, date_found, location_name, latitude, longitude, category, description, first_name, last_name, contact_details, user_id, status)
+                (image_path, item_name, date_found, location_name, latitude, longitude, category, description, first_name, last_name, contact_details, user_id, status)
                 VALUES
-                (:image_path, :date_found, :location_name, :latitude, :longitude, :category, :description, :first_name, :last_name, :contact_details, :user_id, 'Unclaimed')";
+                (:image_path, :item_name, :date_found, :location_name, :latitude, :longitude, :category, :description, :first_name, :last_name, :contact_details, :user_id, 'Unclaimed')";
 
         $stmt = $this->db->prepare($sql);
 
         return $stmt->execute([
             'image_path'       => $data['image_path'],
+            'item_name'        => $data['item_name'],
             'date_found'       => $data['date_found'],
             'location_name'    => $data['location_name'],
             'latitude'         => $data['latitude'],
