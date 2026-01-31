@@ -80,7 +80,26 @@
                 Item Name:
                 <input type="text" name="item_name" id="item_name" required placeholder="e.g., Black Wallet">
             </label>
-            
+
+            <label>
+                Category Tags:
+                <select name="category" required>
+                    <option value="Books">Books</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Personal">Personal</option>
+                    <option value="IDs/Documents">IDs/Documents</option>
+                    <option value="Bags">Bags</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Accessories">Accessories</option>
+                    <option value="Stationery">Stationery</option>
+                    <option value="Others">Others</option>
+            </label>
+
+            <label>
+                Description:
+                <textarea name="description" rows="4" placeholder="Color, brand, or distinguishing marks" required></textarea>
+            </label>
+
     </fieldset>
     </form>
             
