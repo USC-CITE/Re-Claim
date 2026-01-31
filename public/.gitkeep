@@ -1,8 +1,0 @@
-# Keep uploads directory in repository
-
-This directory stores images uploaded by users.
-
-## Structure
-- Images are organized by upload timestamp and unique ID
-- File names follow pattern: `item_[timestamp]_[unique-id].[extension]`
-- Supported formats: JPG, JPEG, PNG, WEBP, AVIF
