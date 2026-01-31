@@ -79,6 +79,54 @@ class FoundItemController
                 throw new Exception('Please provide a valid date and time.');
             }
 
+            // 4. Categories
+            $categories = $_POST['category'] ?? [];
+            if (!is_array($categories)) {
+                $categories = [$categories]; // Handle single selection
+            }
+            $categoryJson = json_encode($categories);
+
+            // 5. Description
+            $description = trim($_POST['description'] ?? '');
+
+            // 6. Image Upload
+            $imagePath = null;
+            if (isset($_FILES['item_image']) && $_FILES['item_image']['error'] === UPLOAD_ERR_OK && is_uploaded_file($_FILES['item_image']['tmp_name'])) {
+                $allowedTypes = [
+                    'image/jpeg' => 'jpg',
+                    'image/png'  => 'png',
+                    'image/webp' => 'webp',
+                    'image/avif' => 'avif',
+                ];
+
+                $tmpPath = $_FILES['item_image']['tmp_name'];
+                $mimeType = mime_content_type($tmpPath);
+
+                if (!isset($allowedTypes[$mimeType])) {
+                    throw new Exception('Invalid image format. Allowed: JPG, PNG, WEBP, AVIF.');
+                }
+
+                //unique renaming of file
+                $extension = $allowedTypes[$mimeType];
+                $timestamp = date('Ymd_His');
+                $uniqueId = strtoupper(substr(uniqid(), -6));
+                $fileName = "found_{$timestamp}_{$uniqueId}.{$extension}";
+                
+                // Ensure directory exists
+                $uploadDir = __DIR__ . '/../../public/uploads/found_items/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
+                
+                $destination = $uploadDir . $fileName;
+
+                if (!move_uploaded_file($tmpPath, $destination)) {
+                    throw new Exception('Failed to save uploaded image.');
+                }
+
+                $imagePath = 'uploads/found_items/' . $fileName;
+            }
+            
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
         }
