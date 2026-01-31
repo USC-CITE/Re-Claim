@@ -67,6 +67,14 @@
                     <option value="New Academic Building|10.713086,122.563506">New Academic Building</option>
                 </select>
             </label>
+
+            <label id="room-number-wrapper" style="display: none;">
+                Room Number:
+                <input type="text" name="room_number" id="room_number" placeholder="e.g., 203">
+            </label>
+        </fieldset>
+
+    </form>
             
 </main>
 <script>
@@ -81,6 +89,31 @@
                 img.style.display = 'block';
             }
             reader.readAsDataURL(file);
+        }
+    });
+
+    // Room Number Logic
+    const locationSelect = document.getElementById('location');
+    const roomWrapper = document.getElementById('room-number-wrapper');
+    const roomInput = document.getElementById('room_number');
+    
+    // Buildings triggering room number
+    const requiresRoom = new Set([
+        'Lopez Jaena Building / ULRC',
+        'Quezon Hall',
+        'PESCAR Building / Ramon Magsaysay Hall',
+        'New Academic Building'
+    ]);
+
+    locationSelect.addEventListener('change', function() {
+        // Extract name before pipe
+        const val = this.value.split('|')[0];
+        if (requiresRoom.has(val)) {
+            roomWrapper.style.display = 'block';
+            roomInput.required = true;
+        } else {
+            roomWrapper.style.display = 'none';
+            roomInput.required = false;
         }
     });
 
