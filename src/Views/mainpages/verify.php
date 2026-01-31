@@ -12,5 +12,8 @@
         <button type="submit">Verify</button>
     </form>
 
+    <form method="POST" action="/resend-otp">
+        <button type="submit">Resend OTP</button>
+    </form>
 </body>
 </html>
