@@ -126,7 +126,28 @@ class FoundItemController
 
                 $imagePath = 'uploads/found_items/' . $fileName;
             }
-            
+
+            // 7. Save to DB
+            $model = new FoundItemModel($config);
+            $model->create([
+                'image_path' => $imagePath,
+                'item_name' => $itemName,
+                'location_name' => $locationName,
+                'latitude' => $latitude,
+                'longitude' => $longitude,
+                'date_found' => $dateFound,
+                'category' => $categoryJson,
+                'description' => $description,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'contact_details' => $contact,
+                'user_id' => $_SESSION['user']['id'] ?? null,
+            ]);
+
+            // Redirect to list page on success (temporary, for visual debugging purposes rn)
+            header('Location: /found');
+            exit;
+
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
         }
