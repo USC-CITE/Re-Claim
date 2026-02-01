@@ -25,6 +25,8 @@ class AuthController{
     public static function showVerify(){
         session_start();
         
+        // Handle the OTP expiration time
+
         // Check if verify_message field 
         if(!empty($_SESSION['message'])){
             echo "<p>" . htmlspecialchars($_SESSION['message']) . "</p>";
@@ -106,6 +108,9 @@ class AuthController{
             // Store user email to be used in OTP verification
             $_SESSION['pending_email'] = $email;
             $_SESSION['first_name'] = $firstName;
+
+            // For the OTP UI timer
+            $_SESSION['otp_expires_at'] = $expires;
             
             // Send OTP via Gmail
             if (Mailer::sendOtp($email, $firstName, $otp)) {
@@ -169,12 +174,13 @@ class AuthController{
         $model->updateOtp($email, $hashed, $expires);
 
         if(Mailer::sendOtp($email, $firstName, $otp)){
-
             $_SESSION['resend_message'] = "New OTP sent to your email";
-
         }else{
             $_SESSION['resend_message'] = "OTP generated, but failed to sent to your email.";
         }
+
+        // For the OTP UI timer
+        $_SESSION['otp_expires_at'] = $expires;
         header('Location: /verify');
 
     }
