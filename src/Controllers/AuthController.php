@@ -131,7 +131,7 @@ class AuthController{
     public static function verify(array $config)
     {
         session_start();
-
+        
         $email = $_SESSION['pending_email'] ?? null;
         $otp = trim($_POST['otp'] ?? '');
         
@@ -169,9 +169,11 @@ class AuthController{
         $model->updateOtp($email, $hashed, $expires);
 
         if(Mailer::sendOtp($email, $firstName, $otp)){
-            $_SESSION['message'] = "New OTP sent to your email";
+
+            $_SESSION['resend_message'] = "New OTP sent to your email";
+
         }else{
-            $SESSION['message'] = "OTP generated, but failed to sent to your email.";
+            $_SESSION['resend_message'] = "OTP generated, but failed to sent to your email.";
         }
         header('Location: /verify');
 
