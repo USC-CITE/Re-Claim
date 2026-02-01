@@ -26,7 +26,8 @@ class AuthController{
         session_start();
         
         // Handle the OTP expiration time
-
+        $expiresAt = $_SESSION['otp_expires_at'];
+        
         // Check if verify_message field 
         if(!empty($_SESSION['message'])){
             echo "<p>" . htmlspecialchars($_SESSION['message']) . "</p>";
