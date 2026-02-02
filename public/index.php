@@ -21,7 +21,8 @@ $db = Database::connect($config['db']);
 
 /* Routes */
 $router->get('/', function () {
-    echo "Hello from public!";
+    require __DIR__ . "/../src/Views/mainpages/view_index.php";
+    
 });
 $router->get('/login', [AuthController::class, 'showLogin']);
 $router->post('/login', [AuthController::class, 'login']);
@@ -29,6 +30,10 @@ $router->get('/register', [AuthController::class, 'showRegister']);
 $router->post('/register', function () use ($config) {
     AuthController::register($config);
 });
-
+$router->get('/verify', [AuthController::class, 'showVerify']);
+$router->post('/verify', function() use ($config) {
+    AuthController::verify($config);
+});
+$router->post('/resend-otp', fn() => AuthController::resendOtp($config));
 
 $router->dispatch();
