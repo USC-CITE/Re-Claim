@@ -76,6 +76,8 @@ class AuthController{
         session_start();
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_email'] = $user['wvsu_email'];
+        $_SESSION['first_name'] = $user['first_name'];
+        $_SESSION['last_name'] = $user['last_name'];
         header('Location: /');
     }
 
