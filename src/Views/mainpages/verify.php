@@ -21,10 +21,10 @@
     <form method="POST" action="/resend-otp">
         <b>
             <?= htmlspecialchars($_SESSION['resend_message'] ?? '') ?>
-            <?php unset($_SESSION['resend_message']); ?>
+            <?php unset($_SESSION['resend_message']); ?>    
         </b>
         <br>
-        <button type="submit" id="resendBtn" class="resend" disabled>Resend OTP</button>
+        <button type="submit" id="resendBtn" class="resend">Resend OTP</button>
     </form>
 
     <script>
@@ -41,7 +41,6 @@
 
             if (diff <= 0) {
                 timerEl.textContent = "OTP expired.";
-                resendBtn.disabled = false;
                 resendBtn.classList.add('active');
                 return;
             }
