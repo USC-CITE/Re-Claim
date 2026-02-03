@@ -26,7 +26,6 @@
                     name="item_image" 
                     id="item_image"
                     accept="image/jpeg,image/png,image/webp,image/avif"
-                    capture="environment" <?php #opens the camera for mobile devices ?>
                 >
             </label>
             <div id="preview-container">
