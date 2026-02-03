@@ -15,7 +15,30 @@ class FoundItemController
     {
         $config = require __DIR__ . '/../Config/config.php';
         $model = new FoundItemModel($config);
-        $foundItems = $model->getAll();
+        $rawItems = $model->getAll();
+        
+        $foundItems = array_map(function($item) {
+
+            // 1. Format Date
+            try {
+                $dt = new DateTime($item['date_found'], new DateTimeZone('Asia/Manila'));
+                $dateDisplay = $dt->format('F j, Y g:i A');
+            } catch (Exception $e) {
+                $dateDisplay = $item['date_found'];
+            }
+
+           // 2. Return Clean Data Structure 
+            return [
+                'id' => $item['id'] ?? uniqid(), // ID for the modal
+                'title' => $item['item_name'] ?: "Found Item",
+                'status' => $item['status'],
+                'image_url' => !empty($item['image_path']) ? '/' . $item['image_path'] : null,
+                'date_found' => $dateDisplay,
+                'location' => $item['location_name'],
+                'description' => $item['description'] ?: 'No description provided.',
+                'contact_info' => $item['contact_details'], // Pass raw contact info for the modal
+            ];
+        }, $rawItems);
         
         require __DIR__ . '/../Views/found/index.php';
     }
