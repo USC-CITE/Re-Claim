@@ -25,7 +25,9 @@ $router->get('/', function () {
     
 });
 $router->get('/login', [AuthController::class, 'showLogin']);
-$router->post('/login', [AuthController::class, 'login']);
+$router->post('/login', function () use ($config) {
+    AuthController::login($config);
+});
 $router->get('/register', [AuthController::class, 'showRegister']);
 $router->post('/register', function () use ($config) {
     AuthController::register($config);

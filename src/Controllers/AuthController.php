@@ -34,7 +34,7 @@ class AuthController{
         require __DIR__ . '/../Views/mainpages/verify.php';
     }
 
-    public static function login(){
+    public static function login(array $config){
 
         // Fetch form fields
         $email = trim($_POST['email'] ?? '');
@@ -45,12 +45,40 @@ class AuthController{
                 return $email;
         }
 
-        // TODO: this is for testing purposes only
-        if($email === 'test@wvsu.edu.ph' && $password === '123'){
-            echo 'Test successful!';
+        // Initialize object for UserModel class
+        $model = new UserModel($config);
+
+        // Utilize our finbByEmail method passing the user's email
+        $user = $model->findByEmail($email);
+
+        // Handle if user not exist
+        if(!$user){
+            // Frontend will handle UI/UX error handling
+            echo $email;
             return;
-        }   
-        echo 'Invalid credentials!';
+        }
+
+        // Handle if user account is created but not verified
+        if((int)$user['email_verified'] !== 1){
+            // Frontend will handle UI/UX error handling
+            echo $email;
+            return;
+        } 
+        
+        // Verify credentials
+        if(!password_verify($password, $user['password'])){
+            // Frontend will handle UI/UX error handling
+            echo $email; // Invalid credentials
+            return;
+        }
+
+        // If no errors
+        session_start();
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_email'] = $user['wvsu_email'];
+        $_SESSION['first_name'] = $user['first_name'];
+        $_SESSION['last_name'] = $user['last_name'];
+        header('Location: /');
     }
 
     
