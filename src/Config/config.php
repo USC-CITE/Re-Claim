@@ -18,11 +18,11 @@ $env = parse_ini_file($envPath);
 
 return[
     'db' => [
-        'host' => $env['DB_CONNECTION'],
-        'port' => $env['DB_PORT'],
-        'name' => $env['DB_NAME'],
-        'user' => $env['DB_USER'],
-        'pass' => $env['DB_PASS'],
-        'charset' => $env['DB_CHARSET'],
+        'host' => $env['DB_CONNECTION'] ?? 'localhost',
+        'port' => $env['DB_PORT'] ?? 3306,
+        'name' => $env['DB_NAME'] ?? null, // must comde from .env
+        'user' => $env['DB_USER'] ?? null, // must comde from .env
+        'pass' => $env['DB_PASS'] ?? null, // must comde from .env
+        'charset' => $env['DB_CHARSET'] ?? 'utf8mb4 ',
     ],
 ];
