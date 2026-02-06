@@ -10,9 +10,17 @@ use DateTimeZone;
 
 class FoundItemController
 {
+    protected static function ensureSession()
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+    }
 
     public static function index()
     {
+        self::ensureSession();
+
         $config = require __DIR__ . '/../Config/config.php';
         $model = new FoundItemModel($config);
         $rawItems = $model->getAll();
@@ -39,14 +47,35 @@ class FoundItemController
                 'contact_info' => $item['contact_details'], // Pass raw contact info for the modal
             ];
         }, $rawItems);
-        
+
+        // Read and clear flash for display
+        $flash = $_SESSION['flash'] ?? null;
+        if ($flash) {
+            unset($_SESSION['flash']);
+        }
+
         require __DIR__ . '/../Views/found/index.php';
     }
 
     public static function showPostForm()
     {
+        self::ensureSession();
+
         // Auto-fill fields if user is logged in
         $user = $_SESSION['user'] ?? null;
+
+        // Retrieve old input and flash 
+        $old = $_SESSION['old'] ?? [];
+        if (isset($_SESSION['old'])) {
+            unset($_SESSION['old']);
+        }
+
+        $flash = $_SESSION['flash'] ?? null;
+        if ($flash) {
+            unset($_SESSION['flash']);
+        }
+
+        // Pass $old and $flash to the view (views can access these variables)
         require __DIR__ . '/../Views/found/post.php';
     }
 
@@ -58,6 +87,19 @@ class FoundItemController
         }
 
         $config = require __DIR__ . '/../Config/config.php';
+
+        // Prepare an array of old input for PRG when redirecting back on error.
+        $oldInput = [
+            'item_name' => $_POST['item_name'] ?? '',
+            'first_name' => $_POST['first_name'] ?? '',
+            'last_name' => $_POST['last_name'] ?? '',
+            'contact_details' => $_POST['contact_details'] ?? '',
+            'location' => $_POST['location'] ?? '',
+            'room_number' => $_POST['room_number'] ?? '',
+            'date_found' => $_POST['date_found'] ?? '',
+            'category' => $_POST['category'] ?? [],
+            'description' => $_POST['description'] ?? '',
+        ];
 
         try {
             // 1. Fetch text fields
@@ -128,6 +170,8 @@ class FoundItemController
 
             // 6. Image Upload
             $imagePath = null;
+            $movedUploadedFile = false;
+            $movedFileFullPath = null;
             if (isset($_FILES['item_image']) && $_FILES['item_image']['error'] === UPLOAD_ERR_OK && is_uploaded_file($_FILES['item_image']['tmp_name'])) {
                 $allowedTypes = [
                     'image/jpeg' => 'jpg',
@@ -162,6 +206,8 @@ class FoundItemController
                 }
 
                 $imagePath = 'uploads/found_items/' . $fileName;
+                $movedUploadedFile = true;
+                $movedFileFullPath = $destination;
             }
 
             // 7. Save to DB
@@ -181,12 +227,22 @@ class FoundItemController
                 'user_id' => $_SESSION['user']['id'] ?? null,
             ]);
 
-            // Redirect to list page on success (temporary, for visual debugging purposes rn)
+            // set success flash and redirect to list page
+            $_SESSION['flash'] = ['success' => 'Found item posted successfully.'];
             header('Location: /found');
             exit;
 
         } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
+            // On error, clean up any uploaded file we may have moved already
+            if (!empty($movedUploadedFile) && !empty($movedFileFullPath) && file_exists($movedFileFullPath)) {
+                @unlink($movedFileFullPath);
+            }
+            $_SESSION['flash'] = ['error' => $e->getMessage()];
+            // Note: file inputs cannot be persisted across redirects; user must re-attach the image
+            $_SESSION['old'] = $oldInput;
+            
+            header('Location: /found/post');
+            exit;
         }
     }
 }
