@@ -15,19 +15,23 @@
 <h2>Register</h2>
 
 <form method="POST" action="/register">
-    <label>
-        First Name:
-        <input type="firstname" name="firstname" required placeholder="John">
-    </label>
-    <br><br>
-    <label>
-        Last Name:
-        <input type="lastname" name="lastname" required placeholder="Doe">
-    </label>
+    <!-- temporary styling -->
+    <div style="display: flex">
+        <label>
+            First Name:
+            <input type="text" name="firstname" required placeholder="John">
+        </label>
+        <br><br>
+        <label>
+            Last Name:
+            <input type="text" name="lastname" required placeholder="Doe">
+        </label>
+    </div>
+    
     <br><br>
 
     <label>
-        Email:
+        WVSU Email Address:
         <input type="email" name="email" required placeholder="example@wvsu.edu.ph">
     </label>
     <br><br>
@@ -36,6 +40,8 @@
         Password:
         <input type="password" name="password" required>
     </label>
+
+    <br></br>   
     <label>
         Confirm Password:
         <input type="password" name="confirm-pass" required>
@@ -44,13 +50,18 @@
     
     <label>
         Phone Number:
-        <input type="phone-num" name="phone-num" required>
+        <input type="text" name="phone-num" required>
+    </label>
+    <label>
+        Social Media Link
+        <input type="text" name="social-link" required>
     </label>
     <br><br>
 
-    <!-- TODO: Add social media link field -->
+
 
     <button type="submit">Register</button>
+    <p>Already have an account?<a href="/login"><strong>Log in</strong></a></p>
 </form>
 
 </body>
