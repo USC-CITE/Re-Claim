@@ -29,10 +29,10 @@ class FoundItemController
 
             // 1. Format Date
             try {
-                $dt = new DateTime($item['date_found'], new DateTimeZone('Asia/Manila'));
+                $dt = new DateTime($item['event_date'], new DateTimeZone('Asia/Manila'));
                 $dateDisplay = $dt->format('F j, Y g:i A');
             } catch (Exception $e) {
-                $dateDisplay = $item['date_found'];
+                $dateDisplay = $item['event_date'] ?? null;
             }
 
            // 2. Return Clean Data Structure 
@@ -61,8 +61,16 @@ class FoundItemController
     {
         self::ensureSession();
 
-        // Auto-fill fields if user is logged in
-        $user = $_SESSION['user'] ?? null;
+        // Auto-fill fields if user is logged in.
+        $user = $_SESSION['user'] ?? [];
+        if (empty($user)) {
+            $user = [
+                'id' => $_SESSION['user_id'] ?? null,
+                'first_name' => $_SESSION['first_name'] ?? null,
+                'last_name' => $_SESSION['last_name'] ?? null,
+                'phone_number' => $_SESSION['phone_number'] ?? null,
+            ];
+        }
 
         // Retrieve old input and flash 
         $old = $_SESSION['old'] ?? [];
@@ -81,6 +89,7 @@ class FoundItemController
 
     public static function submitPostForm()
     {
+        self::ensureSession();
         if (!Router::isCsrfValid()) {
             http_response_code(403);
             die("Security Error: Invalid CSRF Token. Please refresh the page and try again.");
@@ -226,7 +235,7 @@ class FoundItemController
                 'contact_details' => $contact,
                 'room_number' => $_POST['room_number'] ?? null,
                 'item_type' => 'found',
-                'user_id' => $_SESSION['user']['id'] ?? null,
+                'user_id' => $_SESSION['user']['id'] ?? $_SESSION['user_id'] ?? null,
             ]);
 
             // set success flash and redirect to list page
