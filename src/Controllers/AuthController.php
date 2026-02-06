@@ -149,8 +149,22 @@ class AuthController{
         $model = new UserModel($config);
 
         if ($model->verifyOtp($email, $otp)) {
+            
+            $user = $model->findByEmail($email);
+            if($user){
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['wvsu_email'] = $user['wvsu_email'];
+                $_SESSION['first_name'] = $user['first_name'];
+                $_SESSION['last_name'] = $user['last_name'];
+            }
+
+            // Clean up 
             unset($_SESSION['pending_email']);
-            echo "Email verified successfully!";
+            unset($_SESSION['first_name']);
+            unset($_SESSION['otp_expires_at']);
+
+            header('Location: /');
+            exit();
         } else {    
             echo "Invalid or expired OTP.";
         }
