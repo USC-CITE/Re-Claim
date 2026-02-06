@@ -224,6 +224,8 @@ class FoundItemController
                 'first_name' => $firstName,
                 'last_name' => $lastName,
                 'contact_details' => $contact,
+                'room_number' => $_POST['room_number'] ?? null,
+                'item_type' => 'found',
                 'user_id' => $_SESSION['user']['id'] ?? null,
             ]);
 

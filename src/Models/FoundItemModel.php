@@ -17,27 +17,33 @@ class FoundItemModel
 
     public function getAll(): array
     {
-        $sql = "SELECT * FROM found_items ORDER BY date_found DESC, created_at DESC";
+        $sql = "SELECT * FROM lost_and_found_items ORDER BY event_date DESC, created_at DESC";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
     }
     
     public function create(array $data): bool
     {
-        $sql = "INSERT INTO found_items 
-                (image_path, item_name, date_found, location_name, latitude, longitude, category, description, first_name, last_name, contact_details, user_id, status)
+        $sql = "INSERT INTO lost_and_found_items 
+                (item_type, image_path, item_name, event_date, location_name, room_number, latitude, longitude, category, description, first_name, last_name, contact_details, user_id, status)
                 VALUES
-                (:image_path, :item_name, :date_found, :location_name, :latitude, :longitude, :category, :description, :first_name, :last_name, :contact_details, :user_id, 'Unclaimed')";
+                (:item_type, :image_path, :item_name, :event_date, :location_name, :room_number, :latitude, :longitude, :category, :description, :first_name, :last_name, :contact_details, :user_id, 'Unrecovered')";
 
         $stmt = $this->db->prepare($sql);
 
+        // Ensure required numeric columns have sane defaults when not provided by controller
+        $latitude = isset($data['latitude']) && $data['latitude'] !== null ? $data['latitude'] : 0;
+        $longitude = isset($data['longitude']) && $data['longitude'] !== null ? $data['longitude'] : 0;
+
         return $stmt->execute([
+            'item_type'        => $data['item_type'] ?? 'found',
             'image_path'       => $data['image_path'],
             'item_name'        => $data['item_name'],
-            'date_found'       => $data['date_found'],
+            'event_date'       => $data['date_found'],
             'location_name'    => $data['location_name'],
-            'latitude'         => $data['latitude'],
-            'longitude'        => $data['longitude'],
+            'room_number'      => $data['room_number'] ?? null,
+            'latitude'         => $latitude,
+            'longitude'        => $longitude,
             'category'         => $data['category'],
             'description'      => $data['description'],
             'first_name'       => $data['first_name'],
