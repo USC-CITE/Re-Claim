@@ -160,7 +160,6 @@ class AuthController{
 
             // Clean up 
             unset($_SESSION['pending_email']);
-            unset($_SESSION['first_name']);
             unset($_SESSION['otp_expires_at']);
 
             header('Location: /');
