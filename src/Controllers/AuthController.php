@@ -65,6 +65,7 @@ class AuthController{
             $password = trim($_POST["password"] ?? "");
             $confirmPass = trim($_POST["confirm-pass"] ?? "");
             $phoneNum = trim($_POST['phone-num'] ?? "");
+            $socialLink = trim($_POST['social-link'] ?? "");
 
             // Generate OTP
             $otp = random_int(100000, 999999); // secure 6-digit OTP
@@ -74,7 +75,7 @@ class AuthController{
             
             $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
             // Validation Logic
-            if(!$firstName || !$lastName || !$email || !$password || !$confirmPass || !$phoneNum){
+            if(!$firstName || !$lastName || !$email || !$password || !$confirmPass || !$phoneNum || !$socialLink){
                 throw new Exception("All fields are mandatory!");
             }
 
@@ -99,6 +100,7 @@ class AuthController{
                 'email' => $email, 
                 'hashedPass' => $hashPass,
                 'phone_number' => $phoneNum,
+                'social_link' => $socialLink,
                 'v_code_hashed' => $v_code_hashed,
                 'v_code_expiry' => $expires
 
