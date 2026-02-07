@@ -53,15 +53,12 @@ class FoundItemController
     {
 
         // Auto-fill fields if user is logged in.
-        $user = $_SESSION['user'] ?? [];
-        if (empty($user)) {
-            $user = [
-                'id' => $_SESSION['user_id'] ?? null,
-                'first_name' => $_SESSION['first_name'] ?? null,
-                'last_name' => $_SESSION['last_name'] ?? null,
-                'phone_number' => $_SESSION['phone_number'] ?? null,
-            ];
-        }
+    $user = [
+            'id' => $_SESSION['user_id'] ?? null,
+            'first_name' => $_SESSION['first_name'] ?? null,
+            'last_name' => $_SESSION['last_name'] ?? null,
+            'phone_number' => $_SESSION['phone_number'] ?? null, //or should this be email?
+        ];
 
         // Retrieve old input and flash 
         $old = $_SESSION['old'] ?? [];
