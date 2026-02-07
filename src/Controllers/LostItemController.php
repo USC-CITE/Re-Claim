@@ -14,6 +14,40 @@ use Exception;
 
 class LostItemController
 {
+    public static function index()
+    {
+        $config = require __DIR__ . '/../Config/config.php';
+        $model = new LostItemModel($config);
+
+        $rawItems = $model->getAll();
+
+        $lostItems = array_map(function ($item) {
+            $categories = [];
+            if (!empty($item['category'])) {
+                $decoded = json_decode($item['category'], true);
+                $categories = is_array($decoded) ? $decoded : [$item['category']];
+            }
+
+            $imageUrl = !empty($item['image_path']) ? '/' . ltrim($item['image_path'], '/') : null;
+
+            return [
+                'id' => $item['id'],
+                'image_url' => $imageUrl,
+                'date_lost' => $item['date_lost'] ?? null,
+                'location' => $item['location_name'] ?? '',
+                'description' => $item['description'] ?: 'No description provided.',
+                'categories' => $categories,
+                'contact_info' => $item['contact_details'] ?? '',
+                'name' => trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? '')),
+            ];
+        }, $rawItems);
+
+        $flash = $_SESSION['flash'] ?? null;
+        if ($flash) unset($_SESSION['flash']);
+
+        require __DIR__ . '/../Views/lost/index.php';
+    }
+
     public static function showPostForm()
     {
         /**

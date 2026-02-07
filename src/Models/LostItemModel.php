@@ -44,4 +44,17 @@ class LostItemModel
             'user_id'          => $data['user_id'],
         ]);
     }
+
+    public function getAll(): array
+    {
+        $sql = "SELECT *
+                FROM lost_items
+                ORDER BY created_at DESC, id DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+    }
+
 }
