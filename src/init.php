@@ -3,6 +3,7 @@
  * PSR-4 Autoloader for mapping namespaces and class names to file paths
  * This is added to eliminate manual requires of every class file
  */
+require_once __DIR__ . '/../vendor/autoload.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
