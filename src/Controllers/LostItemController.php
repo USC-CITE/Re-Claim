@@ -7,6 +7,7 @@
 
 namespace App\Controllers;
 
+use App\Core\Router;
 use App\Models\LostItemModel;
 use PDOException;
 use Exception;
@@ -15,46 +16,104 @@ class LostItemController
 {
     public static function showPostForm()
     {
-        $user = $_SESSION['user'] ?? null;
+        /**
+         * NOTE:
+         * Session is started globally in router.php (dispatch)
+         * AuthController stores user session fields like: user_id, user_email, first_name, last_name, etc.
+         */
+        $user = [
+            'id' => $_SESSION['user_id'] ?? null,
+            'email' => $_SESSION['user_email'] ?? null,
+            'first_name' => $_SESSION['first_name'] ?? null,
+            'last_name' => $_SESSION['last_name'] ?? null,
+            'phone_number' => $_SESSION['phone_number'] ?? null,
+        ];
+
+        // Retrieve old input + flash (PRG)
+        $old = $_SESSION['old'] ?? [];
+        if (isset($_SESSION['old'])) {
+            unset($_SESSION['old']);
+        }
+
+        $flash = $_SESSION['flash'] ?? null;
+        if ($flash) {
+            unset($_SESSION['flash']);
+        }
+
         require __DIR__ . '/../Views/lost/post.php';
     }
 
     public static function submitPostForm()
     {
+        // CSRF validation
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token. Please refresh the page and try again.");
+        }
+
         $config = require __DIR__ . '/../Config/config.php';
 
+        // Prepare old input for PRG
+        $oldInput = [
+            'first_name'       => $_POST['first_name'] ?? '',
+            'last_name'        => $_POST['last_name'] ?? '',
+            'contact_details'  => $_POST['contact_details'] ?? '',
+            'location'         => $_POST['location'] ?? '',
+            'room_number'      => $_POST['room_number'] ?? '',
+            'date_lost'        => $_POST['date_lost'] ?? '',
+            'category'         => $_POST['category'] ?? [],
+            'description'      => $_POST['description'] ?? '',
+        ];
+
+        $movedUploadedFile = false;
+        $movedFileFullPath = null;
+
         try {
-            // fetch form fields
+            // 1) Fetch text fields
             $firstName = trim($_POST['first_name'] ?? '');
-            $lastName = trim($_POST['last_name'] ?? '');
-            $contact = trim($_POST['contact_details'] ?? '');
-            
-            // Location
-            $locationRaw = $_POST['location'] ?? '';
-            // parse location: "Name|lat,long"
+            $lastName  = trim($_POST['last_name'] ?? '');
+            $contact   = trim($_POST['contact_details'] ?? '');
+
+            // 2) Parse Location (format: "Name|lat,long")
+            $locationRaw  = $_POST['location'] ?? '';
             $locationName = '';
-            $latitude = null;
-            $longitude = null;
+            $latitude     = null;
+            $longitude    = null;
 
             if ($locationRaw) {
-                [$locationName, $coords] = explode('|', $locationRaw);
-                [$latitude, $longitude] = explode(',', $coords);
+                $parts = explode('|', $locationRaw);
+                if (count($parts) === 2) {
+                    $locationName = $parts[0];
+                    $coords = explode(',', $parts[1]);
+                    if (count($coords) === 2) {
+                        $latitude = $coords[0];
+                        $longitude = $coords[1];
+                    }
+                } else {
+                    $locationName = $locationRaw; // fallback
+                }
             }
 
-            // Date lost / last seen (required)
+            // Append Room Number if provided (optional)
+            if (!empty($_POST['room_number'])) {
+                $locationName .= ' (Room ' . trim($_POST['room_number']) . ')';
+            }
+
+            // 3) Date lost / last seen (required)
             $dateLost = $_POST['date_lost'] ?? '';
             $dt = \DateTime::createFromFormat('Y-m-d', $dateLost);
             if (!$dt || $dt->format('Y-m-d') !== $dateLost) {
                 throw new Exception('Please provide a valid date.');
             }
 
-            // Disallow selection of future dates
+            // Normalize to midnight and disallow future dates
+            $dt->setTime(0, 0, 0);
             $today = new \DateTime('today');
             if ($dt > $today) {
                 throw new Exception('Date lost cannot be in the future.');
             }
 
-            // Category tags
+            // 4) Category tags (at least one required)
             $categories = $_POST['category'] ?? [];
             if (!is_array($categories)) {
                 $categories = [$categories];
@@ -65,14 +124,14 @@ class LostItemController
             }
             $categoryJson = json_encode($categories);
 
-            // Description (optional)
+            // 5) Description (optional)
             $description = trim($_POST['description'] ?? '');
             if ($description === '') {
                 $description = null;
             }
 
-            // ---- Image upload handling ----
-            // SIZE LIMIT handled in php.ini (post_max_size = 8M)
+            // 6) Image upload
+            // SIZE LIMIT handled in php.ini (post_max_size / upload_max_filesize)
             if (empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH'])) {
                 $maxPost = ini_get('post_max_size');
                 throw new Exception("Uploaded file is too large. Maximum allowed size is {$maxPost}.");
@@ -82,7 +141,7 @@ class LostItemController
                 throw new Exception('Please upload an image.');
             }
 
-            if ($_FILES['item_image']['error'] !== UPLOAD_ERR_OK) {
+            if ($_FILES['item_image']['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($_FILES['item_image']['tmp_name'])) {
                 throw new Exception('Image upload error. Please try again.');
             }
 
@@ -93,63 +152,88 @@ class LostItemController
                 'image/avif' => 'avif',
             ];
 
-            $tmpPath = $_FILES['item_image']['tmp_name'];
+            $tmpPath  = $_FILES['item_image']['tmp_name'];
             $mimeType = mime_content_type($tmpPath);
 
             if (!isset($allowedTypes[$mimeType])) {
                 throw new Exception('Invalid image format. Allowed: JPG, PNG, WEBP, AVIF.');
             }
 
+            // Unique rename
             $extension = $allowedTypes[$mimeType];
-
-            // Generate safe unique filename
             $timestamp = date('Ymd_His');
-            $uniqueId = strtoupper(substr(uniqid(), -6));
-            $fileName = "lost{$timestamp}_LST{$uniqueId}.{$extension}";
+            $uniqueId  = strtoupper(substr(uniqid(), -6));
+            $fileName  = "lost_{$timestamp}_LST{$uniqueId}.{$extension}";
 
-            // Destination path
+            // Ensure directory exists
             $uploadDir = __DIR__ . '/../../public/uploads/lost_items/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+
             $destination = $uploadDir . $fileName;
 
             if (!move_uploaded_file($tmpPath, $destination)) {
                 throw new Exception('Failed to save uploaded image.');
             }
 
-            // Path saved to DB (relative to public)
+            $movedUploadedFile = true;
+            $movedFileFullPath = $destination;
+
             $imagePath = 'uploads/lost_items/' . $fileName;
-            // ---- End image upload handling ----
 
-            // user_id is optional for now (auto-fill later)
-            $userId = null;
+            // 7) user_id association (from AuthController session)
+            $userId = $_SESSION['user_id'] ?? null;
 
+            // 8) Save to DB
             $model = new LostItemModel($config);
-
             $ok = $model->create([
-                'image_path' => $imagePath,
-                'location_name' => $locationName,
-                'latitude' => $latitude,
-                'longitude' => $longitude,
-                'date_lost' => $dateLost,
-                'category' => $categoryJson,
-                'description' => $description,
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-                'contact_details' => $contact,
-                'user_id' => $userId,
+                'image_path'       => $imagePath,
+                'location_name'    => $locationName,
+                'latitude'         => $latitude,
+                'longitude'        => $longitude,
+                'date_lost'        => $dateLost,
+                'category'         => $categoryJson,
+                'description'      => $description,
+                'first_name'       => $firstName,
+                'last_name'        => $lastName,
+                'contact_details'  => $contact,
+                'user_id'          => $userId,
             ]);
 
-            if ($ok) {
-                echo "Lost item posted (text fields saved).";
-                return;
+            if (!$ok) {
+                throw new Exception('Failed to post lost item.');
             }
 
-            echo "Failed to post lost item.";
+            // Success flash + redirect (PRG)
+            $_SESSION['flash'] = ['success' => 'Lost item posted successfully.'];
+            header('Location: /lost/post');
+            exit;
 
         } catch (PDOException $e) {
+            // Cleanup uploaded file if moved
+            if (!empty($movedUploadedFile) && !empty($movedFileFullPath) && file_exists($movedFileFullPath)) {
+                @unlink($movedFileFullPath);
+            }
+
             error_log("Database Error: " . $e->getMessage());
-            echo "Database error occurred.";
+            $_SESSION['flash'] = ['error' => 'Database error occurred.'];
+            $_SESSION['old'] = $oldInput;
+
+            header('Location: /lost/post');
+            exit;
+
         } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
+            // Cleanup uploaded file if moved
+            if (!empty($movedUploadedFile) && !empty($movedFileFullPath) && file_exists($movedFileFullPath)) {
+                @unlink($movedFileFullPath);
+            }
+
+            $_SESSION['flash'] = ['error' => $e->getMessage()];
+            $_SESSION['old'] = $oldInput;
+
+            header('Location: /lost/post');
+            exit;
         }
     }
 }

@@ -16,189 +16,229 @@
 <main class="container">
     <h2>Post a Lost Item</h2>
 
+    <?php if (!empty($flash['error'])): ?>
+        <div style="background:#fee; padding:1rem; border-left:4px solid #f44; margin-bottom:1rem;">
+            <strong>Error:</strong> <?= htmlspecialchars($flash['error']) ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($flash['success'])): ?>
+        <div style="background:#efe; padding:1rem; border-left:4px solid #4c4; margin-bottom:1rem;">
+            <strong>Success:</strong> <?= htmlspecialchars($flash['success']) ?>
+        </div>
+    <?php endif; ?>
+
     <form method="POST" action="/lost/post" enctype="multipart/form-data">
-      <!-- Image Upload -->
-      <label>
-          Image of Lost Item:
-          <input 
-              type="file" 
-              name="item_image" 
-              accept="image/jpeg,image/png,image/webp,image/avif"
-              capture="environment"
-              required
-          >
-      </label>
+        <?php \App\Core\Router::setCsrf(); ?>
 
-      <!-- TODO: Update selection method once UI design is finalized -->
-      <!-- Location Selection -->
-      <label>
-          Last Known Location:
-          <select name="location" required>
-              <option value="">-- Select Location --</option>
+        <!-- Image Upload -->
+        <label>
+            Image of Lost Item:
+            <input
+                type="file"
+                name="item_image"
+                accept="image/jpeg,image/png,image/webp,image/avif"
+                capture="environment"
+                required
+            >
+        </label>
 
-              <option value="General Services Office|10.713457,122.559756">
-                  General Services Office
-              </option>
+        <!-- TODO: Update selection method once UI design is finalized -->
+        <!-- Location Selection -->
+        <label>
+            Last Known Location:
+            <select name="location" id="location" required>
+                <option value="">-- Select Location --</option>
 
-              <option value="Office of Student Affairs|10.712972,122.563018">
-                  Office of Student Affairs
-              </option>
+                <option value="General Services Office|10.713457,122.559756" <?= (($old['location'] ?? '') === 'General Services Office|10.713457,122.559756') ? 'selected' : '' ?>>
+                    General Services Office
+                </option>
 
-              <option value="WVSU Cooperative|10.712769,122.561156">
-                  WVSU Cooperative
-              </option>
+                <option value="Office of Student Affairs|10.712972,122.563018" <?= (($old['location'] ?? '') === 'Office of Student Affairs|10.712972,122.563018') ? 'selected' : '' ?>>
+                    Office of Student Affairs
+                </option>
 
-              <option value="Lopez Jaena Building / ULRC|10.713988,122.561620">
-                  Lopez Jaena Building / University Learning Resource Center
-              </option>
+                <option value="WVSU Cooperative|10.712769,122.561156" <?= (($old['location'] ?? '') === 'WVSU Cooperative|10.712769,122.561156') ? 'selected' : '' ?>>
+                    WVSU Cooperative
+                </option>
 
-              <option value="Quezon Hall|10.713140,122.562691">
-                  Quezon Hall
-              </option>
+                <option value="Lopez Jaena Building / ULRC|10.713988,122.561620" <?= (($old['location'] ?? '') === 'Lopez Jaena Building / ULRC|10.713988,122.561620') ? 'selected' : '' ?>>
+                    Lopez Jaena Building / University Learning Resource Center
+                </option>
 
-              <option value="Rizal Hall|10.713691,122.561374">
-                  Rizal Hall
-              </option>
+                <option value="Quezon Hall|10.713140,122.562691" <?= (($old['location'] ?? '') === 'Quezon Hall|10.713140,122.562691') ? 'selected' : '' ?>>
+                    Quezon Hall
+                </option>
 
-              <option value="CBM Building / Claro M. Recto Hall|10.712056,122.563951">
-                  CBM Building / Claro M. Recto Hall
-              </option>
+                <option value="Rizal Hall|10.713691,122.561374" <?= (($old['location'] ?? '') === 'Rizal Hall|10.713691,122.561374') ? 'selected' : '' ?>>
+                    Rizal Hall
+                </option>
 
-              <option value="COM Building / Roxas Hall|10.712829,122.561771">
-                  COM Building / Roxas Hall
-              </option>
+                <option value="CBM Building / Claro M. Recto Hall|10.712056,122.563951" <?= (($old['location'] ?? '') === 'CBM Building / Claro M. Recto Hall|10.712056,122.563951') ? 'selected' : '' ?>>
+                    CBM Building / Claro M. Recto Hall
+                </option>
 
-              <option value="CON Building|10.713180,122.560886">
-                  CON Building
-              </option>
+                <option value="COM Building / Roxas Hall|10.712829,122.561771" <?= (($old['location'] ?? '') === 'COM Building / Roxas Hall|10.712829,122.561771') ? 'selected' : '' ?>>
+                    COM Building / Roxas Hall
+                </option>
 
-              <option value="COC Building|10.714665,122.562294">
-                  COC Building
-              </option>
+                <option value="CON Building|10.713180,122.560886" <?= (($old['location'] ?? '') === 'CON Building|10.713180,122.560886') ? 'selected' : '' ?>>
+                    CON Building
+                </option>
 
-              <option value="CICT Building|10.7132169,122.5615582">
-                  CICT Building
-              </option>
+                <option value="COC Building|10.714665,122.562294" <?= (($old['location'] ?? '') === 'COC Building|10.714665,122.562294') ? 'selected' : '' ?>>
+                    COC Building
+                </option>
 
-              <option value="COD Building|10.712382,122.563600">
-                  COD Building
-              </option>
+                <option value="CICT Building|10.7132169,122.5615582" <?= (($old['location'] ?? '') === 'CICT Building|10.7132169,122.5615582') ? 'selected' : '' ?>>
+                    CICT Building
+                </option>
 
-              <option value="BINHI TBI|10.712405,122.560322">
-                  BINHI TBI
-              </option>
+                <option value="COD Building|10.712382,122.563600" <?= (($old['location'] ?? '') === 'COD Building|10.712382,122.563600') ? 'selected' : '' ?>>
+                    COD Building
+                </option>
 
-              <option value="WVSU Grandstand|10.713844,122.562986">
-                  WVSU Grandstand
-              </option>
+                <option value="BINHI TBI|10.712405,122.560322" <?= (($old['location'] ?? '') === 'BINHI TBI|10.712405,122.560322') ? 'selected' : '' ?>>
+                    BINHI TBI
+                </option>
 
-              <option value="WVSU Cultural Center|10.714734,122.562701">
-                  WVSU Cultural Center
-              </option>
+                <option value="WVSU Grandstand|10.713844,122.562986" <?= (($old['location'] ?? '') === 'WVSU Grandstand|10.713844,122.562986') ? 'selected' : '' ?>>
+                    WVSU Grandstand
+                </option>
 
-              <option value="Center for Teaching Excellence|10.712382,122.563600">
-                  Center for Teaching Excellence
-              </option>
+                <option value="WVSU Cultural Center|10.714734,122.562701" <?= (($old['location'] ?? '') === 'WVSU Cultural Center|10.714734,122.562701') ? 'selected' : '' ?>>
+                    WVSU Cultural Center
+                </option>
 
-              <option value="Administration Building|10.714665,122.562294">
-                  Administration Building
-              </option>
+                <option value="Center for Teaching Excellence|10.712382,122.563600" <?= (($old['location'] ?? '') === 'Center for Teaching Excellence|10.712382,122.563600') ? 'selected' : '' ?>>
+                    Center for Teaching Excellence
+                </option>
 
-              <option value="Audio Visual Room|10.714481,122.562312">
-                  Audio Visual Room
-              </option>
+                <option value="Administration Building|10.714665,122.562294" <?= (($old['location'] ?? '') === 'Administration Building|10.714665,122.562294') ? 'selected' : '' ?>>
+                    Administration Building
+                </option>
 
-              <option value="Mini Forest|10.713539,122.562146">
-                  Mini Forest
-              </option>
+                <option value="Audio Visual Room|10.714481,122.562312" <?= (($old['location'] ?? '') === 'Audio Visual Room|10.714481,122.562312') ? 'selected' : '' ?>>
+                    Audio Visual Room
+                </option>
 
-              <option value="Diamond Park|10.713873,122.562240">
-                  Diamond Park
-              </option>
+                <option value="Mini Forest|10.713539,122.562146" <?= (($old['location'] ?? '') === 'Mini Forest|10.713539,122.562146') ? 'selected' : '' ?>>
+                    Mini Forest
+                </option>
 
-              <option value="WVSU Multi-Purpose Cooperative|10.715193,122.562688">
-                  WVSU Multi-Purpose Cooperative
-              </option>
+                <option value="Diamond Park|10.713873,122.562240" <?= (($old['location'] ?? '') === 'Diamond Park|10.713873,122.562240') ? 'selected' : '' ?>>
+                    Diamond Park
+                </option>
 
-              <option value="WVSU Cafeteria|10.712835,122.562814">
-                  WVSU Cafeteria
-              </option>
+                <option value="WVSU Multi-Purpose Cooperative|10.715193,122.562688" <?= (($old['location'] ?? '') === 'WVSU Multi-Purpose Cooperative|10.715193,122.562688') ? 'selected' : '' ?>>
+                    WVSU Multi-Purpose Cooperative
+                </option>
 
-              <option value="WVSU Hometel|10.712835,122.562758">
-                  WVSU Hometel
-              </option>
+                <option value="WVSU Cafeteria|10.712835,122.562814" <?= (($old['location'] ?? '') === 'WVSU Cafeteria|10.712835,122.562814') ? 'selected' : '' ?>>
+                    WVSU Cafeteria
+                </option>
 
-              <option value="WVSU Research and Extension Building II|10.712846,122.560650">
-                  WVSU Research and Extension Building II
-              </option>
+                <option value="WVSU Hometel|10.712835,122.562758" <?= (($old['location'] ?? '') === 'WVSU Hometel|10.712835,122.562758') ? 'selected' : '' ?>>
+                    WVSU Hometel
+                </option>
 
-              <option value="WVSU Research and Extension Building I|10.712661,122.560491">
-                  WVSU Research and Extension Building I
-              </option>
+                <option value="WVSU Research and Extension Building II|10.712846,122.560650" <?= (($old['location'] ?? '') === 'WVSU Research and Extension Building II|10.712846,122.560650') ? 'selected' : '' ?>>
+                    WVSU Research and Extension Building II
+                </option>
 
-              <option value="PESCAR Building / Ramon Magsaysay Hall|10.712845,122.563332">
-                  PESCAR Building / Ramon Magsaysay Hall
-              </option>
+                <option value="WVSU Research and Extension Building I|10.712661,122.560491" <?= (($old['location'] ?? '') === 'WVSU Research and Extension Building I|10.712661,122.560491') ? 'selected' : '' ?>>
+                    WVSU Research and Extension Building I
+                </option>
 
-              <option value="New Academic Building|10.713086,122.563506">
-                  New Academic Building
-              </option>
-          </select>
+                <option value="PESCAR Building / Ramon Magsaysay Hall|10.712845,122.563332" <?= (($old['location'] ?? '') === 'PESCAR Building / Ramon Magsaysay Hall|10.712845,122.563332') ? 'selected' : '' ?>>
+                    PESCAR Building / Ramon Magsaysay Hall
+                </option>
 
-          <!-- Room Number for specified buildings -->
-          <label id="room-number-wrapper" style="display: none;">
-              Room Number:
-              <input type="text" name="room_number" id="room_number" placeholder="e.g., 203">
-          </label>
-      </label>
+                <option value="New Academic Building|10.713086,122.563506" <?= (($old['location'] ?? '') === 'New Academic Building|10.713086,122.563506') ? 'selected' : '' ?>>
+                    New Academic Building
+                </option>
+            </select>
+        </label>
 
-      <!-- Date Lost -->
-      <label>
-          Date Lost:
-          <input type="date" name="date_lost" required>
-      </label>
+        <!-- Room Number for specified buildings -->
+        <label id="room-number-wrapper" style="display: none;">
+            Room Number:
+            <input type="text" name="room_number" id="room_number" placeholder="e.g., 203" value="<?= htmlspecialchars($old['room_number'] ?? '') ?>">
+        </label>
 
-      <!-- Optional Description -->
-      <label>
-          Description (optional):
-          <textarea name="description" rows="4"></textarea>
-      </label>
+        <!-- Date Lost -->
+        <label>
+            Date Lost:
+            <input type="date" name="date_lost" required value="<?= htmlspecialchars($old['date_lost'] ?? '') ?>">
+        </label>
 
-      <!-- TODO: Improve selection method -->
-      <!-- Category -->
-      <label>
-          Category Tags (optional):
-          <select name="category[]" multiple>
-              <option value="Books">Books</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Personal">Personal</option>
-              <option value="IDs/Documents">IDs/Documents</option>
-              <option value="Bags">Bags</option>
-              <option value="Clothing">Clothing</option>
-              <option value="Accessories">Accessories</option>
-              <option value="Stationery">Stationery</option>
-              <option value="Others">Others</option>
-          </select>
-      </label>
+        <!-- Optional Description -->
+        <label>
+            Description (optional):
+            <textarea name="description" rows="4"><?= htmlspecialchars($old['description'] ?? '') ?></textarea>
+        </label>
 
-      <!-- User Info -->
-      <label>
-          First Name:
-          <input type="text" name="first_name" required value="<?= isset($user['first_name']) ? htmlspecialchars($user['first_name']) : '' ?>">
-      </label>
+        <!-- Category -->
+        <label>
+            Category Tags:
+            <select name="category[]" multiple>
+                <?php
+                    $oldCats = $old['category'] ?? [];
+                    if (!is_array($oldCats)) $oldCats = [$oldCats];
 
-      <label>
-          Last Name:
-          <input type="text" name="last_name" required value="<?= isset($user['last_name']) ? htmlspecialchars($user['last_name']) : '' ?>">
-      </label>
+                    $options = [
+                        'Books' => 'Books',
+                        'Electronics' => 'Electronics',
+                        'Personal' => 'Personal',
+                        'IDs/Documents' => 'IDs/Documents',
+                        'Bags' => 'Bags',
+                        'Clothing' => 'Clothing',
+                        'Accessories' => 'Accessories',
+                        'Stationery' => 'Stationery',
+                        'Others' => 'Others',
+                    ];
 
-      <label>
-          Contact Details:
-          <input type="text" name="contact_details" required value="<?= isset($user['contact_details']) ? htmlspecialchars($user['contact_details']) : '' ?>">
-      </label>
+                    foreach ($options as $val => $label):
+                        $selected = in_array($val, $oldCats, true) ? 'selected' : '';
+                ?>
+                    <option value="<?= htmlspecialchars($val) ?>" <?= $selected ?>><?= htmlspecialchars($label) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
 
-      <button type="submit">Post Lost Item</button>
-  </form>
+        <!-- User Info -->
+        <label>
+            First Name:
+            <input
+                type="text"
+                name="first_name"
+                required
+                value="<?= htmlspecialchars($old['first_name'] ?? ($user['first_name'] ?? '')) ?>"
+            >
+        </label>
+
+        <label>
+            Last Name:
+            <input
+                type="text"
+                name="last_name"
+                required
+                value="<?= htmlspecialchars($old['last_name'] ?? ($user['last_name'] ?? '')) ?>"
+            >
+        </label>
+
+        <label>
+            Contact Details:
+            <input
+                type="text"
+                name="contact_details"
+                required
+                value="<?= htmlspecialchars($old['contact_details'] ?? ($user['phone_number'] ?? ($user['contact_details'] ?? ''))) ?>"
+            >
+        </label>
+
+        <button type="submit">Post Lost Item</button>
+    </form>
 </main>
 
 <script>

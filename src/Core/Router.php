@@ -49,6 +49,11 @@ class Router{
     }
 
     public function dispatch(): void{
+        //Start session here
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $uri = rtrim($uri, '/');
         $uri = $uri === '' ? '/' : $uri;
@@ -123,7 +128,6 @@ class Router{
 
     public static function setCsrf(): void
     {
-        session_start();
         $_SESSION['csrf'] ??= bin2hex(random_bytes(50));
 
         echo '<input type="hidden" name="csrf" value="' . $_SESSION['csrf'] . '">';
@@ -131,7 +135,6 @@ class Router{
 
     public static function isCsrfValid(): bool
     {
-        session_start();
         return isset($_SESSION['csrf'], $_POST['csrf']) &&
                hash_equals($_SESSION['csrf'], $_POST['csrf']);
     }
