@@ -10,16 +10,8 @@ use DateTimeZone;
 
 class FoundItemController
 {
-    protected static function ensureSession()
-    {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-    }
-
     public static function index()
     {
-        self::ensureSession();
 
         $config = require __DIR__ . '/../Config/config.php';
         $model = new FoundItemModel($config);
@@ -59,7 +51,6 @@ class FoundItemController
 
     public static function showPostForm()
     {
-        self::ensureSession();
 
         // Auto-fill fields if user is logged in.
         $user = $_SESSION['user'] ?? [];
@@ -89,7 +80,6 @@ class FoundItemController
 
     public static function submitPostForm()
     {
-        self::ensureSession();
         if (!Router::isCsrfValid()) {
             http_response_code(403);
             die("Security Error: Invalid CSRF Token. Please refresh the page and try again.");
