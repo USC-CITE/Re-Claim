@@ -12,46 +12,62 @@
 </head>
 <body>
 
-<h2>Register</h2>
+    <!-- Registration Form Heading -->
+    <div>
+        <img>
+        <h2>Create Account  </h2>
+        <p>Welcome to Re:Claim! Enter your 
+            information below to sign-up.</p>
+    </div>
 
-<form method="POST" action="/register">
-    <label>
-        First Name:
-        <input type="firstname" name="firstname" required placeholder="John">
-    </label>
-    <br><br>
-    <label>
-        Last Name:
-        <input type="lastname" name="lastname" required placeholder="Doe">
-    </label>
-    <br><br>
 
-    <label>
-        Email:
-        <input type="email" name="email" required placeholder="example@wvsu.edu.ph">
-    </label>
-    <br><br>
+    <form method="POST" action="/register">
+        <!-- temporary styling -->
+        <div style="display: flex">
+            <label>
+                First Name:
+                <input type="text" name="firstname" required placeholder="John">
+            </label>
+            <br><br>
+            <label>
+                Last Name:
+                <input type="text" name="lastname" required placeholder="Doe">
+            </label>
+        </div>
+        
+        <br><br>
 
-    <label>
-        Password:
-        <input type="password" name="password" required>
-    </label>
-    <label>
-        Confirm Password:
-        <input type="password" name="confirm-pass" required>
-    </label>
-    <br><br>
-    
-    <label>
-        Phone Number:
-        <input type="phone-num" name="phone-num" required>
-    </label>
-    <br><br>
+        <label>
+            WVSU Email Address:
+            <input type="email" name="email" required placeholder="example@wvsu.edu.ph">
+        </label>
+        <br><br>
 
-    <!-- TODO: Add social media link field -->
+        <label>
+            Password:
+            <input type="password" name="password" required>
+        </label>
 
-    <button type="submit">Register</button>
-</form>
+        <br></br>   
+        <label>
+            Confirm Password:
+            <input type="password" name="confirm-pass" required>
+        </label>
+        <br><br>
+        
+        <label>
+            Phone Number:
+            <input type="text" name="phone-num" required>
+        </label>
+        <label>
+            Social Media Link
+            <input type="text" name="social-link" required>
+        </label>
+        <br><br>
+
+        <button type="submit">Register</button>
+        <p>Already have an account?<a href="/login"><strong>Log in</strong></a></p>
+    </form>
 
 </body>
 </html>
