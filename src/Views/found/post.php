@@ -32,6 +32,7 @@
                     name="item_image" 
                     id="item_image"
                     accept="image/jpeg,image/png,image/webp,image/avif"
+                    required
                 >
             </label>
             <div id="preview-container">
@@ -43,7 +44,7 @@
             <legend>Location Found</legend>
             <label>
                 Select Location:
-                <select name="location" id="location" >
+                <select name="location" id="location" required>
                     <option value="">-- Select Location --</option>
                     <option value="General Services Office|10.713457,122.559756" <?= ($old['location'] ?? '') === 'General Services Office|10.713457,122.559756' ? 'selected' : '' ?>>General Services Office</option>
                     <option value="Office of Student Affairs|10.712972,122.563018" <?= ($old['location'] ?? '') === 'Office of Student Affairs|10.712972,122.563018' ? 'selected' : '' ?>>Office of Student Affairs</option>

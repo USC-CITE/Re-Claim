@@ -110,6 +110,11 @@ class FoundItemController
 
             // 2. Parse Location
             $locationRaw = $_POST['location'] ?? '';
+
+            if (empty($locationRaw)) {
+                throw new Exception('Please select a location.');
+            }
+            
             $locationName = '';
             $latitude = null;
             $longitude = null;
@@ -168,6 +173,12 @@ class FoundItemController
             $imagePath = null;
             $movedUploadedFile = false;
             $movedFileFullPath = null;
+            
+            // Check if file is uploaded
+            if (!isset($_FILES['item_image']) || $_FILES['item_image']['error'] === UPLOAD_ERR_NO_FILE) {
+                throw new Exception('Please upload an image of the found item.');
+            }
+
             if (isset($_FILES['item_image']) && $_FILES['item_image']['error'] === UPLOAD_ERR_OK && is_uploaded_file($_FILES['item_image']['tmp_name'])) {
                 $allowedTypes = [
                     'image/jpeg' => 'jpg',
