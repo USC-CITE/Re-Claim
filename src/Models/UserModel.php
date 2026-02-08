@@ -21,7 +21,7 @@ class UserModel {
 
     public function create(array $data): bool {
         $sql = "INSERT INTO users (first_name, last_name, wvsu_email, password, phone_number, social_link, email_verified, verification_code, verification_expiry) 
-                VALUES (:first, :last, :email, :social, :password, :phone, 0, :v_code, :v_expiry)";
+                VALUES (:first, :last, :email, :password, :phone, :social, 0, :v_code, :v_expiry)";
 
         $stmt = $this->db->prepare($sql);
 
