@@ -11,6 +11,17 @@
         <h1>Found Items</h1>
         <p>Recent items reported by the community.</p>
     </hgroup>
+
+    <?php if (!empty($flash['success'])): ?>
+        <article>
+            <strong>✅ Success:</strong> <?= htmlspecialchars($flash['success']) ?>
+        </article>
+    <?php elseif (!empty($flash['error'])): ?>
+        <article>
+            <strong>❌ Error:</strong> <?= htmlspecialchars($flash['error']) ?>
+        </article>
+    <?php endif; ?>
+
     <a href="/found/post" role="button">Post a Found Item</a>
     <hr>
 
@@ -53,6 +64,16 @@
                         <button class="outline" onclick="openModal('modal-<?= $item['id'] ?>')">
                             Contact Finder
                         </button>
+
+                        <?php if (!empty($item['can_recover'])): ?>
+                            <form method="POST" action="/found/recover" style="display:inline-block; margin-left: 0.5rem;">
+                                <?php \App\Core\Router::setCsrf(); ?>
+                                <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
+                                <button type="submit" class="secondary outline">
+                                    Mark as Recovered
+                                </button>
+                            </form>
+                        <?php endif; ?>
                     </footer>
 
                     <dialog id="modal-<?= $item['id'] ?>">
