@@ -64,15 +64,14 @@
                         <button class="outline" onclick="openModal('modal-<?= $item['id'] ?>')">
                             Contact Finder
                         </button>
-
+                        
                         <?php if (!empty($item['can_recover'])): ?>
-                            <form method="POST" action="/found/recover" style="display:inline-block; margin-left: 0.5rem;">
-                                <?php \App\Core\Router::setCsrf(); ?>
-                                <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
-                                <button type="submit" class="secondary outline">
-                                    Mark as Recovered
-                                </button>
-                            </form>
+                            <button type="button"
+                                    class="secondary outline"
+                                    style="margin-left: 0.5rem;"
+                                    onclick="openModal('recover-modal-<?= $item['id'] ?>')">
+                                Mark as Recovered
+                            </button>
                         <?php endif; ?>
                     </footer>
 
@@ -91,6 +90,29 @@
                             </footer>
                         </article>
                     </dialog>
+
+                    <?php if (!empty($item['can_recover'])): ?>
+                        <dialog id="recover-modal-<?= $item['id'] ?>">
+                            <article>
+                                <header>
+                                    <button aria-label="Close" rel="prev" onclick="closeModal('recover-modal-<?= $item['id'] ?>')"></button>
+                                    <h3>Confirm Recovery</h3>
+                                </header>
+                                <p>
+                                    Are you sure you want to mark this found item as recovered? This will update its status for everyone.
+                                </p>
+                                <footer>
+                                    <form method="POST" action="/found/recover" style="display:inline-block; margin-right: 0.5rem;">
+                                        <?php \App\Core\Router::setCsrf(); ?>
+                                        <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
+                                        <button type="submit">
+                                            Yes, mark as recovered
+                                        </button>
+                                    </form>
+                                </footer>
+                            </article>
+                        </dialog>
+                    <?php endif; ?>
                 </article>
             <?php endforeach; ?>
         <?php endif; ?>
