@@ -52,4 +52,23 @@ class FoundItemModel
             'user_id'          => $data['user_id'],
         ]);
     }
+
+    # updates rows that belong to user, type of 'found', and status of 'Unrecovered'
+    public function markAsRecovered(int $id, int $userId): bool
+    {
+        $sql = "UPDATE lost_and_found_items
+                SET status = 'Recovered'
+                WHERE id = :id
+                  AND user_id = :user_id
+                  AND item_type = 'found'
+                  AND status = 'Unrecovered'";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            'id' => $id,
+            'user_id' => $userId,
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
 }
