@@ -227,7 +227,7 @@ class LostItemController
             $imagePath = 'uploads/lost_items/' . $fileName;
 
             // 8) user_id association (from AuthController session)
-            $userId = $_SESSION['user_id'] ?? null;
+            $userId = $_SESSION['user']['id'] ?? $_SESSION['user_id'] ?? null;
 
             // 9) Save to unified DB table
             $model = new LostItemModel($config);
@@ -251,9 +251,9 @@ class LostItemController
                 throw new Exception('Failed to post lost item.');
             }
 
-            // Success flash + redirect (PRG)
+            // Success flash + redirect to listing page after posting
             $_SESSION['flash'] = ['success' => 'Lost item posted successfully.'];
-            header('Location: /lost/post');
+            header('Location: /lost');
             exit;
 
         } catch (PDOException $e) {
