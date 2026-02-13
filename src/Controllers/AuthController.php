@@ -75,8 +75,11 @@ class AuthController{
         // If no errors
         session_start();
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['full_name'] = $user['first_name'] . ' ' . $user['last_name'];
-        $_SESSION['user_email'] = $user['wvsu_email'];
+        $_SESSION['first_name'] = $user['first_name'];
+        $_SESSION['last_name'] = $user['last_name'];
+        $_SESSION['phone_number'] = $user['phone_number'];
+        $_SESSION['social_link'] = $user['social_link'];
+        $_SESSION['wvsu_email'] = $user['wvsu_email'];
         header('Location: /');
     }
 
