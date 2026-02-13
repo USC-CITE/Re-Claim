@@ -144,17 +144,32 @@ class LostItemController
                 $roomNumber = trim($_POST['room_number']);
             }
 
-            // 4) Event date / date lost (required)
+            // 4) Event date / date lost (required) with timezone awareness
+            $timezone = new \DateTimeZone('Asia/Manila');
             $eventDate = $_POST['event_date'] ?? '';
-            $dt = \DateTime::createFromFormat('Y-m-d\TH:i', $eventDate);
-            if (!$dt || $dt->format('Y-m-d\TH:i') !== $eventDate) {
+            
+            try {
+                // Parse datetime-local input with explicit timezone
+                $dt = \DateTime::createFromFormat('Y-m-d\TH:i', $eventDate, $timezone);
+                if (!$dt) {
+                    throw new Exception('Please provide a valid date and time.');
+                }
+                
+                // Validate format matches input
+                if ($dt->format('Y-m-d\TH:i') !== $eventDate) {
+                    throw new Exception('Please provide a valid date and time.');
+                }
+                
+                // Disallow future dates/times (timezone-aware comparison)
+                $now = new \DateTime('now', $timezone);
+                if ($dt > $now) {
+                    throw new Exception('Date and time lost cannot be in the future.');
+                }
+            } catch (\Exception $e) {
+                if (strpos($e->getMessage(), 'Date and time') === 0 || strpos($e->getMessage(), 'valid') !== false) {
+                    throw $e;
+                }
                 throw new Exception('Please provide a valid date and time.');
-            }
-
-            // Disallow future dates/times
-            $now = new \DateTime();
-            if ($dt > $now) {
-                throw new Exception('Date and time lost cannot be in the future.');
             }
 
             // 5) Category tags (at least one required)
