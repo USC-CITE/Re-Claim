@@ -258,9 +258,9 @@
             </label>
 
             <label>
-                Date Lost
+                Date & Time Lost
                 <input 
-                    type="date" 
+                    type="datetime-local" 
                     name="event_date" 
                     required 
                     value="<?= htmlspecialchars($old['event_date'] ?? '') ?>"

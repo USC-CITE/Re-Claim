@@ -146,16 +146,15 @@ class LostItemController
 
             // 4) Event date / date lost (required)
             $eventDate = $_POST['event_date'] ?? '';
-            $dt = \DateTime::createFromFormat('Y-m-d', $eventDate);
-            if (!$dt || $dt->format('Y-m-d') !== $eventDate) {
-                throw new Exception('Please provide a valid date.');
+            $dt = \DateTime::createFromFormat('Y-m-d\TH:i', $eventDate);
+            if (!$dt || $dt->format('Y-m-d\TH:i') !== $eventDate) {
+                throw new Exception('Please provide a valid date and time.');
             }
 
-            // Normalize to midnight and disallow future dates
-            $dt->setTime(0, 0, 0);
-            $today = new \DateTime('today');
-            if ($dt > $today) {
-                throw new Exception('Date lost cannot be in the future.');
+            // Disallow future dates/times
+            $now = new \DateTime();
+            if ($dt > $now) {
+                throw new Exception('Date and time lost cannot be in the future.');
             }
 
             // 5) Category tags (at least one required)
