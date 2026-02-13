@@ -4,54 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OTP Verification Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@latest/css/pico.min.css">
+    <title>WVSU ReClaim: OTP Verification</title>
 </head>
 <body>
-   
+    <main class="container">
+        <form method="POST" action="/verify">
+            <h2>Enter OTP</h2>
+            <p>Please enter the verification code we sent to <strong><?= htmlspecialchars($_SESSION['pending_email'] ?? '') ?></strong></p> 
+            <input type="text" name="otp" placeholder="Enter OTP" required>
+            <button type="submit">Verify</button>
+        </form>
 
-    <form method="POST" action="/verify">
-        <h2>Enter OTP</h2>
-        <p>Please enter the verification code we sent to <strong><?= htmlspecialchars($_SESSION['pending_email'] ?? '') ?></strong></p> 
-        <input type="text" name="otp" placeholder="Enter OTP" required>
-        <button type="submit">Verify</button>
-    </form>
+        <div class="timer" id="timer"></div>
+        <!-- To safely pass PHP data to JS -->
+        <div 
+            id="otp-data"
+            data-expires="<?= isset($_SESSION['otp_expires_at']) 
+                ? strtotime($_SESSION['otp_expires_at']) * 1000 
+                : '' ?>">
+        </div>
 
-    <div class="timer" id="timer"></div>
+        <form method="POST" action="/resend-otp">
+            <b>
+                <?= htmlspecialchars($_SESSION['resend_message'] ?? '') ?>
+                <?php unset($_SESSION['resend_message']); ?>    
+            </b>
+            <br>
+            <button type="submit" id="resend-btn" class="resend">Resend OTP</button>
+        </form>
+    </main>
 
-    <form method="POST" action="/resend-otp">
-        <b>
-            <?= htmlspecialchars($_SESSION['resend_message'] ?? '') ?>
-            <?php unset($_SESSION['resend_message']); ?>    
-        </b>
-        <br>
-        <button type="submit" id="resendBtn" class="resend">Resend OTP</button>
-    </form>
 
-    <script>
-        let expiresAt = <?= $expiresAt ? strtotime($expiresAt) * 1000 : 'null' ?>;
-
-        const timerEl   = document.getElementById('timer');
-        const resendBtn = document.getElementById('resendBtn');
-
-        function updateTimer() {
-            if (!expiresAt) return;
-
-            const now = Date.now();
-            let diff = Math.floor((expiresAt - now) / 1000);
-
-            if (diff <= 0) {
-                timerEl.textContent = "OTP expired.";
-                resendBtn.classList.add('active');
-                return;
-            }
-
-            const mins = Math.floor(diff / 60);
-            const secs = diff % 60;
-            timerEl.textContent = `OTP expires in ${mins}:${secs.toString().padStart(2,'0')}`;
-        }
-
-        setInterval(updateTimer, 1000);
-        updateTimer();
-    </script>
+    <script src="/js/verify/index.js"></script>
 </body>
 </html>
