@@ -11,29 +11,16 @@
     <title>Post Lost Item</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <style>
-        /* NOTE: Temporary styling for dev/testing purposes only. Will move to own css file and update styling in the future. */
+        /* NOTE: Styling for dev/testing purposes only. Will move to own css file and update styling in the future. */
+        #flash-error { background:#fee; padding:1rem; border-left:4px solid #f44; margin-bottom:1rem; }
+        #flash-success { background:#efe; padding:1rem; border-left:4px solid #4c4; margin-bottom:1rem; }
 
-        /* Image-Preview */
-        #preview-container { margin-top: 1rem; }
-        #preview-image { max-width: 100%; max-height: 300px; display: none; border-radius: 8px; }
-
-        /* Camera Capture */
-        #camera-block { display: none; margin-top: 1rem; }
-        #camera-video {
-            max-width: 100%;
-            max-height: 300px;
-            margin-top: 1rem;
-            border-radius: 8px;
-            display: block;
-        }
-        .camera-buttons {
-            margin-top: 1rem;
-            display: flex;
-            gap: 0.5rem;
-        }
-        .camera-buttons button {
-            flex: 1;
-        }
+        #preview-image { display: none; max-width: 100%; max-height: 300px; }
+        #camera-block { display: none; }
+        #camera-video { width: 50%; max-width: 50%; }
+        #camera-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem; width: 50%; }
+        #room-number-wrapper { display: none; }
+    </style>
     </style>
 </head>
 <body>
@@ -42,13 +29,11 @@
     <h2>Post a Lost Item</h2>
 
     <?php if (!empty($flash['error'])): ?>
-        <div style="background:#fee; padding:1rem; border-left:4px solid #f44; margin-bottom:1rem;">
             <strong>Error:</strong> <?= htmlspecialchars($flash['error']) ?>
         </div>
     <?php endif; ?>
 
     <?php if (!empty($flash['success'])): ?>
-        <div style="background:#efe; padding:1rem; border-left:4px solid #4c4; margin-bottom:1rem;">
             <strong>Success:</strong> <?= htmlspecialchars($flash['success']) ?>
         </div>
     <?php endif; ?>
@@ -61,7 +46,7 @@
             <h3>Media Input</h3>
 
             <label>
-                Upload Image Section
+                Upload Image
                 <input
                     type="file"
                     id="item_image"
@@ -78,7 +63,7 @@
 
             <div id="camera-block">
                 <video id="camera-video" autoplay></video>
-                <div class="camera-buttons">
+                <div id="camera-buttons">
                     <button type="button" id="capture-btn">Capture Photo</button>
                     <button type="button" id="stop-btn">Stop Camera</button>
                 </div>
@@ -208,7 +193,7 @@
                 </select>
             </label>
 
-            <label id="room-number-wrapper" style="display: none;">
+            <label id="room-number-wrapper">
                 Room Number
                 <input 
                     type="text" 
