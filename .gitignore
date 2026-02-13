@@ -5,6 +5,5 @@ vendor/
 node_modules/
 
 php.ini
-
-/public/uploads/lost_items/
+uploads/
 .env

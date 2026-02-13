@@ -13,7 +13,9 @@ $config = require_once __DIR__ . '/../src/Config/config.php';
 use App\Controllers\AuthController;
 use App\Controllers\LostItemController;
 use App\Core\Router;
-use App\Core\Database;  
+use App\Core\Database;
+
+use App\Controllers\FoundItemController;  
 
 $router = new Router();
 
@@ -44,5 +46,11 @@ $router->post('/resend-otp', fn() => AuthController::resendOtp($config));
 $router->get('/lost', [LostItemController::class, 'index']);
 $router->get('/lost/post', [LostItemController::class, 'showPostForm']);
 $router->post('/lost/post', [LostItemController::class, 'submitPostForm']);
+
+
+/* Found Item */
+$router->get('/found', [FoundItemController::class, 'index']);      // List Page
+$router->get('/found/post', [FoundItemController::class, 'showPostForm']); // Post Page
+$router->post('/found/post', [FoundItemController::class, 'submitPostForm']); // Submit Action
 
 $router->dispatch();

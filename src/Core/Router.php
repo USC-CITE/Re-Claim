@@ -49,6 +49,10 @@ class Router{
     }
 
     public function dispatch(): void{
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
         //Start session here
         if (session_status() === PHP_SESSION_NONE) {
             session_start();

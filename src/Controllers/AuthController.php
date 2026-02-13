@@ -93,6 +93,7 @@ class AuthController{
             $password = trim($_POST["password"] ?? "");
             $confirmPass = trim($_POST["confirm-pass"] ?? "");
             $phoneNum = trim($_POST['phone-num'] ?? "");
+            $socialLink = trim($_POST['social-link'] ?? "");
 
             // Generate OTP
             $otp = random_int(100000, 999999); // secure 6-digit OTP
@@ -102,7 +103,7 @@ class AuthController{
             
             $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
             // Validation Logic
-            if(!$firstName || !$lastName || !$email || !$password || !$confirmPass || !$phoneNum){
+            if(!$firstName || !$lastName || !$email || !$password || !$confirmPass || !$phoneNum || !$socialLink){
                 throw new Exception("All fields are mandatory!");
             }
 
@@ -127,6 +128,7 @@ class AuthController{
                 'email' => $email, 
                 'hashedPass' => $hashPass,
                 'phone_number' => $phoneNum,
+                'social_link' => $socialLink,
                 'v_code_hashed' => $v_code_hashed,
                 'v_code_expiry' => $expires
 
@@ -175,8 +177,21 @@ class AuthController{
         $model = new UserModel($config);
 
         if ($model->verifyOtp($email, $otp)) {
+            
+            $user = $model->findByEmail($email);
+            if($user){
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['wvsu_email'] = $user['wvsu_email'];
+                $_SESSION['first_name'] = $user['first_name'];
+                $_SESSION['last_name'] = $user['last_name'];
+            }
+
+            // Clean up 
             unset($_SESSION['pending_email']);
-            echo "Email verified successfully!";
+            unset($_SESSION['otp_expires_at']);
+
+            header('Location: /');
+            exit();
         } else {    
             echo "Invalid or expired OTP.";
         }
