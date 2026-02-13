@@ -7,4 +7,7 @@ class ProfileController{
     public static function showProfile(){
         require __DIR__ . "/../Views/mainpages/profile.php";
     }
+    public static function showEditProfile(){
+        require __DIR__ . '/../Views/subpages/edit_profile.php';
+    }
 }

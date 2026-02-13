@@ -42,6 +42,7 @@ $router->post('/verify', function() use ($config) {
 $router->post('/resend-otp', fn() => AuthController::resendOtp($config));
 
 $router->get('/profile', [ProfileController::class, 'showProfile']);
+$router->get('/profile/edit', [ProfileController::class, 'showEditProfile']);
 
 
 
