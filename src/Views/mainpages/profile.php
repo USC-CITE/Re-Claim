@@ -78,14 +78,36 @@
              <section class="tab-content" id="lost" hidden>
                 <article>
                 <h4>Posted Lost Items</h4>
-                <p>Lost items you posted.</p>
+                    <?php if (!empty($lostItems)): ?>
+
+                        <?php foreach ($lostItems as $item): ?>    
+                            <article>
+                                <h5><?= htmlspecialchars($item['item_name']) ?></h5>
+                                <p><?= htmlspecialchars($item['description']) ?></p>
+                            </article>
+                        <?php endforeach; ?>
+
+                    <?php else: ?>
+                        <p>No lost items posted yet.</p>
+                    <?php endif; ?>
                 </article>
             </section>
 
             <section class="tab-content" id="found" hidden>
                 <article>
                 <h4>Found Items</h4>
-                <p>Found items you posted.</p>
+                    <?php if (!empty($foundItems)): ?>
+
+                        <?php foreach ($foundItems as $item): ?>    
+                            <article>
+                                <h5><?= htmlspecialchars($item['item_name']) ?></h5>
+                                <p><?= htmlspecialchars($item['description']) ?></p>
+                            </article>
+                        <?php endforeach; ?>
+
+                    <?php else: ?>
+                        <p>No found items posted yet.</p>
+                    <?php endif; ?>
                 </article>
             </section>
         </section>
