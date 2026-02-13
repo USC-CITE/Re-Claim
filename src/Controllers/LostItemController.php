@@ -32,11 +32,14 @@ class LostItemController
 
             return [
                 'id' => $item['id'],
+                'item_name' => $item['item_name'] ?? 'Unnamed Item',
                 'image_url' => $imageUrl,
-                'date_lost' => $item['date_lost'] ?? null,
-                'location' => $item['location_name'] ?? '',
+                'event_date' => $item['event_date'] ?? null,
+                'location' => $item['location_name'] ?? 'Unknown Location',
+                'room_number' => $item['room_number'] ?? null,
                 'description' => $item['description'] ?: 'No description provided.',
                 'categories' => $categories,
+                'status' => $item['status'] ?? 'Unrecovered',
                 'contact_info' => $item['contact_details'] ?? '',
                 'name' => trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? '')),
             ];
@@ -89,12 +92,13 @@ class LostItemController
 
         // Prepare old input for PRG
         $oldInput = [
+            'item_name'        => $_POST['item_name'] ?? '',
             'first_name'       => $_POST['first_name'] ?? '',
             'last_name'        => $_POST['last_name'] ?? '',
             'contact_details'  => $_POST['contact_details'] ?? '',
             'location'         => $_POST['location'] ?? '',
             'room_number'      => $_POST['room_number'] ?? '',
-            'date_lost'        => $_POST['date_lost'] ?? '',
+            'event_date'       => $_POST['event_date'] ?? '',
             'category'         => $_POST['category'] ?? [],
             'description'      => $_POST['description'] ?? '',
         ];
@@ -103,14 +107,21 @@ class LostItemController
         $movedFileFullPath = null;
 
         try {
-            // 1) Fetch text fields
+            // 1) Item name/title (required)
+            $itemName = trim($_POST['item_name'] ?? '');
+            if (empty($itemName)) {
+                throw new Exception('Please provide an item name/title.');
+            }
+
+            // 2) Fetch text fields
             $firstName = trim($_POST['first_name'] ?? '');
             $lastName  = trim($_POST['last_name'] ?? '');
             $contact   = trim($_POST['contact_details'] ?? '');
 
-            // 2) Parse Location (format: "Name|lat,long")
+            // 3) Parse Location (format: "Name|lat,long")
             $locationRaw  = $_POST['location'] ?? '';
             $locationName = '';
+            $roomNumber   = null;
             $latitude     = null;
             $longitude    = null;
 
@@ -120,23 +131,23 @@ class LostItemController
                     $locationName = $parts[0];
                     $coords = explode(',', $parts[1]);
                     if (count($coords) === 2) {
-                        $latitude = $coords[0];
-                        $longitude = $coords[1];
+                        $latitude = (float)$coords[0];
+                        $longitude = (float)$coords[1];
                     }
                 } else {
                     $locationName = $locationRaw; // fallback
                 }
             }
 
-            // Append Room Number if provided (optional)
+            // Extract Room Number if provided (optional, stored separately)
             if (!empty($_POST['room_number'])) {
-                $locationName .= ' (Room ' . trim($_POST['room_number']) . ')';
+                $roomNumber = trim($_POST['room_number']);
             }
 
-            // 3) Date lost / last seen (required)
-            $dateLost = $_POST['date_lost'] ?? '';
-            $dt = \DateTime::createFromFormat('Y-m-d', $dateLost);
-            if (!$dt || $dt->format('Y-m-d') !== $dateLost) {
+            // 4) Event date / date lost (required)
+            $eventDate = $_POST['event_date'] ?? '';
+            $dt = \DateTime::createFromFormat('Y-m-d', $eventDate);
+            if (!$dt || $dt->format('Y-m-d') !== $eventDate) {
                 throw new Exception('Please provide a valid date.');
             }
 
@@ -147,7 +158,7 @@ class LostItemController
                 throw new Exception('Date lost cannot be in the future.');
             }
 
-            // 4) Category tags (at least one required)
+            // 5) Category tags (at least one required)
             $categories = $_POST['category'] ?? [];
             if (!is_array($categories)) {
                 $categories = [$categories];
@@ -158,13 +169,13 @@ class LostItemController
             }
             $categoryJson = json_encode($categories);
 
-            // 5) Description (optional)
+            // 6) Description (optional)
             $description = trim($_POST['description'] ?? '');
             if ($description === '') {
                 $description = null;
             }
 
-            // 6) Image upload
+            // 7) Image upload
             // SIZE LIMIT handled in php.ini (post_max_size / upload_max_filesize)
             if (empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH'])) {
                 $maxPost = ini_get('post_max_size');
@@ -216,17 +227,19 @@ class LostItemController
 
             $imagePath = 'uploads/lost_items/' . $fileName;
 
-            // 7) user_id association (from AuthController session)
+            // 8) user_id association (from AuthController session)
             $userId = $_SESSION['user_id'] ?? null;
 
-            // 8) Save to DB
+            // 9) Save to unified DB table
             $model = new LostItemModel($config);
             $ok = $model->create([
+                'item_name'        => $itemName,
                 'image_path'       => $imagePath,
                 'location_name'    => $locationName,
+                'room_number'      => $roomNumber,
                 'latitude'         => $latitude,
                 'longitude'        => $longitude,
-                'date_lost'        => $dateLost,
+                'event_date'       => $eventDate,
                 'category'         => $categoryJson,
                 'description'      => $description,
                 'first_name'       => $firstName,
