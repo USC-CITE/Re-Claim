@@ -10,6 +10,10 @@
     <meta charset="UTF-8">
     <title>Post Lost Item</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        #preview-container { margin-top: 1rem; }
+        #preview-image { max-width: 100%; max-height: 300px; display: none; border-radius: 8px; }
+    </style>
 </head>
 <body>
 
@@ -39,6 +43,7 @@
                 Upload Image Section
                 <input
                     type="file"
+                    id="item_image"
                     name="item_image"
                     accept="image/jpeg,image/png,image/webp,image/avif"
                     required
@@ -49,6 +54,10 @@
             <button type="button" id="camera-button">
                 Open Camera
             </button>
+
+            <div id="preview-container">
+                <img id="preview-image" alt="Image Preview">
+            </div>
         </div>
 
         <!-- ===== LOCATION SECTION ===== -->
