@@ -304,9 +304,9 @@
         </div>
 
         <!-- ===== ACTION BUTTONS ===== -->
-        <div class="button-group">
+        <div class="grid">
             <button type="submit">Post Lost Item</button>
-            <button type="reset">Cancel</button>
+            <button type="button" class="secondary" onclick="window.location.href='/lost'">Cancel</button>
         </div>
     </form>
 </main>
