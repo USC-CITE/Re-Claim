@@ -1,7 +1,7 @@
 <?php
 /**
  * Layer: Model
- * Purpose: Handle database operations for lost items
+ * Purpose: Handle database operations for LOST items
  * Rules: No HTTP or view logic
  */
 
@@ -20,41 +20,58 @@ class LostItemModel
     {
         $this->db = Database::connect($config['db']);
     }
-    
+
+    /**
+     * Insert a LOST item into the unified table.
+     */
     public function create(array $data): bool
     {
-        $sql = "INSERT INTO lost_items 
-                (image_path, date_lost, location_name, latitude, longitude, category, description, first_name, last_name, contact_details, user_id)
+        $sql = "INSERT INTO lost_and_found_items
+                (
+                    item_type, item_name, image_path, category, description, event_date, status,
+                    location_name, room_number, latitude, longitude,
+                    first_name, last_name, contact_details, user_id
+                )
                 VALUES
-                (:image_path, :date_lost, :location_name, :latitude, :longitude, :category, :description, :first_name, :last_name, :contact_details, :user_id)";
+                (
+                    'lost', :item_name, :image_path, :category, :description, :event_date, :status,
+                    :location_name, :room_number, :latitude, :longitude,
+                    :first_name, :last_name, :contact_details, :user_id
+                )";
 
         $stmt = $this->db->prepare($sql);
 
         return $stmt->execute([
-            'image_path'       => $data['image_path'],
-            'date_lost'        => $data['date_lost'],
-            'location_name'    => $data['location_name'],
-            'latitude'         => $data['latitude'],
-            'longitude'        => $data['longitude'],
-            'category'         => $data['category'],
-            'description'      => $data['description'],
-            'first_name'       => $data['first_name'],
-            'last_name'        => $data['last_name'],
-            'contact_details'  => $data['contact_details'],
-            'user_id'          => $data['user_id'],
+            'item_name'       => $data['item_name'],
+            'image_path'      => $data['image_path'],
+            'category'        => $data['category'],
+            'description'     => $data['description'],
+            'event_date'      => $data['event_date'],
+            'status'          => $data['status'] ?? 'Unrecovered',
+
+            'location_name'   => $data['location_name'],
+            'room_number'     => $data['room_number'],
+            'latitude'        => $data['latitude'],
+            'longitude'       => $data['longitude'],
+
+            'first_name'      => $data['first_name'],
+            'last_name'       => $data['last_name'],
+            'contact_details' => $data['contact_details'],
+            'user_id'         => $data['user_id'],
         ]);
     }
 
+    /**
+     * List all LOST items (for /lost page).
+     */
     public function getAll(): array
     {
         $sql = "SELECT *
-                FROM lost_items
-                ORDER BY created_at DESC, id DESC";
+                FROM lost_and_found_items
+                WHERE item_type = 'lost'
+                ORDER BY event_date DESC, created_at DESC";
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
-
 }
