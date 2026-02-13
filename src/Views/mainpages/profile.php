@@ -52,25 +52,26 @@
             <!-- Tab Content Section -->
             <section class="tab-content" id="account">
                 <article>
-                    <div>
+                    <article class="grid">
                         <div>
                             <h4>First Name</h4>
-                            //first name
+                            <?= htmlspecialchars(($_SESSION['first_name'])) ?>
                         </div>
                         <div>
                             <h4>Last Name</h4>
-                            //last name
+                            <?= htmlspecialchars(($_SESSION['last_name'])) ?>
                         </div>
                         <div>
                             <h4>Contact Details</h4>
-                            // phone number
-                            // social link
+                            <?= htmlspecialchars(($_SESSION['phone_number'])) ?>
+                            <br>
+                            <?= htmlspecialchars(($_SESSION['social_link'])) ?>
                         </div>
-                    </div>
-                    <div>
+                    </article>
+                    <article>
                         <h4>WVSU Email Address</h4>
-                        // address
-                    </div>
+                        <?= htmlspecialchars(($_SESSION['wvsu_email'])) ?>
+                    </article>
                 </article>
             </section>
 
