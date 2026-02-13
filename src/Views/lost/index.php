@@ -47,7 +47,7 @@
 
           <p>
             <strong>Date Lost:</strong>
-            <?= htmlspecialchars($item['date_lost'] ?: 'N/A') ?>
+            <?= htmlspecialchars($item['event_date'] ?: 'N/A') ?>
             <br>
             <strong>Posted by:</strong>
             <?= htmlspecialchars($item['name'] ?: 'Anonymous') ?>
