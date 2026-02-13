@@ -32,6 +32,63 @@
             </a>
 
         </header>
+
+        <section>
+            <!-- Profile Tab Buttons -->
+            <nav>
+                <button type="button" class="tab-btn" data-tab="account">
+                    Account Details
+                </button>
+
+                <button type="button" class="tab-btn" data-tab="lost">
+                    Posted Lost Items
+                </button>
+
+                <button type="button" class="tab-btn" data-tab="found">
+                    Posted Found Items
+                </button>
+            </nav>
+
+            <!-- Tab Content Section -->
+            <section class="tab-content" id="account">
+                <article>
+                    <div>
+                        <div>
+                            <h4>First Name</h4>
+                            //first name
+                        </div>
+                        <div>
+                            <h4>Last Name</h4>
+                            //last name
+                        </div>
+                        <div>
+                            <h4>Contact Details</h4>
+                            // phone number
+                            // social link
+                        </div>
+                    </div>
+                    <div>
+                        <h4>WVSU Email Address</h4>
+                        // address
+                    </div>
+                </article>
+            </section>
+
+             <section class="tab-content" id="lost" hidden>
+                <article>
+                <h4>Posted Lost Items</h4>
+                <p>Lost items you posted.</p>
+                </article>
+            </section>
+
+            <section class="tab-content" id="found" hidden>
+                <article>
+                <h4>Found Items</h4>
+                <p>Found items you posted.</p>
+                </article>
+            </section>
+        </section>
     </main>
+    <script src="/js/profile/tabs.js"></script>
 </body>
 </html>
