@@ -11,8 +11,29 @@
     <title>Post Lost Item</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <style>
+        /* NOTE: Temporary styling for dev/testing purposes only. Will move to own css file and update styling in the future. */
+
+        /* Image-Preview */
         #preview-container { margin-top: 1rem; }
         #preview-image { max-width: 100%; max-height: 300px; display: none; border-radius: 8px; }
+
+        /* Camera Capture */
+        #camera-block { display: none; margin-top: 1rem; }
+        #camera-video {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 1rem;
+            border-radius: 8px;
+            display: block;
+        }
+        .camera-buttons {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+        .camera-buttons button {
+            flex: 1;
+        }
     </style>
 </head>
 <body>
@@ -54,6 +75,14 @@
             <button type="button" id="camera-button">
                 Open Camera
             </button>
+
+            <div id="camera-block">
+                <video id="camera-video" autoplay></video>
+                <div class="camera-buttons">
+                    <button type="button" id="capture-btn">Capture Photo</button>
+                    <button type="button" id="stop-btn">Stop Camera</button>
+                </div>
+            </div>
 
             <div id="preview-container">
                 <img id="preview-image" alt="Image Preview">
