@@ -75,9 +75,8 @@ class AuthController{
         // If no errors
         session_start();
         $_SESSION['user_id'] = $user['id'];
+        $_SESSION['full_name'] = $user['first_name'] . ' ' . $user['last_name'];
         $_SESSION['user_email'] = $user['wvsu_email'];
-        $_SESSION['first_name'] = $user['first_name'];
-        $_SESSION['last_name'] = $user['last_name'];
         header('Location: /');
     }
 
@@ -137,7 +136,7 @@ class AuthController{
             // Store user email to be used in OTP verification
             $_SESSION['pending_email'] = $email;
             $_SESSION['first_name'] = $firstName;
-
+            $_SESSION['full_name'] = $model['first_name'] . ' ' . $model['last_name'];
             // For the OTP UI timer
             $_SESSION['otp_expires_at'] = $expires;
             
