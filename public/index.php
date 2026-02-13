@@ -15,6 +15,7 @@ use App\Core\Router;
 use App\Core\Database;
 
 use App\Controllers\FoundItemController;  
+use App\Controllers\ProfileController;
 
 $router = new Router();
 
@@ -40,7 +41,7 @@ $router->post('/verify', function() use ($config) {
 });
 $router->post('/resend-otp', fn() => AuthController::resendOtp($config));
 
-
+$router->get('/profile', [ProfileController::class, 'showProfile']);
 
 
 
