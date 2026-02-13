@@ -23,7 +23,6 @@ class AuthController{
     }
 
     public static function showVerify(){
-        session_start();
         $expiresAt = $_SESSION['otp_expires_at'];
         
         // Check if verify_message field 
