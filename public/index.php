@@ -12,7 +12,9 @@ $config = require_once __DIR__ . '/../src/Config/config.php';
 
 use App\Controllers\AuthController;
 use App\Core\Router;
-use App\Core\Database;  
+use App\Core\Database;
+
+use App\Controllers\FoundItemController;  
 
 $router = new Router();
 
@@ -25,7 +27,9 @@ $router->get('/', function () {
     
 });
 $router->get('/login', [AuthController::class, 'showLogin']);
-$router->post('/login', [AuthController::class, 'login']);
+$router->post('/login', function () use ($config) {
+    AuthController::login($config);
+});
 $router->get('/register', [AuthController::class, 'showRegister']);
 $router->post('/register', function () use ($config) {
     AuthController::register($config);
@@ -35,5 +39,14 @@ $router->post('/verify', function() use ($config) {
     AuthController::verify($config);
 });
 $router->post('/resend-otp', fn() => AuthController::resendOtp($config));
+
+
+
+
+
+
+$router->get('/found', [FoundItemController::class, 'index']);      // List Page
+$router->get('/found/post', [FoundItemController::class, 'showPostForm']); // Post Page
+$router->post('/found/post', [FoundItemController::class, 'submitPostForm']); // Submit Action
 
 $router->dispatch();

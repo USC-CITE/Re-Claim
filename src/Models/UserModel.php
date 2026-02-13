@@ -20,8 +20,8 @@ class UserModel {
     }
 
     public function create(array $data): bool {
-        $sql = "INSERT INTO users (first_name, last_name, wvsu_email, password, phone_number, email_verified, verification_code, verification_expiry) 
-                VALUES (:first, :last, :email, :password, :phone, 0, :v_code, :v_expiry)";
+        $sql = "INSERT INTO users (first_name, last_name, wvsu_email, password, phone_number, social_link, email_verified, verification_code, verification_expiry) 
+                VALUES (:first, :last, :email, :password, :phone, :social, 0, :v_code, :v_expiry)";
 
         $stmt = $this->db->prepare($sql);
 
@@ -31,6 +31,7 @@ class UserModel {
             'email'    => $data['email'],
             'password' => $data['hashedPass'],
             'phone'    => $data['phone_number'] ?? '',
+            'social' => $data['social_link'],
             'v_code' => $data['v_code_hashed'],
             'v_expiry' => $data['v_code_expiry']
         ]);
