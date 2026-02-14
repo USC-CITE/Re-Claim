@@ -33,6 +33,17 @@
     <div class="grid">
       <?php foreach ($lostItems as $item): ?>
         <article>
+          <header>
+            <div class="grid">
+              <strong><?= htmlspecialchars($item['location'] ?: 'Unknown location') ?></strong>
+              <div style="text-align:right;">
+                <span data-tooltip="Status" data-placement="left">
+                  <mark><?= htmlspecialchars($item['status'] ?? 'Unrecovered') ?></mark>
+                </span>
+              </div>
+            </div>
+          </header>
+
           <?php if (!empty($item['image_url'])): ?>
             <img src="<?= htmlspecialchars($item['image_url']) ?>" alt="Lost item image" style="width:100%; height:220px; object-fit:cover; border-radius:8px;">
           <?php else: ?>
@@ -40,15 +51,6 @@
               <small>No image</small>
             </div>
           <?php endif; ?>
-
-          <h4 style="margin-top: 1rem;">
-            <?= htmlspecialchars($item['location'] ?: 'Unknown location') ?>
-          </h4>
-
-          <p>
-            <strong>Status:</strong>
-            <mark><?= htmlspecialchars($item['status'] ?? 'Unrecovered') ?></mark>
-          </p>
 
           <p>
             <strong>Date Lost:</strong>
@@ -75,6 +77,7 @@
             <p><?= htmlspecialchars($item['contact_info'] ?: 'No contact details.') ?></p>
           </details>
 
+  <!-- Show recover button if item is unrecovered and user is the original poster -->
   <?php if (!empty($item['can_recover'])): ?>
     <button type="button"
             class="secondary outline"
@@ -88,7 +91,7 @@
       <article>
         <header>
           <button aria-label="Close" rel="prev" onclick="closeModal('recover-modal-<?= $item['id'] ?>')"></button>
-          <h3>Confirm Recovery</h3>
+          <h3>Confirm Lost Item Recovery</h3>
         </header>
         <p>Are you sure you want to mark this lost item as recovered? This will update its status for everyone.</p>
         <footer>
@@ -102,7 +105,7 @@
     </dialog>
   <?php endif; ?>
 
-        </article>
+  </article>
       <?php endforeach; ?>
     </div>
   <?php endif; ?>
