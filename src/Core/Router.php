@@ -53,6 +53,11 @@ class Router{
             session_start();
         }
         
+        //Start session here
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $uri = rtrim($uri, '/');
         $uri = $uri === '' ? '/' : $uri;
