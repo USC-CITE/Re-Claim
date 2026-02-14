@@ -46,6 +46,7 @@ $router->post('/resend-otp', fn() => AuthController::resendOtp($config));
 $router->get('/lost', [LostItemController::class, 'index']);
 $router->get('/lost/post', [LostItemController::class, 'showPostForm']);
 $router->post('/lost/post', [LostItemController::class, 'submitPostForm']);
+$router->post('/lost/recover', [LostItemController::class, 'recover']);
 
 
 /* Found Item */
