@@ -35,7 +35,7 @@
         <article>
           <header>
             <div class="grid">
-              <strong><?= htmlspecialchars($item['location'] ?: 'Unknown location') ?></strong>
+              <strong><?= htmlspecialchars($item['item_name'] ?: 'Lost Item') ?></strong>
               <div style="text-align:right;">
                 <span data-tooltip="Status" data-placement="left">
                   <mark><?= htmlspecialchars($item['status'] ?? 'Unrecovered') ?></mark>
@@ -55,6 +55,9 @@
           <p>
             <strong>Date Lost:</strong>
             <?= htmlspecialchars($item['event_date'] ?: 'N/A') ?>
+            <br>
+            <strong>Location:</strong>
+            <?= htmlspecialchars($item['location'] ?: 'Unknown location') ?>
             <br>
             <strong>Posted by:</strong>
             <?= htmlspecialchars($item['name'] ?: 'Anonymous') ?>
