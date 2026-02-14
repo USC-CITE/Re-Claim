@@ -37,6 +37,11 @@ class FoundItemController
                 'location' => $item['location_name'],
                 'description' => $item['description'] ?: 'No description provided.',
                 'contact_info' => $item['contact_details'], // Pass raw contact info for the modal
+                'item_type' => $item['item_type'] ?? 'found',
+                'can_recover' => isset($_SESSION['user_id'], $item['user_id'])
+                    && (int)$item['user_id'] === (int)$_SESSION['user_id']
+                    && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
+                    && ($item['item_type'] ?? 'found') === 'found',
             ];
         }, $rawItems);
 
@@ -254,4 +259,39 @@ class FoundItemController
             exit;
         }
     }
-}
+
+    public static function recover()
+    {
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token. Please refresh the page and try again.");
+        }
+
+        if (empty($_SESSION['user_id'])) {
+            $_SESSION['flash'] = ['error' => 'You must be logged in to recover an item you posted.'];
+            header('Location: /found');
+            exit;
+        }
+
+        $itemId = isset($_POST['item_id']) ? (int)$_POST['item_id'] : 0;
+        if ($itemId <= 0) {
+            $_SESSION['flash'] = ['error' => 'Invalid item selected for recovery.'];
+            header('Location: /found');
+            exit;
+        }
+
+        $config = require __DIR__ . '/../Config/config.php';
+        $model = new FoundItemModel($config);
+
+        $success = $model->markAsRecovered($itemId, (int)$_SESSION['user_id']);
+
+        if ($success) {
+            $_SESSION['flash'] = ['success' => 'Item marked as recovered.'];
+        } else {
+            $_SESSION['flash'] = ['error' => 'Unable to mark this item as recovered. You can only recover found items that you posted and are still unrecovered.'];
+        }
+
+        header('Location: /found');
+        exit;
+    }
+}    
