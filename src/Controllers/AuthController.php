@@ -23,7 +23,6 @@ class AuthController{
     }
 
     public static function showVerify(){
-        session_start();
         $expiresAt = $_SESSION['otp_expires_at'];
         
         // Check if verify_message field 
@@ -143,9 +142,9 @@ class AuthController{
             
             // Send OTP via Gmail
             if (Mailer::sendOtp($email, $firstName, $otp)) {
-                $_SESSION['message'] = "Registration successful! Check your email for the OTP.";
+                echo "Registration successful! Check your email for the OTP.";
             } else {
-                $SESSION['message'] = "Registration successful, but failed to send OTP email. Please contact support.";
+                echo "Registration successful, but failed to send OTP email. Please contact support.";
             }
 
             header('Location: /verify');
@@ -164,7 +163,6 @@ class AuthController{
 
     public static function verify(array $config)
     {
-        session_start();
         
         $email = $_SESSION['pending_email'] ?? null;
         $otp = trim($_POST['otp'] ?? '');
