@@ -74,4 +74,22 @@ class LostItemModel
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
+
+    public function markAsRecovered(int $id, int $userId): bool
+    {
+        $sql = "UPDATE lost_and_found_items
+                SET status = 'Recovered'
+                WHERE id = :id
+                AND user_id = :user_id
+                AND item_type = 'lost'
+                AND status = 'Unrecovered'";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            'id' => $id,
+            'user_id' => $userId,
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
 }
