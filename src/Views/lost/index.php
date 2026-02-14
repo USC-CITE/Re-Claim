@@ -46,6 +46,11 @@
           </h4>
 
           <p>
+            <strong>Status:</strong>
+            <mark><?= htmlspecialchars($item['status'] ?? 'Unrecovered') ?></mark>
+          </p>
+
+          <p>
             <strong>Date Lost:</strong>
             <?= htmlspecialchars($item['event_date'] ?: 'N/A') ?>
             <br>
@@ -69,11 +74,38 @@
             <summary>Contact</summary>
             <p><?= htmlspecialchars($item['contact_info'] ?: 'No contact details.') ?></p>
           </details>
+
+  <?php if (!empty($item['can_recover'])): ?>
+    <button type="button"
+            class="secondary outline"
+            onclick="openModal('recover-modal-<?= $item['id'] ?>')">
+      Mark as Recovered
+    </button>
+  <?php endif; ?>
+
+  <?php if (!empty($item['can_recover'])): ?>
+    <dialog id="recover-modal-<?= $item['id'] ?>">
+      <article>
+        <header>
+          <button aria-label="Close" rel="prev" onclick="closeModal('recover-modal-<?= $item['id'] ?>')"></button>
+          <h3>Confirm Recovery</h3>
+        </header>
+        <p>Are you sure you want to mark this lost item as recovered? This will update its status for everyone.</p>
+        <footer>
+          <form method="POST" action="/lost/recover" style="display:inline-block; margin-right:0.5rem;">
+            <?php \App\Core\Router::setCsrf(); ?>
+            <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
+            <button type="submit">Yes, mark as recovered</button>
+          </form>
+        </footer>
+      </article>
+    </dialog>
+  <?php endif; ?>
+
         </article>
       <?php endforeach; ?>
     </div>
   <?php endif; ?>
 </main>
-
 </body>
 </html>
