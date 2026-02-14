@@ -107,5 +107,8 @@
     </div>
   <?php endif; ?>
 </main>
+
+<script src="/js/lost/index.js"></script>
+
 </body>
 </html>
