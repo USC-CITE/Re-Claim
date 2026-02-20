@@ -8,6 +8,7 @@
 </head>
 <body>
     <main class="container">
+        <?php require __DIR__ . "/../mainpages/header.php"; ?>
         <header style="display:flex; justify-content:space-between; align-items:center;">
 
             <div style="display:flex; align-items:center; gap:1rem;">
