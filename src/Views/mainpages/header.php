@@ -1,26 +1,40 @@
-<header class="container">
-    <!-- Reclaim Logo-->
-    <div>
-        <img>
-    </div>
-
+<header class="container flex justify-between align-center">
     <!-- Main Navigation Menu-->
     <nav class="container">
-        <a href="/lost">Lost & Found</a>
-        <a href="">Post an item</a>
-        <a href="/contact">Contact Us</a>
+          <!-- Reclaim Logo-->
+        <div>
+            <img>
+        </div>
+        <ul class="container">
+            <li>
+                <a href="/lost">Lost & Found</a>
+            </li>
+            <li>
+                <a href="/lost">Post an item</a>
+            </li>
+            <li>
+                <a href="/contact">Contact Us</a>
+            </li>
+        </ul>
+        <ul>
+             <!-- Ternary Operator to check if user is logged in display profile and logout if not register-->
+            <?php 
+                if(!isset($_SESSION['user_id'])){
+                    
+                    echo "<li><a href='/register'>Sign up</a></li>";
+                }else{
+                    echo "<li>
+                            <a href='/profile'>Profile</a>
+                        </li>
+                        <li> 
+                            <form action='/logout' method='post'>
+                                <button type='submit'>Logout</button>
+                            </form>
+                        </li>
+                    ";
+                }
+            ?>
+        </ul>
     </nav>
-    <!-- Ternary Operator to check if user is logged in display profile and logout if not register-->
-    <?php 
-        if(!isset($_SESSION['user_id'])){
-            
-            echo "<a href='/register'>Sign up</a>";
-        }else{
-            echo "<a>Profile</a> <br> 
-            <form action='/logout' method='post'>
-                <button type='submit'>Logout</button>
-            </form>
-            ";
-        }
-    ?>
+   
 </header>
