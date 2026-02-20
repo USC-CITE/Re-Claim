@@ -111,6 +111,9 @@
                 </article>
             </section>
         </section>
+        <form action="/logout" method="POST">
+            <button type="submit">Logout</button>
+        </form>
     </main>
     <script src="/js/profile/tabs.js"></script>
 </body>
