@@ -1,4 +1,4 @@
-<header>
+<header class="container">
     <!-- Reclaim Logo-->
     <div>
         <img>
@@ -16,7 +16,11 @@
             
             echo "<a href='/register'>Sign up</a>";
         }else{
-            echo "<a>Profile</a> <br> <a href='/logout'>Logout</a>";
+            echo "<a>Profile</a> <br> 
+            <form action='/logout' method='post'>
+                <button type='submit'>Logout</button>
+            </form>
+            ";
         }
     ?>
 </header>
