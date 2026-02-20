@@ -27,6 +27,9 @@ $router->get('/', function () {
     require __DIR__ . "/../src/Views/mainpages/view_index.php";
     
 });
+$router->get('/contact',function (){
+    require __DIR__ . "/../src/Views/mainpages/contact.php";
+});
 $router->get('/login', [AuthController::class, 'showLogin']);
 $router->post('/login', function () use ($config) {
     AuthController::login($config);
