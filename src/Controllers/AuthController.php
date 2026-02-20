@@ -226,5 +226,15 @@ class AuthController{
         header('Location: /verify');
 
     }
+
+    public static function logout(){
+        // Clean sesssion
+        $_SESSION = [];
+
+        // Destory session
+        session_destroy();
+        exit();
+
+    }
 }
 ?>
