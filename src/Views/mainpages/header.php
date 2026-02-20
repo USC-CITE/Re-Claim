@@ -14,9 +14,9 @@
     <?php 
         if(!isset($_SESSION['user_id'])){
             
-            echo "<a>Sign up</a>";
+            echo "<a href='/register'>Sign up</a>";
         }else{
-            echo "<a>Profile</a> <br> <a>Logout</a>";
+            echo "<a>Profile</a> <br> <a href='/logout'>Logout</a>";
         }
     ?>
 </header>
