@@ -233,6 +233,7 @@ class AuthController{
 
         // Destory session
         session_destroy();
+        header('Location: /login');
         exit();
 
     }
