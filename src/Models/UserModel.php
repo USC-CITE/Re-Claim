@@ -79,4 +79,19 @@ class UserModel {
             'email' => $email
         ]);
     }
+
+    public function fetchItems(int $id, string $type){
+
+        $stmt = $this->db->prepare(
+            "SELECT * FROM lost_and_found_items WHERE user_id = :id AND item_type = :type"
+        );
+
+        $stmt->execute([
+            'id' => $id,
+            'type' => $type
+        ]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
 }

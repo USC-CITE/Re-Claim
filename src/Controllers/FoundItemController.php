@@ -12,6 +12,10 @@ class FoundItemController
 {
     public static function index()
     {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+            exit;
+        }
 
         $config = require __DIR__ . '/../Config/config.php';
         $model = new FoundItemModel($config);
@@ -56,7 +60,11 @@ class FoundItemController
 
     public static function showPostForm()
     {
-
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+            exit;
+        }
+        
         // Auto-fill fields if user is logged in.
     $user = [
             'id' => $_SESSION['user_id'] ?? null,

@@ -23,6 +23,10 @@ class AuthController{
     }
 
     public static function showVerify(){
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+            exit;
+        }
         $expiresAt = $_SESSION['otp_expires_at'];
         
         // Check if verify_message field 
@@ -74,9 +78,11 @@ class AuthController{
         // If no errors
         session_start();
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_email'] = $user['wvsu_email'];
         $_SESSION['first_name'] = $user['first_name'];
         $_SESSION['last_name'] = $user['last_name'];
+        $_SESSION['phone_number'] = $user['phone_number'];
+        $_SESSION['social_link'] = $user['social_link'];
+        $_SESSION['wvsu_email'] = $user['wvsu_email'];
         header('Location: /');
     }
 
@@ -136,7 +142,7 @@ class AuthController{
             // Store user email to be used in OTP verification
             $_SESSION['pending_email'] = $email;
             $_SESSION['first_name'] = $firstName;
-
+            $_SESSION['full_name'] = $model['first_name'] . ' ' . $model['last_name'];
             // For the OTP UI timer
             $_SESSION['otp_expires_at'] = $expires;
             
@@ -222,6 +228,17 @@ class AuthController{
         // For the OTP UI timer
         $_SESSION['otp_expires_at'] = $expires;
         header('Location: /verify');
+
+    }
+
+    public static function logout(){
+        // Clean sesssion
+        $_SESSION = [];
+
+        // Destory session
+        session_destroy();
+        header('Location: /login');
+        exit();
 
     }
 }

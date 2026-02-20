@@ -16,6 +16,7 @@ use App\Core\Router;
 use App\Core\Database;
 
 use App\Controllers\FoundItemController;  
+use App\Controllers\ProfileController;
 
 $router = new Router();
 
@@ -44,6 +45,7 @@ $router->post('/verify', function() use ($config) {
     AuthController::verify($config);
 });
 $router->post('/resend-otp', fn() => AuthController::resendOtp($config));
+$router->post('/logout', [AuthController::class, 'logout']);
 
 /* Lost Item */
 $router->get('/lost', [LostItemController::class, 'index']);
@@ -51,6 +53,9 @@ $router->get('/lost/post', [LostItemController::class, 'showPostForm']);
 $router->post('/lost/post', [LostItemController::class, 'submitPostForm']);
 $router->post('/lost/recover', [LostItemController::class, 'recover']);
 
+/* User Profile Routes */
+$router->get('/profile', [ProfileController::class, 'showProfile']);
+$router->get('/profile/edit', [ProfileController::class, 'showEditProfile']);
 
 /* Found Item */
 $router->get('/found', [FoundItemController::class, 'index']);      // List Page
