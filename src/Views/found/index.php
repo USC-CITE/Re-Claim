@@ -56,14 +56,19 @@
                         <small>
                             <strong>Date:</strong> <?= htmlspecialchars($item['date_found']) ?><br>
                             <strong>Location:</strong> <?= htmlspecialchars($item['location']) ?>
+                            <?php if (($item['status'] ?? '') === 'Recovered' && !empty($item['archive_date'])): ?>
+                                <br><strong>Archive Date:</strong> <?= htmlspecialchars($item['archive_date']) ?>
+                            <?php endif; ?>
                         </small>
                     </p>
                     <p><?= htmlspecialchars($item['description']) ?></p>
                     
                     <footer>
-                        <button class="outline" onclick="openModal('modal-<?= $item['id'] ?>')">
-                            Contact Finder
-                        </button>
+                        <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
+                            <button class="outline" onclick="openModal('modal-<?= $item['id'] ?>')">
+                                Contact Finder
+                            </button>
+                        <?php endif; ?>
                         
                         <?php if (!empty($item['can_recover'])): ?>
                             <button type="button"
@@ -75,21 +80,23 @@
                         <?php endif; ?>
                     </footer>
 
-                    <dialog id="modal-<?= $item['id'] ?>">
-                        <article>
-                            <header>
-                                <button aria-label="Close" rel="prev" onclick="closeModal('modal-<?= $item['id'] ?>')"></button>
-                                <h3>Contact Details</h3>
-                            </header>
-                            <p>
-                                You can reach the finder at:
-                                <strong><?= htmlspecialchars($item['contact_info']) ?></strong>
-                            </p>
-                            <footer>
-                                <button role="button" class="secondary" onclick="closeModal('modal-<?= $item['id'] ?>')">Close</button>
-                            </footer>
-                        </article>
-                    </dialog>
+                    <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
+                        <dialog id="modal-<?= $item['id'] ?>">
+                            <article>
+                                <header>
+                                    <button aria-label="Close" rel="prev" onclick="closeModal('modal-<?= $item['id'] ?>')"></button>
+                                    <h3>Contact Details</h3>
+                                </header>
+                                <p>
+                                    You can reach the finder at:
+                                    <strong><?= htmlspecialchars($item['contact_info']) ?></strong>
+                                </p>
+                                <footer>
+                                    <button role="button" class="secondary" onclick="closeModal('modal-<?= $item['id'] ?>')">Close</button>
+                                </footer>
+                            </article>
+                        </dialog>
+                    <?php endif; ?>
 
                     <?php if (!empty($item['can_recover'])): ?>
                         <dialog id="recover-modal-<?= $item['id'] ?>">
