@@ -57,7 +57,7 @@ class Mailer{
 
     }
      public static function sendOtp(string $toEmail, string $toName, string $otp): bool {
-        $subject = 'WVSU: ReClaim: Your One-Time Password';
+        $subject = 'WVSU: ReClaim Verification Code';
         $body = "DO NOT SHARE!<br><br>"
             . "Your One-Time Pin is: <b>$otp</b>. This is only valid for 5 minutes. <br>
                 If this was not you, please report immediately at <b>info@reclaim.wvsu-usc.org</b> or through the official <b>WVSU - CITE</b> Facebook page<br><br>
