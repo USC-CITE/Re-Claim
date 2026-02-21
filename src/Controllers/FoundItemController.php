@@ -294,4 +294,38 @@ class FoundItemController
         header('Location: /found');
         exit;
     }
+
+    public static function archive()
+    {
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token.");
+        }
+
+        $userId = $_SESSION['user_id'] ?? null;
+        $itemIds = $_POST['item_ids'] ?? []; // Supports array of IDs for multiple selections
+
+        if (!$userId || empty($itemIds)) {
+            $_SESSION['flash'] = ['error' => 'Invalid action or not logged in.'];
+            header('Location: /found');
+            exit;
+        }
+
+        // Convert single string to array if only one was submitted
+        if (!is_array($itemIds)) {
+            $itemIds = [$itemIds];
+        }
+
+        $config = require __DIR__ . '/../Config/config.php';
+        $model = new FoundItemModel($config);
+        
+        if ($model->archiveItems($itemIds, (int)$userId)) {
+            $_SESSION['flash'] = ['success' => 'Item(s) successfully archived.'];
+        } else {
+            $_SESSION['flash'] = ['error' => 'Failed to archive items.'];
+        }
+
+        header('Location: /found');
+        exit;
+    }
 }    

@@ -114,4 +114,7 @@ class FoundItemModel
             'user_id' => $userId
         ]);
     }
+
+    #TODO: add permanent delete archived items
+
 }
