@@ -25,7 +25,7 @@
             display: block;
         }
         .js .tab-btn.active {
-            background-color: #0172ad;
+            background-color: #698389;
             color: white;
         }
     </style>

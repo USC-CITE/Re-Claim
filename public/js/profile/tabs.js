@@ -1,27 +1,33 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const buttons = document.querySelectorAll('.tab-btn');
-    const contents = document.querySelectorAll(".tab-content");
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".tab-btn");
+    const tabs = document.querySelectorAll(".tab-content");
 
+    function activateTab(tabId) {
+
+        // hide all tabs
+        tabs.forEach(tab => {
+            tab.classList.remove("active");
+        });
+
+        // deactivate all buttons
+        buttons.forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        // activate selected tab
+        document.getElementById(tabId).classList.add("active");
+
+        // activate selected button
+        document.querySelector(`[data-tab="${tabId}"]`).classList.add("active");
+    }
+
+    // default tab
+    activateTab("account");
+
+    // click events
     buttons.forEach(button => {
-        button.addEventListener("click", () => {
-            const target = button.dataset.tab;
-
-            // Hide all contents
-            contents.forEach(section => {
-                section.hidden = true;
-            })
-
-            // Remove active style from all buttons
-            buttons.forEach(btn => {
-                btn.classList.remove("secondary");
-            })
-
-            // Display selected item
-            document.getElementById(target).hidden = false;
-
-            // Hide active button
-            button.classList.add("secondary");
-        })
-    })
-    buttons[0].classList.add("secondary");
-})
+        button.addEventListener("click", function () {
+            activateTab(this.dataset.tab);
+        });
+    });
+});
