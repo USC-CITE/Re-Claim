@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <title>WVSU ReClaim</title>
+     <script>
+        // This would handle the page javascript status if class is 'js' then works if still 'no-js' does not work
+        document.documentElement.classList.remove('no-js');
+        document.documentElement.classList.add('js');
+    </script>
+    <style>
+        /* Default: show everything */
+        .no-js .tab-content {
+            display: block;
+        }
+
+        /* If JS is active */
+        .js .tab-content {
+            display: none;
+        }
+
+        .js .tab-content.active {
+            display: block;
+        }
+        .js .tab-btn.active {
+            background-color: #0172ad;
+            color: white;
+        }
+    </style>
+   
 </head>
 <body>
     <main class="container">
@@ -75,7 +100,7 @@
                 </article>
             </section>
 
-             <section class="tab-content" id="lost" hidden>
+             <section class="tab-content" id="lost">
                 <article>
                 <h4>Posted Lost Items</h4>
                     <?php if (!empty($lostItems)): ?>
@@ -93,7 +118,7 @@
                 </article>
             </section>
 
-            <section class="tab-content" id="found" hidden>
+            <section class="tab-content" id="found">
                 <article>
                 <h4>Found Items</h4>
                     <?php if (!empty($foundItems)): ?>
@@ -111,9 +136,6 @@
                 </article>
             </section>
         </section>
-        <form action="/logout" method="POST">
-            <button type="submit">Logout</button>
-        </form>
     </main>
     <script src="/js/profile/tabs.js"></script>
 </body>
