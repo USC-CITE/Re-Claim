@@ -316,13 +316,19 @@ class FoundItemController
             $itemIds = [$itemIds];
         }
 
-        $config = require __DIR__ . '/../Config/config.php';
-        $model = new FoundItemModel($config);
-        
-        if ($model->archiveItems($itemIds, (int)$userId)) {
-            $_SESSION['flash'] = ['success' => 'Item(s) successfully archived.'];
-        } else {
-            $_SESSION['flash'] = ['error' => 'Failed to archive items.'];
+        try {
+            $config = require __DIR__ . '/../Config/config.php';
+            $model = new FoundItemModel($config);
+            
+            if ($model->archiveItems($itemIds, (int)$userId)) {
+                $_SESSION['flash'] = ['success' => 'Item(s) successfully archived.'];
+            } else {
+                $_SESSION['flash'] = ['error' => 'Failed to archive items.'];
+            }
+        } catch (Exception $e) {
+
+        error_log("Archive Error: " . $e->getMessage());
+            $_SESSION['flash'] = ['error' => 'An error occurred while archiving: ' . $e->getMessage()];
         }
 
         header('Location: /found');

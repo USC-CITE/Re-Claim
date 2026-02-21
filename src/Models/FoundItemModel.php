@@ -34,7 +34,7 @@ class FoundItemModel
                 WHERE item_type = 'found' 
                 AND status != 'Archived' 
                 ORDER BY event_date DESC, created_at DESC";
-                
+
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
     }
@@ -42,9 +42,9 @@ class FoundItemModel
     public function create(array $data): bool
     {
         $sql = "INSERT INTO lost_and_found_items 
-                (item_type, image_path, item_name, event_date, location_name, room_number, latitude, longitude, category, description, first_name, last_name, contact_details, user_id, status)
+                (item_type, image_path, item_name, event_date, location_name, room_number, latitude, longitude, category, description, first_name, last_name, contact_details, user_id, status, archive_date)
                 VALUES
-                (:item_type, :image_path, :item_name, :event_date, :location_name, :room_number, :latitude, :longitude, :category, :description, :first_name, :last_name, :contact_details, :user_id, 'Unrecovered')";
+                (:item_type, :image_path, :item_name, :event_date, :location_name, :room_number, :latitude, :longitude, :category, :description, :first_name, :last_name, :contact_details, :user_id, 'Unrecovered', DATE_ADD(NOW(), INTERVAL 30 DAY))";
 
         $stmt = $this->db->prepare($sql);
 
@@ -100,7 +100,7 @@ class FoundItemModel
 
         $stmt = $this->db->prepare($sql);
         
-        $params = array_merge([$userId], $ids);
+        $params = array_merge([$userId], array_values($ids));
         return $stmt->execute($params);
     }
     
