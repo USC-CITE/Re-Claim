@@ -12,11 +12,11 @@ use PDOException;
 use Exception;
 
 class ContactController{
-    public static function showContactPage(){
+    public static function showContactPage($response = null){
         require __DIR__ . "/../Views/mainpages/contact.php";
     }
 
-    public static function sendMessage(): array{
+    public static function sendMessage(){
         // Get values
         $name = $_POST['name'] ?? '';
         $wvsu_email = trim($_POST['wvsu-email'] ?? '');
@@ -34,27 +34,34 @@ class ContactController{
         $adminEmail = 'kellyydrhan.alojepan@wvsu.edu.ph';
         try{
             // PHPMailer sending 
-            Mailer::sendMessage(
+           if (!Mailer::sendMessage(
                 $adminEmail,
                 'ReClaim Admin',
                 "New Message from $name",
-                "Name: $name<br>Email: $wvsu_email<br>Message:$message",
+                "Name: $name<br>Email: $wvsu_email<br>Message: $message",
                 $wvsu_email,
                 $name
-            );
+            )) {
+                throw new Exception("Failed to send message to admin.");
+            }
             
             // Send notification to the sender
-            Mailer::sendMessage(
-                $wvsu_email,               // Student email
+              if (!Mailer::sendMessage(
+                $wvsu_email,
                 $name,
                 "ReClaim Contact Form Confirmation",
                 "A message was sent using your email.<br>Message:<br>$message"
-            );
+            )) {
+                throw new Exception("Failed to send confirmation email.");
+            }
 
-            return ['success' => 'Message sent successfully!'];
+            $response = ['success' => "Message sent successfully!"];
         }catch(Exception $e){
-            return ['error' => 'Failed to send message: ' . $e->getMessage()];
+            $response = ['error' => 'Error: ' . $e->getMessage()];
         }
+
+        // Render contact page again with response
+        return self::showContactPage($response);
     }
 }
 ?>
