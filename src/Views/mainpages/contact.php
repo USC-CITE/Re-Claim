@@ -57,6 +57,11 @@
 
                     <label style="color: black;">Message:</label>
                     <textarea name="message" placeholder="This is a message..." rows="5"></textarea>
+                    <?php if(!empty($response['error'])): ?>
+                        <p class="error"><?= htmlspecialchars($response['error']) ?></p>
+                    <?php elseif(!empty($response['success'])): ?>
+                        <p class="success"><?= htmlspecialchars($response['success']) ?></p>
+                    <?php endif; ?>
                     <button type="submit">Send Message</button>
                 </form>
             </div>
