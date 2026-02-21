@@ -15,6 +15,17 @@ class FoundItemModel
         $this->db = Database::connect($config['db']);
     }
 
+    # ensure expired items are auto-archived before fetching
+    public function autoArchiveExpired(): void
+    {
+        $sql = "UPDATE lost_and_found_items 
+                SET status = 'Archived' 
+                WHERE status = 'Unrecovered' 
+                AND archive_date IS NOT NULL 
+                AND archive_date <= NOW()";
+        $this->db->exec($sql);
+    }
+
     public function getAll(): array
     {
         $sql = "SELECT * FROM lost_and_found_items ORDER BY event_date DESC, created_at DESC";
@@ -71,4 +82,6 @@ class FoundItemModel
 
         return $stmt->rowCount() > 0;
     }
+
+    
 }
