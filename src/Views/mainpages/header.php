@@ -6,12 +6,19 @@
             <img>
         </div>
         <ul class="container">
-            <li>
-                <a href="/lost">Lost & Found</a>
-            </li>
-            <li>
-                <a href="/lost">Post an item</a>
-            </li>
+            <?php 
+                // The found lost & found and post an item link would only be visible once a user is logged in
+                if(isset($_SESSION['user_id'])){
+                    echo "
+                    <li>
+                        <a href='/lost'>Lost & Found</a>
+                    </li>
+                    <li>
+                        <a href='/lost'>Post an item</a>
+                    </li>
+                    ";
+                }     
+            ?>
             <li>
                 <a href="/contact">Contact Us</a>
             </li>
