@@ -24,6 +24,7 @@ $router = new Router();
 $db = Database::connect($config['db']);
 
 /* Routes */
+/* [PUBLIC ROUTES] */
 $router->get('/', function () {
     require __DIR__ . "/../src/Views/mainpages/view_index.php";
     
@@ -40,6 +41,8 @@ $router->post('/register', function () use ($config) {
     AuthController::register($config);
 });
 
+
+/* [PROTECTED ROUTES] */
 $router->get('/verify', [AuthController::class, 'showVerify']);
 $router->post('/verify', function() use ($config) {
     AuthController::verify($config);
