@@ -108,6 +108,21 @@
                                         <button type="submit">
                                             Yes, mark as recovered
                                         </button>
+                                    </form> <form method="POST" action="/found/archive" style="display:inline-block; margin-left: 0.5rem;">
+                                        <?php \App\Core\Router::setCsrf(); ?>
+                                        <input type="hidden" name="item_ids[]" value="<?= (int)$item['id'] ?>">
+                                        <button type="submit" class="secondary outline" onclick="return confirm('Are you sure you want to archive this item?');">
+                                            Archive
+                                        </button>
+                                    </form>
+
+                                    <form method="POST" action="/found/delay-archive" style="display:inline-block; margin-left: 0.5rem;">
+                                        <?php \App\Core\Router::setCsrf(); ?>
+                                        <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
+                                        <input type="hidden" name="delay_days" value="7">
+                                        <button type="submit" class="outline" data-tooltip="Adds 7 days to auto-archive date">
+                                            Delay Archiving
+                                        </button>
                                     </form>
                                 </footer>
                             </article>
