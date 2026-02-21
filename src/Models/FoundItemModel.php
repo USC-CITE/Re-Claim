@@ -85,5 +85,19 @@ class FoundItemModel
         return $stmt->rowCount() > 0;
     }
 
+    public function archiveItems(array $ids, int $userId): bool
+    {
+        if (empty($ids)) return false;
+
+        $inQuery = implode(',', array_fill(0, count($ids), '?'));
+        $sql = "UPDATE lost_and_found_items 
+                SET status = 'Archived' 
+                WHERE user_id = ? AND id IN ($inQuery)";
+
+        $stmt = $this->db->prepare($sql);
+        
+        $params = array_merge([$userId], $ids);
+        return $stmt->execute($params);
+    }
     
 }
