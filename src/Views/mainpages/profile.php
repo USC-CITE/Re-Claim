@@ -104,14 +104,14 @@
                 <article>
                 <h4>Posted Lost Items</h4>
                     <?php if (!empty($lostItems)): ?>
-
+                        <ul>
                         <?php foreach ($lostItems as $item): ?>    
-                            <article>
+                            <li>
                                 <h5><?= htmlspecialchars($item['item_name']) ?></h5>
                                 <p><?= htmlspecialchars($item['description']) ?></p>
-                            </article>
+                            </li>
                         <?php endforeach; ?>
-
+                        </ul>
                     <?php else: ?>
                         <p>No lost items posted yet.</p>
                     <?php endif; ?>
@@ -122,14 +122,14 @@
                 <article>
                 <h4>Found Items</h4>
                     <?php if (!empty($foundItems)): ?>
-
+                        <ul>
                         <?php foreach ($foundItems as $item): ?>    
-                            <article>
+                            <li>
                                 <h5><?= htmlspecialchars($item['item_name']) ?></h5>
                                 <p><?= htmlspecialchars($item['description']) ?></p>
-                            </article>
+                            </li>
                         <?php endforeach; ?>
-
+                        </ul>
                     <?php else: ?>
                         <p>No found items posted yet.</p>
                     <?php endif; ?>
