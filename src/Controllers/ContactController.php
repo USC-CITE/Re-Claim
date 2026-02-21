@@ -75,8 +75,6 @@ class ContactController{
                 This email confirms that your message has been successfully submitted to our team.
             </p>
 
-            <hr>
-
             <p><strong>Submitted Message:</strong></p>
 
             <p>" . nl2br(htmlspecialchars($message)) . "</p>
