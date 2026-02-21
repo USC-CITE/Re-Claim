@@ -328,4 +328,35 @@ class FoundItemController
         header('Location: /found');
         exit;
     }
+    
+    public static function delayArchive()
+    {
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token.");
+        }
+
+        $userId = $_SESSION['user_id'] ?? null;
+        $itemId = (int)($_POST['item_id'] ?? 0);
+        $days = (int)($_POST['delay_days'] ?? 7);
+
+        if (!$userId || $itemId <= 0) {
+            $_SESSION['flash'] = ['error' => 'Invalid action.'];
+            header('Location: /found');
+            exit;
+        }
+
+        $config = require __DIR__ . '/../Config/config.php';
+        $model = new FoundItemModel($config);
+
+        if ($model->delayArchive($itemId, (int)$userId, $days)) {
+            $_SESSION['flash'] = ['success' => "Archiving delayed by {$days} days."];
+        } else {
+            $_SESSION['flash'] = ['error' => 'Failed to delay archive.'];
+        }
+
+        header('Location: /found');
+        exit;
+    }
+    
 }    
