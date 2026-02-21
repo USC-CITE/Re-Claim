@@ -28,6 +28,8 @@ class FoundItemModel
 
     public function getAll(): array
     {
+        $this->autoArchiveExpired(); #run auto archive first
+
         $sql = "SELECT * FROM lost_and_found_items ORDER BY event_date DESC, created_at DESC";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
