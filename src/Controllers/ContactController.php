@@ -97,9 +97,10 @@ class ContactController{
             This helps us protect your account and maintain system security.
             </p>
 
-            Best regards,
-            ReClaim Team
-            West Visayas State University
+            <br>
+            Best regards,<br>
+            <b>ReClaim Team</b><br>
+            <b>West Visayas State University</b>
             <hr>
             ";
             // Send notification to the sender
