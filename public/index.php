@@ -17,6 +17,7 @@ use App\Core\Database;
 
 use App\Controllers\FoundItemController;  
 use App\Controllers\ProfileController;
+use App\Controllers\ContactController;
 
 $router = new Router();
 
@@ -28,9 +29,7 @@ $router->get('/', function () {
     require __DIR__ . "/../src/Views/mainpages/view_index.php";
     
 });
-$router->get('/contact',function (){
-    require __DIR__ . "/../src/Views/mainpages/contact.php";
-});
+$router->get('/contact', [ContactController::class, 'showContactPage']);
 $router->get('/login', [AuthController::class, 'showLogin']);
 $router->post('/login', function () use ($config) {
     AuthController::login($config);
