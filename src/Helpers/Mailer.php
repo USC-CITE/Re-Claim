@@ -57,11 +57,13 @@ class Mailer{
 
     }
      public static function sendOtp(string $toEmail, string $toName, string $otp): bool {
-        $subject = 'Your OTP for ReClaim Registration (NEW)';
-        $body = "Hello $toName,<br><br>"
-              . "Your OTP is: <b>$otp</b><br>"
-              . "It expires in 10 minutes.<br><br>"
-              . "Do not share this code with anyone.";
+        $subject = 'WVSU: ReClaim: Your One-Time Password';
+        $body = "DO NOT SHARE!<br><br>"
+            . "Your One-Time Pin is: <b>$otp</b>. This is only valid for 5 minutes. <br>
+                If this was not you, please report immediately at <b>info@reclaim.wvsu-usc.org</b> or through the official <b>WVSU - CITE</b> Facebook page<br><br>
+                
+                - WVSU ReClaim Support Team";
+
         return self::sendMessage($toEmail, $toName, $subject, $body); 
 
     }
