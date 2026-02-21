@@ -100,6 +100,9 @@
                                 </header>
                                 <p>
                                     Are you sure you want to mark this found item as recovered? This will update its status for everyone.
+                                    <?php if (!empty($item['archive_date'])): ?>
+                                        <br><small>This post will be archived on <strong><?= htmlspecialchars($item['archive_date']) ?></strong>.</small>
+                                    <?php endif; ?>
                                 </p>
                                 <footer>
                                     <form method="POST" action="/found/recover" style="display:inline-block; margin-right: 0.5rem;">
@@ -107,6 +110,21 @@
                                         <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
                                         <button type="submit">
                                             Yes, mark as recovered
+                                        </button>
+                                    </form> <form method="POST" action="/found/archive" style="display:inline-block; margin-left: 0.5rem;">
+                                        <?php \App\Core\Router::setCsrf(); ?>
+                                        <input type="hidden" name="item_ids[]" value="<?= (int)$item['id'] ?>">
+                                        <button type="submit" class="secondary outline" onclick="return confirm('Are you sure you want to archive this item?');">
+                                            Archive
+                                        </button>
+                                    </form>
+
+                                    <form method="POST" action="/found/delay-archive" style="display:inline-block; margin-left: 0.5rem;">
+                                        <?php \App\Core\Router::setCsrf(); ?>
+                                        <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
+                                        <input type="hidden" name="delay_days" value="7">
+                                        <button type="submit" class="outline" data-tooltip="Adds 7 days to auto-archive date">
+                                            Delay Archiving
                                         </button>
                                     </form>
                                 </footer>

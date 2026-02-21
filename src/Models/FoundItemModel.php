@@ -15,9 +15,26 @@ class FoundItemModel
         $this->db = Database::connect($config['db']);
     }
 
+    # ensure expired items are auto-archived before fetching
+    public function autoArchiveExpired(): void
+    {
+        $sql = "UPDATE lost_and_found_items 
+                SET status = 'Archived' 
+                WHERE status = 'Unrecovered' 
+                AND archive_date IS NOT NULL 
+                AND archive_date <= NOW()";
+        $this->db->exec($sql);
+    }
+
     public function getAll(): array
     {
-        $sql = "SELECT * FROM lost_and_found_items ORDER BY event_date DESC, created_at DESC";
+        $this->autoArchiveExpired(); #run auto archive first
+
+        $sql = "SELECT * FROM lost_and_found_items 
+                WHERE item_type = 'found' 
+                AND status != 'Archived' 
+                ORDER BY event_date DESC, created_at DESC";
+
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
     }
@@ -25,9 +42,9 @@ class FoundItemModel
     public function create(array $data): bool
     {
         $sql = "INSERT INTO lost_and_found_items 
-                (item_type, image_path, item_name, event_date, location_name, room_number, latitude, longitude, category, description, first_name, last_name, contact_details, user_id, status)
+                (item_type, image_path, item_name, event_date, location_name, room_number, latitude, longitude, category, description, first_name, last_name, contact_details, user_id, status, archive_date)
                 VALUES
-                (:item_type, :image_path, :item_name, :event_date, :location_name, :room_number, :latitude, :longitude, :category, :description, :first_name, :last_name, :contact_details, :user_id, 'Unrecovered')";
+                (:item_type, :image_path, :item_name, :event_date, :location_name, :room_number, :latitude, :longitude, :category, :description, :first_name, :last_name, :contact_details, :user_id, 'Unrecovered', DATE_ADD(NOW(), INTERVAL 30 DAY))";
 
         $stmt = $this->db->prepare($sql);
 
@@ -71,4 +88,37 @@ class FoundItemModel
 
         return $stmt->rowCount() > 0;
     }
+
+    public function archiveItems(array $ids, int $userId): bool
+    {
+        if (empty($ids)) return false;
+
+        $inQuery = implode(',', array_fill(0, count($ids), '?'));
+        $sql = "UPDATE lost_and_found_items 
+                SET status = 'Archived' 
+                WHERE user_id = ? AND id IN ($inQuery)";
+
+        $stmt = $this->db->prepare($sql);
+        
+        $params = array_merge([$userId], array_values($ids));
+        return $stmt->execute($params);
+    }
+    
+    # User can have the option to delay their post b4 being archived
+    public function delayArchive(int $id, int $userId, int $extraDays = 7): bool
+    {
+        $sql = "UPDATE lost_and_found_items 
+                SET archive_date = DATE_ADD(COALESCE(archive_date, NOW()), INTERVAL :days DAY)
+                WHERE id = :id AND user_id = :user_id AND status != 'Archived'";
+
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            'days' => $extraDays,
+            'id' => $id,
+            'user_id' => $userId
+        ]);
+    }
+
+    #TODO: add permanent delete archived items
+
 }
