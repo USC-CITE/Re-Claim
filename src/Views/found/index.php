@@ -100,6 +100,9 @@
                                 </header>
                                 <p>
                                     Are you sure you want to mark this found item as recovered? This will update its status for everyone.
+                                    <?php if (!empty($item['archive_date'])): ?>
+                                        <br><small>This post will be archived on <strong><?= htmlspecialchars($item['archive_date']) ?></strong>.</small>
+                                    <?php endif; ?>
                                 </p>
                                 <footer>
                                     <form method="POST" action="/found/recover" style="display:inline-block; margin-right: 0.5rem;">

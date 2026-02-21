@@ -27,6 +27,13 @@ class FoundItemController
                 $dateDisplay = $item['event_date'] ?? null;
             }
 
+            try {
+                $archiveDt = new DateTime($item['archive_date'], new DateTimeZone('Asia/Manila'));
+                $archiveDateDisplay = $archiveDt->format('F j, Y g:i A');
+            } catch (Exception $e) {
+                $archiveDateDisplay = $item['archive_date'] ?? null;
+            }
+
            // 2. Return Clean Data Structure 
             return [
                 'id' => $item['id'] ?? uniqid(), // ID for the modal
@@ -34,6 +41,7 @@ class FoundItemController
                 'status' => $item['status'],
                 'image_url' => !empty($item['image_path']) ? '/' . $item['image_path'] : null,
                 'date_found' => $dateDisplay,
+                'archive_date' => $archiveDateDisplay,
                 'location' => $item['location_name'],
                 'description' => $item['description'] ?: 'No description provided.',
                 'contact_info' => $item['contact_details'], // Pass raw contact info for the modal
