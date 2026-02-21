@@ -31,26 +31,82 @@ class ContactController{
                 return ['error' => 'Please enter a valid WVSU email'];
         }
 
-        $adminEmail = 'kellyydrhan.alojepan@wvsu.edu.ph';
+        $envPath = dirname(__DIR__, 2) .'/.env';
+
+        // Handle error if file does not exist
+        if (!file_exists($envPath)) {
+            var_dump($envPath);
+            throw new Exception('.env file not found');
+        }
+
+        // Parse the fields inside the .env into an array
+        $env = parse_ini_file($envPath);
+        $adminEmail = $env['ADMIN_EMAIL'];
+        $adminMsgBody = "
+        <h2>New Contact Form Submission</h2>
+        
+        <p><strong>Name:</strong> {$name}</p>
+        <p><strong>Email:</strong> {$wvsu_email}</p>
+        <p><strong>Message:</strong></p>
+        <p>" . nl2br(htmlspecialchars($message)) . "</p>
+
+        <hr>
+        <p>This message was sent from WVSU: ReClaim Contact Page form</p>
+        ";
+
         try{
             // PHPMailer sending 
            if (!Mailer::sendMessage(
                 $adminEmail,
                 'ReClaim Admin',
-                "New Message from $name",
-                "Name: $name<br>Email: $wvsu_email<br>Message: $message",
+                "ReClaim: New Message from $name",
+                $adminMsgBody,
                 $wvsu_email,
                 $name
             )) {
                 throw new Exception("Failed to send message to admin.");
             }
             
+            $userMsgNotif = "
+            <p>Hello {$name},</p>
+
+            <p>
+                Thank you for contacting <strong>WVSU: ReClaim</strong>. <br>
+                This email confirms that your message has been successfully submitted to our team.
+            </p>
+
+            <hr>
+
+            <p><strong>Submitted Message:</strong></p>
+
+            <p>" . nl2br(htmlspecialchars($message)) . "</p>
+
+            <hr>
+            <p>
+                If you submitted this message, <strong>no further action is required</strong>. Our team will review it and respond if necessary.
+            </p>
+
+            <p>
+                If you did <strong>NOT</strong> submit this message, please report it immediately by contacting us through one of the following:
+            </p>
+
+            <ul>
+                <li>Email: <strong>info@reclaim.wvsu-usc.org</strong></li>
+                <li>Facebook: <strong>WVSU – CITE</strong></li>
+            </ul>
+
+            <p>
+            This helps us protect your account and maintain system security.
+            </p>
+
+            <hr>
+            ";
             // Send notification to the sender
-              if (!Mailer::sendMessage(
+            if (!Mailer::sendMessage(
                 $wvsu_email,
                 $name,
-                "ReClaim Contact Form Confirmation",
-                "A message was sent using your email.<br>Message:<br>$message"
+                "Message Received - WVSU: ReClaim",
+                $userMsgNotif
             )) {
                 throw new Exception("Failed to send confirmation email.");
             }
