@@ -100,4 +100,18 @@ class FoundItemModel
         return $stmt->execute($params);
     }
     
+    # User can have the option to delay their post b4 being archived
+    public function delayArchive(int $id, int $userId, int $extraDays = 7): bool
+    {
+        $sql = "UPDATE lost_and_found_items 
+                SET archive_date = DATE_ADD(COALESCE(archive_date, NOW()), INTERVAL :days DAY)
+                WHERE id = :id AND user_id = :user_id AND status != 'Archived'";
+
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            'days' => $extraDays,
+            'id' => $id,
+            'user_id' => $userId
+        ]);
+    }
 }
