@@ -89,7 +89,6 @@ class AuthController{
     
 
     public static function register(array $config){
-        session_start();
         try {
             // Handle data submitted by the user
             $firstName = trim($_POST["firstname"] ?? "");
@@ -127,7 +126,9 @@ class AuthController{
 
             // Utilize UserModel create method to insert into database
             $model = new UserModel($config);
-            $model->create([ 
+
+            // Stores the userId that the create method returns
+            $userId = $model->create([ 
                 'first_name' => $firstName,
                 'last_name' => $lastName, 
                 'email' => $email, 
@@ -142,10 +143,10 @@ class AuthController{
             // Store user email to be used in OTP verification
             $_SESSION['pending_email'] = $email;
             $_SESSION['first_name'] = $firstName;
-            $_SESSION['full_name'] = $model['first_name'] . ' ' . $model['last_name'];
+            $_SESSION['full_name'] = $firstName . ' ' . $lastName;
             // For the OTP UI timer
             $_SESSION['otp_expires_at'] = $expires;
-            
+            $_SESSION['user_id'] = $userId;
             // Send OTP via Gmail
             if (Mailer::sendOtp($email, $firstName, $otp)) {
                 echo "Registration successful! Check your email for the OTP.";
