@@ -30,6 +30,7 @@ $router->get('/', function () {
     
 });
 $router->get('/contact', [ContactController::class, 'showContactPage']);
+$router->post('/contact/send', [ContactController::class, 'sendMessage']);
 $router->get('/login', [AuthController::class, 'showLogin']);
 $router->post('/login', function () use ($config) {
     AuthController::login($config);
