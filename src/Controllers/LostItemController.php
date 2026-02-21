@@ -15,7 +15,12 @@ use Exception;
 class LostItemController
 {
     public static function index()
-    {
+    {   
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+            exit;
+        }
+
         $config = require __DIR__ . '/../Config/config.php';
         $model = new LostItemModel($config);
 
@@ -56,12 +61,17 @@ class LostItemController
     }
 
     public static function showPostForm()
-    {
+    {   
         /**
          * NOTE:
          * Session is started globally in router.php (dispatch)
          * AuthController stores user session fields like: user_id, user_email, first_name, last_name, etc.
          */
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+            exit;
+        }
+        
         $user = [
             'id' => $_SESSION['user_id'] ?? null,
             'email' => $_SESSION['user_email'] ?? null,

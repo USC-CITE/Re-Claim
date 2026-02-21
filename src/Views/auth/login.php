@@ -13,6 +13,7 @@
 </head>
 <body>
 <main class="container">
+    <?php require __DIR__ . "/../mainpages/header.php";?>
     <article>
         <h2>Login</h2>
 

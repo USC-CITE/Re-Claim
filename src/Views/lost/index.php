@@ -8,6 +8,7 @@
 <body>
 
 <main class="container">
+  <?php require __DIR__ . "/../mainpages/header.php"?>
   <hgroup>
         <h1>Lost Items</h1>
         <p>Recent items reported as lost by the community.</p>

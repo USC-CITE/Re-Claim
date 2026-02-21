@@ -12,6 +12,7 @@
     <title>WVSU ReClaim</title>
 </head>
 <body>
+    <?php require __DIR__ . "/../mainpages/header.php"; ?>
     <main class="container">
         <article>
             <!-- Registration Form Heading -->

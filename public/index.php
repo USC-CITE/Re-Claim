@@ -16,6 +16,7 @@ use App\Core\Router;
 use App\Core\Database;
 
 use App\Controllers\FoundItemController;  
+use App\Controllers\ProfileController;
 
 $router = new Router();
 
@@ -23,9 +24,13 @@ $router = new Router();
 $db = Database::connect($config['db']);
 
 /* Routes */
+/* [PUBLIC ROUTES] */
 $router->get('/', function () {
     require __DIR__ . "/../src/Views/mainpages/view_index.php";
     
+});
+$router->get('/contact',function (){
+    require __DIR__ . "/../src/Views/mainpages/contact.php";
 });
 $router->get('/login', [AuthController::class, 'showLogin']);
 $router->post('/login', function () use ($config) {
@@ -36,11 +41,14 @@ $router->post('/register', function () use ($config) {
     AuthController::register($config);
 });
 
+
+/* [PROTECTED ROUTES] */
 $router->get('/verify', [AuthController::class, 'showVerify']);
 $router->post('/verify', function() use ($config) {
     AuthController::verify($config);
 });
 $router->post('/resend-otp', fn() => AuthController::resendOtp($config));
+$router->post('/logout', [AuthController::class, 'logout']);
 
 /* Lost Item */
 $router->get('/lost', [LostItemController::class, 'index']);
@@ -48,6 +56,9 @@ $router->get('/lost/post', [LostItemController::class, 'showPostForm']);
 $router->post('/lost/post', [LostItemController::class, 'submitPostForm']);
 $router->post('/lost/recover', [LostItemController::class, 'recover']);
 
+/* User Profile Routes */
+$router->get('/profile', [ProfileController::class, 'showProfile']);
+$router->get('/profile/edit', [ProfileController::class, 'showEditProfile']);
 
 /* Found Item */
 $router->get('/found', [FoundItemController::class, 'index']);      // List Page

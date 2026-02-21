@@ -7,6 +7,7 @@
 </head>
 <body>
 <main class="container">
+    <?php require __DIR__ . "/../mainpages/header.php"?>
     <hgroup>
         <h1>Found Items</h1>
         <p>Recent items reported by the community.</p>
