@@ -46,7 +46,7 @@
                 <h4 style="color: black;">Send us a message</h4>
 
                 <!-- Message Form -->
-                <form method="post" action="/contact">
+                <form method="post" action="/contact/send">
                     <label style="color: black;">Name: </label>
                     <input name="name" type="text" placeholder="Juan Dela Cruz">
                     <br>
