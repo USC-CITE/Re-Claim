@@ -27,7 +27,7 @@ class Mailer{
 
             //Server settings
             $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';
+            $mail->Host       = $env['SMTP_HOSTNAME'];
             $mail->SMTPAuth   = true;
             $mail->Username   = $env['SMTP_USERNAME']; // your Gmail
             $mail->Password   = $env['SMTP_PASSWORD'];   // Gmail App Password
