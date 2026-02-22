@@ -31,8 +31,8 @@ class Mailer{
             $mail->SMTPAuth   = true;
             $mail->Username   = $env['ADMIN_EMAIL']; 
             $mail->Password   = $env['SMTP_PASSWORD'];   // Gmail App Password
-            $mail->SMTPSecure = 'tls';
-            $mail->Port       = $env['SMTP_PORT'] ?? 587;
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port       = $env['SMTP_PORT'] ?? 465;
 
             //Recipients
             $mail->setFrom($env['ADMIN_EMAIL'], 'WVSU ReClaim');
