@@ -29,7 +29,7 @@ class Mailer{
             $mail->isSMTP();
             $mail->Host       = $env['SMTP_HOSTNAME'];
             $mail->SMTPAuth   = true;
-            $mail->Username   = $env['SMTP_USERNAME']; // your Gmail
+            $mail->Username   = $env['ADMIN_EMAIL']; 
             $mail->Password   = $env['SMTP_PASSWORD'];   // Gmail App Password
             $mail->SMTPSecure = 'tls';
             $mail->Port       = $env['SMTP_PORT'] ?? 587;
