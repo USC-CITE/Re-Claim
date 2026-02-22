@@ -35,7 +35,7 @@ class Mailer{
             $mail->Port       = $env['SMTP_PORT'] ?? 587;
 
             //Recipients
-            $mail->setFrom($env['SMTP_USERNAME'], 'WVSU ReClaim');
+            $mail->setFrom($env['ADMIN_EMAIL'], 'WVSU ReClaim');
             $mail->addAddress($toEmail, $toName);
 
             // If replyToEmail variable has value
