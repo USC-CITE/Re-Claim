@@ -19,13 +19,13 @@ class UserModel {
         $this->db = Database::connect($config['db']);
     }
 
-    public function create(array $data): bool {
+    public function create(array $data): int {
         $sql = "INSERT INTO users (first_name, last_name, wvsu_email, password, phone_number, social_link, email_verified, verification_code, verification_expiry) 
                 VALUES (:first, :last, :email, :password, :phone, :social, 0, :v_code, :v_expiry)";
 
         $stmt = $this->db->prepare($sql);
 
-        return $stmt->execute([
+        $stmt->execute([
             'first'    => $data['first_name'],
             'last'     => $data['last_name'],
             'email'    => $data['email'],
@@ -35,6 +35,8 @@ class UserModel {
             'v_code' => $data['v_code_hashed'],
             'v_expiry' => $data['v_code_expiry']
         ]);
+        
+        return (int)$this->db->lastInsertId();
     }
 
     function findByEmail(string $email): ?array{
