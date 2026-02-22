@@ -28,13 +28,18 @@
                     </div>
 
                     <div>
-                        <img src="/assets/facebook.svg" alt="facebook icon" width="20" style="color: white;">
-                        <span>WVSU - Spark Hub</span>
+                        <a href="https://web.facebook.com/WVSUSparkHub" target="_blank">
+                            <img src="/assets/facebook.svg" alt="facebook icon" width="20" style="color: white;">
+                            <span>WVSU - Spark Hub</span>
+                        </a>
+                        
                     </div>
 
                     <div>
-                        <img src="/assets/facebook.svg" alt="facebook icon" width="20" style="color: white;">
-                        <span>WVSU - CITE</span>
+                        <a href="https://web.facebook.com/profile.php?id=61564071784342" target="_blank">
+                            <img src="/assets/facebook.svg" alt="facebook icon" width="20" style="color: white;">
+                            <span>WVSU - CITE</span>
+                        </a>
                     </div>
 
                 </div>
