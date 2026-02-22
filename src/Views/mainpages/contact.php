@@ -19,25 +19,31 @@
                     
                     <div>
                         <img src="/assets/envelope.svg" alt="envelope icon" width="20">
-                        <span>spark.hub@wvsu.edu.ph</span>
+                        <a href="mailto:spark.hub@wvsu.edu.ph?subject=ReClaim Inquiry">
+                            <span>spark.hub@wvsu.edu.ph</span>
+                        </a>
+                        
                     </div>
 
                     <div>
                         <img src="/assets/envelope.svg" alt="envelope icon" width="20" style="color: white;">
-                        <span>usc.cite@wvsu.edu.ph</span>
+                        <a href="mailto::usc.cite@wvsu.edu.ph?subject=ReClaim Inquiry"> 
+                            <span>usc.cite@wvsu.edu.ph</span>
+                        </a>
+                        
                     </div>
 
                     <div>
+                        <img src="/assets/facebook.svg" alt="facebook icon" width="20" style="color: white;">
                         <a href="https://web.facebook.com/WVSUSparkHub" target="_blank">
-                            <img src="/assets/facebook.svg" alt="facebook icon" width="20" style="color: white;">
                             <span>WVSU - Spark Hub</span>
                         </a>
                         
                     </div>
 
                     <div>
-                        <a href="https://web.facebook.com/profile.php?id=61564071784342" target="_blank">
-                            <img src="/assets/facebook.svg" alt="facebook icon" width="20" style="color: white;">
+                        <img src="/assets/facebook.svg" alt="facebook icon" width="20" style="color: white;">
+                        <a href="https://web.facebook.com/profile.php?id=61564071784342" target="_blank"> 
                             <span>WVSU - CITE</span>
                         </a>
                     </div>
