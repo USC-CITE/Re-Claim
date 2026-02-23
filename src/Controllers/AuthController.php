@@ -145,6 +145,8 @@ class AuthController{
             $_SESSION['first_name'] = $firstName;
             $_SESSION['full_name'] = $firstName . ' ' . $lastName;
             // For the OTP UI timer
+            $_SESSION['social_link'] = $socialLink;
+            $_SESSION['phone_number'] = $phoneNum;
             $_SESSION['otp_expires_at'] = $expires;
             $_SESSION['user_id'] = $userId;
             // Send OTP via Gmail
