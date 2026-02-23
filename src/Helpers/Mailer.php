@@ -6,7 +6,10 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 class Mailer{
-     public static function sendOtp(string $toEmail, string $toName, string $otp): bool {
+    public static function sendMessage(
+        string $toEmail, string $toName, string $subject, string $body,
+        ?string $replyToEmail = null, ?string $replyToName = null // (Optional) handler for contact message reply to sender
+    ): bool{
         $mail = new PHPMailer(true);
 
         $envPath = dirname(__DIR__, 2) .'/.env';
@@ -20,32 +23,49 @@ class Mailer{
         // Parse the fields inside the .env into an array
         $env = parse_ini_file($envPath);
 
-        try {
+        try{
+
             //Server settings
             $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';
+            $mail->Host       = $env['SMTP_HOSTNAME'];
             $mail->SMTPAuth   = true;
-            $mail->Username   = $env['SMTP_USERNAME']; // your Gmail
+            $mail->Username   = $env['ADMIN_EMAIL']; 
             $mail->Password   = $env['SMTP_PASSWORD'];   // Gmail App Password
-            $mail->SMTPSecure = 'tls';
-            $mail->Port       = $env['SMTP_PORT'];
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port       = $env['SMTP_PORT'] ?? 465;
 
             //Recipients
-            $mail->setFrom($env['SMTP_USERNAME'], 'ReClaim App');
+            $mail->setFrom($env['ADMIN_EMAIL'], 'WVSU ReClaim');
             $mail->addAddress($toEmail, $toName);
 
-            // Content
+            // If replyToEmail variable has value
+            if($replyToEmail){
+                $mail->addReplyTo($replyToEmail, $replyToName ?? '');
+            }
+
+            // Dynamic Content
             $mail->isHTML(true);
-            $mail->Subject = 'Your OTP for ReClaim Registration';
-            $mail->Body    = "Hello $toName,<br><br>Your OTP is: <b>$otp</b><br>It expires in 10 minutes.<br><br>Do not share this code with anyone.";
+            $mail->Subject = $subject;
+            $mail->Body    = $body;
             
             $mail->send();
             return true;
-
-        } catch (Exception $e) {
+        }catch(Exception $e){
             error_log("Mailer Error: " . $mail->ErrorInfo);
             return false;
         }
+
+    }
+     public static function sendOtp(string $toEmail, string $toName, string $otp): bool {
+        $subject = 'WVSU: ReClaim Verification Code';
+        $body = "DO NOT SHARE!<br><br>"
+            . "Your One-Time Pin is: <b>$otp</b>. This is only valid for 5 minutes. <br>
+                If this was not you, please report immediately at <b>info@reclaim.wvsu-usc.org</b> or through the official <b>WVSU - CITE</b> Facebook page<br><br>
+                
+                - WVSU ReClaim Support Team";
+
+        return self::sendMessage($toEmail, $toName, $subject, $body); 
+
     }
 }
 
