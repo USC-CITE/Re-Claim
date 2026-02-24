@@ -31,6 +31,13 @@ class FoundItemController
                 $dateDisplay = $item['event_date'] ?? null;
             }
 
+            try {
+                $archiveDt = new DateTime($item['archive_date'], new DateTimeZone('Asia/Manila'));
+                $archiveDateDisplay = $archiveDt->format('F j, Y g:i A');
+            } catch (Exception $e) {
+                $archiveDateDisplay = $item['archive_date'] ?? null;
+            }
+
            // 2. Return Clean Data Structure 
             return [
                 'id' => $item['id'] ?? uniqid(), // ID for the modal
@@ -38,6 +45,7 @@ class FoundItemController
                 'status' => $item['status'],
                 'image_url' => !empty($item['image_path']) ? '/' . $item['image_path'] : null,
                 'date_found' => $dateDisplay,
+                'archive_date' => $archiveDateDisplay,
                 'location' => $item['location_name'],
                 'description' => $item['description'] ?: 'No description provided.',
                 'contact_info' => $item['contact_details'], // Pass raw contact info for the modal
@@ -302,4 +310,75 @@ class FoundItemController
         header('Location: /found');
         exit;
     }
+
+    public static function archive()
+    {
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token.");
+        }
+
+        $userId = $_SESSION['user_id'] ?? null;
+        $itemIds = $_POST['item_ids'] ?? []; // Supports array of IDs for multiple selections
+
+        if (!$userId || empty($itemIds)) {
+            $_SESSION['flash'] = ['error' => 'Invalid action or not logged in.'];
+            header('Location: /found');
+            exit;
+        }
+
+        // Convert single string to array if only one was submitted
+        if (!is_array($itemIds)) {
+            $itemIds = [$itemIds];
+        }
+
+        try {
+            $config = require __DIR__ . '/../Config/config.php';
+            $model = new FoundItemModel($config);
+            
+            if ($model->archiveItems($itemIds, (int)$userId)) {
+                $_SESSION['flash'] = ['success' => 'Item(s) successfully archived.'];
+            } else {
+                $_SESSION['flash'] = ['error' => 'Failed to archive items.'];
+            }
+        } catch (Exception $e) {
+
+        error_log("Archive Error: " . $e->getMessage());
+            $_SESSION['flash'] = ['error' => 'An error occurred while archiving: ' . $e->getMessage()];
+        }
+
+        header('Location: /found');
+        exit;
+    }
+    
+    public static function delayArchive()
+    {
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token.");
+        }
+
+        $userId = $_SESSION['user_id'] ?? null;
+        $itemId = (int)($_POST['item_id'] ?? 0);
+        $days = (int)($_POST['delay_days'] ?? 7);
+
+        if (!$userId || $itemId <= 0) {
+            $_SESSION['flash'] = ['error' => 'Invalid action.'];
+            header('Location: /found');
+            exit;
+        }
+
+        $config = require __DIR__ . '/../Config/config.php';
+        $model = new FoundItemModel($config);
+
+        if ($model->delayArchive($itemId, (int)$userId, $days)) {
+            $_SESSION['flash'] = ['success' => "Archiving delayed by {$days} days."];
+        } else {
+            $_SESSION['flash'] = ['error' => 'Failed to delay archive.'];
+        }
+
+        header('Location: /found');
+        exit;
+    }
+    
 }    
