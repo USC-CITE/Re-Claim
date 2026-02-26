@@ -52,7 +52,7 @@
             <div>
                 <h2>Want to Contribute in Improving the System?</h2>
                 <p>Re:Claim is open source! Place an issue on GitHub and we’ll review it.</p>
-                <a href="/">
+                <a href="https://github.com/USC-CITE/Re-Claim/issues" target="_blank">
                     <button>Place an issue</button>
                 </a>
             </div>
