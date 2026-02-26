@@ -8,6 +8,55 @@
 </head>
 <body>
     <?php require __DIR__ . "/header.php"?>
-    <h1>Welcome to WVSU ReClaim</h1>
+    <main class="container">
+        <!-- Hero Section-->
+        <section>
+            <div style="width: 40%">
+                <h1>Seamlessly Track and Recover Your Belongings</h1>
+                <p>
+                    Re:Claim is a centralized lost and found tracking system for West Visayas State University - Main Campus.
+                </p>
+                <a href="/lost">
+                    <button>Find your Lost Item</button>
+                </a>
+            </div>
+        </section>
+
+        <!-- ReClaim Features Section-->
+        <section>
+            <h2>Why Use Reclaim?</h2>
+
+            <!-- Feature Cards -->
+            <div class="container" style="display: flex; gap: 1rem;">
+                <div>
+                    <img src="/assets/temp.png" style="width: 80%">
+                    <h6>Let people help you: post the item that you lost</h6>
+                    <p>Ensure fast recovery by distributing information online.</p>
+                </div>
+                <div>
+                    <img src="/assets/temp.png" style="width: 80%">
+                    <h6>Let people help you: post the item that you lost</h6>
+                    <p>Ensure fast recovery by distributing information online.</p>
+                </div>
+                <div>
+                    <img src="/assets/temp.png" style="width: 80%">
+                    <h6>Let people help you: post the item that you lost</h6>
+                    <p>Ensure fast recovery by distributing information online.</p>
+                </div>
+            </div>
+        </section>
+        <!-- Issue Section -->
+        <section class="container" style="display: flex; gap: 2rem">
+            <!-- Github Screenshot-->
+                <img src="/assets/temp.png" style="width: 50%;">
+            <div>
+                <h2>Want to Contribute in Improving the System?</h2>
+                <p>Re:Claim is open source! Place an issue on GitHub and we’ll review it.</p>
+                <a href="https://github.com/USC-CITE/Re-Claim/issues" target="_blank">
+                    <button>Place an issue</button>
+                </a>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
