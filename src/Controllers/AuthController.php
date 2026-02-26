@@ -123,23 +123,38 @@ class AuthController{
 
             // Hash password
             $hashPass = password_hash($password, PASSWORD_DEFAULT);
-
-            // Utilize UserModel create method to insert into database
             $model = new UserModel($config);
 
-            // Stores the userId that the create method returns
-            $userId = $model->create([ 
-                'first_name' => $firstName,
-                'last_name' => $lastName, 
-                'email' => $email, 
-                'hashedPass' => $hashPass,
-                'phone_number' => $phoneNum,
-                'social_link' => $socialLink,
-                'v_code_hashed' => $v_code_hashed,
-                'v_code_expiry' => $expires
+            $user = $model->findByEmail($email);
 
-            ]);
+            // Email Verification Scenarios
+            if(!$user){
+                // [1] User email is available
+               // Stores the userId that the create method returns
+                $userId = $model->create([ 
+                    'first_name' => $firstName,
+                    'last_name' => $lastName, 
+                    'email' => $email, 
+                    'hashedPass' => $hashPass,
+                    'phone_number' => $phoneNum,
+                    'social_link' => $socialLink,
+                    'v_code_hashed' => $v_code_hashed,
+                    'v_code_expiry' => $expires
 
+                ]);
+            }else{ 
+                // [2] Email already exists
+                if($user['email_verified'] == 1){
+                    throw new Exception("Registration failed: The email address '$email' is already in use.");
+                }
+                // [3] Email already exists but not verified -> Redirect To OTP
+                else{
+                    $model->updateOtp($email, $v_code_hashed, $expires);
+
+                    $userId = $user['id'];
+                }
+            }
+           
             // Store user email to be used in OTP verification
             $_SESSION['pending_email'] = $email;
             $_SESSION['first_name'] = $firstName;
@@ -150,11 +165,10 @@ class AuthController{
             // Send OTP via Gmail
             if (Mailer::sendOtp($email, $firstName, $otp)) {
                 echo "Registration successful! Check your email for the OTP.";
+                header('Location: /verify');
             } else {
                 echo "Registration successful, but failed to send OTP email. Please contact support.";
             }
-
-            header('Location: /verify');
         } catch (PDOException $e) {
             if ($e->errorInfo[1] === 1062) {
                 echo "Registration failed: The email address '$email' is already in use.";
