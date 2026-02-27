@@ -54,6 +54,7 @@ class LostItemController
                 'description' => $item['description'] ?: 'No description provided.',
                 'categories' => $categories,
                 'status' => $item['status'] ?? 'Unrecovered',
+                'archive_date' => $archiveDisplay,
                 'contact_info' => $item['contact_details'] ?? '',
                 'name' => trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? '')),
                 'can_recover' => isset($_SESSION['user_id'], $item['user_id'])
@@ -192,6 +193,9 @@ class LostItemController
                 if ($dt > $now) {
                     throw new Exception('Date and time lost cannot be in the future.');
                 }
+
+                // Convert HTML datetime-local value to MySQL DATETIME format
+                $eventDate = $dt->format('Y-m-d H:i:s');
             } catch (\Exception $e) {
                 if (strpos($e->getMessage(), 'Date and time') === 0 || strpos($e->getMessage(), 'valid') !== false) {
                     throw $e;
