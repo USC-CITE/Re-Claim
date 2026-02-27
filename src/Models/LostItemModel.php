@@ -94,6 +94,10 @@ class LostItemModel
         return $stmt->rowCount() > 0;
     }
 
+    /**
+     * Archive Lost-Items.
+     */
+
     public function autoArchiveExpired(): void
     {
         $sql = "UPDATE lost_and_found_items
@@ -103,5 +107,37 @@ class LostItemModel
                 AND archive_date IS NOT NULL
                 AND archive_date <= NOW()";
         $this->db->exec($sql);
+    }
+
+    public function archiveByIds(array $ids, int $userId): bool
+    {
+        if (empty($ids)) return false;
+
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $sql = "UPDATE lost_and_found_items
+                SET status = 'Archived'
+                WHERE item_type = 'lost'
+                AND user_id = ?
+                AND id IN ($placeholders)";
+
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute(array_merge([$userId], array_values($ids)));
+    }
+
+    public function postponeArchive(int $id, int $userId, int $days = 7): bool
+    {
+        $sql = "UPDATE lost_and_found_items
+                SET archive_date = DATE_ADD(COALESCE(archive_date, NOW()), INTERVAL :days DAY)
+                WHERE id = :id
+                AND user_id = :user_id
+                AND item_type = 'lost'
+                AND status != 'Archived'";
+
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            'days' => $days,
+            'id' => $id,
+            'user_id' => $userId,
+        ]);
     }
 }
