@@ -69,6 +69,7 @@ class LostItemModel
         $sql = "SELECT *
                 FROM lost_and_found_items
                 WHERE item_type = 'lost'
+                    AND status != 'Archived'
                 ORDER BY event_date DESC, created_at DESC";
 
         $stmt = $this->db->query($sql);
@@ -91,5 +92,16 @@ class LostItemModel
         ]);
 
         return $stmt->rowCount() > 0;
+    }
+
+    public function autoArchiveExpired(): void
+    {
+        $sql = "UPDATE lost_and_found_items
+                SET status = 'Archived'
+                WHERE item_type = 'lost'
+                AND status = 'Unrecovered'
+                AND archive_date IS NOT NULL
+                AND archive_date <= NOW()";
+        $this->db->exec($sql);
     }
 }
