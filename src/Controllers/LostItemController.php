@@ -11,6 +11,8 @@ use App\Core\Router;
 use App\Models\LostItemModel;
 use PDOException;
 use Exception;
+use DateTime;
+use DateTimeZone;
 
 class LostItemController
 {
@@ -35,6 +37,13 @@ class LostItemController
 
             $imageUrl = !empty($item['image_path']) ? '/' . ltrim($item['image_path'], '/') : null;
 
+            try {
+                $archiveAt = new DateTime($item['archive_date'], new DateTimeZone('Asia/Manila'));
+                $archiveDisplay = $archiveAt->format('F j, Y g:i A');
+            } catch (Exception $e) {
+                $archiveDisplay = $item['archive_date'] ?? null;
+            }
+
             return [
                 'id' => $item['id'],
                 'item_name' => $item['item_name'] ?? 'Unnamed Item',
@@ -51,6 +60,10 @@ class LostItemController
                     && (int)$item['user_id'] === (int)$_SESSION['user_id']
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
                     && ($item['item_type'] ?? 'lost') === 'lost',
+                'can_archive' => isset($_SESSION['user_id'], $item['user_id'])
+                    && (int)$item['user_id'] === (int)$_SESSION['user_id']
+                    && ($item['item_type'] ?? 'lost') === 'lost'
+                    && ($item['status'] ?? 'Unrecovered') !== 'Archived',
             ];
         }, $rawItems);
 
