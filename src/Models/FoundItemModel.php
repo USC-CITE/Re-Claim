@@ -119,6 +119,21 @@ class FoundItemModel
         ]);
     }
 
-    #TODO: add permanent delete archived items
+    # Permanent delete archived items
+    public function deleteArchivedItems(array $ids, int $userId): bool
+    {
+        if (empty($ids)) return false;
+
+        $inQuery = implode(',', array_fill(0, count($ids), '?'));
+        
+        // Ensure ONLY archived items belonging to the user are deleted
+        $sql = "DELETE FROM lost_and_found_items 
+                WHERE user_id = ? AND status = 'Archived' AND id IN ($inQuery)";
+
+        $stmt = $this->db->prepare($sql);
+        
+        $params = array_merge([$userId], array_values($ids));
+        return $stmt->execute($params);
+    }
 
 }
