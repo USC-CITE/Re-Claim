@@ -67,5 +67,6 @@ $router->post('/found/post', [FoundItemController::class, 'submitPostForm']); //
 $router->post('/found/recover', [FoundItemController::class, 'recover']); // Mark found item as recovered
 $router->post('/found/archive', [\App\Controllers\FoundItemController::class, 'archive']);
 $router->post('/found/delay-archive', [\App\Controllers\FoundItemController::class, 'delayArchive']);
+$router->post('/found/delete', [\App\Controllers\FoundItemController::class, 'delete']);
 
 $router->dispatch();
