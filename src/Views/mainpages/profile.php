@@ -121,16 +121,45 @@
 
             <section class="tab-content" id="found">
                 <article>
-                <h4>Found Items</h4>
+                <h4>Found Items (Including Archived)</h4>
                     <?php if (!empty($foundItems)): ?>
-                        <ul>
-                        <?php foreach ($foundItems as $item): ?>    
-                            <li>
-                                <h5><?= htmlspecialchars($item['item_name']) ?></h5>
-                                <p><?= htmlspecialchars($item['description']) ?></p>
-                            </li>
-                        <?php endforeach; ?>
-                        </ul>
+                        <!-- Form for bulk deletion of archived items -->
+                        <form method="POST" action="/found/delete" onsubmit="return confirm('Are you sure you want to permanently delete the selected archived items?');">
+                            <?php \App\Core\Router::setCsrf(); ?>
+                            <ul>
+                            <?php foreach ($foundItems as $item): ?>    
+                                <li style="margin-bottom: 1rem; border-bottom: 1px solid #ccc; padding-bottom: 1rem;">
+                                    <h5><?= htmlspecialchars($item['item_name']) ?></h5>
+                                    <p>Status: <mark><?= htmlspecialchars($item['status']) ?></mark></p>
+                                    <p><?= htmlspecialchars($item['description']) ?></p>
+                                    
+                                    <?php if (($item['status'] ?? '') === 'Archived'): ?>
+                                        <label>
+                                            <input type="checkbox" name="item_ids[]" value="<?= (int)$item['id'] ?>"> 
+                                            Select to permanently delete
+                                        </label>
+                                    <?php endif; ?>
+                                </li>
+                            <?php endforeach; ?>
+                            </ul>
+                            
+                            <!-- Check if any item is archived to show delete button -->
+                            <?php 
+                                $hasArchivedFound = false;
+                                foreach ($foundItems as $i) {
+                                    if (($i['status'] ?? '') === 'Archived') {
+                                        $hasArchivedFound = true;
+                                        break;
+                                    }
+                                }
+                            ?>
+
+                            <?php if ($hasArchivedFound): ?>
+                                <button type="submit" class="secondary" style="background-color: #e74c3c; color: white;">
+                                    Delete Selected Archived Items
+                                </button>
+                            <?php endif; ?>
+                        </form>
                     <?php else: ?>
                         <p>No found items posted yet.</p>
                     <?php endif; ?>
