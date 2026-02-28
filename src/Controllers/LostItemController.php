@@ -364,4 +364,67 @@ class LostItemController
         exit;
     }
 
+    public static function archive()
+    {
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token.");
+        }
+
+        $userId = $_SESSION['user_id'] ?? null;
+        $itemIds = $_POST['item_ids'] ?? [];
+
+        if (!$userId || empty($itemIds)) {
+            $_SESSION['flash'] = ['error' => 'Archive request is invalid.'];
+            header('Location: /lost');
+            exit;
+        }
+
+        if (!is_array($itemIds)) {
+            $itemIds = [$itemIds];
+        }
+
+        $config = require __DIR__ . '/../Config/config.php';
+        $model = new LostItemModel($config);
+
+        if ($model->archiveByIds($itemIds, (int)$userId)) {
+            $_SESSION['flash'] = ['success' => 'Selected lost post(s) archived.'];
+        } else {
+            $_SESSION['flash'] = ['error' => 'Could not archive selected post(s).'];
+        }
+
+        header('Location: /lost');
+        exit;
+    }
+
+    public static function delayArchive()
+    {
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token.");
+        }
+
+        $userId = $_SESSION['user_id'] ?? null;
+        $itemId = (int)($_POST['item_id'] ?? 0);
+        $days = max(1, (int)($_POST['delay_days'] ?? 7));
+
+        if (!$userId || $itemId <= 0) {
+            $_SESSION['flash'] = ['error' => 'Delay request is invalid.'];
+            header('Location: /lost');
+            exit;
+        }
+
+        $config = require __DIR__ . '/../Config/config.php';
+        $model = new LostItemModel($config);
+
+        if ($model->postponeArchive($itemId, (int)$userId, $days)) {
+            $_SESSION['flash'] = ['success' => "Archive date moved by {$days} day(s)."];
+        } else {
+            $_SESSION['flash'] = ['error' => 'Could not update archive schedule.'];
+        }
+
+        header('Location: /lost');
+        exit;
+    }
+
 }

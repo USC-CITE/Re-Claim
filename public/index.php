@@ -55,6 +55,8 @@ $router->get('/lost', [LostItemController::class, 'index']);
 $router->get('/lost/post', [LostItemController::class, 'showPostForm']);
 $router->post('/lost/post', [LostItemController::class, 'submitPostForm']);
 $router->post('/lost/recover', [LostItemController::class, 'recover']);
+$router->post('/lost/archive', [LostItemController::class, 'archive']);
+$router->post('/lost/delay-archive', [LostItemController::class, 'delayArchive']);
 
 /* User Profile Routes */
 $router->get('/profile', [ProfileController::class, 'showProfile']);
