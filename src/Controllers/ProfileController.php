@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 use App\Models\UserModel;
+use DateTime;
+use DateTimeZone;
 
 class ProfileController{
     public static function showProfile(){
@@ -17,6 +19,22 @@ class ProfileController{
         
         $lostItems = $user->fetchItems($id, "lost");
         $foundItems = $user->fetchItems($id, "found");
+        $archivedItems = array_map(function ($item) {
+            try {
+                $archivedAt = new DateTime($item['archive_date'], new DateTimeZone('Asia/Manila'));
+                $archiveDate = $archivedAt->format('F j, Y g:i A');
+            } catch (\Exception $e) {
+                $archiveDate = $item['archive_date'] ?? 'N/A';
+            }
+
+            return [
+                'item_name' => $item['item_name'] ?? 'Unnamed Item',
+                'description' => $item['description'] ?? 'No description provided.',
+                'item_type' => ucfirst($item['item_type'] ?? 'Item'),
+                'status' => $item['status'] ?? 'Archived',
+                'archive_date' => $archiveDate,
+            ];
+        }, $user->fetchArchivedItems($id));
 
         require __DIR__ . "/../Views/mainpages/profile.php";
 

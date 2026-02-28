@@ -73,6 +73,10 @@
                 <button type="button" class="tab-btn" data-tab="found">
                     Posted Found Items
                 </button>
+
+                <button type="button" class="tab-btn" data-tab="archived">
+                    Archived Items
+                </button>
             </nav>
 
             <!-- Tab Content Section -->
@@ -133,6 +137,34 @@
                         </ul>
                     <?php else: ?>
                         <p>No found items posted yet.</p>
+                    <?php endif; ?>
+                </article>
+            </section>
+
+            <section class="tab-content" id="archived">
+                <article>
+                    <h4>My Archived Posts</h4>
+                    <?php if (!empty($archivedItems)): ?>
+                        <ul>
+                        <?php foreach ($archivedItems as $item): ?>
+                            <li>
+                                <h5>
+                                    <?= htmlspecialchars($item['item_name']) ?>
+                                    <small style="margin-left: 0.5rem;">
+                                        <mark><?= htmlspecialchars($item['item_type']) ?></mark>
+                                    </small>
+                                </h5>
+                                <p><?= htmlspecialchars($item['description']) ?></p>
+                                <small>
+                                    <strong>Status:</strong> <?= htmlspecialchars($item['status']) ?>
+                                    <br>
+                                    <strong>Archived On:</strong> <?= htmlspecialchars($item['archive_date']) ?>
+                                </small>
+                            </li>
+                        <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <p>No archived posts yet.</p>
                     <?php endif; ?>
                 </article>
             </section>
