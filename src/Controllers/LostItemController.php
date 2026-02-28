@@ -11,6 +11,8 @@ use App\Core\Router;
 use App\Models\LostItemModel;
 use PDOException;
 use Exception;
+use DateTime;
+use DateTimeZone;
 
 class LostItemController
 {
@@ -35,6 +37,13 @@ class LostItemController
 
             $imageUrl = !empty($item['image_path']) ? '/' . ltrim($item['image_path'], '/') : null;
 
+            try {
+                $archiveAt = new DateTime($item['archive_date'], new DateTimeZone('Asia/Manila'));
+                $archiveDisplay = $archiveAt->format('F j, Y g:i A');
+            } catch (Exception $e) {
+                $archiveDisplay = $item['archive_date'] ?? null;
+            }
+
             return [
                 'id' => $item['id'],
                 'item_name' => $item['item_name'] ?? 'Unnamed Item',
@@ -45,12 +54,17 @@ class LostItemController
                 'description' => $item['description'] ?: 'No description provided.',
                 'categories' => $categories,
                 'status' => $item['status'] ?? 'Unrecovered',
+                'archive_date' => $archiveDisplay,
                 'contact_info' => $item['contact_details'] ?? '',
                 'name' => trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? '')),
                 'can_recover' => isset($_SESSION['user_id'], $item['user_id'])
                     && (int)$item['user_id'] === (int)$_SESSION['user_id']
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
                     && ($item['item_type'] ?? 'lost') === 'lost',
+                'can_archive' => isset($_SESSION['user_id'], $item['user_id'])
+                    && (int)$item['user_id'] === (int)$_SESSION['user_id']
+                    && ($item['item_type'] ?? 'lost') === 'lost'
+                    && ($item['status'] ?? 'Unrecovered') !== 'Archived',
             ];
         }, $rawItems);
 
@@ -179,6 +193,9 @@ class LostItemController
                 if ($dt > $now) {
                     throw new Exception('Date and time lost cannot be in the future.');
                 }
+
+                // Convert HTML datetime-local value to MySQL DATETIME format
+                $eventDate = $dt->format('Y-m-d H:i:s');
             } catch (\Exception $e) {
                 if (strpos($e->getMessage(), 'Date and time') === 0 || strpos($e->getMessage(), 'valid') !== false) {
                     throw $e;
@@ -341,6 +358,69 @@ class LostItemController
             $_SESSION['flash'] = ['success' => 'Item marked as recovered.'];
         } else {
             $_SESSION['flash'] = ['error' => 'Unable to mark this item as recovered. You can only recover lost items that you posted and are still unrecovered.'];
+        }
+
+        header('Location: /lost');
+        exit;
+    }
+
+    public static function archive()
+    {
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token.");
+        }
+
+        $userId = $_SESSION['user_id'] ?? null;
+        $itemIds = $_POST['item_ids'] ?? [];
+
+        if (!$userId || empty($itemIds)) {
+            $_SESSION['flash'] = ['error' => 'Archive request is invalid.'];
+            header('Location: /lost');
+            exit;
+        }
+
+        if (!is_array($itemIds)) {
+            $itemIds = [$itemIds];
+        }
+
+        $config = require __DIR__ . '/../Config/config.php';
+        $model = new LostItemModel($config);
+
+        if ($model->archiveByIds($itemIds, (int)$userId)) {
+            $_SESSION['flash'] = ['success' => 'Selected lost post(s) archived.'];
+        } else {
+            $_SESSION['flash'] = ['error' => 'Could not archive selected post(s).'];
+        }
+
+        header('Location: /lost');
+        exit;
+    }
+
+    public static function delayArchive()
+    {
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token.");
+        }
+
+        $userId = $_SESSION['user_id'] ?? null;
+        $itemId = (int)($_POST['item_id'] ?? 0);
+        $days = max(1, (int)($_POST['delay_days'] ?? 7));
+
+        if (!$userId || $itemId <= 0) {
+            $_SESSION['flash'] = ['error' => 'Delay request is invalid.'];
+            header('Location: /lost');
+            exit;
+        }
+
+        $config = require __DIR__ . '/../Config/config.php';
+        $model = new LostItemModel($config);
+
+        if ($model->postponeArchive($itemId, (int)$userId, $days)) {
+            $_SESSION['flash'] = ['success' => "Archive date moved by {$days} day(s)."];
+        } else {
+            $_SESSION['flash'] = ['error' => 'Could not update archive schedule.'];
         }
 
         header('Location: /lost');

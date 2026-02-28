@@ -30,16 +30,19 @@ class LostItemModel
                 (
                     item_type, item_name, image_path, category, description, event_date, status,
                     location_name, room_number, latitude, longitude,
-                    first_name, last_name, contact_details, user_id
+                    first_name, last_name, contact_details, user_id, archive_date
                 )
                 VALUES
                 (
                     'lost', :item_name, :image_path, :category, :description, :event_date, :status,
                     :location_name, :room_number, :latitude, :longitude,
-                    :first_name, :last_name, :contact_details, :user_id
+                    :first_name, :last_name, :contact_details, :user_id, DATE_ADD(NOW(), INTERVAL 30 DAY)
                 )";
 
         $stmt = $this->db->prepare($sql);
+
+        $latitude = isset($data['latitude']) && $data['latitude'] !== null ? $data['latitude'] : 0;
+        $longitude = isset($data['longitude']) && $data['longitude'] !== null ? $data['longitude'] : 0;
 
         return $stmt->execute([
             'item_name'       => $data['item_name'],
@@ -51,8 +54,8 @@ class LostItemModel
 
             'location_name'   => $data['location_name'],
             'room_number'     => $data['room_number'],
-            'latitude'        => $data['latitude'],
-            'longitude'       => $data['longitude'],
+            'latitude'        => $latitude,
+            'longitude'       => $longitude,
 
             'first_name'      => $data['first_name'],
             'last_name'       => $data['last_name'],
@@ -61,14 +64,29 @@ class LostItemModel
         ]);
     }
 
+    public function autoArchiveExpired(): void
+    {
+        $sql = "UPDATE lost_and_found_items
+                SET status = 'Archived',
+                    archive_date = NOW()
+                WHERE item_type = 'lost'
+                AND status = 'Unrecovered'
+                AND archive_date IS NOT NULL
+                AND archive_date <= NOW()";
+        $this->db->exec($sql);
+    }
+
     /**
      * List all LOST items (for /lost page).
      */
     public function getAll(): array
     {
+        $this->autoArchiveExpired();
+
         $sql = "SELECT *
                 FROM lost_and_found_items
                 WHERE item_type = 'lost'
+                  AND status != 'Archived'
                 ORDER BY event_date DESC, created_at DESC";
 
         $stmt = $this->db->query($sql);
@@ -80,9 +98,9 @@ class LostItemModel
         $sql = "UPDATE lost_and_found_items
                 SET status = 'Recovered'
                 WHERE id = :id
-                AND user_id = :user_id
-                AND item_type = 'lost'
-                AND status = 'Unrecovered'";
+                  AND user_id = :user_id
+                  AND item_type = 'lost'
+                  AND status = 'Unrecovered'";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
@@ -91,5 +109,38 @@ class LostItemModel
         ]);
 
         return $stmt->rowCount() > 0;
+    }
+
+    public function archiveByIds(array $ids, int $userId): bool
+    {
+        if (empty($ids)) return false;
+
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $sql = "UPDATE lost_and_found_items
+                SET status = 'Archived',
+                    archive_date = NOW()
+                WHERE item_type = 'lost'
+                AND user_id = ?
+                AND id IN ($placeholders)";
+
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute(array_merge([$userId], array_values($ids)));
+    }
+
+    public function postponeArchive(int $id, int $userId, int $days = 7): bool
+    {
+        $sql = "UPDATE lost_and_found_items
+                SET archive_date = DATE_ADD(COALESCE(archive_date, NOW()), INTERVAL :days DAY)
+                WHERE id = :id
+                AND user_id = :user_id
+                AND item_type = 'lost'
+                AND status != 'Archived'";
+
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            'days' => $days,
+            'id' => $id,
+            'user_id' => $userId,
+        ]);
     }
 }

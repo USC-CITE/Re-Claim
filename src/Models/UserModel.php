@@ -85,7 +85,11 @@ class UserModel {
     public function fetchItems(int $id, string $type){
 
         $stmt = $this->db->prepare(
-            "SELECT * FROM lost_and_found_items WHERE user_id = :id AND item_type = :type"
+            "SELECT * FROM lost_and_found_items
+             WHERE user_id = :id
+               AND item_type = :type
+               AND status != 'Archived'
+             ORDER BY created_at DESC"
         );
 
         $stmt->execute([
@@ -95,6 +99,22 @@ class UserModel {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    }
+
+    public function fetchArchivedItems(int $id): array
+    {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM lost_and_found_items
+             WHERE user_id = :id
+               AND status = 'Archived'
+             ORDER BY created_at DESC"
+        );
+
+        $stmt->execute([
+            'id' => $id,
+        ]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 

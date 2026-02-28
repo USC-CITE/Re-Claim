@@ -14,7 +14,17 @@
         <p>Recent items reported as lost by the community.</p>
     </hgroup>
 
-    <a href="/lost/post" role="button">Post a Lost Item</a>
+  <style>
+    .bulk-archive-box,
+    .bulk-archive-submit {
+      display: none;
+    }
+
+    .bulk-archive-mode .bulk-archive-box,
+    .bulk-archive-mode .bulk-archive-submit {
+      display: block;
+    }
+  </style>
 
   <?php if (!empty($flash['success'])): ?>
     <article style="border-left: 4px solid #2ecc71; padding: 1rem;">
@@ -28,12 +38,46 @@
     </article>
   <?php endif; ?>
 
+  <?php
+    // Only show bulk archive mode if at least one post belongs to the current user.
+    $hasBulkArchivable = false;
+    foreach ($lostItems ?? [] as $bulkItem) {
+      if (!empty($bulkItem['can_archive'])) {
+        $hasBulkArchivable = true;
+        break;
+      }
+    }
+  ?>
+
+  <div style="display:flex; gap:0.75rem; align-items:stretch; flex-wrap:wrap; margin-bottom:1rem;">
+    <a href="/lost/post" role="button" style="margin:0; display:inline-flex; align-items:center;">Post a Lost Item</a>
+    <?php if ($hasBulkArchivable): ?>
+      <button type="button" id="toggle-bulk-archive" class="secondary outline" onclick="toggleBulkArchiveMode()" style="margin:0; display:inline-flex; align-items:center;">
+        Archive Lost Items
+      </button>
+    <?php endif; ?>
+  </div>
+
   <?php if (empty($lostItems)): ?>
     <p>No lost items posted yet.</p>
   <?php else: ?>
+    <?php if ($hasBulkArchivable): ?>
+      <!-- Standalone form so it does not clash with the forms inside each modal. -->
+      <form id="bulk-archive-form" method="POST" action="/lost/archive" onsubmit="return confirm('Archive the selected lost items?');">
+        <?php \App\Core\Router::setCsrf(); ?>
+      </form>
+    <?php endif; ?>
+
     <div class="grid">
       <?php foreach ($lostItems as $item): ?>
         <article>
+          <?php if (!empty($item['can_archive'])): ?>
+            <label class="bulk-archive-box" style="margin-bottom:0.75rem;">
+              <input type="checkbox" name="item_ids[]" value="<?= (int)$item['id'] ?>" form="bulk-archive-form">
+              Select for bulk archive
+            </label>
+          <?php endif; ?>
+
           <header>
             <div class="grid">
               <strong><?= htmlspecialchars($item['item_name'] ?: 'Lost Item') ?></strong>
@@ -62,6 +106,12 @@
             <br>
             <strong>Posted by:</strong>
             <?= htmlspecialchars($item['name'] ?: 'Anonymous') ?>
+            <?php if (($item['status'] ?? 'Unrecovered') === 'Unrecovered' && !empty($item['archive_date'])): ?>
+              <br>
+              <strong>Auto-archives on:</strong>
+              <?= htmlspecialchars($item['archive_date']) ?>
+            <?php endif; ?>
+            
           </p>
 
           <?php if (!empty($item['categories'])): ?>
@@ -97,12 +147,34 @@
           <button aria-label="Close" rel="prev" onclick="closeModal('recover-modal-<?= $item['id'] ?>')"></button>
           <h3>Confirm Lost Item Recovery</h3>
         </header>
-        <p>Are you sure you want to mark this lost item as recovered? This will update its status for everyone.</p>
+        <p>
+          Are you sure you want to mark this lost item as recovered? This will update its status for everyone.
+          <?php if (!empty($item['archive_date'])): ?>
+            <br><small>This post will be archived on <strong><?= htmlspecialchars($item['archive_date']) ?></strong>.</small>
+          <?php endif; ?>
+        </p>
         <footer>
           <form method="POST" action="/lost/recover" style="display:inline-block; margin-right:0.5rem;">
             <?php \App\Core\Router::setCsrf(); ?>
             <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
             <button type="submit">Yes, mark as recovered</button>
+          </form>
+
+          <form method="POST" action="/lost/archive" style="display:inline-block; margin-left: 0.5rem;">
+            <?php \App\Core\Router::setCsrf(); ?>
+            <input type="hidden" name="item_ids[]" value="<?= (int)$item['id'] ?>">
+            <button type="submit" class="secondary outline" onclick="return confirm('Are you sure you want to archive this item?');">
+              Archive
+            </button>
+          </form>
+
+          <form method="POST" action="/lost/delay-archive" style="display:inline-block; margin-left: 0.5rem;">
+            <?php \App\Core\Router::setCsrf(); ?>
+            <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
+            <input type="hidden" name="delay_days" value="7">
+            <button type="submit" class="outline" data-tooltip="Adds 7 days to auto-archive date">
+              Delay Archiving
+            </button>
           </form>
         </footer>
       </article>
@@ -112,6 +184,12 @@
   </article>
       <?php endforeach; ?>
     </div>
+
+    <?php if ($hasBulkArchivable): ?>
+        <button type="submit" form="bulk-archive-form" class="secondary bulk-archive-submit" style="margin-top: 1rem;">
+          Archive Selected
+        </button>
+    <?php endif; ?>
   <?php endif; ?>
 </main>
 
@@ -119,3 +197,5 @@
 
 </body>
 </html>
+
+
