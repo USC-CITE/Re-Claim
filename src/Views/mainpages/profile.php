@@ -28,12 +28,59 @@
             background-color: #698389;
             color: white;
         }
+
+        /* Temporary styling for Archived Items Tab*/
+        .archived-list-item {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .archived-item-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .archived-item-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            flex: 1;
+            margin: 0;
+        }
+
+        .archived-item-content {
+            flex: 1;
+        }
+
+        .archived-item-type {
+            margin-left: 0.5rem;
+        }
+
+        .archived-delete-form {
+            margin: 0 0 0 auto;
+        }
+
+        .archived-delete-button {
+            margin: 0;
+        }
     </style>
    
 </head>
 <body>
     <main class="container">
         <?php require __DIR__ . "/../mainpages/header.php"; ?>
+        <?php if (!empty($flash['success'])): ?>
+            <article style="border-left: 4px solid #2ecc71; padding: 1rem;">
+                <strong>Success:</strong> <?= htmlspecialchars($flash['success']) ?>
+            </article>
+        <?php elseif (!empty($flash['error'])): ?>
+            <article style="border-left: 4px solid #e74c3c; padding: 1rem;">
+                <strong>Error:</strong> <?= htmlspecialchars($flash['error']) ?>
+            </article>
+        <?php endif; ?>
         <header style="display:flex; justify-content:space-between; align-items:center;">
 
             <div style="display:flex; align-items:center; gap:1rem;">
@@ -145,24 +192,45 @@
                 <article>
                     <h4>My Archived Posts</h4>
                     <?php if (!empty($archivedItems)): ?>
+                        <form id="bulk-delete-archived-form" method="POST" action="/profile/archived/delete" onsubmit="return confirm('Delete the selected archived items permanently? This cannot be undone.');">
+                            <?php \App\Core\Router::setCsrf(); ?>
+                        </form>
                         <ul>
                         <?php foreach ($archivedItems as $item): ?>
-                            <li>
-                                <h5>
-                                    <?= htmlspecialchars($item['item_name']) ?>
-                                    <small style="margin-left: 0.5rem;">
-                                        <mark><?= htmlspecialchars($item['item_type']) ?></mark>
-                                    </small>
-                                </h5>
-                                <p><?= htmlspecialchars($item['description']) ?></p>
-                                <small>
-                                    <strong>Status:</strong> <?= htmlspecialchars($item['status']) ?>
-                                    <br>
-                                    <strong>Archived On:</strong> <?= htmlspecialchars($item['archive_date']) ?>
-                                </small>
+                            <li class="archived-list-item">
+                                <div class="archived-item-row">
+                                    <label class="archived-item-label">
+                                        <input type="checkbox" name="item_ids[]" value="<?= (int)$item['id'] ?>" form="bulk-delete-archived-form">
+                                        <span class="archived-item-content">
+                                            <h5>
+                                                <?= htmlspecialchars($item['item_name']) ?>
+                                                <small class="archived-item-type">
+                                                    <mark><?= htmlspecialchars($item['item_type']) ?></mark>
+                                                </small>
+                                            </h5>
+
+                                            <p><?= htmlspecialchars($item['description']) ?></p>
+                                            <small>
+                                                <strong>Status:</strong> <?= htmlspecialchars($item['status']) ?>
+                                                <br>
+                                                <strong>Archived On:</strong> <?= htmlspecialchars($item['archive_date']) ?>
+                                            </small>
+                                        </span>
+                                    </label>
+
+                                    <form method="POST" action="/profile/archived/delete" class="archived-delete-form" onsubmit="return confirm('Delete this archived item permanently? This cannot be undone.');">
+                                        <?php \App\Core\Router::setCsrf(); ?>
+                                        <input type="hidden" name="item_ids[]" value="<?= (int)$item['id'] ?>">
+                                        <button type="submit" class="secondary outline archived-delete-button" aria-label="Delete permanently" title="Delete permanently">
+                                            &#128465;
+                                        </button>
+                                    </form>
+                                </div>
                             </li>
                         <?php endforeach; ?>
                         </ul>
+
+                        <button type="submit" form="bulk-delete-archived-form" class="secondary">Delete Selected</button>
                     <?php else: ?>
                         <p>No archived posts yet.</p>
                     <?php endif; ?>

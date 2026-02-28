@@ -116,6 +116,45 @@ class UserModel {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function fetchOwnedArchivedItemsByIds(int $userId, array $itemIds): array
+    {
+        if (empty($itemIds)) {
+            return [];
+        }
+
+        $placeholders = implode(',', array_fill(0, count($itemIds), '?'));
+        $stmt = $this->db->prepare(
+            "SELECT id, image_path
+             FROM lost_and_found_items
+             WHERE user_id = ?
+               AND status = 'Archived'
+               AND id IN ($placeholders)"
+        );
+
+        $stmt->execute(array_merge([$userId], array_values($itemIds)));
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
+    public function deleteArchivedItems(int $userId, array $itemIds): int
+    {
+        if (empty($itemIds)) {
+            return 0;
+        }
+
+        $placeholders = implode(',', array_fill(0, count($itemIds), '?'));
+        $stmt = $this->db->prepare(
+            "DELETE FROM lost_and_found_items
+             WHERE user_id = ?
+               AND status = 'Archived'
+               AND id IN ($placeholders)"
+        );
+
+        $stmt->execute(array_merge([$userId], array_values($itemIds)));
+
+        return $stmt->rowCount();
+    }
 }
 
 
