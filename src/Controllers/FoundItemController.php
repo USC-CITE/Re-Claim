@@ -380,5 +380,44 @@ class FoundItemController
         header('Location: /found');
         exit;
     }
+
+    public static function delete()
+    {
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token.");
+        }
+
+        $userId = $_SESSION['user_id'] ?? null;
+        $itemIds = $_POST['item_ids'] ?? [];
+
+        if (!$userId || empty($itemIds)) {
+            $_SESSION['flash'] = ['error' => 'Invalid action or not logged in.'];
+            header('Location: /profile');
+            exit;
+        }
+
+        // Convert string to array if a single deletion is triggered
+        if (!is_array($itemIds)) {
+            $itemIds = [$itemIds];
+        }
+
+        try {
+            $config = require __DIR__ . '/../Config/config.php';
+            $model = new FoundItemModel($config);
+            
+            if ($model->deleteArchivedItems($itemIds, (int)$userId)) {
+                $_SESSION['flash'] = ['success' => 'Archived item(s) permanently deleted.'];
+            } else {
+                $_SESSION['flash'] = ['error' => 'Failed to delete items. Ensure they are archived and belong to you.'];
+            }
+        } catch (Exception $e) {
+            error_log("Delete Error: " . $e->getMessage());
+            $_SESSION['flash'] = ['error' => 'An error occurred while deleting: ' . $e->getMessage()];
+        }
+
+        header('Location: /profile');
+        exit;
+    }
     
 }    
