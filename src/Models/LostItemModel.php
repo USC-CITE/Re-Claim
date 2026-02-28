@@ -67,7 +67,8 @@ class LostItemModel
     public function autoArchiveExpired(): void
     {
         $sql = "UPDATE lost_and_found_items
-                SET status = 'Archived'
+                SET status = 'Archived',
+                    archive_date = NOW()
                 WHERE item_type = 'lost'
                 AND status = 'Unrecovered'
                 AND archive_date IS NOT NULL
@@ -116,7 +117,8 @@ class LostItemModel
 
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
         $sql = "UPDATE lost_and_found_items
-                SET status = 'Archived'
+                SET status = 'Archived',
+                    archive_date = NOW()
                 WHERE item_type = 'lost'
                 AND user_id = ?
                 AND id IN ($placeholders)";
