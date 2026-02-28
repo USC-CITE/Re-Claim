@@ -14,7 +14,17 @@
         <p>Recent items reported as lost by the community.</p>
     </hgroup>
 
-    <a href="/lost/post" role="button">Post a Lost Item</a>
+  <style>
+    .bulk-archive-box,
+    .bulk-archive-submit {
+      display: none;
+    }
+
+    .bulk-archive-mode .bulk-archive-box,
+    .bulk-archive-mode .bulk-archive-submit {
+      display: block;
+    }
+  </style>
 
   <?php if (!empty($flash['success'])): ?>
     <article style="border-left: 4px solid #2ecc71; padding: 1rem;">
@@ -28,12 +38,46 @@
     </article>
   <?php endif; ?>
 
+  <?php
+    // Only show bulk archive mode if at least one post belongs to the current user.
+    $hasBulkArchivable = false;
+    foreach ($lostItems ?? [] as $bulkItem) {
+      if (!empty($bulkItem['can_archive'])) {
+        $hasBulkArchivable = true;
+        break;
+      }
+    }
+  ?>
+
+  <div style="display:flex; gap:0.75rem; align-items:stretch; flex-wrap:wrap; margin-bottom:1rem;">
+    <a href="/lost/post" role="button" style="margin:0; display:inline-flex; align-items:center;">Post a Lost Item</a>
+    <?php if ($hasBulkArchivable): ?>
+      <button type="button" id="toggle-bulk-archive" class="secondary outline" onclick="toggleBulkArchiveMode()" style="margin:0; display:inline-flex; align-items:center;">
+        Archive Lost Items
+      </button>
+    <?php endif; ?>
+  </div>
+
   <?php if (empty($lostItems)): ?>
     <p>No lost items posted yet.</p>
   <?php else: ?>
+    <?php if ($hasBulkArchivable): ?>
+      <!-- Standalone form so it does not clash with the forms inside each modal. -->
+      <form id="bulk-archive-form" method="POST" action="/lost/archive" onsubmit="return confirm('Archive the selected lost items?');">
+        <?php \App\Core\Router::setCsrf(); ?>
+      </form>
+    <?php endif; ?>
+
     <div class="grid">
       <?php foreach ($lostItems as $item): ?>
         <article>
+          <?php if (!empty($item['can_archive'])): ?>
+            <label class="bulk-archive-box" style="margin-bottom:0.75rem;">
+              <input type="checkbox" name="item_ids[]" value="<?= (int)$item['id'] ?>" form="bulk-archive-form">
+              Select for bulk archive
+            </label>
+          <?php endif; ?>
+
           <header>
             <div class="grid">
               <strong><?= htmlspecialchars($item['item_name'] ?: 'Lost Item') ?></strong>
@@ -140,6 +184,12 @@
   </article>
       <?php endforeach; ?>
     </div>
+
+    <?php if ($hasBulkArchivable): ?>
+        <button type="submit" form="bulk-archive-form" class="secondary bulk-archive-submit" style="margin-top: 1rem;">
+          Archive Selected
+        </button>
+    <?php endif; ?>
   <?php endif; ?>
 </main>
 
