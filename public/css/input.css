@@ -1,2 +1,105 @@
 @import "tailwindcss";
 @source "../../**/*.{php,html,js}";
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --background: #ffffff;
+}
+
+@theme {
+  /* Typography */
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-poppins: "Poppins", ui-sans-serif, system-ui, sans-serif;
+
+  /* Typography Sizes */
+  --text-display-xl: 3.75rem; /* 60px */
+  --text-display-md: 2.25rem; /* 36px */
+  --text-display-sm: 1.875rem; /* 30px */
+  --text-text-lg: 1.25rem; /* 20px */
+  --text-text-md: 1rem; /* 16px */
+  --text-text-sm: 0.875rem; /* 14px */
+  
+  /* Typography Colors */
+  --color-primary: #0A0A0A;
+  --color-secondary: #5b5b5b;
+
+
+  /* Colors */
+  --color-primary-50: #E6EFF6;
+  --color-primary-100: #B2CCE4;
+  --color-primary-200: #8CB4D7;
+  --color-primary-300: #5891C5;
+  --color-primary-400: #377CB9;
+  --color-primary-500: #055BA8;
+  --color-primary-600: #055399;
+  --color-primary-700: #044177;
+  --color-primary-800: #03325C;
+  --color-primary-900: #022647;
+
+  --color-accent-50: #FFFAE6;
+  --color-accent-100: #FEEFB2;
+  --color-accent-200: #FEE88C;
+  --color-accent-300: #FEDD58;
+  --color-accent-400: #FDD637;
+  --color-accent-500: #FDCC05;
+  --color-accent-600: #E6BA05;
+  --color-accent-700: #B49104;
+  --color-accent-800: #8B7003;
+  --color-accent-900: #6A5602;
+
+  --color-green-50: #E6FFE6;
+  --color-green-100: #B0FFB0;
+  --color-green-200: #8AFF8A;
+  --color-green-300: #54FF54;
+  --color-green-400: #33FF33;
+  --color-green-500: #00FF00;
+  --color-green-600: #00E800;
+  --color-green-700: #00B500;
+  --color-green-800: #008C00;
+  --color-green-900: #006B00;
+
+  --color-red-50: #FEECEB;
+  --color-red-100: #FCC5C1;
+  --color-red-200: #FAA9A3;
+  --color-red-300: #F88178;
+  --color-red-400: #F6695E;
+  --color-red-500: #F44336;
+  --color-red-600: #DE3D31;
+  --color-red-700: #AD3026;
+  --color-red-800: #86251E;
+  --color-red-900: #661C17;
+
+  --color-black-50: #E7E7E7;
+  --color-black-100: #B3B3B3;
+  --color-black-200: #8E8E8E;
+  --color-black-300: #5B5B5B;
+  --color-black-400: #3B3B3B;
+  --color-black-500: #0A0A0A;
+  --color-black-600: #090909;
+  --color-black-700: #070707;
+  --color-black-800: #060606;
+  --color-black-900: #040404;
+
+  --color-white-50: #FFFFFF;
+  --color-white-100: #FFFFFF;
+  --color-white-200: #FFFFFF;
+  --color-white-300: #FFFFFF;
+  --color-white-400: #FFFFFF;
+  --color-white-500: #FFFFFF;
+  --color-white-600: #E8E8E8;
+  --color-white-700: #B5B5B5;
+  --color-white-800: #8C8C8C;
+  --color-white-900: #6B6B6B;
+
+  /* Shadows */
+  --shadow-100: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-200:
+    0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-300:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-400:
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
