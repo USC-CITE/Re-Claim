@@ -1,5 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
-@source "../../**/*.{php,html,js}";
+@source "../../src/**/*.php";
+@source "../../public/**/*.js";
+
+@layer base {
+  body {
+    font-family: var(--font-poppins);
+  }
+}
 
 html {
   scroll-behavior: smooth;
@@ -18,9 +26,9 @@ html {
   --text-display-xl: 3.75rem; /* 60px */
   --text-display-md: 2.25rem; /* 36px */
   --text-display-sm: 1.875rem; /* 30px */
-  --text-text-lg: 1.25rem; /* 20px */
-  --text-text-md: 1rem; /* 16px */
-  --text-text-sm: 0.875rem; /* 14px */
+  --text-lg: 1.25rem; /* 20px */
+  --text-md: 1rem; /* 16px */
+  --text-sm: 0.875rem; /* 14px */
   
   /* Typography Colors */
   --color-primary: #0A0A0A;
