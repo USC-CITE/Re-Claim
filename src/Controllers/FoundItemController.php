@@ -340,10 +340,10 @@ class FoundItemController
             $config = require __DIR__ . '/../Config/config.php';
             $model = new FoundItemModel($config);
             
-            if ($model->archiveItems($itemIds, (int)$userId)) {
-                $_SESSION['flash'] = ['success' => 'Item(s) successfully archived.'];
+            if ($model->archiveByIds($itemIds, (int)$userId)) {
+                $_SESSION['flash'] = ['success' => 'Selected found post(s) archived.'];
             } else {
-                $_SESSION['flash'] = ['error' => 'Failed to archive items.'];
+                $_SESSION['flash'] = ['error' => 'Could not archive selected post(s).'];
             }
         } catch (Exception $e) {
 
@@ -375,10 +375,10 @@ class FoundItemController
         $config = require __DIR__ . '/../Config/config.php';
         $model = new FoundItemModel($config);
 
-        if ($model->delayArchive($itemId, (int)$userId, $days)) {
-            $_SESSION['flash'] = ['success' => "Archiving delayed by {$days} days."];
+        if ($model->postponeArchive($itemId, (int)$userId, $days)) {
+            $_SESSION['flash'] = ['success' => "Archive date moved by {$days} day(s)."];
         } else {
-            $_SESSION['flash'] = ['error' => 'Failed to delay archive.'];
+            $_SESSION['flash'] = ['error' => 'Could not update archive schedule.'];
         }
 
         header('Location: /found');
