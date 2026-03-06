@@ -38,7 +38,7 @@ class FoundItemModel
                 ORDER BY event_date DESC, created_at DESC";
 
         $stmt = $this->db->query($sql);
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
     
     public function create(array $data): bool

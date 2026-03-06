@@ -50,6 +50,7 @@ class FoundItemController
                 'description' => $item['description'] ?: 'No description provided.',
                 'contact_info' => $item['contact_details'], // Pass raw contact info for the modal
                 'item_type' => $item['item_type'] ?? 'found',
+                'name' => trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? '')),
                 'can_recover' => isset($_SESSION['user_id'], $item['user_id'])
                     && (int)$item['user_id'] === (int)$_SESSION['user_id']
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
