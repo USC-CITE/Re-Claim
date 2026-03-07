@@ -50,10 +50,15 @@ class FoundItemController
                 'description' => $item['description'] ?: 'No description provided.',
                 'contact_info' => $item['contact_details'], // Pass raw contact info for the modal
                 'item_type' => $item['item_type'] ?? 'found',
+                'name' => trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? '')),
                 'can_recover' => isset($_SESSION['user_id'], $item['user_id'])
                     && (int)$item['user_id'] === (int)$_SESSION['user_id']
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
                     && ($item['item_type'] ?? 'found') === 'found',
+                'can_archive' => isset($_SESSION['user_id'], $item['user_id'])
+                    && (int)$item['user_id'] === (int)$_SESSION['user_id']
+                    && ($item['item_type'] ?? 'found') === 'found'
+                    && ($item['status'] ?? 'Unrecovered') !== 'Archived',
             ];
         }, $rawItems);
 
@@ -336,10 +341,10 @@ class FoundItemController
             $config = require __DIR__ . '/../Config/config.php';
             $model = new FoundItemModel($config);
             
-            if ($model->archiveItems($itemIds, (int)$userId)) {
-                $_SESSION['flash'] = ['success' => 'Item(s) successfully archived.'];
+            if ($model->archiveByIds($itemIds, (int)$userId)) {
+                $_SESSION['flash'] = ['success' => 'Selected found post(s) archived.'];
             } else {
-                $_SESSION['flash'] = ['error' => 'Failed to archive items.'];
+                $_SESSION['flash'] = ['error' => 'Could not archive selected post(s).'];
             }
         } catch (Exception $e) {
 
@@ -371,10 +376,10 @@ class FoundItemController
         $config = require __DIR__ . '/../Config/config.php';
         $model = new FoundItemModel($config);
 
-        if ($model->delayArchive($itemId, (int)$userId, $days)) {
-            $_SESSION['flash'] = ['success' => "Archiving delayed by {$days} days."];
+        if ($model->postponeArchive($itemId, (int)$userId, $days)) {
+            $_SESSION['flash'] = ['success' => "Archive date moved by {$days} day(s)."];
         } else {
-            $_SESSION['flash'] = ['error' => 'Failed to delay archive.'];
+            $_SESSION['flash'] = ['error' => 'Could not update archive schedule.'];
         }
 
         header('Location: /found');

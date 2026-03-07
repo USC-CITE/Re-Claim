@@ -19,8 +19,10 @@ class FoundItemModel
     public function autoArchiveExpired(): void
     {
         $sql = "UPDATE lost_and_found_items 
-                SET status = 'Archived' 
-                WHERE status = 'Unrecovered' 
+                SET status = 'Archived',
+                    archive_date = NOW()
+                WHERE item_type = 'found'
+                AND status = 'Unrecovered' 
                 AND archive_date IS NOT NULL 
                 AND archive_date <= NOW()";
         $this->db->exec($sql);
@@ -36,7 +38,7 @@ class FoundItemModel
                 ORDER BY event_date DESC, created_at DESC";
 
         $stmt = $this->db->query($sql);
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
     
     public function create(array $data): bool
@@ -89,36 +91,37 @@ class FoundItemModel
         return $stmt->rowCount() > 0;
     }
 
-    public function archiveItems(array $ids, int $userId): bool
+    public function archiveByIds(array $ids, int $userId): bool
     {
         if (empty($ids)) return false;
 
-        $inQuery = implode(',', array_fill(0, count($ids), '?'));
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
         $sql = "UPDATE lost_and_found_items 
-                SET status = 'Archived' 
-                WHERE user_id = ? AND id IN ($inQuery)";
+                SET status = 'Archived',
+                    archive_date = NOW()
+                WHERE item_type = 'found'
+                AND user_id = ? 
+                AND id IN ($placeholders)";
 
         $stmt = $this->db->prepare($sql);
-        
-        $params = array_merge([$userId], array_values($ids));
-        return $stmt->execute($params);
+        return $stmt->execute(array_merge([$userId], array_values($ids)));
     }
     
-    # User can have the option to delay their post b4 being archived
-    public function delayArchive(int $id, int $userId, int $extraDays = 7): bool
+    public function postponeArchive(int $id, int $userId, int $days = 7): bool
     {
-        $sql = "UPDATE lost_and_found_items 
+        $sql = "UPDATE lost_and_found_items
                 SET archive_date = DATE_ADD(COALESCE(archive_date, NOW()), INTERVAL :days DAY)
-                WHERE id = :id AND user_id = :user_id AND status != 'Archived'";
+                WHERE id = :id
+                AND user_id = :user_id
+                AND item_type = 'found'
+                AND status != 'Archived'";
 
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([
-            'days' => $extraDays,
+            'days' => $days,
             'id' => $id,
-            'user_id' => $userId
+            'user_id' => $userId,
         ]);
     }
-
-    #TODO: add permanent delete archived items
 
 }
