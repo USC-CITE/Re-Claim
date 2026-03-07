@@ -101,7 +101,7 @@
             </section>
 
             <!-- Message Card -->
-            <section class="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm w-full">
+            <section class="bg-white border border-gray-200 rounded-2xl p-8 shadow-[0_4px_4px_rgba(0,0,0,0.24)] w-full">
                 <h3 class="text-[30px] font-semibold text-gray-900 mb-6">Send us a message</h3>
 
                 <!-- Message Form -->
