@@ -101,27 +101,42 @@
             </section>
 
             <!-- Message Card -->
-            <section>
-                <h4 style="color: black;">Send us a message</h4>
+            <section class="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm w-full">
+                <h3 class="text-[30px] font-semibold text-gray-900 mb-6">Send us a message</h3>
 
                 <!-- Message Form -->
-                <form method="post" action="/contact/send">
-                    <label style="color: black;">Name: </label>
-                    <input name="name" type="text" placeholder="Juan Dela Cruz">
-                    <br>
+                <form method="post" action="/contact/send" class="space-y-5">
+                    <label class="block text-[16px] font-medium text-gray-900" for="name">Name </label>
+                    <input name="name" type="text" placeholder="Juan Dela Cruz"
+                    class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
 
-                    <label style="color: black;">WVSU Email Address:</label>
-                    <input name="wvsu-email" type="email" placeholder="juandela.cruz@wvsu.edu.ph">
-                    <br>
+                    <label class="block text-[16px] font-medium text-gray-900" for="email">WVSU Email Address</label>
+                    <input name="wvsu-email" type="email" placeholder="juandela.cruz@wvsu.edu.ph"
+                    class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
 
-                    <label style="color: black;">Message:</label>
-                    <textarea name="message" placeholder="This is a message..." rows="5"></textarea>
+                    <label for="message" class="block text-[16px] font-medium text-gray-700 mb-1">Message</label>
+                    <textarea name="message" placeholder="This is a message..." rows="5" class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm
+                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
                     <?php if(!empty($response['error'])): ?>
-                        <p class="error"><?= htmlspecialchars($response['error']) ?></p>
+                        <p class="text-red-600 text-sm"><?= htmlspecialchars($response['error']) ?></p>
                     <?php elseif(!empty($response['success'])): ?>
-                        <p class="success"><?= htmlspecialchars($response['success']) ?></p>
+                        <p class="text-green-600 text-sm"><?= htmlspecialchars($response['success']) ?></p>
                     <?php endif; ?>
-                    <button type="submit">Send Message</button>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg text-md font-medium
+                    hover:bg-blue-500 transition duration-200 flex items-center gap-2">Send Message <svg xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        class="w-4 h-4">
+
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M5 12h14M13 6l6 6-6 6"/>
+
+                    </svg></button>
                 </form>
             </section>
         </div>
