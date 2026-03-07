@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>WVSU ReClaim</title>
 </head>
 <body>
     <?php require __DIR__ . "/header.php";?>
-    <main class="container-flow" style="background-color: white;">
-        <div style="display: flex; gap: 2rem; color: black; padding: 8rem;">
-            <!-- Social Links and Help Card -->
-            <div style="width: 50%;">
+    <main class="max-w-7xl mx-auto px-6 py-20">
+        <!-- Contact Layout -->
+        <div class="grid md:grid-cols-2 gap-12 items-start">
+            <!-- Contact Info -->
+            <section style="width: 50%;">
                 <h2 style="color: black;">We're Here to Help</h2>
                 <p style="color: black;">If you have questions, problems, or suggestions related to Re:Claim, send a message.</p>
 
+                <!-- Contact Links-->
                 <div class="container">
-                    
                     <div>
                         <img src="/assets/envelope.svg" alt="envelope icon" width="20">
                         <a href="mailto:spark.hub@wvsu.edu.ph?subject=ReClaim Inquiry">
@@ -49,11 +50,10 @@
                     </div>
 
                 </div>
-
-            </div>
+            </section>
 
             <!-- Message Card -->
-            <div style="width: 50%; padding: 0.75rem; border: 1px solid black; border-radius: 24px;">
+            <section style="width: 50%; padding: 0.75rem; border: 1px solid black; border-radius: 24px;">
                 <h4 style="color: black;">Send us a message</h4>
 
                 <!-- Message Form -->
@@ -75,7 +75,7 @@
                     <?php endif; ?>
                     <button type="submit">Send Message</button>
                 </form>
-            </div>
+            </section>
         </div>
         
     </main>
