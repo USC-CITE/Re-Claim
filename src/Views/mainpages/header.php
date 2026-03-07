@@ -1,41 +1,46 @@
-<header class="container flex justify-between align-center">
+<?php 
+define('BASE_URL', '/'); 
+define('ASSETS_URL', BASE_URL . 'assets/')?>
+
+
+<header class="bg-white shadow-md">
     <!-- Main Navigation Menu-->
-    <nav class="container">
+    <nav class="container mx-auto flex justify-between items-center py-4 px-6">
           <!-- Reclaim Logo-->
-        <div>
-            <img>
+        <div class="flex-shrink-0">
+            <img src="<?= ASSETS_URL ?>reclaim-logo.svg" alt="Reclaim Logo" class="h-10 w-auto">
         </div>
-        <ul class="container">
+        <ul class="flex space-x-6 text-gray-700 font-medium">
             <?php 
                 // The found lost & found and post an item link would only be visible once a user is logged in
                 if(isset($_SESSION['user_id'])){
                     echo "
                     <li>
-                        <a href='/lost'>Lost & Found</a>
+                        <a href='/lost' class='hover:text-blue-500 transition'>Lost & Found</a>
                     </li>
                     <li>
-                        <a href='/lost'>Post an item</a>
+                        <a href='/lost' class='hover:text-blue-500 transition'>Post an item</a>
                     </li>
                     ";
                 }     
             ?>
             <li>
-                <a href="/contact">Contact Us</a>
+                <a href="/contact" class='hover:text-blue-500 transition'>Contact Us</a>
             </li>
         </ul>
-        <ul>
+        <ul class="flex space-x-4 text-gray-700 font-medium ml-6">
              <!-- Ternary Operator to check if user is logged in display profile and logout if not register-->
             <?php 
                 if(!isset($_SESSION['user_id'])){
                     
-                    echo "<li><a href='/register'>Sign up</a></li>";
+                    echo "<li><a href='/register' class='hover:text-blue-600 transition'>Sign up</a></li>";
                 }else{
                     echo "<li>
-                            <a href='/profile'>Profile</a>
+                            <a href='/profile' class='hover:text-blue-600 transition'>Profile</a>
                         </li>
                         <li> 
                             <form action='/logout' method='post'>
-                                <button type='submit'>Logout</button>
+                                <button type='submit' class='hover:text-blue-600 transition'>Logout</button>
                             </form>
                         </li>
                     ";
