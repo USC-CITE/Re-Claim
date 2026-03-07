@@ -27,7 +27,7 @@
 
                     <div>
                         <img src="/assets/envelope.svg" alt="envelope icon" width="20" style="color: white;">
-                        <a href="mailto::usc.cite@wvsu.edu.ph?subject=ReClaim Inquiry"> 
+                        <a href="mailto:usc.cite@wvsu.edu.ph?subject=ReClaim Inquiry"> 
                             <span>usc.cite@wvsu.edu.ph</span>
                         </a>
                         
