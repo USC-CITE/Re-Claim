@@ -12,39 +12,43 @@
         <!-- Contact Layout -->
         <div class="grid md:grid-cols-2 gap-12 items-start">
             <!-- Contact Info -->
-            <section style="width: 50%;">
-                <h2 style="color: black;">We're Here to Help</h2>
-                <p style="color: black;">If you have questions, problems, or suggestions related to Re:Claim, send a message.</p>
+            <section>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">We're Here to Help</h2>
+                <p class="text-gray-900 mb-8">If you have questions, problems, or suggestions related to Re:Claim, send a message.</p>
 
                 <!-- Contact Links-->
-                <div class="container">
-                    <div>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
                         <img src="/assets/envelope.svg" alt="envelope icon" width="20">
-                        <a href="mailto:spark.hub@wvsu.edu.ph?subject=ReClaim Inquiry">
+                        <a class="text-black text-[16px] hover:text-blue-600 hover:underline transition"
+                            href="mailto:spark.hub@wvsu.edu.ph?subject=ReClaim Inquiry">
                             <span>spark.hub@wvsu.edu.ph</span>
                         </a>
                         
                     </div>
 
-                    <div>
-                        <img src="/assets/envelope.svg" alt="envelope icon" width="20" style="color: white;">
-                        <a href="mailto:usc.cite@wvsu.edu.ph?subject=ReClaim Inquiry"> 
+                    <div class="flex items-center gap-3">
+                        <img src="/assets/envelope.svg" alt="envelope icon" width="20">
+                        <a href="mailto:usc.cite@wvsu.edu.ph?subject=ReClaim Inquiry"
+                        class="text-black text-[16px] hover:text-blue-600 hover:underline transition"> 
                             <span>usc.cite@wvsu.edu.ph</span>
                         </a>
                         
                     </div>
 
-                    <div>
-                        <img src="/assets/facebook.svg" alt="facebook icon" width="20" style="color: white;">
-                        <a href="https://web.facebook.com/WVSUSparkHub" target="_blank">
+                    <div class="flex items-center gap-3">
+                        <img src="/assets/facebook.svg" alt="facebook icon" width="20">
+                        <a href="https://web.facebook.com/WVSUSparkHub" target="_blank"
+                        class="text-black text-[16px] hover:text-blue-600 hover:underline transition">
                             <span>WVSU - Spark Hub</span>
                         </a>
                         
                     </div>
 
-                    <div>
-                        <img src="/assets/facebook.svg" alt="facebook icon" width="20" style="color: white;">
-                        <a href="https://web.facebook.com/profile.php?id=61564071784342" target="_blank"> 
+                    <div class="flex items-center gap-3">
+                        <img src="/assets/facebook.svg" alt="facebook icon" width="20">
+                        <a href="https://web.facebook.com/profile.php?id=61564071784342" target="_blank"
+                        class="text-black text-[16px] hover:text-blue-600 hover:underline transition">
                             <span>WVSU - CITE</span>
                         </a>
                     </div>
@@ -53,7 +57,7 @@
             </section>
 
             <!-- Message Card -->
-            <section style="width: 50%; padding: 0.75rem; border: 1px solid black; border-radius: 24px;">
+            <section>
                 <h4 style="color: black;">Send us a message</h4>
 
                 <!-- Message Form -->
