@@ -22,7 +22,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             class="w-8 h-8"
-                            fill="#2563EB">
+                            fill="#055BA8">
 
                         <rect x="3" y="5" width="18" height="14" rx="2"/>
                         <path d="M3 7l9 6 9-6"
@@ -33,7 +33,7 @@
                                 fill="none"/>
 
                         </svg>
-                        <a class="text-black text-[16px] hover:text-blue-600 hover:underline transition"
+                        <a class="text-black text-[16px] hover:text-blue-500 hover:underline transition"
                             href="mailto:spark.hub@wvsu.edu.ph?subject=ReClaim Inquiry">
                             <span>spark.hub@wvsu.edu.ph</span>
                         </a>
@@ -44,7 +44,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             class="w-8 h-8"
-                            fill="#2563EB">
+                            fill="#055BA8">
 
                         <rect x="3" y="5" width="18" height="14" rx="2"/>
                         <path d="M3 7l9 6 9-6"
@@ -56,7 +56,7 @@
 
                         </svg>
                         <a href="mailto:usc.cite@wvsu.edu.ph?subject=ReClaim Inquiry"
-                        class="text-black text-[16px] hover:text-blue-600 hover:underline transition"> 
+                        class="text-black text-[16px] hover:text-blue-500 hover:underline transition"> 
                             <span>usc.cite@wvsu.edu.ph</span>
                         </a>
                         
@@ -66,7 +66,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             class="w-8 h-8"
-                            fill="#2563EB">
+                            fill="#055BA8">
 
                         <rect x="2" y="2" width="20" height="20" rx="4"/>
                         <path d="M14 8h2V5h-2c-2.2 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.2l.3-3H14V8c0-.6.2-1 1-1z"
@@ -74,7 +74,7 @@
 
                         </svg>
                         <a href="https://web.facebook.com/WVSUSparkHub" target="_blank"
-                        class="text-black text-[16px] hover:text-blue-600 hover:underline transition">
+                        class="text-black text-[16px] hover:text-blue-500 hover:underline transition">
                             <span>WVSU - Spark Hub</span>
                         </a>
                         
@@ -84,7 +84,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             class="w-8 h-8"
-                            fill="#2563EB">
+                            fill="#055BA8">
 
                         <rect x="2" y="2" width="20" height="20" rx="4"/>
                         <path d="M14 8h2V5h-2c-2.2 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.2l.3-3H14V8c0-.6.2-1 1-1z"
@@ -92,7 +92,7 @@
 
                         </svg>
                         <a href="https://web.facebook.com/profile.php?id=61564071784342" target="_blank"
-                        class="text-black text-[16px] hover:text-blue-600 hover:underline transition">
+                        class="text-black text-[16px] hover:text-blue-500 hover:underline transition">
                             <span>WVSU - CITE</span>
                         </a>
                     </div>
@@ -124,7 +124,7 @@
                     <?php elseif(!empty($response['success'])): ?>
                         <p class="text-green-600 text-sm"><?= htmlspecialchars($response['success']) ?></p>
                     <?php endif; ?>
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg text-md font-medium
+                    <button type="submit" class="bg-blue-700 text-white px-6 py-2 rounded-lg text-md font-medium
                     hover:bg-blue-500 transition duration-200 flex items-center gap-2">Send Message <svg xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         fill="none"
