@@ -63,7 +63,16 @@
                     </div>
 
                     <div class="flex items-center gap-3">
-                        <img src="/assets/facebook.svg" alt="facebook icon" width="20">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            class="w-8 h-8"
+                            fill="#2563EB">
+
+                        <rect x="2" y="2" width="20" height="20" rx="4"/>
+                        <path d="M14 8h2V5h-2c-2.2 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.2l.3-3H14V8c0-.6.2-1 1-1z"
+                                fill="white"/>
+
+                        </svg>
                         <a href="https://web.facebook.com/WVSUSparkHub" target="_blank"
                         class="text-black text-[16px] hover:text-blue-600 hover:underline transition">
                             <span>WVSU - Spark Hub</span>
@@ -72,7 +81,16 @@
                     </div>
 
                     <div class="flex items-center gap-3">
-                        <img src="/assets/facebook.svg" alt="facebook icon" width="20">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            class="w-8 h-8"
+                            fill="#2563EB">
+
+                        <rect x="2" y="2" width="20" height="20" rx="4"/>
+                        <path d="M14 8h2V5h-2c-2.2 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.2l.3-3H14V8c0-.6.2-1 1-1z"
+                                fill="white"/>
+
+                        </svg>
                         <a href="https://web.facebook.com/profile.php?id=61564071784342" target="_blank"
                         class="text-black text-[16px] hover:text-blue-600 hover:underline transition">
                             <span>WVSU - CITE</span>
