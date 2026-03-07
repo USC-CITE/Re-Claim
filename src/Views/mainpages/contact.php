@@ -19,7 +19,20 @@
                 <!-- Contact Links-->
                 <div class="space-y-4">
                     <div class="flex items-center gap-3">
-                        <img src="/assets/envelope.svg" alt="envelope icon" width="20">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            class="w-8 h-8"
+                            fill="#2563EB">
+
+                        <rect x="3" y="5" width="18" height="14" rx="2"/>
+                        <path d="M3 7l9 6 9-6"
+                                stroke="white"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                fill="none"/>
+
+                        </svg>
                         <a class="text-black text-[16px] hover:text-blue-600 hover:underline transition"
                             href="mailto:spark.hub@wvsu.edu.ph?subject=ReClaim Inquiry">
                             <span>spark.hub@wvsu.edu.ph</span>
@@ -28,7 +41,20 @@
                     </div>
 
                     <div class="flex items-center gap-3">
-                        <img src="/assets/envelope.svg" alt="envelope icon" width="20">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            class="w-8 h-8"
+                            fill="#2563EB">
+
+                        <rect x="3" y="5" width="18" height="14" rx="2"/>
+                        <path d="M3 7l9 6 9-6"
+                                stroke="white"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                fill="none"/>
+
+                        </svg>
                         <a href="mailto:usc.cite@wvsu.edu.ph?subject=ReClaim Inquiry"
                         class="text-black text-[16px] hover:text-blue-600 hover:underline transition"> 
                             <span>usc.cite@wvsu.edu.ph</span>
