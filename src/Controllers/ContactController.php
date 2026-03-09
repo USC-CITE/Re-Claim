@@ -21,16 +21,25 @@ class ContactController{
         $name = $_POST['name'] ?? '';
         $wvsu_email = trim($_POST['wvsu-email'] ?? '');
         $message = $_POST['message'] ?? '';
+        $errors = [];
 
         // Check fields
-        if(!$name || !$wvsu_email || !$message){
-            return ['error' => 'All fields are required'];
+        if(!$name){
+            $errors['name'] = 'Name is required';
         }
         // Validate email format
         if (!str_ends_with($wvsu_email, '@wvsu.edu.ph') || !filter_var($wvsu_email, FILTER_VALIDATE_EMAIL)) {
-                return ['error' => 'Please enter a valid WVSU email'];
+            $errors['wvsu-email'] = "Please enter valid WVSU email";
+        }elseif(!$wvsu_email){
+            $errors['wvsu-email'] = "Email is required";
         }
-
+        if(!$message){
+            $errors['message'] = "Message is required";
+        }
+        // If there are errors, show form with inline errors
+        if(!empty($errors)){
+            return self::showContactPage(['errors' => $errors]);
+        }
         $envPath = dirname(__DIR__, 2) .'/.env';
 
         // Handle error if file does not exist
