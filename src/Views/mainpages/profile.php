@@ -70,7 +70,7 @@
 
         <section class="w-full">
             <!-- Profile Tab Buttons -->
-            <nav class="flex gap-2 border-b pb-2 mb-4 justify-around">
+            <nav class="flex gap-2 border-b border-gray-600 pb-4 mb-4 justify-around">
                 <button type="button" class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 hover:bg-gray-300" data-tab="account">
                     Account Details
                 </button>
@@ -89,8 +89,8 @@
             </nav>
 
             <!-- Tab Content Section -->
-            <section class="tab-content mt-6" id="account">
-                <article class="bg-white shadow rounded-lg p-6">
+            <section class="tab-content mt-12" id="account">
+                <article class="bg-white">
                     <article class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <h4>First Name</h4>
