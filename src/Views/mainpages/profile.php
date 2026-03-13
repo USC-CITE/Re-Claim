@@ -25,8 +25,8 @@
             display: block;
         }
         .js .tab-btn.active {
-            background-color: #698389;
-            color: white;
+            color: #044177;
+            border-bottom: 2px solid #044177;
         }
     </style>
    
@@ -70,20 +70,20 @@
 
         <section class="w-full">
             <!-- Profile Tab Buttons -->
-            <nav class="flex gap-2 border-b border-gray-600 pb-4 mb-4 justify-around">
-                <button type="button" class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 hover:bg-gray-300" data-tab="account">
+            <nav class="flex gap-12 justify-center border-b border-gray-600 pb-4 mb-6">
+                <button type="button" class="tab-btn py-2 text-lg font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="account">
                     Account Details
                 </button>
 
-                <button type="button" class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 hover:bg-gray-300"data-tab="lost">
+                <button type="button" class="tab-btn py-2 text-lg font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition "data-tab="lost">
                     Posted Lost Items
                 </button>
 
-                <button type="button" class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 hover:bg-gray-300" data-tab="found">
+                <button type="button" class="tab-btn py-2 text-lg font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="found">
                     Posted Found Items
                 </button>
 
-                <button type="button" class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 hover:bg-gray-300" data-tab="archive">
+                <button type="button" class="tab-btn py-2 text-lg font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="archive">
                     Archive Items
                 </button>
             </nav>
