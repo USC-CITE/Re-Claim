@@ -115,7 +115,7 @@
             </section>
 
              <section class="tab-content mt-12" id="lost">
-                <article class="bg-white shadow rounded-lg p-6">
+                <article>
                 <h4>Posted Lost Items</h4>
                     <?php if (!empty($lostItems)): ?>
                         <ul>
@@ -133,7 +133,7 @@
             </section>
 
             <section class="tab-content mt-12" id="found">
-                <article class="bg-white shadow rounded-lg p-6">
+                <article>
                 <h4>Found Items</h4>
                     <?php if (!empty($foundItems)): ?>
                         <ul>
@@ -151,7 +151,7 @@
             </section>
 
             <section class="tab-content mt-12" id="archive">
-                <article class="bg-white shadow rounded-lg p-6">
+                <article>
                     <h4>My Archived Posts</h4>
                     <?php if (!empty($archivedItems)): ?>
                         <form id="bulk-delete-archived-form" method="POST" action="/profile/archived/delete" onsubmit="return confirm('Delete the selected archived items permanently? This cannot be undone.');">
