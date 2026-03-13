@@ -28,44 +28,6 @@
             background-color: #698389;
             color: white;
         }
-
-        /* Temporary styling for Archived Items Tab*/
-        .archived-list-item {
-            list-style: none;
-            margin-bottom: 1rem;
-        }
-
-        .archived-item-row {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 1rem;
-            width: 100%;
-        }
-
-        .archived-item-label {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            flex: 1;
-            margin: 0;
-        }
-
-        .archived-item-content {
-            flex: 1;
-        }
-
-        .archived-item-type {
-            margin-left: 0.5rem;
-        }
-
-        .archived-delete-form {
-            margin: 0 0 0 auto;
-        }
-
-        .archived-delete-button {
-            margin: 0;
-        }
     </style>
    
 </head>
@@ -73,11 +35,11 @@
     <main class="container">
         <?php require __DIR__ . "/../mainpages/header.php"; ?>
         <?php if (!empty($flash['success'])): ?>
-            <article style="border-left: 4px solid #2ecc71; padding: 1rem;">
+            <article class="border-l-4 border-green-500 p-4 bg-green-50 mb-4">
                 <strong>Success:</strong> <?= htmlspecialchars($flash['success']) ?>
             </article>
         <?php elseif (!empty($flash['error'])): ?>
-            <article style="border-left: 4px solid #e74c3c; padding: 1rem;">
+            <article class="border-l-4 border-green-500 p-4 bg-green-50 mb-4">
                 <strong>Error:</strong> <?= htmlspecialchars($flash['error']) ?>
             </article>
         <?php endif; ?>
@@ -106,28 +68,24 @@
 
         <section>
             <!-- Profile Tab Buttons -->
-            <nav>
-                <button type="button" class="tab-btn" data-tab="account">
+            <nav class="flex gap-2 border-b pb-2 mb-4">
+                <button type="button" class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 hover:bg-gray-300" data-tab="account">
                     Account Details
                 </button>
 
-                <button type="button" class="tab-btn" data-tab="lost">
+                <button type="button" class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 hover:bg-gray-300"data-tab="lost">
                     Posted Lost Items
                 </button>
 
-                <button type="button" class="tab-btn" data-tab="found">
+                <button type="button" class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 hover:bg-gray-300" data-tab="found">
                     Posted Found Items
-                </button>
-
-                <button type="button" class="tab-btn" data-tab="archived">
-                    Archived Items
                 </button>
             </nav>
 
             <!-- Tab Content Section -->
-            <section class="tab-content" id="account">
-                <article>
-                    <article class="grid">
+            <section class="tab-content mt-6" id="account">
+                <article class="bg-white shadow rounded-lg p-6">
+                    <article class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <h4>First Name</h4>
                             <?= htmlspecialchars(($_SESSION['first_name'])) ?>
@@ -150,8 +108,8 @@
                 </article>
             </section>
 
-             <section class="tab-content" id="lost">
-                <article>
+             <section class="tab-content mt-6" id="lost">
+                <article class="bg-white shadow rounded-lg p-6">
                 <h4>Posted Lost Items</h4>
                     <?php if (!empty($lostItems)): ?>
                         <ul>
@@ -168,8 +126,8 @@
                 </article>
             </section>
 
-            <section class="tab-content" id="found">
-                <article>
+            <section class="tab-content mt-6" id="found">
+                <article class="bg-white shadow rounded-lg p-6">
                 <h4>Found Items</h4>
                     <?php if (!empty($foundItems)): ?>
                         <ul>
@@ -186,8 +144,8 @@
                 </article>
             </section>
 
-            <section class="tab-content" id="archived">
-                <article>
+            <section class="tab-content mt-6" id="archived">
+                <article class="bg-white shadow rounded-lg p-6">
                     <h4>My Archived Posts</h4>
                     <?php if (!empty($archivedItems)): ?>
                         <form id="bulk-delete-archived-form" method="POST" action="/profile/archived/delete" onsubmit="return confirm('Delete the selected archived items permanently? This cannot be undone.');">
@@ -196,10 +154,10 @@
                         <ul>
                         <?php foreach ($archivedItems as $item): ?>
                             <li class="archived-list-item">
-                                <div class="archived-item-row">
-                                    <label class="archived-item-label">
+                                <div class="flex items-start justify-between gap-4 w-full">
+                                    <label class="flex items-start gap-3 flex-1">
                                         <input type="checkbox" name="item_ids[]" value="<?= (int)$item['id'] ?>" form="bulk-delete-archived-form">
-                                        <span class="archived-item-content">
+                                        <span class="flex-1">
                                             <h5>
                                                 <?= htmlspecialchars($item['item_name']) ?>
                                                 <small class="archived-item-type">
@@ -216,7 +174,7 @@
                                         </span>
                                     </label>
 
-                                    <form method="POST" action="/profile/archived/delete" class="archived-delete-form" onsubmit="return confirm('Delete this archived item permanently? This cannot be undone.');">
+                                    <form method="POST" action="/profile/archived/delete" class="ml-auto" onsubmit="return confirm('Delete this archived item permanently? This cannot be undone.');">
                                         <?php \App\Core\Router::setCsrf(); ?>
                                         <input type="hidden" name="item_ids[]" value="<?= (int)$item['id'] ?>">
                                         <button type="submit" class="secondary outline archived-delete-button" aria-label="Delete permanently" title="Delete permanently">
