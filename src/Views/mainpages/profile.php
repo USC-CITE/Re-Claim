@@ -114,7 +114,7 @@
                 </article>
             </section>
 
-             <section class="tab-content mt-6" id="lost">
+             <section class="tab-content mt-12" id="lost">
                 <article class="bg-white shadow rounded-lg p-6">
                 <h4>Posted Lost Items</h4>
                     <?php if (!empty($lostItems)): ?>
@@ -132,7 +132,7 @@
                 </article>
             </section>
 
-            <section class="tab-content mt-6" id="found">
+            <section class="tab-content mt-12" id="found">
                 <article class="bg-white shadow rounded-lg p-6">
                 <h4>Found Items</h4>
                     <?php if (!empty($foundItems)): ?>
@@ -150,7 +150,7 @@
                 </article>
             </section>
 
-            <section class="tab-content mt-6" id="archive">
+            <section class="tab-content mt-12" id="archive">
                 <article class="bg-white shadow rounded-lg p-6">
                     <h4>My Archived Posts</h4>
                     <?php if (!empty($archivedItems)): ?>
