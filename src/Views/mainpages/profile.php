@@ -81,15 +81,13 @@
                 <strong>Error:</strong> <?= htmlspecialchars($flash['error']) ?>
             </article>
         <?php endif; ?>
-        <header style="display:flex; justify-content:space-between; align-items:center;">
+        <header class="flex justify-between items-center">
 
-            <div style="display:flex; align-items:center; gap:1rem;">
+            <div class="flex items-center gap-4">
                 <!-- Temporary Placeholder for avatar -->
                 <img src="/images/profile.jpg"
                     alt="Profile"
-                    width="60"
-                    height="60"
-                    style="border-radius:50%; object-fit:cover;">
+                    class="w-14 h-14 rounded-full object-cover">
 
                 <div>
                     <strong>
