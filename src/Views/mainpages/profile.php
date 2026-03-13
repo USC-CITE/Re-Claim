@@ -89,27 +89,35 @@
             </nav>
 
             <!-- Tab Content Section -->
-            <section class="tab-content mt-12" id="account">
-                <article class="bg-white">
-                    <article class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <section class="tab-content mt-12  max-w-3xl w-full mx-auto" id="account">
+                <article class="px-6 py-6">
+                    <article class="flex justify-between">
                         <div>
-                            <h4>First Name</h4>
-                            <?= htmlspecialchars(($_SESSION['first_name'])) ?>
+                            <h4 class="text-md font-semibold">First Name</h4>
+                            <p class="text-sm mt-1"><?= htmlspecialchars(($_SESSION['first_name'])) ?></p>
                         </div>
                         <div>
-                            <h4>Last Name</h4>
-                            <?= htmlspecialchars(($_SESSION['last_name'])) ?>
+                            <h4 class="text-md font-semibold">Last Name</h4>
+                            <p class="text-sm mt-1"><?= htmlspecialchars(($_SESSION['last_name'])) ?></p>
                         </div>
                         <div>
-                            <h4>Contact Details</h4>
-                            <?= htmlspecialchars(($_SESSION['phone_number'])) ?>
-                            <br>
-                            <?= htmlspecialchars(($_SESSION['social_link'])) ?>
+                            <h4 class="text-md font-semibold">Contact Details</h4>
+                            <ul class="space-y-2 mt-2">
+                                <li class="flex items-center gap-2">
+                                    <img src="/assets/phone.svg" class="h-5 w-5 text-gray-400">
+                                    <p class="text-sm"><?= htmlspecialchars($_SESSION['phone_number']) ?></p>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <img src="/assets/link.svg" class="h-5 w-5 text-gray-200">
+                                    <p class="text-sm"><?= htmlspecialchars($_SESSION['social_link']) ?></p>
+                                </li>
+                            </ul>
+                            
                         </div>
                     </article>
-                    <article>
-                        <h4>WVSU Email Address</h4>
-                        <?= htmlspecialchars(($_SESSION['wvsu_email'])) ?>
+                    <article class="mt-4">
+                        <h4 class="text-md font-semibold">WVSU Email Address</h4>
+                        <p class="text-sm"><?= htmlspecialchars(($_SESSION['wvsu_email'])) ?></p>
                     </article>
                 </article>
             </section>
