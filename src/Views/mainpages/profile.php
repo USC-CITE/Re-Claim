@@ -70,7 +70,7 @@
 
         <section class="w-full">
             <!-- Profile Tab Buttons -->
-            <nav class="flex gap-12 justify-center border-b border-gray-600 pb-4 mb-6">
+            <nav class="flex gap-12 justify-center border-b border-gray-400 pb-4 mb-6">
                 <button type="button" class="tab-btn py-2 text-lg font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="account">
                     Account Details
                 </button>
