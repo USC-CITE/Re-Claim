@@ -80,6 +80,10 @@
                 <button type="button" class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 hover:bg-gray-300" data-tab="found">
                     Posted Found Items
                 </button>
+
+                <button type="button" class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 hover:bg-gray-300" data-tab="archive">
+                    Archive Items
+                </button>
             </nav>
 
             <!-- Tab Content Section -->
@@ -144,7 +148,7 @@
                 </article>
             </section>
 
-            <section class="tab-content mt-6" id="archived">
+            <section class="tab-content mt-6" id="archive">
                 <article class="bg-white shadow rounded-lg p-6">
                     <h4>My Archived Posts</h4>
                     <?php if (!empty($archivedItems)): ?>
