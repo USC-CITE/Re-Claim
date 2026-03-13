@@ -32,8 +32,10 @@
    
 </head>
 <body>
-    <main class="container">
-        <?php require __DIR__ . "/../mainpages/header.php"; ?>
+    <?php require __DIR__ . "/../mainpages/header.php"; ?>
+    
+    <main class="max-w-5xl mx-auto px-6">
+
         <?php if (!empty($flash['success'])): ?>
             <article class="border-l-4 border-green-500 p-4 bg-green-50 mb-4">
                 <strong>Success:</strong> <?= htmlspecialchars($flash['success']) ?>
@@ -43,7 +45,7 @@
                 <strong>Error:</strong> <?= htmlspecialchars($flash['error']) ?>
             </article>
         <?php endif; ?>
-        <header class="flex justify-between items-center">
+        <header class="flex w-full max-w-2xl justify-between items-center">
 
             <div class="flex items-center gap-4">
                 <!-- Temporary Placeholder for avatar -->
@@ -66,9 +68,9 @@
 
         </header>
 
-        <section>
+        <section class="w-full">
             <!-- Profile Tab Buttons -->
-            <nav class="flex gap-2 border-b pb-2 mb-4">
+            <nav class="flex gap-2 border-b pb-2 mb-4 justify-around">
                 <button type="button" class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 hover:bg-gray-300" data-tab="account">
                     Account Details
                 </button>
