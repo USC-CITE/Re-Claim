@@ -113,8 +113,11 @@ class LostItemController
         // Check for oversized uploads before CSRF validation
         if (empty($_POST) && !empty($_SERVER['CONTENT_LENGTH'])) {
             $maxPost = ini_get('post_max_size');
-            http_response_code(413); // Payload Too Large
-            die("Uploaded file is too large. Maximum allowed size is {$maxPost}.");
+            $_SESSION['flash'] = [
+                'error' => "Uploaded file is too large. Maximum allowed size is {$maxPost}."
+            ];
+            header('Location: /lost/post');
+            exit;
         }
 
         // CSRF validation

@@ -28,11 +28,13 @@
     <h2>Post a Lost Item</h2>
 
     <?php if (!empty($flash['error'])): ?>
+        <div id="flash-error">
             <strong>Error:</strong> <?= htmlspecialchars($flash['error']) ?>
         </div>
     <?php endif; ?>
 
     <?php if (!empty($flash['success'])): ?>
+        <div id="flash-success">
             <strong>Success:</strong> <?= htmlspecialchars($flash['success']) ?>
         </div>
     <?php endif; ?>
