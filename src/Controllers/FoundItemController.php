@@ -103,6 +103,13 @@ class FoundItemController
 
     public static function submitPostForm()
     {
+        // Check for oversized uploads before CSRF validation
+        if (empty($_POST) && !empty($_SERVER['CONTENT_LENGTH'])) {
+            $maxPost = ini_get('post_max_size');
+            http_response_code(413); // Payload Too Large
+            die("Uploaded file is too large. Maximum allowed size is {$maxPost}.");
+        }
+
         if (!Router::isCsrfValid()) {
             http_response_code(403);
             die("Security Error: Invalid CSRF Token. Please refresh the page and try again.");

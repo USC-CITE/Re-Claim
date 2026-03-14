@@ -110,6 +110,13 @@ class LostItemController
 
     public static function submitPostForm()
     {
+        // Check for oversized uploads before CSRF validation
+        if (empty($_POST) && !empty($_SERVER['CONTENT_LENGTH'])) {
+            $maxPost = ini_get('post_max_size');
+            http_response_code(413); // Payload Too Large
+            die("Uploaded file is too large. Maximum allowed size is {$maxPost}.");
+        }
+
         // CSRF validation
         if (!Router::isCsrfValid()) {
             http_response_code(403);
@@ -222,11 +229,6 @@ class LostItemController
 
             // 7) Image upload
             // SIZE LIMIT handled in php.ini (post_max_size / upload_max_filesize)
-            if (empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH'])) {
-                $maxPost = ini_get('post_max_size');
-                throw new Exception("Uploaded file is too large. Maximum allowed size is {$maxPost}.");
-            }
-
             if (!isset($_FILES['item_image'])) {
                 throw new Exception('Please upload an image.');
             }
