@@ -34,7 +34,7 @@
 <body>
     <?php require __DIR__ . "/../mainpages/header.php"; ?>
     
-    <main class="max-w-5xl mx-auto px-6">
+    <main class="max-w-5xl mx-auto mt-16 px-6 flex flex-col items-center">
 
         <?php if (!empty($flash['success'])): ?>
             <article class="border-l-4 border-green-500 p-4 bg-green-50 mb-4">
@@ -45,16 +45,16 @@
                 <strong>Error:</strong> <?= htmlspecialchars($flash['error']) ?>
             </article>
         <?php endif; ?>
-        <header class="flex flex-col w-full max-w-3xl mb-12 items-center">
-            <div class="flex items-center gap-6">
+        <header class="flex w-full mb-12 justify-center">
+            <div class="flex items-center gap-6 w-full max-w-lg self-center">
                 <!-- Temporary Placeholder for avatar -->
                 <div class="w-24 h-24 rounded-full overflow-hidden self-start">
                     <img src="/assets/temp.png"
                     alt="Profile"
                     class="w-full h-full object-cover">
                 </div>
-        
-                <div class="flex flex-col hap-2">
+
+                <div class="flex flex-col w-[375px]">
                     <p class="text-3xl font-semibold">
                         <?= htmlspecialchars(($_SESSION['first_name'] ?? '') . ' ' . ($_SESSION['last_name'] ?? '')) ?>
                     </p>
