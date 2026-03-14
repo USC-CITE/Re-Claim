@@ -103,12 +103,17 @@
                         <div>
                             <h4 class="text-md font-semibold">Contact Details</h4>
                             <ul class="space-y-2 mt-2">
-                                <li class="flex items-center gap-2">
-                                    <img src="/assets/phone.svg" class="h-5 w-5 text-gray-400">
+                                <li class="flex items-center gap-2 hover:text-blue-600 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 hover:text-blue-600 transition-colors " fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21c1.21.48 2.53.73 3.88.73a1 1 0 011 1v3.5a1 1 0 01-1 1C10.49 22 2 13.51 2 3.5a1 1 0 011-1H6.5a1 1 0 011 1c0 1.35.25 2.67.73 3.88.13.28.08.61-.21 1.11l-2.2 2.2z"/>
+                                    </svg>
                                     <p class="text-sm"><?= htmlspecialchars($_SESSION['phone_number']) ?></p>
                                 </li>
                                 <li class="flex items-center gap-2">
-                                    <img src="/assets/link.svg" class="h-5 w-5 text-gray-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 12a3 3 0 0 1 0-4.24l3-3a3 3 0 0 1 4.24 4.24l-1.5 1.5"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 12a3 3 0 0 1 0 4.24l-3 3a3 3 0 0 1-4.24-4.24l1.5-1.5"/>
+                                    </svg>
                                     <p class="text-sm"><?= htmlspecialchars($_SESSION['social_link']) ?></p>
                                 </li>
                             </ul>
