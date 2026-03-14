@@ -45,26 +45,42 @@
                 <strong>Error:</strong> <?= htmlspecialchars($flash['error']) ?>
             </article>
         <?php endif; ?>
-        <header class="flex w-full max-w-2xl justify-between items-center">
-
-            <div class="flex items-center gap-4">
+        <header class="flex flex-col w-full max-w-3xl mb-12 items-center">
+            <div class="flex items-center gap-6">
                 <!-- Temporary Placeholder for avatar -->
-                <img src="/images/profile.jpg"
+                <div class="w-24 h-24 rounded-full overflow-hidden self-start">
+                    <img src="/assets/temp.png"
                     alt="Profile"
-                    class="w-14 h-14 rounded-full object-cover">
-
-                <div>
-                    <strong>
-                        <?= htmlspecialchars(($_SESSION['first_name'] ?? '') . ' ' . ($_SESSION['last_name'] ?? '')) ?>
-                    </strong>
-                    <br>
-                    <p><?= htmlspecialchars($_SESSION['wvsu_email'] ?? '') ?></p>
+                    class="w-full h-full object-cover">
                 </div>
+        
+                <div class="flex flex-col hap-2">
+                    <p class="text-3xl font-semibold">
+                        <?= htmlspecialchars(($_SESSION['first_name'] ?? '') . ' ' . ($_SESSION['last_name'] ?? '')) ?>
+                    </p>
+                    <p class="text-md mb-4"><?= htmlspecialchars($_SESSION['wvsu_email'] ?? '') ?></p>
+
+                    <a href="/profile/edit" role="button" class="group flex w-fit items-center gap-2 text-sm font-medium border px-3 py-1.5 rounded-full border-gray-900 bg-white hover:bg-gray-100 hover:border-gray-400 hover:shadow-sm transition-all duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                            class="w-4 h-4 transition-transform group-hover:translate-x-0.5"
+                            fill="none" 
+                            stroke="currentColor" 
+                            stroke-width="2.5" 
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.213 3 21l1.787-4.5L16.862 3.487z"/>
+                        </svg>
+                        <span class="text-sm font-semibold">
+                            Edit Profile
+                        </span>
+                        
+                    </a>
+                </div>
+
+                
             </div>
 
-            <a href="/profile/edit" role="button">
-                Edit Profile
-            </a>
+            
 
         </header>
 
@@ -89,7 +105,7 @@
             </nav>
 
             <!-- Tab Content Section -->
-            <section class="tab-content mt-12  max-w-3xl w-full mx-auto" id="account">
+            <section class="tab-content mt-12 max-w-3xl w-full mx-auto" id="account">
                 <article class="px-6 py-6">
                     <article class="flex justify-between">
                         <div>
