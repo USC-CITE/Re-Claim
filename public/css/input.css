@@ -58,7 +58,7 @@
   textarea:focus,
   textarea:focus-visible {
     outline: none;
-    border-style: none;
+    border-color: var(--color-primary-500);
     box-shadow: 0 0 0 2px var(--color-primary-500);
   }
 }
