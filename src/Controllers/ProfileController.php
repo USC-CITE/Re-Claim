@@ -114,4 +114,78 @@ class ProfileController{
         header('Location: /profile');
         exit;
     }
+
+    public static function uploadAvatar(){
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+            exit;
+        }
+
+        if(!isset($_FILES['avatar'])){
+            $_SESSION['flash_error'] = "No file uploaded!";
+            header("Location: /profile/edit");
+            exit;
+        }
+
+        $file = $_FILES['avatar'];
+
+        $allowedTypes = ['image/jpg', 'image/png', 'image/webp'];
+
+        // Handle invalid uploaded file type
+        if(!in_array($file['type'], $allowedTypes)){
+            $_SESSION['flash_error'] = "Invalid file type. Only JPEG, PNG, and WEBP are allowed!";
+            header("Location: /profile/edit");
+            exit;
+        }
+
+        if($file['size'] > 2 * 1024 * 1024){
+            $_SESSION['flash_error'] = "File too large. Max 2MB";
+            header("Location: /profile/edit");
+            exit;
+        }
+
+        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+        // Generate a unique name for uploaded avatar
+        $filename = uniqid('avatar_', true) . '.' . $ext;
+        
+
+        $uploadedPath = __DIR__ . '/../../public/avatars/'. $filename;
+
+        if(!move_uploaded_file($file['tmp_name'], $uploadedPath)){
+            $_SESSION['flash_error'] = "Upload failed. Please try again.";
+            header("Location: /profile/edit");
+            exit;
+        }
+
+        // Store the avatar path to be inserted to user
+        $dbPath = '/avatars/' . $filename;
+
+        // DB connection 
+        $config = require __DIR__ . "/../Config/config.php";
+        $userModel = new UserModel($config);
+        $userId = $_SESSION['user_id'];
+
+        // Delete old avatar if exists
+        $oldAvatar = $_SESSION['avatar'] ?? null;
+        if ($oldAvatar) {
+            $oldPath = __DIR__ . '/../../public/avatars/' . ltrim($oldAvatar, '/');
+            if (is_file($oldPath)) {
+                @unlink($oldPath);
+            }
+        }
+
+        // Update DB (create method in UserModel instead ideally)
+        $userModel->updateAvatar($userId, $dbPath);
+
+        // Store avatar path to session for UI
+        $_SESSION['avatar'] = $dbPath;
+        $_SESSION['flash_success'] = "Profile picture updated successfully!";
+
+        header("Location: /profile/edit");
+        exit;
+
+
+    }
+
+
 }
