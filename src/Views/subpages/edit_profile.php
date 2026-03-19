@@ -26,7 +26,6 @@
     </style>
 </head>
 <body>
-
     <?php require __DIR__  . "/../mainpages/header.php"; ?>
 
     <main>
@@ -48,7 +47,7 @@
             <section>
                 <!-- User Avatar -->
                 <div>
-                    <img>
+                    <img src="<?= htmlspecialchars($_SESSION['avatar'] ?? '/images/default-avatar.png') ?>" width="100">
                 </div>
                 
                 <!-- This requires file format as value of input field-->
