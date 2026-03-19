@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile | WVSU ReClaim</title>
+    <title>WVSU ReClaim</title>
     
     <script>
         // Progressive enhancement: detect JS
@@ -45,7 +45,25 @@
 
         <!-- Tab Contents -->
         <section class="tab-content" id="edit-profile">
-            <h3>This is Edit Profile tab</h3>
+            <section>
+                <!-- User Avatar -->
+                <div>
+                    <img>
+                </div>
+                
+                <!-- This requires file format as value of input field-->
+                <form action="/profile/avatar/upload" method="post" enctype="multipart/form-data">
+                    <input type="file" name="avatar" accept="image/*" required>
+                    <button type="submit">
+                        Upload Picture
+                    </button>
+                </form>
+                <form action="/profile/avatar/delete" method="post"> 
+                    <button type="button">
+                        Delete
+                    </button>
+                </form>
+            </section>
 
         </section>
 
