@@ -155,6 +155,11 @@ class UserModel {
 
         return $stmt->rowCount();
     }
+
+    public function updateAvatar($userId, $path){
+        $stmt = $this->db->prepare("UPDATE users SET avatar_path = ? WHERE id = ?");
+        $stmt->execute([$path, $userId]);
+    }
 }
 
 
