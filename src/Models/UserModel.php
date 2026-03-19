@@ -169,6 +169,10 @@ class UserModel {
         return $avatar ?: null;
     }
 
+    public function deleteAvatar(int $userId){
+        $stmt = $this->db->prepare("UPDATE users SET avatar = NULL WHERE id = ?");
+        $stmt->execute([$userId]);
+    }
     
 }
 
