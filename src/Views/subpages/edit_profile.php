@@ -57,8 +57,8 @@
                         Upload Picture
                     </button>
                 </form>
-                <form action="/profile/avatar/delete" method="post"> 
-                    <button type="button">
+                <form action="/profile/avatar/delete" method="post" style="display:inline"> 
+                    <button type="submit" onclick="return confirm('Are you sure you want to delete your avatar?');">
                         Delete
                     </button>
                 </form>
