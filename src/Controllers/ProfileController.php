@@ -183,8 +183,38 @@ class ProfileController{
 
         header("Location: /profile/edit");
         exit;
+    }
 
+    public static function deleteAvatar(){
+        if(!isset($_SESSION['user_id'])){
+            header("Location: /login");
+            exit;
+        }
 
+        $userId = $_SESSION['user_id'];
+
+        $config = require __DIR__ . '/../Config/config.php';
+        $user = new UserModel($config);
+
+        // Fetch current user avatar path
+        $currentAvatar = $user->getAvatar($userId);
+
+        // Only delete if there is image uploaded
+        if($currentAvatar && $currentAvatar !== '/avatars/default.png'){
+            $fullPath = __DIR__ . "/../../public" . $currentAvatar;
+            if(is_file($fullPath)){
+                @unlink($fullPath);
+            }
+        }
+
+        $user->deleteAvatar($userId);
+
+        // Update session
+        $_SESSION['avatar'] = '/avatars/default.png';
+        $_SESSION['flash_success'] = "Avatar deleted successfully.";
+
+        header("Location: /profile/edit");
+        exit;
     }
 
 
