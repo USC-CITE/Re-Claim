@@ -160,6 +160,16 @@ class UserModel {
         $stmt = $this->db->prepare("UPDATE users SET avatar_path = ? WHERE id = ?");
         $stmt->execute([$path, $userId]);
     }
+
+    public function getAvatar(int $userId){
+        $stmt = $this->db->prepare("SELECT avatar_path FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        $avatar = $stmt->fetchColumn();
+
+        return $avatar ?: null;
+    }
+
+    
 }
 
 
