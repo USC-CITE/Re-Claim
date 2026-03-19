@@ -10,6 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/app.css">
+    <script src="/js/login/login.js" defer type="module"></script>
     <title>WVSU ReClaim</title>
 </head>
 <body class="font-poppins bg-white min-h-screen flex flex-col items-center justify-center p-4">
@@ -37,7 +38,7 @@
                     name="email" 
                     id="email"
                     required 
-                    class="w-full px-4 py-2.5 text-sm border border-white-700 rounded-lg bg-white focus:outline-none focus:border-none placeholder-secondary"
+                    class="w-full px-4 py-2.5 text-sm border border-white-700 rounded-lg bg-white placeholder-secondary"
                 >
             </div>
 
@@ -53,7 +54,7 @@
                         type="password" 
                         name="password" 
                         required 
-                        class="w-full px-4 py-2.5 text-sm border border-white-700 rounded-lg bg-white focus:outline-none focus:border-none placeholder-secondary"
+                        class="w-full pl-4 pr-12 py-2.5 text-sm border border-white-700 rounded-lg bg-white placeholder-secondary"
                     >
                 </div>
             </div>
@@ -88,5 +89,4 @@
         
     </main>
 </body>
-<script src="/js/login/login.js" defer type="module"></script>
 </html>
