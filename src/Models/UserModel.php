@@ -170,7 +170,7 @@ class UserModel {
     }
 
     public function deleteAvatar(int $userId){
-        $stmt = $this->db->prepare("UPDATE users SET avatar = NULL WHERE id = ?");
+        $stmt = $this->db->prepare("UPDATE users SET avatar_path = NULL WHERE id = ?");
         $stmt->execute([$userId]);
     }
     
