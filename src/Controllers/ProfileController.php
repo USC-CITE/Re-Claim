@@ -114,79 +114,9 @@ class ProfileController{
         header('Location: /profile');
         exit;
     }
-
-    public static function uploadAvatar(){
+    // Unified function that handles ( Avatar DELETION, Avatar UPLOAD, and UPDATE text user's text fields)
+    public static function updateProfile() {
         if (!isset($_SESSION['user_id'])) {
-            header("Location: /login");
-            exit;
-        }
-
-        if(!isset($_FILES['avatar'])){
-            $_SESSION['flash_error'] = "No file uploaded!";
-            header("Location: /profile/edit");
-            exit;
-        }
-
-        $file = $_FILES['avatar'];
-
-        $allowedTypes = ['image/jpg', 'image/png', 'image/webp'];
-
-        // Handle invalid uploaded file type
-        if(!in_array($file['type'], $allowedTypes)){
-            $_SESSION['flash_error'] = "Invalid file type. Only JPEG, PNG, and WEBP are allowed!";
-            header("Location: /profile/edit");
-            exit;
-        }
-
-        if($file['size'] > 2 * 1024 * 1024){
-            $_SESSION['flash_error'] = "File too large. Max 2MB";
-            header("Location: /profile/edit");
-            exit;
-        }
-
-        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-        // Generate a unique name for uploaded avatar
-        $filename = uniqid('avatar_', true) . '.' . $ext;
-        
-
-        $uploadedPath = __DIR__ . '/../../public/avatars/'. $filename;
-
-        if(!move_uploaded_file($file['tmp_name'], $uploadedPath)){
-            $_SESSION['flash_error'] = "Upload failed. Please try again.";
-            header("Location: /profile/edit");
-            exit;
-        }
-
-        // Store the avatar path to be inserted to user
-        $dbPath = '/avatars/' . $filename;
-
-        // DB connection 
-        $config = require __DIR__ . "/../Config/config.php";
-        $userModel = new UserModel($config);
-        $userId = $_SESSION['user_id'];
-
-        // Delete old avatar if exists
-        $oldAvatar = $_SESSION['avatar'] ?? null;
-        if ($oldAvatar) {
-            $oldPath = __DIR__ . '/../../public/avatars/' . ltrim($oldAvatar, '/');
-            if (is_file($oldPath)) {
-                @unlink($oldPath);
-            }
-        }
-
-        // Update DB (create method in UserModel instead ideally)
-        $userModel->updateAvatar($userId, $dbPath);
-
-        // Store avatar path to session for UI
-        $_SESSION['avatar'] = $dbPath;
-        $_SESSION['flash_success'] = "Profile picture updated successfully!";
-
-        header("Location: /profile/edit");
-        exit;
-    }
-
-    public static function deleteAvatar(){
-        if(!isset($_SESSION['user_id'])){
             header("Location: /login");
             exit;
         }
@@ -196,26 +126,86 @@ class ProfileController{
         $config = require __DIR__ . '/../Config/config.php';
         $user = new UserModel($config);
 
-        // Fetch current user avatar path
+        // =========================
+        // 1. HANDLE AVATAR DELETE
+        // =========================
+        $deleteAvatar = isset($_POST['delete_avatar']);
+
         $currentAvatar = $user->getAvatar($userId);
 
-        // Only delete if there is image uploaded
-        if($currentAvatar && $currentAvatar !== '/avatars/default.png'){
+        if ($deleteAvatar && $currentAvatar && $currentAvatar !== '/avatars/default.png') {
             $fullPath = __DIR__ . "/../../public" . $currentAvatar;
-            if(is_file($fullPath)){
+
+            if (is_file($fullPath)) {
                 @unlink($fullPath);
+            }
+
+            $currentAvatar = '/avatars/default.svg';
+        }
+
+        // =========================
+        // 2. HANDLE AVATAR UPLOAD
+        // =========================
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === 0) {
+
+            $file = $_FILES['avatar'];
+
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+            if (in_array($file['type'], $allowedTypes) && $file['size'] <= 2 * 1024 * 1024) {
+
+                $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+                $filename = uniqid('avatar_', true) . '.' . $ext;
+
+                $uploadPath = __DIR__ . '/../../public/avatars/' . $filename;
+
+                if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
+
+                    // delete old avatar
+                    if ($currentAvatar && $currentAvatar !== '/avatars/default.png') {
+                        $oldPath = __DIR__ . "/../../public" . $currentAvatar;
+                        if (is_file($oldPath)) {
+                            @unlink($oldPath);
+                        }
+                    }
+
+                    $currentAvatar = '/avatars/' . $filename;
+                }
             }
         }
 
-        $user->deleteAvatar($userId);
+        // =========================
+        // 3. HANDLE TEXT FIELDS
+        // =========================
+        $firstName = $_POST['first_name'] ?? '';
+        $lastName = $_POST['last_name'] ?? '';
+        $phone = $_POST['phone_number'] ?? '';
+        $social = $_POST['social_link'] ?? '';
 
-        // Update session
-        $_SESSION['avatar'] = '/avatars/default.png';
-        $_SESSION['flash_success'] = "Avatar deleted successfully.";
+        // =========================
+        // 4. UPDATE DATABASE
+        // =========================
+        $user->updateFullProfile($userId, [
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'phone_number' => $phone,
+            'social_link' => $social,
+            'avatar_path' => $currentAvatar
+        ]);
+
+        // =========================
+        // 5. UPDATE SESSION
+        // =========================
+        $_SESSION['first_name'] = $firstName;
+        $_SESSION['last_name'] = $lastName;
+        $_SESSION['phone_number'] = $phone;
+        $_SESSION['social_link'] = $social;
+        $_SESSION['avatar'] = $currentAvatar ?? '/avatars/default.png';
+
+        $_SESSION['flash'] = ['success' => 'Profile updated successfully'];
 
         header("Location: /profile/edit");
         exit;
     }
-
 
 }
