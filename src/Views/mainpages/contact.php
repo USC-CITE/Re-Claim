@@ -21,7 +21,7 @@
                     <div class="flex items-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
-                            class="w-8 h-8"
+                            class="w-10 h-10"
                             fill="#055BA8">
 
                         <rect x="3" y="5" width="18" height="14" rx="2"/>
@@ -43,7 +43,7 @@
                     <div class="flex items-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
-                            class="w-8 h-8"
+                            class="w-10 h-10"
                             fill="#055BA8">
 
                         <rect x="3" y="5" width="18" height="14" rx="2"/>
@@ -65,10 +65,10 @@
                     <div class="flex items-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
-                            class="w-8 h-8"
+                            class="w-10 h-10"
                             fill="#055BA8">
 
-                        <rect x="2" y="2" width="20" height="20" rx="4"/>
+                        <rect x="2" y="2" width="20" height="20" rx="10"/>
                         <path d="M14 8h2V5h-2c-2.2 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.2l.3-3H14V8c0-.6.2-1 1-1z"
                                 fill="white"/>
 
@@ -83,10 +83,10 @@
                     <div class="flex items-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
-                            class="w-8 h-8"
+                            class="w-10 h-10"
                             fill="#055BA8">
 
-                        <rect x="2" y="2" width="20" height="20" rx="4"/>
+                        <rect x="2" y="2" width="20" height="20" rx="10"/>
                         <path d="M14 8h2V5h-2c-2.2 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.2l.3-3H14V8c0-.6.2-1 1-1z"
                                 fill="white"/>
 
