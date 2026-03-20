@@ -106,31 +106,38 @@
 
                 <!-- Message Form -->
                 <form method="post" action="/contact/send" class="space-y-2">
-                    <label class="block text-[16px] font-medium text-gray-900" for="name">Name </label>
-                    <input name="name" type="text" placeholder="Juan Dela Cruz" required
-                    class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm
-                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                    <!-- Inline error message -->
-                    <p class="text-red-600 text-sm">
-                        <?= $response['errors']['name'] ?? '' ?>
-                    </p>
-
-                    <label class="block text-[16px] font-medium text-gray-900" for="email">WVSU Email Address</label>
-                    <input name="wvsu-email" type="email" placeholder="juandela.cruz@wvsu.edu.ph" required
-                    class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm
-                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                    <!-- Inline error message -->
-                    <p class="text-red-600 text-sm">
-                        <?= $response['errors']['wvsu-email'] ?? '' ?>
-                    </p>
-
-                    <label for="message" class="block text-[16px] font-medium text-gray-700 mb-1">Message</label>
-                    <textarea name="message" placeholder="This is a message..." rows="5" maxlength="1000"required class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm 
-                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
-                    <!-- Inline error message -->
-                    <p class="text-red-600 text-sm">
-                        <?= $response['errors']['message'] ?? '' ?>
-                    </p>
+                    <div>
+                        <label class="block text-[16px] font-medium text-gray-900 mb-1" for="name">Name </label>
+                        <input name="name" type="text" placeholder="Juan Dela Cruz" required
+                        class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm
+                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                        <!-- Inline error message -->
+                        <p class="text-red-600 text-sm">
+                            <?= $response['errors']['name'] ?? '' ?>
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[16px] font-medium text-gray-900 mb-1" for="email">WVSU Email Address</label>
+                        <input name="wvsu-email" type="email" placeholder="juandela.cruz@wvsu.edu.ph" required
+                        class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm
+                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                        <!-- Inline error message -->
+                        <p class="text-red-600 text-sm">
+                            <?= $response['errors']['wvsu-email'] ?? '' ?>
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <label for="message" class="block text-[16px] font-medium text-gray-700 mb-1">Message</label>
+                        <textarea name="message" placeholder="This is a message..." rows="5" maxlength="1000"required class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm 
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+                        <!-- Inline error message -->
+                        <p class="text-red-600 text-sm">
+                            <?= $response['errors']['message'] ?? '' ?>
+                        </p>
+                    </div>
+                    
 
                     <?php if(!empty($response['error'])): ?>
                         <p class="text-red-600 text-sm"><?= htmlspecialchars($response['error']) ?></p>
