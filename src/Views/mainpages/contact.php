@@ -130,7 +130,7 @@
                     
                     <div>
                         <label for="message" class="block text-[16px] font-medium text-gray-700 mb-1">Message</label>
-                        <textarea name="message" placeholder="This is a message..." rows="5" maxlength="1000"required class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm 
+                        <textarea name="message" placeholder="This is a message..." rows="5" maxlength="1000"required class="w-full min-h-[120px] border-2 border-gray-300 rounded-lg px-3 py-2 text-sm 
                             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
                         <!-- Inline error message -->
                         <p class="text-red-600 text-sm">
