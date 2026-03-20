@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/app.css">
-    <script src="/js/auth/password-toggle.js" defer type="module"></script>
+    <script src="/js/auth/password_toggle.js" defer type="module"></script>
     <title>WVSU ReClaim - Create Account</title>
 </head>
 <body class="font-poppins bg-white min-h-screen flex items-center justify-center p-6 lg:p-10">
@@ -30,7 +30,7 @@
             </header>
 
             <!-- Form -->
-            <form method="POST" action="/register" class="space-y-4">
+            <form method="POST" action="/register/" class="space-y-4">
                 <!-- Names Grid -->
                 <div class="grid grid-cols-2 gap-4">
                     <div>
@@ -97,17 +97,14 @@
 
             <!-- Footer -->
             <footer class="mt-4 text-left text-sm text-secondary">
-                Already have an account? <a href="/login" class="text-primary text-sm font-bold hover:underline">Log in</a>
+                Already have an account? <a href="/login/" class="text-primary text-sm font-bold hover:underline">Log in</a>
             </footer>
         </section>
 
         <!-- Right Side: Hero Panel -->
         <aside class="hidden lg:flex flex-col justify-start bg-primary-600 rounded-[40px] p-20 min-h-[700px] h-full relative overflow-hidden">
             <!-- Background Logo Watermark -->
-            <div class="absolute -top-52 -left-40 w-full h-full pointer-events-none scale-60 transform opacity-3 bg-white"
-                 style="-webkit-mask-image: url('/assets/reclaim-logo.svg'); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; mask-image: url('/assets/reclaim-logo.svg'); mask-size: contain; mask-repeat: no-repeat;">
-            </div>
-            
+            <img src="/assets/reclaim-logo.svg" alt="" class="absolute -top-52 -left-40 w-full h-full object-contain opacity-3 pointer-events-none scale-60 transform brightness-0 invert">
             <div class="relative z-10">
                 <h2 class="text-white text-display-sm font-normal max-w-s">
                     Seamlessly Track and<br>Recover Your<br>Belongings

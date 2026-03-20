@@ -10,8 +10,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/app.css">
-    <script src="/js/auth/password-toggle.js" defer type="module"></script>
-    <title>WVSU ReClaim</title>
+    <script src="/js/auth/password_toggle.js" defer type="module"></script>
+    <title>WVSU ReClaim - Login</title>
 </head>
 <body class="font-poppins bg-white min-h-screen flex items-center justify-center p-6 lg:p-10">
     <main class="grid grid-cols-1 lg:grid-cols-2 gap-10 w-full max-w-7xl mx-auto h-full items-center">
@@ -30,7 +30,7 @@
             </header>
 
             <!-- Form -->
-            <form method="POST" action="/login" class="space-y-5">
+            <form method="POST" action="/login/" class="space-y-5">
                 <!-- WVSU Email Address -->
                 <div>
                     <label class="text-md font-medium text-primary" for="email">WVSU Email Address</label>
@@ -47,7 +47,7 @@
                 <div>
                     <div class="mb-1.5 flex items-center justify-between">
                         <label class="text-sm font-semibold text-primary" for="password">Password</label>
-                        <a href="/forgot-password" class="text-md font-medium text-primary-500 hover:underline">Forgot password?</a>
+                        <a href="/forgot-password/" class="text-md font-medium text-primary-500 hover:underline">Forgot password?</a>
                     </div>
                     <div class="relative">
                         <input 
@@ -85,7 +85,7 @@
 
             <!-- Footer -->
             <footer class="mt-4 text-left text-sm text-secondary">
-                No account yet? <a href="/register" class="text-primary text-sm font-bold hover:underline">Sign up</a>
+                No account yet? <a href="/register/" class="text-primary text-sm font-bold hover:underline">Sign up</a>
             </footer>
         </section>
 
