@@ -156,9 +156,21 @@ class UserModel {
         return $stmt->rowCount();
     }
 
-    public function updateAvatar($userId, $path){
-        $stmt = $this->db->prepare("UPDATE users SET avatar_path = ? WHERE id = ?");
-        $stmt->execute([$path, $userId]);
+    public function updateFullProfile($userId, $data) {
+        $stmt = $this->db->prepare("
+            UPDATE users 
+            SET first_name = ?, last_name = ?, phone_number = ?, social_link = ?, avatar_path = ?
+            WHERE id = ?
+        ");
+
+        $stmt->execute([
+            $data['first_name'],
+            $data['last_name'],
+            $data['phone_number'],
+            $data['social_link'],
+            $data['avatar_path'],
+            $userId
+        ]);
     }
 
     public function getAvatar(int $userId){
@@ -169,10 +181,6 @@ class UserModel {
         return $avatar ?: null;
     }
 
-    public function deleteAvatar(int $userId){
-        $stmt = $this->db->prepare("UPDATE users SET avatar_path = NULL WHERE id = ?");
-        $stmt->execute([$userId]);
-    }
     
 }
 
