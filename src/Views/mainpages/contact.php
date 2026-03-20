@@ -13,7 +13,7 @@
         <div class="grid md:grid-cols-2 gap-12 items-start">
             <!-- Contact Info -->
             <section>
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">We're Here to Help</h2>
+                <h1 class="text-3xl font-bold text-gray-900 mb-4">We're Here to Help</h1>
                 <p class="text-gray-900 mb-8">If you have questions, problems, or suggestions related to Re:Claim, send us a message.</p>
 
                 <!-- Contact Links-->
