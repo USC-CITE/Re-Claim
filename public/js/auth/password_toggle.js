@@ -46,15 +46,13 @@ const initPasswordToggle = () => {
       closedIcon.classList.toggle("hidden", !wasPassword);
 
       toggleButton.setAttribute("aria-pressed", wasPassword ? "true" : "false");
-      toggleButton.setAttribute(wasPassword ? "Hide password" : "Show password");
+      toggleButton.setAttribute(
+        wasPassword ? "Hide password" : "Show password",
+      );
     });
 
     container.appendChild(toggleButton);
   });
 };
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initPasswordToggle);
-} else {
-  initPasswordToggle();
-}
+document.addEventListener("DOMContentLoaded", initPasswordToggle);
