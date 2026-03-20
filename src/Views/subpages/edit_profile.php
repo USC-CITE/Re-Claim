@@ -44,25 +44,44 @@
 
         <!-- Tab Contents -->
         <section class="tab-content" id="edit-profile">
-            <section>
-                <!-- User Avatar -->
+            <!-- Unified Form for Edit Profile -->
+            <form action="/profile/edit" method="post" enctype="multipart/form-data">
+
+                <!-- Avatar -->
                 <div>
-                    <img src="<?= htmlspecialchars($_SESSION['avatar'] ?? '/images/default-avatar.png') ?>" width="100">
+                    <img src="<?= htmlspecialchars($_SESSION['avatar'] ?? '/avatars/default.png') ?>" width="100">
                 </div>
-                
-                <!-- This requires file format as value of input field-->
-                <form action="/profile/avatar/upload" method="post" enctype="multipart/form-data">
-                    <input type="file" name="avatar" accept="image/*" required>
-                    <button type="submit">
-                        Upload Picture
-                    </button>
-                </form>
-                <form action="/profile/avatar/delete" method="post" style="display:inline"> 
-                    <button type="submit" onclick="return confirm('Are you sure you want to delete your avatar?');">
-                        Delete
-                    </button>
-                </form>
-            </section>
+
+                <!-- Upload -->
+                <input type="file" name="avatar" accept="image/*">
+
+                <!-- Delete checkbox -->
+                <label>
+                    <!-- More specific label rather than just 'delete' -->
+                    <input type="checkbox" name="delete_avatar">
+                    Remove current avatar
+                </label>
+
+                <!-- Name -->
+                <section>
+                    <label>First Name</label>
+                    <input name="first_name" value="<?= htmlspecialchars($_SESSION['first_name'] ?? '') ?>">
+
+                    <label>Last Name</label>
+                    <input name="last_name" value="<?= htmlspecialchars($_SESSION['last_name'] ?? '') ?>">
+                </section>
+
+                <!-- Contact -->
+                <section>
+                    <label>Mobile Number</label>
+                    <input name="phone_number" value="<?= htmlspecialchars($_SESSION['phone_number'] ?? '') ?>">
+
+                    <label>Social Link</label>
+                    <input name="social_link" value="<?= htmlspecialchars($_SESSION['social_link'] ?? '') ?>">
+                </section>
+
+                <button type="submit">Save Profile</button>
+            </form>
 
         </section>
 
