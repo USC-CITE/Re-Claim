@@ -62,8 +62,7 @@ $router->post('/lost/delay-archive', [LostItemController::class, 'delayArchive']
 $router->get('/profile', [ProfileController::class, 'showProfile']);
 $router->get('/profile/edit', [ProfileController::class, 'showEditProfile']);
 $router->post('/profile/archived/delete', [ProfileController::class, 'deleteArchivedItems']);
-$router->post('/profile/avatar/upload', [ProfileController::class, 'uploadAvatar']);
-$router->post('/profile/avatar/delete', [ProfileController::class, 'deleteAvatar']);
+$router->post('/profile/edit', [ProfileController::class, 'updateProfile']);
 
 /* Found Item */
 $router->get('/found', [FoundItemController::class, 'index']);      // List Page
