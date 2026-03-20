@@ -105,7 +105,7 @@
                 <h3 class="text-[30px] font-semibold text-gray-900 mb-6">Send us a message</h3>
 
                 <!-- Message Form -->
-                <form method="post" action="/contact/send" class="space-y-2">
+                <form method="post" action="/contact/send" class="space-y-3">
                     <div>
                         <label class="block text-[16px] font-medium text-gray-900 mb-1" for="name">Name </label>
                         <input name="name" type="text" placeholder="Juan Dela Cruz" required
