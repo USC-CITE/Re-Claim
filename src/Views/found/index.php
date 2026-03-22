@@ -86,14 +86,31 @@
         }
     ?>
 
-    <div style="display:flex; gap:0.75rem; align-items:stretch; flex-wrap:wrap; margin-bottom:1rem;">
-        <a href="/found/post" role="button" style="margin:0; display:inline-flex; align-items:center;">Post a Found Item</a>
+    <?php /*
+    // Action buttons: Post Found Item and Archive (bulk mode).
+    // Bring them back once the matching UI section is designed.
+    <div class="mb-8 flex flex-wrap items-center justify-center gap-3">
+        <a
+            href="/found/post"
+            role="button"
+            class="inline-flex items-center justify-center rounded-2xl bg-primary-500 px-5 py-3 text-sm font-semibold text-white-50 transition-colors hover:bg-primary-600"
+            style="margin:0;"
+        >
+            Post a Found Item
+        </a>
         <?php if ($hasBulkArchivable): ?>
-            <button type="button" id="toggle-bulk-archive" class="secondary outline" onclick="toggleBulkArchiveMode()" style="margin:0; display:inline-flex; align-items:center;">
+            <button
+                type="button"
+                id="toggle-bulk-archive"
+                class="inline-flex items-center justify-center rounded-2xl border border-primary-500 px-5 py-3 text-sm font-semibold text-primary-500 transition-colors hover:bg-primary-50"
+                onclick="toggleBulkArchiveMode()"
+                style="margin:0;"
+            >
                 Archive Found Items
             </button>
         <?php endif; ?>
     </div>
+    */ ?>
 
     <?php if (empty($foundItems)): ?>
         <p>No found items reported yet.</p>
