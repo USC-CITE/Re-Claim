@@ -54,6 +54,9 @@
     </div>
   </nav>
 
+  <?php /*
+  // Bulk archive UI
+  // Bring them back once the matching UI section is designed.
   <style>
     .bulk-archive-box,
     .bulk-archive-submit {
@@ -65,6 +68,7 @@
       display: block;
     }
   </style>
+  */ ?>
 
   <?php if (!empty($flash['success'])): ?>
     <article style="border-left: 4px solid #2ecc71; padding: 1rem;">
@@ -118,85 +122,122 @@
   <?php if (empty($lostItems)): ?>
     <p>No lost items posted yet.</p>
   <?php else: ?>
+    <?php /*
+    // Bulk archive form
+    // Bring them back once the matching UI section is designed.
     <?php if ($hasBulkArchivable): ?>
       <!-- Standalone form so it does not clash with the forms inside each modal. -->
       <form id="bulk-archive-form" method="POST" action="/lost/archive" onsubmit="return confirm('Archive the selected lost items?');">
         <?php \App\Core\Router::setCsrf(); ?>
       </form>
     <?php endif; ?>
+    */ ?>
 
-    <div class="grid">
+    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
       <?php foreach ($lostItems as $item): ?>
-        <article>
+        <article class="flex h-full flex-col gap-4 overflow-hidden rounded-[28px] border border-[#d9d9d9] bg-white p-5 shadow-[0_6px_18px_rgba(10,10,10,0.12)]">
+          <?php /*
+          // Bulk archive checkbox
+          // Bring them back once the matching UI section is designed.
           <?php if (!empty($item['can_archive'])): ?>
-            <label class="bulk-archive-box" style="margin-bottom:0.75rem;">
+            <label class="bulk-archive-box text-sm text-secondary" style="margin-bottom:0.75rem;">
               <input type="checkbox" name="item_ids[]" value="<?= (int)$item['id'] ?>" form="bulk-archive-form">
               Select for bulk archive
             </label>
           <?php endif; ?>
+          */ ?>
 
-          <header>
-            <div class="grid">
-              <strong><?= htmlspecialchars($item['item_name'] ?: 'Lost Item') ?></strong>
-              <div style="text-align:right;">
-                <span data-tooltip="Status" data-placement="left">
-                  <mark><?= htmlspecialchars($item['status'] ?? 'Unrecovered') ?></mark>
-                </span>
-              </div>
+          <header class="flex items-start gap-3">
+            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white-600 text-xs font-semibold text-primary">
+              <?= strtoupper(substr((string)($item['name'] ?: 'A'), 0, 1)) ?>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-md font-semibold text-primary">
+                <span class="mr-1 text-red-500">[Lost]</span><?= htmlspecialchars($item['item_name'] ?: 'Lost Item') ?>
+              </p>
+              <p class="text-xs text-secondary"><?= htmlspecialchars($item['event_date'] ?: 'Date unavailable') ?></p>
             </div>
           </header>
 
+          <div class="border-t border-white-600"></div>
+
           <?php if (!empty($item['image_url'])): ?>
-            <img src="<?= htmlspecialchars($item['image_url']) ?>" alt="Lost item image" style="width:100%; height:220px; object-fit:cover; border-radius:8px;">
+            <img src="<?= htmlspecialchars($item['image_url']) ?>" alt="Lost item image" class="h-56 w-full rounded-2xl object-cover">
           <?php else: ?>
-            <div style="height:220px; display:flex; align-items:center; justify-content:center; border:1px dashed #777; border-radius:8px;">
+            <div class="flex h-56 items-center justify-center rounded-2xl border border-dashed border-white-700 bg-white-50 text-sm text-secondary">
               <small>No image</small>
             </div>
           <?php endif; ?>
 
-          <p>
-            <strong>Date Lost:</strong>
-            <?= htmlspecialchars($item['event_date'] ?: 'N/A') ?>
-            <br>
-            <strong>Location:</strong>
-            <?= htmlspecialchars($item['location'] ?: 'Unknown location') ?>
-            <br>
-            <strong>Posted by:</strong>
-            <?= htmlspecialchars($item['name'] ?: 'Anonymous') ?>
+          <div class="space-y-3 text-sm text-secondary">
+            <div class="flex items-start gap-2 text-[13px] leading-5 text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="mt-0.5 h-4 w-4 shrink-0">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s6-4.35 6-10a6 6 0 1 0-12 0c0 5.65 6 10 6 10Z" />
+                <circle cx="12" cy="11" r="2.25" />
+              </svg>
+              <span>Last seen at <?= htmlspecialchars($item['location'] ?: 'Unknown location') ?></span>
+            </div>
+
+            <p class="text-[13px] leading-6 text-secondary"><?= htmlspecialchars($item['description']) ?></p>
+
+            <p class="text-xs text-secondary">
+              Posted by <?= htmlspecialchars($item['name'] ?: 'Anonymous') ?>
+            </p>
+
             <?php if (($item['status'] ?? 'Unrecovered') === 'Unrecovered' && !empty($item['archive_date'])): ?>
-              <br>
-              <strong>Auto-archives on:</strong>
-              <?= htmlspecialchars($item['archive_date']) ?>
+              <p class="text-xs text-secondary">Auto-archives on <?= htmlspecialchars($item['archive_date']) ?></p>
             <?php endif; ?>
-            
-          </p>
+          </div>
 
           <?php if (!empty($item['categories'])): ?>
-            <p>
+            <div class="flex flex-wrap gap-2">
               <?php foreach ($item['categories'] as $cat): ?>
-                <small style="padding: .2rem .5rem; border:1px solid #666; border-radius:999px; margin-right:.25rem;">
+                <span class="rounded-full border border-white-700 px-3 py-1 text-xs text-secondary">
                   <?= htmlspecialchars($cat) ?>
-                </small>
+                </span>
               <?php endforeach; ?>
-            </p>
+            </div>
           <?php endif; ?>
 
-          <p><?= htmlspecialchars($item['description']) ?></p>
+          <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
+            <button
+              type="button"
+              class="mt-auto inline-flex items-center justify-center self-end rounded-2xl bg-primary-500 px-5 py-3 text-sm font-semibold text-white-50 transition-colors hover:bg-primary-600"
+              onclick="openModal('contact-modal-<?= $item['id'] ?>')">
+              Contact Owner
+            </button>
+          <?php endif; ?>
 
-          <details>
-            <summary>Contact</summary>
-            <p><?= htmlspecialchars($item['contact_info'] ?: 'No contact details.') ?></p>
-          </details>
-
-  <!-- Show recover button if item is unrecovered and user is the original poster -->
+  <?php /*
+  // Mark as Recovered action/button
+  // Bring them back once the matching UI section is designed.
   <?php if (!empty($item['can_recover'])): ?>
     <button type="button"
-            class="secondary outline"
+            class="inline-flex items-center justify-center rounded-2xl border border-primary-500 px-5 py-3 text-sm font-semibold text-primary-500 transition-colors hover:bg-primary-50"
             onclick="openModal('recover-modal-<?= $item['id'] ?>')">
       Mark as Recovered
     </button>
   <?php endif; ?>
+  */ ?>
 
+  <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
+    <dialog id="contact-modal-<?= $item['id'] ?>">
+      <article>
+        <header>
+          <button aria-label="Close" rel="prev" onclick="closeModal('contact-modal-<?= $item['id'] ?>')"></button>
+          <h3>Contact Owner</h3>
+        </header>
+        <p><?= htmlspecialchars($item['contact_info'] ?: 'No contact details.') ?></p>
+        <footer>
+          <button type="button" onclick="closeModal('contact-modal-<?= $item['id'] ?>')">Close</button>
+        </footer>
+      </article>
+    </dialog>
+  <?php endif; ?>
+
+  <?php /*
+  // Recover modal UI
+  // Bring them back once the matching UI section is designed.
   <?php if (!empty($item['can_recover'])): ?>
     <dialog id="recover-modal-<?= $item['id'] ?>">
       <article>
@@ -237,16 +278,21 @@
       </article>
     </dialog>
   <?php endif; ?>
+  */ ?>
 
   </article>
       <?php endforeach; ?>
     </div>
 
+    <?php /*
+    // Bulk archive submit UI
+    // Bring them back once the matching UI section is designed.
     <?php if ($hasBulkArchivable): ?>
         <button type="submit" form="bulk-archive-form" class="secondary bulk-archive-submit" style="margin-top: 1rem;">
           Archive Selected
         </button>
     <?php endif; ?>
+    */ ?>
   <?php endif; ?>
 </main>
 
