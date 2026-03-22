@@ -7,12 +7,51 @@
     <link rel="stylesheet" href="/css/app.css">
 </head>
 <body class="font-poppins bg-white text-primary min-h-screen">
-<main class="container">
+<main class="container px-6 py-10">
     <?php require __DIR__ . "/../mainpages/header.php"?>
-    <hgroup>
-        <h1>Found Items</h1>
-        <p>Recent items reported by the community.</p>
+    <hgroup class="mb-8 space-y-2 text-center">
+        <h1 class="text-display-md font-semibold text-primary">Found Items</h1>
+        <p class="text-sm text-secondary">Recent items reported by the community.</p>
     </hgroup>
+
+    <section class="mb-8 flex justify-center">
+        <div class="flex w-full max-w-xl items-center gap-3">
+            <label for="found-search" class="sr-only">Search found items</label>
+            <div class="relative flex-1">
+                <input
+                    id="found-search"
+                    type="search"
+                    placeholder="Search found items"
+                    class="w-full rounded-xl border border-white-700 bg-white px-4 py-3 pr-12 text-sm text-primary placeholder:text-secondary shadow-100"
+                >
+                <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-secondary" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35m1.85-5.15a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+                    </svg>
+                </span>
+            </div>
+            <button
+                type="button"
+                aria-label="Filter found items"
+                class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white-700 bg-white text-primary shadow-100 transition-colors hover:bg-white-50"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6h15m-12 6h9m-6 6h3" />
+                </svg>
+            </button>
+        </div>
+    </section>
+
+    <nav aria-label="Listing type" class="mb-10 flex justify-center">
+        <div class="flex items-center gap-8 text-sm font-semibold">
+            <a href="/lost" class="border-b-2 border-transparent pb-1 text-secondary transition-colors hover:text-primary">
+                Lost Items
+            </a>
+            <a href="/found" class="border-b-2 border-primary-500 pb-1 text-primary-500">
+                Found Items
+            </a>
+        </div>
+    </nav>
 
     <style>
         .bulk-archive-box,
