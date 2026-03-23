@@ -177,7 +177,42 @@
                                     <h3 class="font-semibold text-lg"><span class="text-green-500">[ Found ]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
                                     <p><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
                                 </div>
-                                <p class="text-sm text-gray-500"><?= htmlspecialchars($item['description']) ?></p>
+
+                                <!-- Card Content -->
+                                <div>
+                                    <img src="<?= htmlspecialchars($item['image_path']) ?>"
+                                        alt="<?= htmlspecialchars($item['item_name']) ?>"
+                                        class="w-full h-48 object-cover">
+
+                                    <div class="flex items-center gap-1 mt-2 text-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" 
+                                            class="w-6 h-5" 
+                                            fill="none" 
+                                            stroke="currentColor" 
+                                            stroke-width="2" 
+                                            viewBox="0 0 24 24">
+                                        <!-- Pin outline -->
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M12 3c-3.866 0-7 3.134-7 7 0 4.418 7 11 7 11s7-6.582 7-11c0-3.866-3.134-7-7-7z"/>
+                                        <!-- Center circle -->
+                                        <circle cx="12" cy="10" r="2"/>
+                                        </svg>
+
+                                        <span class="text-sm">
+                                            <?= htmlspecialchars($item['location_name']) ?>
+                                            <!-- Handle if room number is available -->
+                                            <?php if (!empty($item['room_number'])): ?>
+                                                - Room <?= htmlspecialchars($item['room_number']) ?>
+                                            <?php endif; ?>
+                                    </span>
+                                    </div>
+                                    
+                                    <p class="text-sm text-gray-500"><?= htmlspecialchars($item['description']) ?></p>
+                                    <button>
+                                        Contact Owner
+                                    </button>
+                                </div>
+                                
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
