@@ -151,14 +151,14 @@
                     <?php if (!empty($lostItems)): ?>
                         <?php foreach ($lostItems as $item): ?>    
                             <!-- Item Card-->
-                            <div class="border rounded-xl p-4 shadow-sm bg-white w-full">
+                            <div class="border rounded-xl p-4 shadow-sm bg-white w-full min-h-[420px] flex flex-col">
                                 <!-- Card Header -->
                                 <div class="py-2 border-b-2 border-[#5B5B5B]">
                                     <h3 class="font-semibold text-lg"><span class="text-red-500">[ Lost ]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
                                     <p><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
                                 </div>
                                 <!-- Card Content -->
-                                <div>
+                                <div class="flex flex-col flex-grow">
                                     <img src="<?= htmlspecialchars($item['image_path']) ?>"
                                         alt="<?= htmlspecialchars($item['item_name']) ?>"
                                         class="w-full h-48 object-cover">
@@ -204,7 +204,7 @@
                     <?php if (!empty($foundItems)): ?>
                         <?php foreach ($foundItems as $item): ?>    
                             <!-- Item Card-->
-                            <div class="border rounded-xl p-4 shadow-sm bg-white w-full">
+                            <div class="border rounded-xl p-4 shadow-sm bg-white w-full min-h-[420px] flex flex-col">
                                 <!-- Card Header -->
                                 <div class="py-2 border-b-2 border-[#5B5B5B]">
                                     <h3 class="font-semibold text-lg"><span class="text-green-500">[ Found ]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
