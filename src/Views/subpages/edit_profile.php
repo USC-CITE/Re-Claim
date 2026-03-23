@@ -31,15 +31,15 @@
     <main>
         <!-- Page Header -->
         <header class="page-header">
-            <h2><a href="/profile">Return to Profile</a> / Edit Profile</h2>
+            <h2><a href="/profile">Return to Profile</a> / <span id="page-title"></span></h2>
             <p>Update your user profile and contact information</p>
         </header>
 
         <!-- Tab Buttons -->
         <nav>
-            <button type="button" class="tab-btn" data-tab="edit-profile">Edit Profile</button>
-            <button type="button" class="tab-btn" data-tab="change-pass">Change Password</button>
-            <button type="button" class="tab-btn" data-tab="privacy">Privacy Security</button>
+            <button type="button" class="tab-btn" data-tab="edit-profile" data-title="Edit Profile">Edit Profile</button>
+            <button type="button" class="tab-btn" data-tab="change-pass" data-title="Change Password">Change Password</button>
+            <button type="button" class="tab-btn" data-tab="privacy" data-title="Privacy Security">Privacy Security</button>
         </nav>
 
         <!-- Tab Contents -->
