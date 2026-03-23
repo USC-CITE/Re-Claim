@@ -100,7 +100,7 @@
                 </div>
             </div>
 
-            <a href="/profile/edit" role="button">
+            <a href="/profile/settings" role="button">
                 Edit Profile
             </a>
 
