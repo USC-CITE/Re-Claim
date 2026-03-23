@@ -153,7 +153,7 @@
                             <!-- Item Card-->
                             <div class="border rounded-xl p-4 shadow-sm bg-white w-full">
                                 <!-- Card Header -->
-                                <div class="mb-2">
+                                <div class="py-2 border-b-2 border-[#5B5B5B]">
                                     <h3 class="font-semibold text-lg"><span class="text-red-500">[ Lost ]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
                                     <p><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
                                 </div>
@@ -173,7 +173,7 @@
                             <!-- Item Card-->
                             <div class="border rounded-xl p-4 shadow-sm bg-white w-full">
                                 <!-- Card Header -->
-                                <div class="mb-2">
+                                <div class="py-2 border-b-2 border-[#5B5B5B]">
                                     <h3 class="font-semibold text-lg"><span class="text-green-500">[ Found ]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
                                     <p><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
                                 </div>
