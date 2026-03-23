@@ -189,12 +189,14 @@
                                     </div>
                                     
                                     <!-- Item Description -->
-                                    <p class="text-sm mt-2">
+                                    <p class="text-sm mt-2 mb-2">
                                         <?= htmlspecialchars($item['description'] ?? 'No description provided.') ?>
                                     </p>
-                                    <button>
-                                        Contact Owner
-                                    </button>
+                                    <div class="mt-auto flex justify-end">
+                                        <button class="px-4 py-2 text-md font-semibold font-medium bg-[#055BA8] text-white rounded-xl hover:bg-blue-700 transition">
+                                            Contact Owner
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -217,7 +219,7 @@
                                 </div>
 
                                 <!-- Card Content -->
-                                <div>
+                                <div class="flex flex-col flex-grow">
                                     <img src="<?= htmlspecialchars($item['image_path']) ?>"
                                         alt="<?= htmlspecialchars($item['item_name']) ?>"
                                         class="w-full h-48 object-cover">
@@ -251,9 +253,11 @@
                                     <p class="text-sm mt-2">
                                         <?= htmlspecialchars($item['description'] ?? 'No description provided.') ?>
                                     </p>
-                                    <button>
-                                        Contact Owner
-                                    </button>
+                                    <div class="mt-auto flex justify-end">
+                                        <button class="px-4 py-2 text-md font-semibold font-medium bg-[#055BA8] text-white rounded-xl hover:bg-blue-700 transition">
+                                            Contact Owner
+                                        </button>
+                                    </div>
                                 </div>
                                 
                             </div>
