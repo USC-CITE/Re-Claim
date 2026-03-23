@@ -111,7 +111,13 @@
                     
                 </section>
 
-                <button type="submit">Save Profile</button>
+                <!-- Submit Button -->
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="px-5 py-2 text-md font-semibold bg-[#055BA8] text-white rounded-xl hover:bg-blue-700 transition">
+                        Save Profile
+                    </button>
+                </div>
             </form>
 
         </section>
