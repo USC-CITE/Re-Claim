@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>WVSU ReClaim</title>
     
     <script>
@@ -28,11 +29,11 @@
 <body>
     <?php require __DIR__  . "/../mainpages/header.php"; ?>
 
-    <main>
+    <main class="max-w-5xl mx-auto mt-16 px-6">
         <!-- Page Header -->
-        <header class="page-header">
-            <h2><a href="/profile">Return to Profile</a> / <span id="page-title"></span></h2>
-            <p>Update your user profile and contact information</p>
+        <header class="pb-4 mb-8">
+            <h1 class="text-3xl font-semibold"><a href="/profile">Return to Profile</a> / <span id="page-title"></span></h1>
+            <p class="text-md mt-1 text-gray-700">Update your user profile and contact information</p>
         </header>
 
         <!-- Tab Buttons -->
