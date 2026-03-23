@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".tab-btn");
     const tabs = document.querySelectorAll(".tab-content");
+    const pageTitle = document.getElementById('page-title');
 
     function activateTab(tabId) {
 
@@ -16,9 +17,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // activate selected tab
         document.getElementById(tabId).classList.add("active");
-
+        
         // activate selected button
-        document.querySelector(`[data-tab="${tabId}"]`).classList.add("active");
+        const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
+        activeBtn.classList.add("active");
+
+        pageTitle.textContent = activeBtn.dataset.title;
+
     }
 
     // default tab
