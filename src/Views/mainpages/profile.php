@@ -161,7 +161,7 @@
                                 <div class="flex flex-col flex-grow">
                                     <img src="<?= htmlspecialchars($item['image_path']) ?>"
                                         alt="<?= htmlspecialchars($item['item_name']) ?>"
-                                        class="w-full h-60 object-cover">
+                                        class="w-full h-60 object-cover rounded-lg">
 
                                     <div class="flex items-center gap-1 mt-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" 
@@ -222,7 +222,7 @@
                                 <div class="flex flex-col flex-grow">
                                     <img src="<?= htmlspecialchars($item['image_path']) ?>"
                                         alt="<?= htmlspecialchars($item['item_name']) ?>"
-                                        class="w-full h-48 object-cover">
+                                        class="w-full h-48 object-cover rounded-lg">
 
                                     <div class="flex items-center gap-1 mt-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" 
