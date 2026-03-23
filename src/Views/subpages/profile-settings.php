@@ -94,11 +94,21 @@
 
                 <!-- Contact -->
                 <section>
-                    <label>Mobile Number</label>
-                    <input name="phone_number" value="<?= htmlspecialchars($_SESSION['phone_number'] ?? '') ?>">
+                    <h2 class="text-lg font-semibold border-b border-gray-400 pb-2 mb-4 text-gray-600">
+                        Update Contact Details
+                    </h2>
 
-                    <label>Social Link</label>
-                    <input name="social_link" value="<?= htmlspecialchars($_SESSION['social_link'] ?? '') ?>">
+                    <div class="space-y-4">
+                        <div class="flex flex-col">
+                            <label  class="text-md font-medium">Mobile Number</label>
+                            <input name="phone_number" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" value="<?= htmlspecialchars($_SESSION['phone_number'] ?? '') ?>">
+                        </div>
+                        <div class="flex flex-col">
+                            <label  class="text-md font-medium">Social Link</label>
+                            <input name="social_link" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" value="<?= htmlspecialchars($_SESSION['social_link'] ?? '') ?>">
+                        </div>
+                    </div>
+                    
                 </section>
 
                 <button type="submit">Save Profile</button>
