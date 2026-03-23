@@ -147,14 +147,14 @@
             </section>
 
              <section class="tab-content mt-12" id="lost">
-                <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4">
+                <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
                     <?php if (!empty($lostItems)): ?>
                         <?php foreach ($lostItems as $item): ?>    
                             <!-- Item Card-->
                             <div class="border rounded-xl p-4 shadow-sm bg-white w-full">
                                 <!-- Card Header -->
                                 <div class="mb-2">
-                                    <h3 class="font-semibold text-lg"><span class="text-red-500">[Lost]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
+                                    <h3 class="font-semibold text-lg"><span class="text-red-500">[ Lost ]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
                                     <p><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
                                 </div>
                                 <p class="text-sm text-gray-500"><?= htmlspecialchars($item['description']) ?></p>
@@ -167,16 +167,19 @@
             </section>
 
             <section class="tab-content mt-12" id="found">
-                <article>
+                <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
                     <?php if (!empty($foundItems)): ?>
-                        <ul>
                         <?php foreach ($foundItems as $item): ?>    
-                            <li>
-                                <h5><?= htmlspecialchars($item['item_name']) ?></h5>
-                                <p><?= htmlspecialchars($item['description']) ?></p>
-                            </li>
+                            <!-- Item Card-->
+                            <div class="border rounded-xl p-4 shadow-sm bg-white w-full">
+                                <!-- Card Header -->
+                                <div class="mb-2">
+                                    <h3 class="font-semibold text-lg"><span class="text-green-500">[ Found ]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
+                                    <p><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
+                                </div>
+                                <p class="text-sm text-gray-500"><?= htmlspecialchars($item['description']) ?></p>
+                            </div>
                         <?php endforeach; ?>
-                        </ul>
                     <?php else: ?>
                         <p>No found items posted yet.</p>
                     <?php endif; ?>
