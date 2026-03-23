@@ -48,7 +48,7 @@
         </nav>
 
         <!-- Tab Contents -->
-        <section class="tab-content active max-w-3xl mx-auto" id="edit-profile">
+        <section class="tab-content active max-w-2xl mx-auto" id="edit-profile">
             <!-- Unified Form for Edit Profile -->
             <form action="/profile/edit" method="post" enctype="multipart/form-data" class="space-y-10">
 
@@ -74,6 +74,9 @@
 
                 <!-- Name -->
                 <section>
+                    <h2 class="text-lg font-semibold border-b border-gray-400 pb-2 mb-4 text-gray-600">
+                        Update Name
+                    </h2>
                     <label>First Name</label>
                     <input name="first_name" value="<?= htmlspecialchars($_SESSION['first_name'] ?? '') ?>">
 
