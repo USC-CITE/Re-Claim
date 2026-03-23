@@ -161,9 +161,9 @@
                                 <div class="flex flex-col flex-grow">
                                     <img src="<?= htmlspecialchars($item['image_path']) ?>"
                                         alt="<?= htmlspecialchars($item['item_name']) ?>"
-                                        class="w-full h-48 object-cover">
+                                        class="w-full h-60 object-cover">
 
-                                    <div class="flex items-center gap-1 mt-2 text-sm">
+                                    <div class="flex items-center gap-1 mt-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" 
                                             class="w-6 h-5" 
                                             fill="none" 
@@ -177,16 +177,21 @@
                                         <circle cx="12" cy="10" r="2"/>
                                         </svg>
 
-                                        <span class="text-sm">
+                                        <p class="text-sm"> Last seen at 
+                                            <span class="font-semibold">
                                             <?= htmlspecialchars($item['location_name']) ?>
                                             <!-- Handle if room number is available -->
                                             <?php if (!empty($item['room_number'])): ?>
                                                 - Room <?= htmlspecialchars($item['room_number']) ?>
                                             <?php endif; ?>
-                                    </span>
+                                            </span>
+                                        </p>
                                     </div>
                                     
-                                    <p class="text-sm text-gray-500"><?= htmlspecialchars($item['description']) ?></p>
+                                    <!-- Item Description -->
+                                    <p class="text-sm mt-2">
+                                        <?= htmlspecialchars($item['description'] ?? 'No description provided.') ?>
+                                    </p>
                                     <button>
                                         Contact Owner
                                     </button>
