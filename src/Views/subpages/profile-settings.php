@@ -53,19 +53,24 @@
             <form action="/profile/edit" method="post" enctype="multipart/form-data" class="space-y-10">
 
                 <!-- Avatar -->
-                <div>
-                    <img src="<?= htmlspecialchars($_SESSION['avatar'] ?? '/avatars/default.png') ?>" width="100">
+                <div class="flex items-center gap-6">
+                    <div class="w-24 h-24 rounded-full overflow-hidden ring-2 ring-gray-200">
+                        <img src="<?= htmlspecialchars($_SESSION['avatar'] ?? '/avatars/default.png') ?>"
+                            class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <!-- Upload Avatar -->
+                        <input type="file" name="avatar" class="text-sm">
+
+                        <!-- Delete checkbox -->
+                        <label class="flex items-center gap-2 text-sm text-gray-600">
+                            <!-- More specific label rather than just 'delete' -->
+                            <input type="checkbox" name="delete_avatar">
+                            Remove current avatar
+                        </label>
+                    </div>
                 </div>
-
-                <!-- Upload -->
-                <input type="file" name="avatar" accept="image/*">
-
-                <!-- Delete checkbox -->
-                <label>
-                    <!-- More specific label rather than just 'delete' -->
-                    <input type="checkbox" name="delete_avatar">
-                    Remove current avatar
-                </label>
 
                 <!-- Name -->
                 <section>
