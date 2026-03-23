@@ -34,7 +34,7 @@
 <body>
     <?php require __DIR__ . "/../mainpages/header.php"; ?>
     
-    <main class="max-w-5xl mx-auto mt-16 px-6 flex flex-col items-center">
+    <main class="max-w-6xl mx-auto mt-16 px-6 flex flex-col items-center">
 
         <?php if (!empty($flash['success'])): ?>
             <article class="border-l-4 border-green-500 p-4 bg-green-50 mb-4">
@@ -147,17 +147,19 @@
             </section>
 
              <section class="tab-content mt-12" id="lost">
-                <article>
-                <h4>Posted Lost Items</h4>
+                <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4">
                     <?php if (!empty($lostItems)): ?>
-                        <ul>
                         <?php foreach ($lostItems as $item): ?>    
-                            <li>
-                                <h5><?= htmlspecialchars($item['item_name']) ?></h5>
-                                <p><?= htmlspecialchars($item['description']) ?></p>
-                            </li>
+                            <!-- Item Card-->
+                            <div class="border rounded-xl p-4 shadow-sm bg-white w-full">
+                                <!-- Card Header -->
+                                <div class="mb-2">
+                                    <h3 class="font-semibold text-lg"><span class="text-red-500">[Lost]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
+                                    <p><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
+                                </div>
+                                <p class="text-sm text-gray-500"><?= htmlspecialchars($item['description']) ?></p>
+                            </div>
                         <?php endforeach; ?>
-                        </ul>
                     <?php else: ?>
                         <p>No lost items posted yet.</p>
                     <?php endif; ?>
@@ -166,7 +168,6 @@
 
             <section class="tab-content mt-12" id="found">
                 <article>
-                <h4>Found Items</h4>
                     <?php if (!empty($foundItems)): ?>
                         <ul>
                         <?php foreach ($foundItems as $item): ?>    
