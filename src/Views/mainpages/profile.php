@@ -151,7 +151,7 @@
                     <?php if (!empty($lostItems)): ?>
                         <?php foreach ($lostItems as $item): ?>    
                             <!-- Item Card-->
-                            <div class="border rounded-xl p-4 shadow-sm bg-white w-full min-h-[420px] flex flex-col">
+                            <div class="border rounded-xl p-4 shadow-sm bg-white w-full min-h-[480px] flex flex-col">
                                 <!-- Card Header -->
                                 <div class="py-2 mb-4 border-b-2 border-[#5B5B5B]">
                                     <h3 class="font-semibold text-lg"><span class="text-red-500">[ Lost ]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
@@ -209,7 +209,7 @@
                     <?php if (!empty($foundItems)): ?>
                         <?php foreach ($foundItems as $item): ?>    
                             <!-- Item Card-->
-                            <div class="border rounded-xl p-4 shadow-sm bg-white w-full min-h-[420px] flex flex-col">
+                            <div class="border rounded-xl p-4 shadow-sm bg-white w-full min-h-[480px] flex flex-col">
                                 <!-- Card Header -->
                                 <div class="py-2 mb-4 border-b-2 border-[#5B5B5B]">
                                     <h3 class="font-semibold text-lg"><span class="text-green-500">[ Found ]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
