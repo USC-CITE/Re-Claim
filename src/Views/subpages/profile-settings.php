@@ -84,8 +84,8 @@
                         </div>
                         
                         <div class="flex flex-col">
-                            <label>Last Name</label>
-                            <input name="last_name" value="<?= htmlspecialchars($_SESSION['last_name'] ?? '') ?>">
+                            <label class="text-md font-medium">Last Name</label>
+                            <input name="last_name" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" value="<?= htmlspecialchars($_SESSION['last_name'] ?? '') ?>">
                         </div>  
                         
                     </div>
