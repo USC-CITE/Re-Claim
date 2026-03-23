@@ -46,8 +46,8 @@ class ProfileController{
         require __DIR__ . "/../Views/mainpages/profile.php";
 
     }
-    public static function showEditProfile(){
-        require __DIR__ . '/../Views/subpages/edit_profile.php';
+    public static function showProfileSettings(){
+        require __DIR__ . '/../Views/subpages/profile-settings.php';
     }
 
     public static function deleteArchivedItems(): void
