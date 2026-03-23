@@ -77,11 +77,19 @@
                     <h2 class="text-lg font-semibold border-b border-gray-400 pb-2 mb-4 text-gray-600">
                         Update Name
                     </h2>
-                    <label>First Name</label>
-                    <input name="first_name" value="<?= htmlspecialchars($_SESSION['first_name'] ?? '') ?>">
-
-                    <label>Last Name</label>
-                    <input name="last_name" value="<?= htmlspecialchars($_SESSION['last_name'] ?? '') ?>">
+                    <div  class="space-y-4">
+                        <div class="flex flex-col">
+                            <label class="text-md font-medium">First Name</label>
+                            <input class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" name="first_name" value="<?= htmlspecialchars($_SESSION['first_name'] ?? '') ?>">
+                        </div>
+                        
+                        <div class="flex flex-col">
+                            <label>Last Name</label>
+                            <input name="last_name" value="<?= htmlspecialchars($_SESSION['last_name'] ?? '') ?>">
+                        </div>  
+                        
+                    </div>
+                    
                 </section>
 
                 <!-- Contact -->
