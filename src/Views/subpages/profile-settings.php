@@ -23,6 +23,10 @@
         .js .tab-content.active {
             display: block;
         }
+        .js .tab-btn.active { 
+            color: #044177; 
+            border-bottom: 2px solid #044177; 
+        }
 
     </style>
 </head>
@@ -37,10 +41,10 @@
         </header>
 
         <!-- Tab Buttons -->
-        <nav>
-            <button type="button" class="tab-btn" data-tab="edit-profile" data-title="Edit Profile">Edit Profile</button>
-            <button type="button" class="tab-btn" data-tab="change-pass" data-title="Change Password">Change Password</button>
-            <button type="button" class="tab-btn" data-tab="privacy" data-title="Privacy Security">Privacy Security</button>
+        <nav class="flex gap-6 sm:gap-12 pl-6 border-b border-gray-400 pb-4 mb-6 overflow-x-auto whitespace-nowrap">
+            <button type="button" class="tab-btn shrink-0 py-2 text-lg font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="edit-profile" data-title="Edit Profile">Edit Profile</button>
+            <button type="button" class="tab-btn shrink-0 py-2 text-lg font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="change-pass" data-title="Change Password">Change Password</button>
+            <button type="button" class="tab-btn shrink-0 py-2 text-lg font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="privacy" data-title="Privacy Security">Privacy Security</button>
         </nav>
 
         <!-- Tab Contents -->
