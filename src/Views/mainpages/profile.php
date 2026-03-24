@@ -86,8 +86,12 @@
         </header>
 
         <section class="w-full">
+      
             <!-- Profile Tab Buttons -->
-            <nav class="w-full border-b border-gray-300 mb-8">
+            <nav class="relative w-full border-b border-gray-300 mb-8">
+                <div class="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10 sm:hidden"></div>
+    
+                <div class="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10 sm:hidden"></div>
                 <div class="flex max-w-6xl mb-2 mx-auto justify-center">
                     <div class="flex flex-nowrap overflow-x-auto gap-8 no-scrollbar pb-px scrollbar-hide snap-x select-none">
                         
