@@ -28,6 +28,16 @@
             color: #044177;
             border-bottom: 2px solid #044177;
         }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;     /* Firefox */
+        }
     </style>
    
 </head>
@@ -77,22 +87,36 @@
 
         <section class="w-full">
             <!-- Profile Tab Buttons -->
-            <nav class="flex gap-6 sm:gap-8 justify-center border-b border-gray-400 pb-4 mb-6 overflow-x-auto whitespace-nowrap">
-                <button type="button" class="tab-btn active shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="account">
-                    Account Details
-                </button>
+            <nav class="w-full border-b border-gray-300 mb-8">
+                <div class="flex max-w-6xl mb-2 mx-auto justify-center">
+                    <div class="flex flex-nowrap overflow-x-auto gap-8 no-scrollbar pb-px scrollbar-hide snap-x select-none">
+                        
+                        <button type="button" 
+                            class="tab-btn active flex-shrink-0 px-5 py-3 text-md sm:text-base font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-800 transition-all snap-start" 
+                            data-tab="account">
+                            Account Details
+                        </button>
 
-                <button type="button" class="tab-btn shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="lost">
-                    Posted Lost Items
-                </button>
+                        <button type="button" 
+                            class="tab-btn flex-shrink-0 px-5 py-3 text-md sm:text-base font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-800 transition-all snap-start" 
+                            data-tab="lost">
+                            Lost Items
+                        </button>
 
-                <button type="button" class="tab-btn shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="found">
-                    Posted Found Items
-                </button>
+                        <button type="button" 
+                            class="tab-btn flex-shrink-0 px-5 py-3 text-md sm:text-base font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-800 transition-all snap-start" 
+                            data-tab="found">
+                            Found Items
+                        </button>
 
-                <button type="button" class="tab-btn shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="archive">
-                    Archive Items
-                </button>
+                        <button type="button" 
+                            class="tab-btn flex-shrink-0 px-5 py-3 text-md sm:text-base font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-800 transition-all snap-start" 
+                            data-tab="archive">
+                            Archive Items
+                        </button>
+
+                    </div>
+                </div>
             </nav>
 
             <!-- Tab Content Section -->
