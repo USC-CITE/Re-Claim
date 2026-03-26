@@ -89,11 +89,11 @@
       
             <!-- Profile Tab Buttons -->
             <nav class="relative w-full border-b border-gray-300 mb-8">
-                <div class="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10 sm:hidden"></div>
+                <div id="fadeLeft" class="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10 sm:hidden"></div>
     
-                <div class="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10 sm:hidden"></div>
+                <div id="fadeRight" class="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10 sm:hidden"></div>
                 <div class="flex max-w-6xl mb-2 mx-auto justify-center">
-                    <div class="flex flex-nowrap overflow-x-auto gap-8 no-scrollbar pb-px scrollbar-hide snap-x select-none">
+                    <div id="tabScroll" class="flex flex-nowrap overflow-x-auto gap-8 no-scrollbar pb-px scrollbar-hide snap-x select-none">
                         
                         <button type="button" 
                             class="tab-btn active flex-shrink-0 px-5 py-3 text-md sm:text-base font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-800 transition-all snap-start" 
