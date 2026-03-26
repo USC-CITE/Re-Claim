@@ -128,7 +128,7 @@
                     <!-- Left Column -->
                     <div class="flex flex-col md:w-3/5 gap-4">
                         <!-- Name Row -->
-                        <div class="flex flex-row justify-between gap-6">
+                        <div class="flex flex-row flex-wrap gap-x-48 gap-y-4">
                             <div>
                                 <h4 class="text-md font-semibold">First Name</h4>
                                 <p class="text-sm mt-1"><?= htmlspecialchars($_SESSION['first_name']) ?></p>
