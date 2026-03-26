@@ -123,7 +123,7 @@
             </nav>
 
             <!-- Tab Content Section -->
-            <section class="tab-content mt-12 max-w-3xl w-full mx-auto" id="account">
+            <section class="tab-content mt-12 mb-12 sm:mb-0 max-w-3xl w-full mx-auto" id="account">
                 <article class="flex flex-col md:flex-row justify-between px-6 py-6 w-full gap-6">
                     <!-- Left Column -->
                     <div class="flex flex-col md:w-3/5 gap-4">
@@ -168,7 +168,7 @@
                 </article>
             </section>
 
-             <section class="tab-content mt-12" id="lost">
+             <section class="tab-content mt-12 mb-12" id="lost">
                 <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
                     <?php if (!empty($lostItems)): ?>
                         <?php foreach ($lostItems as $item): ?>    
@@ -228,7 +228,7 @@
                 </article>
             </section>
 
-            <section class="tab-content mt-12" id="found">
+            <section class="tab-content mt-12 mb-12" id="found">
                 <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
                     <?php if (!empty($foundItems)): ?>
                         <?php foreach ($foundItems as $item): ?>    
@@ -290,7 +290,7 @@
                 </article>
             </section>
 
-            <section class="tab-content mt-12" id="archive">
+            <section class="tab-content mt-12 mb-12" id="archive">
                 <article>
                     <h4>My Archived Posts</h4>
                     <?php if (!empty($archivedItems)): ?>
