@@ -214,11 +214,6 @@
                                     <p class="text-sm mt-2 mb-2">
                                         <?= htmlspecialchars($item['description'] ?? 'No description provided.') ?>
                                     </p>
-                                    <div class="mt-auto flex justify-end">
-                                        <button class="px-4 py-2 text-md font-semibold font-medium bg-[#055BA8] text-white rounded-xl hover:bg-blue-700 transition">
-                                            Contact Owner
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
