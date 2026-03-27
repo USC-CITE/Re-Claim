@@ -42,15 +42,15 @@
 
         <!-- Tab Buttons -->
         <nav class="flex gap-6 sm:gap-12 pl-6 border-b border-gray-400 pb-4 mb-6 overflow-x-auto whitespace-nowrap">
-            <button type="button" class="tab-btn shrink-0 py-2 text-lg font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="edit-profile" data-title="Edit Profile">Edit Profile</button>
-            <button type="button" class="tab-btn shrink-0 py-2 text-lg font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="change-pass" data-title="Change Password">Change Password</button>
-            <button type="button" class="tab-btn shrink-0 py-2 text-lg font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="privacy" data-title="Privacy Security">Privacy Security</button>
+            <button type="button" class="tab-btn shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="edit-profile" data-title="Edit Profile">Edit Profile</button>
+            <button type="button" class="tab-btn shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="change-pass" data-title="Change Password">Change Password</button>
+            <button type="button" class="tab-btn shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="privacy" data-title="Privacy Security">Privacy Security</button>
         </nav>
 
         <!-- Tab Contents -->
         <section class="tab-content active max-w-2xl mx-auto" id="edit-profile">
             <!-- Unified Form for Edit Profile -->
-            <form action="/profile/edit" method="post" enctype="multipart/form-data" class="space-y-10">
+            <form action="/profile/edit" method="post" enctype="multipart/form-data" class="space-y-10 mb-6">
 
                 <!-- Avatar -->
                 <div class="flex items-center gap-6">
