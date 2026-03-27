@@ -35,7 +35,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <!-- Card 1 -->
-                <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-3 flex flex-col min-h-[500px] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+                <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_4px_16px_rgba(0,0,0,0.2)] p-4 flex flex-col min-h-[500px] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-300">
                     <div class="w-full aspect-362/274 rounded-3xl overflow-hidden mb-8">
                         <img src="/assets/temp.png" alt="Post lost item" class="w-full h-full object-cover">
                     </div>
@@ -50,7 +50,7 @@
                 </div>
 
                 <!-- Card 2 -->
-                <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-3 flex flex-col min-h-[500px] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+                <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_4px_16px_rgba(0,0,0,0.2)] p-4 flex flex-col min-h-[500px] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-300">
                     <div class="w-full aspect-362/274 rounded-3xl overflow-hidden mb-8">
                         <img src="/assets/temp.png" alt="Find lost item" class="w-full h-full object-cover">
                     </div>
@@ -65,7 +65,7 @@
                 </div>
 
                 <!-- Card 3 -->
-                <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-3 flex flex-col min-h-[500px] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+                <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_4px_16px_rgba(0,0,0,0.2)] p-4 flex flex-col min-h-[500px] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-300">
                     <div class="w-full aspect-362/274 rounded-3xl overflow-hidden mb-8">
                         <img src="/assets/temp.png" alt="Community project" class="w-full h-full object-cover">
                     </div>
