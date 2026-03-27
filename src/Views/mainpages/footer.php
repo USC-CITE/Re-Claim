@@ -12,11 +12,11 @@
                 <div class="flex flex-col gap-4">
                     <div class="flex items-center gap-3">
                         <div class="w-5 h-5 shrink-0 bg-accent-500" style="-webkit-mask-image: url('/assets/envelope.svg'); mask-image: url('/assets/envelope.svg'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;"></div>
-                        <a href="mailto:spark.hub@wvsu.edu.ph" class="text-sm font-medium hover:underline">spark.hub@wvsu.edu.ph</a>
+                        <a target="_blank" href="mailto:spark.hub@wvsu.edu.ph" class="text-sm hover:underline">spark.hub@wvsu.edu.ph</a>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="w-5 h-5 shrink-0 bg-accent-500" style="-webkit-mask-image: url('/assets/facebook.svg'); mask-image: url('/assets/facebook.svg'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;"></div>
-                        <a href="https://web.facebook.com/WVSUSparkHub" target="_blank" class="text-sm font-medium hover:underline">Follow SPARK Hub on Facebook</a>
+                        <a target="_blank" href="https://web.facebook.com/WVSUSparkHub" class="text-sm hover:underline">Follow SPARK Hub on Facebook</a>
                     </div>
                 </div>
 
@@ -24,58 +24,58 @@
                 <div class="flex flex-col gap-4">
                     <div class="flex items-center gap-3">
                         <div class="w-5 h-5 shrink-0 bg-accent-500" style="-webkit-mask-image: url('/assets/envelope.svg'); mask-image: url('/assets/envelope.svg'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;"></div>
-                        <a href="mailto:usc.cite@wvsu.edu.ph" class="text-sm font-medium hover:underline">usc.cite@wvsu.edu.ph</a>
+                        <a target="_blank" href="mailto:usc.cite@wvsu.edu.ph" class="text-sm hover:underline">usc.cite@wvsu.edu.ph</a>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="w-5 h-5 shrink-0 bg-accent-500" style="-webkit-mask-image: url('/assets/facebook.svg'); mask-image: url('/assets/facebook.svg'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;"></div>
-                        <a href="https://web.facebook.com/profile.php?id=61564071784342" target="_blank" class="text-sm font-medium hover:underline">Follow USC-CITE on Facebook</a>
+                        <a target="_blank" href="https://web.facebook.com/profile.php?id=61564071784342" target="_blank" class="text-sm hover:underline">Follow USC-CITE on Facebook</a>
                     </div>
                 </div>
             </address>
         </div>
 
         <!-- Bottom Section: Navigation -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+        <div class="flex flex-col sm:flex-row flex-wrap gap-8 sm:gap-12 md:gap-20 lg:gap-8">
             <!-- General -->
-            <div>
-                <h4 class="font-bold text-md mb-4">General</h4>
-                <ul class="space-y-3">
-                    <li><a href="#" class="text-sm font-medium text-white/80 hover:text-white hover:underline transition-colors">Homepage</a></li>
-                    <li><a href="#" class="text-sm font-medium text-white/80 hover:text-white hover:underline transition-colors">Lost Items Feed</a></li>
+            <div class="flex flex-col">
+                <h4 class="font-semibold text-md mb-8">General</h4>
+                <ul class="space-y-7">
+                    <li><a href="#" class="text-sm text-white hover:text-white hover:underline transition-colors">Homepage</a></li>
+                    <li><a href="#" class="text-sm text-white hover:text-white hover:underline transition-colors">Lost Items Feed</a></li>
                 </ul>
             </div>
 
             <!-- Post -->
-            <div>
-                <h4 class="font-bold text-md mb-4">Post</h4>
-                <ul class="space-y-3">
-                    <li><a href="#" class="text-sm font-medium text-white/80 hover:text-white hover:underline transition-colors">Post Lost Item</a></li>
-                    <li><a href="#" class="text-sm font-medium text-white/80 hover:text-white hover:underline transition-colors">Post Found Item</a></li>
+            <div class="flex flex-col">
+                <h4 class="font-semibold text-md mb-8">Post</h4>
+                <ul class="space-y-7">
+                    <li><a href="#" class="text-sm text-white hover:text-white hover:underline transition-colors">Post Lost Item</a></li>
+                    <li><a href="#" class="text-sm text-white hover:text-white hover:underline transition-colors">Post Found Item</a></li>
                 </ul>
             </div>
 
             <!-- Contact Us -->
-            <div>
-                <h4 class="font-bold text-md mb-4">Contact Us</h4>
-                <ul class="space-y-3">
-                    <li><a href="#" class="text-sm font-medium text-white/80 hover:text-white hover:underline transition-colors">Contact SPARK Hub</a></li>
-                    <li><a href="#" class="text-sm font-medium text-white/80 hover:text-white hover:underline transition-colors">Contact USC-CITE</a></li>
+            <div class="flex flex-col">
+                <h4 class="font-semibold text-md mb-8">Contact Us</h4>
+                <ul class="space-y-7">
+                    <li><a href="#" class="text-sm text-white hover:text-white hover:underline transition-colors">Contact SPARK Hub</a></li>
+                    <li><a href="#" class="text-sm text-white hover:text-white hover:underline transition-colors">Contact USC-CITE</a></li>
                 </ul>
             </div>
 
             <!-- My Profile -->
-            <div>
-                <h4 class="font-bold text-md mb-4">My Profile</h4>
-                <ul class="space-y-3">
-                    <li><a href="#" class="text-sm font-medium text-white/80 hover:text-white hover:underline transition-colors">Visit Profile</a></li>
-                    <li><a href="#" class="text-sm font-medium text-white/80 hover:text-white hover:underline transition-colors">Posted Items</a></li>
+            <div class="flex flex-col">
+                <h4 class="font-semibold text-md mb-8">My Profile</h4>
+                <ul class="space-y-7">
+                    <li><a href="#" class="text-sm text-white hover:text-white hover:underline transition-colors">Visit Profile</a></li>
+                    <li><a href="#" class="text-sm text-white hover:text-white hover:underline transition-colors">Posted Items</a></li>
                 </ul>
             </div>
         </div>
 
         <!-- Copyright -->
         <div class="mt-16 pt-8 border-t border-white text-center">
-            <p class="text-sm font-medium text-white/80">&copy; 2026 SPARK Hub and USC-CITE. All Rights Reserved.</p>
+            <p class="text-sm font-medium text-white">&copy; 2026 SPARK Hub and USC-CITE. All Rights Reserved.</p>
         </div>
     </div>
 </footer>
