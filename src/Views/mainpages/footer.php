@@ -74,7 +74,7 @@
         </div>
 
         <!-- Copyright -->
-        <div class="mt-16 pt-8 border-t border-white/20 text-center">
+        <div class="mt-16 pt-8 border-t border-white text-center">
             <p class="text-sm font-medium text-white/80">&copy; 2026 SPARK Hub and USC-CITE. All Rights Reserved.</p>
         </div>
     </div>
