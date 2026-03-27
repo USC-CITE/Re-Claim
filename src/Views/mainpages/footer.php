@@ -7,7 +7,7 @@
             <div class="w-[208px] h-[48px] shrink-0 bg-[linear-gradient(to_right,var(--color-accent-500)_23%,white_23%)]" style="-webkit-mask-image: url('/assets/reclaim-header.svg'); mask-image: url('/assets/reclaim-header.svg'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: left center; mask-position: left center;"></div>
 
             <!-- Contact Info -->
-            <address class="not-italic flex flex-col sm:flex-row gap-6 md:gap-16">
+            <address class="not-italic flex flex-col sm:flex-row gap-6 md:gap-8">
                 <!-- SPARK Hub -->
                 <div class="flex flex-col gap-4">
                     <div class="flex items-center gap-3">
