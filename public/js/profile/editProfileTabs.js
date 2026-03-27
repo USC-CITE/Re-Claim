@@ -3,6 +3,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const tabs = document.querySelectorAll(".tab-content");
     const pageTitle = document.getElementById('page-title');
 
+    const input = document.getElementById("avatarInput");
+    const fileName = document.getElementById("file-name");  
+    
+    input.addEventListener('change', () => {
+        fileName.textContent = input.files.length > 0 ?  input.files[0].name : '';
+    })
     function activateTab(tabId) {
 
         // hide all tabs
