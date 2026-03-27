@@ -29,26 +29,54 @@
             </div>
         </section>
 
-        <!-- ReClaim Features Section-->
-        <section class="container mx-auto py-16 px-4">
-            <h2 class="text-3xl font-bold mb-10 text-center">Why Use Reclaim?</h2>
+        <!-- ReClaim Features Section -->
+        <section class="w-full max-w-7xl mx-auto py-24 px-6 md:px-12">
+            <h2 class="text-display-md font-bold text-black mb-7">Why Use Re:Claim?</h2>
 
-            <!-- Feature Cards -->
-            <div class="flex flex-col md:flex-row gap-8 items-stretch justify-center">
-                <div>
-                    <img src="/assets/temp.png" style="width: 80%">
-                    <h6>Let people help you: post the item that you lost</h6>
-                    <p>Ensure fast recovery by distributing information online.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-3 flex flex-col min-h-[500px] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+                    <div class="w-full aspect-362/274 rounded-3xl overflow-hidden mb-8">
+                        <img src="/assets/temp.png" alt="Post lost item" class="w-full h-full object-cover">
+                    </div>
+                    <div class="px-2 pb-6 grow">
+                        <h3 class="text-display-sm font-medium text-black mb-4 leading-snug w-70">
+                            Let people help you: post the item that you lost
+                        </h3>
+                        <p class="text-lg">
+                            Ensure fast recovery by distributing information online.
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <img src="/assets/temp.png" style="width: 80%">
-                    <h6>Let people help you: post the item that you lost</h6>
-                    <p>Ensure fast recovery by distributing information online.</p>
+
+                <!-- Card 2 -->
+                <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-3 flex flex-col min-h-[500px] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+                    <div class="w-full aspect-362/274 rounded-3xl overflow-hidden mb-8">
+                        <img src="/assets/temp.png" alt="Find lost item" class="w-full h-full object-cover">
+                    </div>
+                    <div class="px-2 pb-6 grow">
+                        <h3 class="text-display-sm font-medium text-black mb-4 leading-snug w-65">
+                            Help others in finding their lost items
+                        </h3>
+                        <p class="text-lg">
+                            Post lost items you have found with no owner.
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <img src="/assets/temp.png" style="width: 80%">
-                    <h6>Let people help you: post the item that you lost</h6>
-                    <p>Ensure fast recovery by distributing information online.</p>
+
+                <!-- Card 3 -->
+                <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-3 flex flex-col min-h-[500px] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+                    <div class="w-full aspect-362/274 rounded-3xl overflow-hidden mb-8">
+                        <img src="/assets/temp.png" alt="Community project" class="w-full h-full object-cover">
+                    </div>
+                    <div class="px-2 pb-6 grow">
+                        <h3 class="text-display-sm font-medium text-black mb-4 leading-snug">
+                            Contribute to a community-driven project
+                        </h3>
+                        <p class="text-lg">
+                            Be a part of a community built on mutual recovery.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
