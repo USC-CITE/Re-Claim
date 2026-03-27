@@ -81,7 +81,7 @@
             </div>
         </section>
         <!-- Issue Section -->
-        <section class="w-full max-w-7xl mx-auto py-24 px-6 md:px-12 flex flex-col md:flex-row items-center gap-16 md:gap-24">
+        <section class="w-full max-w-7xl mx-auto py-24 px-6 md:px-12 flex flex-col-reverse md:flex-row items-center gap-16 md:gap-24">
             <!-- Github Screenshot -->
             <div class="flex-1 w-full">
                 <div class="rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100">
@@ -91,13 +91,13 @@
 
             <!-- Content -->
             <div class="flex-1 text-left">
-                <h2 class="text-display-md font-bold text-black mb-6 leading-tight max-w-lg">
+                <h2 class="text-display-md font-bold text-black mb-6 leading-tight max-w-lg w-70 md:w-full">
                     Want to Contribute in Improving the System?
                 </h2>
                 <p class="text-lg mb-10 max-w-md">
                     Re:Claim is open source! Place an issue on GitHub and we’ll review it.
                 </p>
-                <div class="flex justify-start">
+                <div class="flex justify-center md:justify-start">
                     <a href="https://github.com/USC-CITE/Re-Claim/issues" target="_blank" class="group flex items-center justify-center px-8 py-3.5 bg-primary-500 hover:bg-primary-600 text-white text-md font-semibold rounded-2xl transition-all duration-300 gap-3">
                         Place an Issue
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
