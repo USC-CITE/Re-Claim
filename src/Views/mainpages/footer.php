@@ -48,7 +48,7 @@
                 <h4 class="font-semibold text-md mb-8">General</h4>
                 <ul class="space-y-7">
                     <li><a href="/" class="text-sm text-white hover:text-white hover:underline transition-colors">Homepage</a></li>
-                    <li><a href="/lost" class="text-sm text-white hover:text-white hover:underline transition-colors">Lost Items Feed</a></li>
+                    <li><a href="<?= isset($_SESSION['user_id']) ? '/lost' : '/register' ?>" class="text-sm text-white hover:text-white hover:underline transition-colors">Lost Items Feed</a></li>
                 </ul>
             </div>
 
@@ -56,8 +56,8 @@
             <div class="flex flex-col">
                 <h4 class="font-semibold text-md mb-8">Post</h4>
                 <ul class="space-y-7">
-                    <li><a href="/lost/post" class="text-sm text-white hover:text-white hover:underline transition-colors">Post Lost Item</a></li>
-                    <li><a href="/found/post" class="text-sm text-white hover:text-white hover:underline transition-colors">Post Found Item</a></li>
+                    <li><a href="<?= isset($_SESSION['user_id']) ? '/lost/post' : '/register' ?>" class="text-sm text-white hover:text-white hover:underline transition-colors">Post Lost Item</a></li>
+                    <li><a href="<?= isset($_SESSION['user_id']) ? '/found/post' : '/register' ?>" class="text-sm text-white hover:text-white hover:underline transition-colors">Post Found Item</a></li>
                 </ul>
             </div>
 
@@ -74,15 +74,15 @@
             <div class="flex flex-col">
                 <h4 class="font-semibold text-md mb-8">My Profile</h4>
                 <ul class="space-y-7">
-                    <li><a href="/profile" class="text-sm text-white hover:text-white hover:underline transition-colors">Visit Profile</a></li>
-                    <li><a href="/profile" class="text-sm text-white hover:text-white hover:underline transition-colors">Posted Items</a></li>
+                    <li><a href="<?= isset($_SESSION['user_id']) ? '/profile' : '/register' ?>" class="text-sm text-white hover:text-white hover:underline transition-colors">Visit Profile</a></li>
+                    <li><a href="<?= isset($_SESSION['user_id']) ? '/profile' : '/register' ?>" class="text-sm text-white hover:text-white hover:underline transition-colors">Posted Items</a></li>
                 </ul>
             </div>
         </div>
 
         <!-- Copyright -->
         <div class="mt-16 pt-8 border-t border-white text-center">
-            <p class="text-sm font-medium text-white">&copy; 2026 SPARK Hub and USC-CITE. All Rights Reserved.</p>
+            <p class="text-sm text-white">&copy; 2026 SPARK Hub and USC-CITE. All Rights Reserved.</p>
         </div>
     </div>
 </footer>
