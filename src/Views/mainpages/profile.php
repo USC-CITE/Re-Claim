@@ -349,5 +349,6 @@
         </section>
     </main>
     <script src="/js/profile/tabs.js"></script>
+    <?php require __DIR__ . "/footer.php"?>
 </body>
 </html>
