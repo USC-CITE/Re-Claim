@@ -53,6 +53,7 @@
     --color-green-50: #e6ffe6;
     --color-green-500: #00ff00;
     --color-green-600: #00e800;
+    --color-green-800: #008c00;
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-blue-600: oklch(54.6% 0.245 262.881);
     --color-blue-700: oklch(48.8% 0.243 264.376);
@@ -438,6 +439,9 @@
   .h-60 {
     height: calc(var(--spacing) * 60);
   }
+  .h-\[19\.314px\] {
+    height: 19.314px;
+  }
   .h-\[20px\] {
     height: 20px;
   }
@@ -446,6 +450,12 @@
   }
   .h-\[40px\] {
     height: 40px;
+  }
+  .h-\[260\.188px\] {
+    height: 260.188px;
+  }
+  .h-\[363\.131px\] {
+    height: 363.131px;
   }
   .h-full {
     height: 100%;
@@ -489,8 +499,17 @@
   .w-\[43\.417px\] {
     width: 43.417px;
   }
+  .w-\[362px\] {
+    width: 362px;
+  }
+  .w-\[363\.131px\] {
+    width: 363.131px;
+  }
   .w-\[375px\] {
     width: 375px;
+  }
+  .w-\[405px\] {
+    width: 405px;
   }
   .w-\[521px\] {
     width: 521px;
@@ -675,6 +694,9 @@
   .gap-y-4 {
     row-gap: calc(var(--spacing) * 4);
   }
+  .self-center {
+    align-self: center;
+  }
   .self-end {
     align-self: flex-end;
   }
@@ -695,6 +717,9 @@
   }
   .rounded-\[40px\] {
     border-radius: 40px;
+  }
+  .rounded-\[124px\] {
+    border-radius: 124px;
   }
   .rounded-full {
     border-radius: calc(infinity * 1px);
@@ -772,11 +797,11 @@
   .border-primary-500 {
     border-color: var(--color-primary-500);
   }
+  .border-secondary {
+    border-color: var(--color-secondary);
+  }
   .border-transparent {
     border-color: transparent;
-  }
-  .border-white-600 {
-    border-color: var(--color-white-600);
   }
   .border-white-700 {
     border-color: var(--color-white-700);
@@ -839,9 +864,6 @@
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }
-  .p-5 {
-    padding: calc(var(--spacing) * 5);
-  }
   .p-6 {
     padding: calc(var(--spacing) * 6);
   }
@@ -868,6 +890,9 @@
   }
   .px-10 {
     padding-inline: calc(var(--spacing) * 10);
+  }
+  .px-\[22px\] {
+    padding-inline: 22px;
   }
   .py-1 {
     padding-block: calc(var(--spacing) * 1);
@@ -1015,6 +1040,9 @@
   }
   .text-green-600 {
     color: var(--color-green-600);
+  }
+  .text-green-800 {
+    color: var(--color-green-800);
   }
   .text-primary {
     color: var(--color-primary);
@@ -1200,20 +1228,6 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-gray-800);
-      }
-    }
-  }
-  .hover\:text-primary {
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-primary);
-      }
-    }
-  }
-  .hover\:text-primary-700 {
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-primary-700);
       }
     }
   }

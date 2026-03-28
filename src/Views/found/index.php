@@ -14,7 +14,9 @@
         <h1 class="text-center text-display-md font-bold text-black">Found Items</h1>
     </hgroup>
 
+      <!-- SEARCH AND FILTER -->
     <section class="mb-8 flex justify-center">
+        <!-- SEARCH BAR -->
         <form class="flex items-center gap-3" role="search">
             <label for="found-search" class="sr-only">Search found items</label>
             <section class="relative h-[40px] w-[521px] overflow-hidden rounded-[12px] border border-[#212121] bg-transparent">
@@ -30,6 +32,8 @@
                     </svg>
                 </span>
             </section>
+            
+            <!--FILTER -->
             <button
                 type="button"
                 aria-label="Filter found items"
@@ -42,6 +46,7 @@
         </form>
     </section>
 
+    <!-- LOST AND FOUND TABS -->
     <nav aria-label="Listing type" class="mb-10 flex justify-center">
         <ul class="flex items-center gap-8 text-md font-semibold">
             <li>
@@ -120,6 +125,7 @@
     </div>
     */ ?>
 
+    <!--FOUND ITEM CARDS -->
     <?php if (empty($foundItems)): ?>
         <p>No found items reported yet.</p>
     <?php else: ?>
@@ -136,7 +142,7 @@
 
         <section class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             <?php foreach ($foundItems as $item): ?>
-                <article class="item-card flex h-full flex-col gap-4 overflow-hidden rounded-[28px] border border-[#d9d9d9] bg-white p-5 shadow-[0_6px_18px_rgba(10,10,10,0.12)]">
+                <article class="item-card flex h-full w-[405px] flex-col items-start gap-4 overflow-hidden rounded-[28px] border border-[#d9d9d9] bg-white px-[22px] py-6 shadow-[0_6px_18px_rgba(10,10,10,0.12)]">
                     <?php /*
                     // Bulk archive checkbox is temporarily cut during the staged Figma implementation.
                     // Bring it back once the matching UI section is designed.
@@ -148,38 +154,40 @@
                     <?php endif; ?>
                     */ ?>
 
-                    <header class="flex items-start gap-3">
-                        <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white-600 text-xs font-semibold text-primary">
+                    <header class="flex w-full flex-col items-start gap-4">
+                        <div class="flex items-start gap-3">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[124px] bg-white-600 text-sm font-semibold text-primary">
                             <?= strtoupper(substr((string)($item['name'] ?: 'A'), 0, 1)) ?>
                         </div>
                         <div class="min-w-0 flex-1">
-                            <p class="text-md font-semibold text-primary">
-                                <span class="mr-1 text-primary-500">[Found]</span><?= htmlspecialchars($item['title']) ?>
+                            <p class="text-lg font-semibold text-primary">
+                                <span class="mr-1 text-green-800">[Found]</span><?= htmlspecialchars($item['title']) ?>
                             </p>
-                            <p class="text-xs text-secondary"><?= htmlspecialchars($item['date_found'] ?: 'Date unavailable') ?></p>
+                            <p class="text-sm font-normal text-primary"><?= htmlspecialchars($item['date_found'] ?: 'Date unavailable') ?></p>
+                        </div>
                         </div>
                     </header>
 
-                    <div class="border-t border-white-600"></div>
+                    <div class="w-[362px] self-center border-t border-secondary"></div>
                     
                     <?php if ($item['image_url']): ?>
-                        <img src="<?= htmlspecialchars($item['image_url']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" class="h-56 w-full rounded-2xl object-cover">
+                        <img src="<?= htmlspecialchars($item['image_url']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" class="h-[260.188px] w-[362px] rounded-2xl object-cover">
                     <?php else: ?>
-                        <div class="flex h-56 items-center justify-center rounded-2xl border border-dashed border-white-700 bg-white-50 text-sm text-secondary">
+                        <div class="flex h-[260.188px] w-[362px] items-center justify-center rounded-2xl border border-dashed border-white-700 bg-white-50 text-sm text-secondary">
                             No Image
                         </div>
                     <?php endif; ?>
 
                     <div class="space-y-3 text-sm text-secondary">
-                        <div class="flex items-start gap-2 text-[13px] leading-5 text-primary">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="mt-0.5 h-4 w-4 shrink-0">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s6-4.35 6-10a6 6 0 1 0-12 0c0 5.65 6 10 6 10Z" />
-                                <circle cx="12" cy="11" r="2.25" />
+                        <div class="flex items-start gap-2 text-sm font-normal text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="21" viewBox="0 0 18 21" fill="none" class="mt-0.5 h-[19.314px] w-4 shrink-0">
+                                <path d="M14.6569 14.6569C13.7202 15.5935 11.7616 17.5521 10.4138 18.8999C9.63275 19.681 8.36768 19.6814 7.58663 18.9003C6.26234 17.576 4.34159 15.6553 3.34315 14.6569C0.218951 11.5327 0.218951 6.46734 3.34315 3.34315C6.46734 0.218951 11.5327 0.218951 14.6569 3.34315C17.781 6.46734 17.781 11.5327 14.6569 14.6569Z" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 9C12 10.6569 10.6569 12 9 12C7.34315 12 6 10.6569 6 9C6 7.34315 7.34315 6 9 6C10.6569 6 12 7.34315 12 9Z" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                             <span>Last seen at <?= htmlspecialchars($item['location'] ?: 'Unknown location') ?></span>
                         </div>
 
-                        <p class="text-[13px] leading-6 text-secondary"><?= htmlspecialchars($item['description']) ?></p>
+                        <p class="text-sm font-normal text-primary"><?= htmlspecialchars($item['description']) ?></p>
                     </div>
                     
                     <footer class="mt-auto flex flex-wrap justify-end gap-3 pt-2">
