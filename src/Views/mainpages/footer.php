@@ -9,7 +9,7 @@
         <!-- Logo (Order 1 on Mobile, Top Left on Desktop) -->
         <div class="order-1 lg:col-start-1 lg:row-start-1 lg:justify-self-start">
             <a href="/" title="Go to Homepage" class="inline-block">
-                <div class="w-[208px] h-[48px] shrink-0 bg-[linear-gradient(to_right,var(--color-accent-500)_23%,white_23%)]" style="-webkit-mask-image: url('/assets/reclaim-header.svg'); mask-image: url('/assets/reclaim-header.svg'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: left center; mask-position: left center;"></div>
+                <img src="/assets/reclaim-footer.svg" alt="Re:Claim Logo" class="w-[208px] h-[48px] shrink-0 object-contain object-left">
             </a>
         </div>
 
@@ -58,11 +58,11 @@
                 <!-- SPARK Hub -->
                 <div class="flex flex-col gap-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-5 h-5 shrink-0 bg-accent-500" style="-webkit-mask-image: url('/assets/envelope.svg'); mask-image: url('/assets/envelope.svg'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;"></div>
+                        <img src="/assets/envelope-yellow.svg" alt="Email" class="w-5 h-5 shrink-0">
                         <a target="_blank" href="mailto:spark.hub@wvsu.edu.ph" class="text-sm hover:underline">spark.hub@wvsu.edu.ph</a>
                     </div>
                     <div class="flex items-center gap-3">
-                        <div class="w-5 h-5 shrink-0 bg-accent-500" style="-webkit-mask-image: url('/assets/facebook.svg'); mask-image: url('/assets/facebook.svg'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;"></div>
+                        <img src="/assets/facebook-yellow.svg" alt="Facebook" class="w-5 h-5 shrink-0">
                         <a target="_blank" href="https://web.facebook.com/WVSUSparkHub" class="text-sm hover:underline">Follow SPARK Hub on Facebook</a>
                     </div>
                 </div>
@@ -70,11 +70,11 @@
                 <!-- USC-CITE -->
                 <div class="flex flex-col gap-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-5 h-5 shrink-0 bg-accent-500" style="-webkit-mask-image: url('/assets/envelope.svg'); mask-image: url('/assets/envelope.svg'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;"></div>
+                        <img src="/assets/envelope-yellow.svg" alt="Email" class="w-5 h-5 shrink-0">
                         <a target="_blank" href="mailto:usc.cite@wvsu.edu.ph" class="text-sm hover:underline">usc.cite@wvsu.edu.ph</a>
                     </div>
                     <div class="flex items-center gap-3">
-                        <div class="w-5 h-5 shrink-0 bg-accent-500" style="-webkit-mask-image: url('/assets/facebook.svg'); mask-image: url('/assets/facebook.svg'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;"></div>
+                        <img src="/assets/facebook-yellow.svg" alt="Facebook" class="w-5 h-5 shrink-0">
                         <a target="_blank" href="https://web.facebook.com/profile.php?id=61564071784342" class="text-sm hover:underline">Follow USC-CITE on Facebook</a>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
 
         <!-- Copyright -->
         <div class="order-4 lg:col-span-2 mt-4 pt-8 border-t border-white text-left md:text-center">
-            <p class="text-sm text-white">&copy; 2026 SPARK Hub and USC-CITE.<br class="md:hidden"> All Rights Reserved.</p>
+            <small class="text-sm text-white">&copy; 2026 SPARK Hub and USC-CITE.<br class="md:hidden"> All Rights Reserved.</small>
         </div>
     </div>
 </footer>
