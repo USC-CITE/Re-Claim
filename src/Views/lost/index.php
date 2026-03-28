@@ -5,20 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lost Items</title>
   <link rel="stylesheet" href="/css/app.css">
+  <script src="/js/lost/index.js" defer></script>
 </head>
 <body class="font-poppins bg-white text-primary min-h-screen">
+<?php require __DIR__ . "/../mainpages/header.php"?>
 
 <main class="container px-6 py-10">
-  <?php require __DIR__ . "/../mainpages/header.php"?>
   <hgroup class="mb-8 space-y-2 text-center">
         <h1 class="text-display-md font-semibold text-primary">Lost Items</h1>
         <p class="text-sm text-secondary">Recent items reported as lost by the community.</p>
     </hgroup>
 
   <section class="mb-8 flex justify-center">
-    <div class="flex w-full max-w-xl items-center gap-3">
+    <form class="flex w-full max-w-xl items-center gap-3" role="search">
       <label for="lost-search" class="sr-only">Search lost items</label>
-      <div class="relative flex-1">
+      <section class="relative flex-1">
         <input
           id="lost-search"
           type="search"
@@ -30,7 +31,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35m1.85-5.15a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
           </svg>
         </span>
-      </div>
+      </section>
       <button
         type="button"
         aria-label="Filter lost items"
@@ -40,18 +41,22 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6h15m-12 6h9m-6 6h3" />
         </svg>
       </button>
-    </div>
+    </form>
   </section>
 
   <nav aria-label="Listing type" class="mb-10 flex justify-center">
-    <div class="flex items-center gap-8 text-sm font-semibold">
-      <a href="/lost" class="border-b-2 border-primary-500 pb-1 text-primary-500">
-        Lost Items
-      </a>
-      <a href="/found" class="border-b-2 border-transparent pb-1 text-secondary transition-colors hover:text-primary">
-        Found Items
-      </a>
-    </div>
+    <ul class="flex items-center gap-8 text-sm font-semibold">
+      <li>
+        <a href="/lost" class="border-b-2 border-primary-500 pb-1 text-primary-500">
+          Lost Items
+        </a>
+      </li>
+      <li>
+        <a href="/found" class="border-b-2 border-transparent pb-1 text-secondary transition-colors hover:text-primary">
+          Found Items
+        </a>
+      </li>
+    </ul>
   </nav>
 
   <?php /*
@@ -133,7 +138,7 @@
     <?php endif; ?>
     */ ?>
 
-    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <section class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
       <?php foreach ($lostItems as $item): ?>
         <article class="flex h-full flex-col gap-4 overflow-hidden rounded-[28px] border border-[#d9d9d9] bg-white p-5 shadow-[0_6px_18px_rgba(10,10,10,0.12)]">
           <?php /*
@@ -287,7 +292,7 @@
 
   </article>
       <?php endforeach; ?>
-    </div>
+    </section>
 
     <?php /*
     // Bulk archive submit UI
@@ -300,9 +305,6 @@
     */ ?>
   <?php endif; ?>
 </main>
-
-<script src="/js/lost/index.js"></script>
-
 </body>
 </html>
 
