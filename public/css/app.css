@@ -48,9 +48,12 @@
     --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-50: #feeceb;
+    --color-red-100: #fcc5c1;
     --color-red-500: #f44336;
     --color-red-600: #de3d31;
     --color-green-50: #e6ffe6;
+    --color-green-100: #b0ffb0;
     --color-green-500: #00ff00;
     --color-green-600: #00e800;
     --color-green-800: #008c00;
@@ -91,6 +94,7 @@
     --radius-xs: 0.125rem;
     --radius-lg: 0.5rem;
     --radius-2xl: 1rem;
+    --radius-3xl: 1.5rem;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
@@ -418,6 +422,9 @@
   .h-5 {
     height: calc(var(--spacing) * 5);
   }
+  .h-6 {
+    height: calc(var(--spacing) * 6);
+  }
   .h-8 {
     height: calc(var(--spacing) * 8);
   }
@@ -724,6 +731,9 @@
   .rounded-2xl {
     border-radius: var(--radius-2xl);
   }
+  .rounded-3xl {
+    border-radius: var(--radius-3xl);
+  }
   .rounded-\[12px\] {
     border-radius: 12px;
   }
@@ -809,11 +819,17 @@
   .border-gray-900 {
     border-color: var(--color-gray-900);
   }
+  .border-green-100 {
+    border-color: var(--color-green-100);
+  }
   .border-green-500 {
     border-color: var(--color-green-500);
   }
   .border-primary-500 {
     border-color: var(--color-primary-500);
+  }
+  .border-red-100 {
+    border-color: var(--color-red-100);
   }
   .border-secondary {
     border-color: var(--color-secondary);
@@ -836,11 +852,20 @@
   .bg-green-50 {
     background-color: var(--color-green-50);
   }
+  .bg-green-800 {
+    background-color: var(--color-green-800);
+  }
   .bg-primary-500 {
     background-color: var(--color-primary-500);
   }
   .bg-primary-600 {
     background-color: var(--color-primary-600);
+  }
+  .bg-red-50 {
+    background-color: var(--color-red-50);
+  }
+  .bg-red-600 {
+    background-color: var(--color-red-600);
   }
   .bg-transparent {
     background-color: transparent;
@@ -1102,6 +1127,10 @@
     --tw-shadow: 0 4px 12px var(--tw-shadow-color, rgba(0,0,0,0.20));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
+  .shadow-\[0_4px_16px_0_rgba\(0\,0\,0\,0\.08\)\] {
+    --tw-shadow: 0 4px 16px 0 var(--tw-shadow-color, rgba(0,0,0,0.08));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
   .shadow-\[0_4px_16px_0_rgba\(0\,0\,0\,0\.20\)\] {
     --tw-shadow: 0 4px 16px 0 var(--tw-shadow-color, rgba(0,0,0,0.20));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -1331,6 +1360,11 @@
   .sm\:hidden {
     @media (width >= 40rem) {
       display: none;
+    }
+  }
+  .sm\:max-w-\[840px\] {
+    @media (width >= 40rem) {
+      max-width: 840px;
     }
   }
   .sm\:grid-cols-2 {

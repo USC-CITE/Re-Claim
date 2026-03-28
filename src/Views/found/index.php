@@ -79,13 +79,15 @@
     */ ?>
 
     <?php if (!empty($flash['success'])): ?>
-        <article style="border-left: 4px solid #2ecc71; padding: 1rem;">
-            <strong>Success:</strong> <?= htmlspecialchars($flash['success']) ?>
-        </article>
+        <div role="status" class="mx-auto mb-8 flex w-full max-w-[405px] items-center gap-3 rounded-3xl border border-green-100 bg-green-50 px-5 py-4 text-sm text-primary shadow-[0_4px_16px_0_rgba(0,0,0,0.08)] sm:max-w-[840px]">
+            <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-800 text-xs font-semibold leading-none text-white">!</span>
+            <p class="leading-none"><strong class="font-semibold text-green-800">Success:</strong> <?= htmlspecialchars($flash['success']) ?></p>
+        </div>
     <?php elseif (!empty($flash['error'])): ?>
-        <article style="border-left: 4px solid #e74c3c; padding: 1rem;">
-            <strong>Error:</strong> <?= htmlspecialchars($flash['error']) ?>
-        </article>
+        <div role="alert" class="mx-auto mb-8 flex w-full max-w-[405px] items-center gap-3 rounded-3xl border border-red-100 bg-red-50 px-5 py-4 text-sm text-primary shadow-[0_4px_16px_0_rgba(0,0,0,0.08)] sm:max-w-[840px]">
+            <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-red-600 text-xs font-semibold leading-none text-white">!</span>
+            <p class="leading-none"><strong class="font-semibold text-red-600">Error:</strong> <?= htmlspecialchars($flash['error']) ?></p>
+        </div>
     <?php endif; ?>
 
     <?php
