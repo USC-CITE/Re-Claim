@@ -11,30 +11,29 @@
 <?php require __DIR__ . "/../mainpages/header.php"?>
 <main class="container px-6 py-10">
     <hgroup class="mb-8 space-y-2 text-center">
-        <h1 class="text-display-md font-semibold text-primary">Found Items</h1>
-        <p class="text-sm text-secondary">Recent items reported by the community.</p>
+        <h1 class="text-center text-display-md font-bold text-black">Found Items</h1>
     </hgroup>
 
     <section class="mb-8 flex justify-center">
-        <form class="flex w-full max-w-xl items-center gap-3" role="search">
+        <form class="flex items-center gap-3" role="search">
             <label for="found-search" class="sr-only">Search found items</label>
-            <section class="relative flex-1">
+            <section class="relative h-[40px] w-[521px] overflow-hidden rounded-[12px] border border-[#212121] bg-transparent">
                 <input
                     id="found-search"
                     type="search"
                     placeholder="Search found items"
-                    class="w-full rounded-xl border border-white-700 bg-white px-4 py-3 pr-12 text-sm text-primary placeholder:text-secondary shadow-100"
+                    class="h-full w-full border-0 bg-transparent pl-4 pr-14 text-sm text-primary shadow-none outline-none placeholder:text-secondary focus:border-0 focus:ring-0"
                 >
-                <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-secondary" aria-hidden="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35m1.85-5.15a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+                <span class="pointer-events-none absolute right-0 top-0 flex h-[38px] w-[43.417px] items-center justify-center rounded-r-[10px] bg-[#E5E5E5]" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none" class="h-[20px] w-[17.367px]">
+                        <path d="M17.3667 18.0383L12.8406 12.8675C13.6919 11.53 14.1952 9.885 14.1952 8.10833C14.1952 3.6375 11.0113 0 7.09722 0C3.1839 0 0 3.6375 0 8.10833C0 12.58 3.1839 16.2167 7.09722 16.2167C8.58085 16.2167 9.95872 15.6942 11.0995 14.8017L15.6496 20L17.3667 18.0383ZM2.08175 8.10833C2.08175 4.94833 4.332 2.3775 7.09795 2.3775C9.86389 2.3775 12.1141 4.94833 12.1141 8.10833C12.1141 11.2683 9.86389 13.8392 7.09795 13.8392C4.33127 13.8392 2.08175 11.2683 2.08175 8.10833Z" fill="#212121"/>
                     </svg>
                 </span>
             </section>
             <button
                 type="button"
                 aria-label="Filter found items"
-                class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white-700 bg-white text-primary shadow-100 transition-colors hover:bg-white-50"
+                class="flex h-[38px] w-[38px] shrink-0 items-center justify-center gap-[10px] rounded-2xl border border-black bg-white p-[9px_10px]"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6h15m-12 6h9m-6 6h3" />
@@ -44,14 +43,14 @@
     </section>
 
     <nav aria-label="Listing type" class="mb-10 flex justify-center">
-        <ul class="flex items-center gap-8 text-sm font-semibold">
+        <ul class="flex items-center gap-8 text-md font-semibold">
             <li>
-                <a href="/lost" class="border-b-2 border-transparent pb-1 text-secondary transition-colors hover:text-primary">
+                <a href="/lost" class="border-b-2 border-transparent pb-1 text-secondary transition-colors hover:text-secondary">
                     Lost Items
                 </a>
             </li>
             <li>
-                <a href="/found" class="border-b-2 border-primary-500 pb-1 text-primary-500">
+                <a href="/found" class="border-b-2 border-primary-500 pb-1 text-primary-700">
                     Found Items
                 </a>
             </li>
