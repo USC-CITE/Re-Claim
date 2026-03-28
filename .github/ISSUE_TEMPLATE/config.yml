@@ -1,0 +1,9 @@
+blank_issues_enabled: true
+contact_links:
+    - name: Bug Report
+      url: https://github.com/USC-CITE/Re-Claim/blob/main/.github/ISSUE_TEMPLATE/1_bug_report.md
+      about: File a bug report to fix something.
+    - name: Documentation 
+      url: https://github.com/USC-CITE/Re-Claim/blob/main/.github/ISSUE_TEMPLATE/2_documentation.md
+      about: Request changes or additions to documentation.
+      
