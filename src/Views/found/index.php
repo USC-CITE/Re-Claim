@@ -163,7 +163,7 @@
                             <p class="text-lg font-semibold text-primary">
                                 <span class="mr-1 text-green-800">[Found]</span><?= htmlspecialchars($item['title']) ?>
                             </p>
-                            <p class="text-sm font-normal text-primary"><?= htmlspecialchars($item['date_found'] ?: 'Date unavailable') ?></p>
+                            <p class="text-sm font-normal text-primary"><?= htmlspecialchars(!empty($item['date_found']) ? preg_replace('/(\d{4})\s+(\d{1,2}:\d{2}(?::\d{2})?\s*[APMapm]*)$/', '$1 at $2', (string) $item['date_found']) : 'Date unavailable') ?></p>
                         </div>
                         </div>
                     </header>
