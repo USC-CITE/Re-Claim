@@ -730,6 +730,9 @@
   .rounded-\[28px\] {
     border-radius: 28px;
   }
+  .rounded-\[32px\] {
+    border-radius: 32px;
+  }
   .rounded-\[40px\] {
     border-radius: 40px;
   }
@@ -1097,6 +1100,10 @@
   }
   .shadow-\[0_4px_12px_rgba\(0\,0\,0\,0\.20\)\] {
     --tw-shadow: 0 4px 12px var(--tw-shadow-color, rgba(0,0,0,0.20));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .shadow-\[0_4px_16px_0_rgba\(0\,0\,0\,0\.20\)\] {
+    --tw-shadow: 0 4px 16px 0 var(--tw-shadow-color, rgba(0,0,0,0.20));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
   .shadow-\[0_6px_18px_rgba\(10\,10\,10\,0\.12\)\] {

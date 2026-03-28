@@ -145,7 +145,7 @@
     <!--LOST ITEM CARDS -->
     <section class="flex flex-wrap justify-center gap-6">
       <?php foreach ($lostItems as $item): ?>
-        <article class="flex h-full w-full max-w-[405px] flex-col items-start gap-4 overflow-hidden rounded-[28px] border border-[#d9d9d9] bg-white px-[22px] py-6 shadow-[0_6px_18px_rgba(10,10,10,0.12)]">
+        <article class="flex h-full w-full max-w-[405px] flex-col items-start gap-4 overflow-hidden rounded-[32px] border border-[#d9d9d9] bg-white px-[22px] py-6 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)]">
           <?php /*
           // Bulk archive checkbox
           // Bring them back once the matching UI section is designed.
