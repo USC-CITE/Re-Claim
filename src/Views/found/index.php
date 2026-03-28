@@ -190,9 +190,9 @@
                         <p class="text-sm font-normal text-primary"><?= htmlspecialchars($item['description']) ?></p>
                     </div>
                     
-                    <footer class="mt-auto flex flex-wrap justify-end gap-3 pt-2">
+                    <footer class="mt-auto flex w-full flex-wrap justify-end gap-3 pt-2">
                         <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
-                            <button class="inline-flex items-center justify-center rounded-2xl bg-primary-500 px-5 py-3 text-sm font-semibold text-white-50 transition-colors hover:bg-primary-600" onclick="openModal('contact-modal-<?= $item['id'] ?>')">
+                            <button class="ml-auto inline-flex items-center justify-center rounded-2xl bg-primary-500 px-5 py-3 text-sm font-semibold text-white-50 transition-colors hover:bg-primary-600" onclick="openModal('contact-modal-<?= $item['id'] ?>')">
                                 Contact Finder
                             </button>
                         <?php endif; ?>
