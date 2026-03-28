@@ -184,25 +184,7 @@
             </div>
 
             <p class="text-[13px] leading-6 text-secondary"><?= htmlspecialchars($item['description']) ?></p>
-
-            <p class="text-xs text-secondary">
-              Posted by <?= htmlspecialchars($item['name'] ?: 'Anonymous') ?>
-            </p>
-
-            <?php if (($item['status'] ?? 'Unrecovered') === 'Unrecovered' && !empty($item['archive_date'])): ?>
-              <p class="text-xs text-secondary">Auto-archives on <?= htmlspecialchars($item['archive_date']) ?></p>
-            <?php endif; ?>
           </div>
-
-          <?php if (!empty($item['categories'])): ?>
-            <div class="flex flex-wrap gap-2">
-              <?php foreach ($item['categories'] as $cat): ?>
-                <span class="rounded-full border border-white-700 px-3 py-1 text-xs text-secondary">
-                  <?= htmlspecialchars($cat) ?>
-                </span>
-              <?php endforeach; ?>
-            </div>
-          <?php endif; ?>
 
           <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
             <button

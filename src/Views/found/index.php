@@ -177,18 +177,10 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s6-4.35 6-10a6 6 0 1 0-12 0c0 5.65 6 10 6 10Z" />
                                 <circle cx="12" cy="11" r="2.25" />
                             </svg>
-                            <span>Found at <?= htmlspecialchars($item['location'] ?: 'Unknown location') ?></span>
+                            <span>Last seen at <?= htmlspecialchars($item['location'] ?: 'Unknown location') ?></span>
                         </div>
 
                         <p class="text-[13px] leading-6 text-secondary"><?= htmlspecialchars($item['description']) ?></p>
-
-                        <p class="text-xs text-secondary">
-                            Posted by <?= htmlspecialchars($item['name'] ?: 'Anonymous') ?>
-                        </p>
-
-                        <?php if (($item['status'] ?? 'Unrecovered') === 'Unrecovered' && !empty($item['archive_date'])): ?>
-                            <p class="text-xs text-secondary">Auto-archives on <?= htmlspecialchars($item['archive_date']) ?></p>
-                        <?php endif; ?>
                     </div>
                     
                     <footer class="mt-auto flex flex-wrap justify-end gap-3 pt-2">
