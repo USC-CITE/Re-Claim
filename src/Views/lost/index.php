@@ -221,15 +221,20 @@
   */ ?>
 
   <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
-    <dialog id="contact-modal-<?= $item['id'] ?>">
-      <article>
-        <header>
-          <button aria-label="Close" rel="prev" onclick="closeModal('contact-modal-<?= $item['id'] ?>')"></button>
-          <h3>Contact Owner</h3>
+    <dialog id="contact-modal-<?= $item['id'] ?>" class="w-full max-w-xl rounded-[28px] border-none bg-transparent p-0 backdrop:bg-black/30" style="left:50%; top:50%; transform:translate(-50%, -50%);">
+      <article class="w-full rounded-[28px] bg-white p-6 text-primary shadow-[0_12px_32px_rgba(10,10,10,0.18)]">
+        <header class="mb-4 flex items-start justify-between gap-4">
+          <h3 class="text-display-sm font-semibold text-primary">Contact Owner</h3>
+          <button type="button" aria-label="Close" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white-700 text-primary transition-colors hover:bg-white-50" onclick="closeModal('contact-modal-<?= $item['id'] ?>')">
+            <span class="text-lg leading-none">&times;</span>
+          </button>
         </header>
-        <p><?= htmlspecialchars($item['contact_info'] ?: 'No contact details.') ?></p>
-        <footer>
-          <button type="button" onclick="closeModal('contact-modal-<?= $item['id'] ?>')">Close</button>
+        <p class="text-sm leading-7 text-secondary">
+          You can contact the owner at:
+          <strong class="text-primary"><?= htmlspecialchars($item['contact_info'] ?: 'No contact details.') ?></strong>
+        </p>
+        <footer class="mt-6 flex justify-end">
+          <button type="button" class="inline-flex items-center justify-center rounded-2xl bg-primary-500 px-5 py-3 text-sm font-semibold text-white-50 transition-colors hover:bg-primary-600" onclick="closeModal('contact-modal-<?= $item['id'] ?>')">Close</button>
         </footer>
       </article>
     </dialog>
