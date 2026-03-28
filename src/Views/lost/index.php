@@ -10,7 +10,7 @@
 <body class="font-poppins bg-white text-primary min-h-screen">
 <?php require __DIR__ . "/../mainpages/header.php"?>
 
-<main class="container px-6 py-10">
+<main class="mx-auto max-w-[1327px] px-4 py-10 sm:px-6">
   <hgroup class="mb-8 space-y-2 text-center">
         <h1 class="text-center text-display-md font-bold text-black">Lost Items</h1>
   </hgroup>
@@ -18,9 +18,9 @@
   <!-- SEARCH AND FILTER -->
   <section class="mb-8 flex justify-center">
     <!-- SEARCH BAR -->
-    <form class="flex items-center gap-3" role="search">
+    <form class="flex w-full max-w-[575px] items-center justify-center gap-3" role="search">
       <label for="lost-search" class="sr-only">Search lost items</label>
-      <section class="relative h-[40px] w-[521px] overflow-hidden rounded-[12px] border border-[#212121] bg-transparent">
+      <section class="relative h-[40px] min-w-0 flex-1 max-w-[521px] overflow-hidden rounded-[12px] border border-[#212121] bg-transparent">
         <input
           id="lost-search"
           type="search"
@@ -143,9 +143,9 @@
     */ ?>
 
     <!--LOST ITEM CARDS -->
-    <section class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <section class="flex flex-wrap justify-center gap-6">
       <?php foreach ($lostItems as $item): ?>
-        <article class="flex h-full w-[405px] flex-col items-start gap-4 overflow-hidden rounded-[28px] border border-[#d9d9d9] bg-white px-[22px] py-6 shadow-[0_6px_18px_rgba(10,10,10,0.12)]">
+        <article class="flex h-full w-full max-w-[405px] flex-col items-start gap-4 overflow-hidden rounded-[28px] border border-[#d9d9d9] bg-white px-[22px] py-6 shadow-[0_6px_18px_rgba(10,10,10,0.12)]">
           <?php /*
           // Bulk archive checkbox
           // Bring them back once the matching UI section is designed.
@@ -181,12 +181,12 @@
             </div>
           </header>
 
-          <div class="w-[362px] self-center border-t border-secondary"></div>
+          <div class="w-full max-w-[362px] self-center border-t border-secondary"></div>
 
           <?php if (!empty($item['image_url'])): ?>
-            <img src="<?= htmlspecialchars($item['image_url']) ?>" alt="Lost item image" class="h-[260.188px] w-[362px] rounded-2xl object-cover">
+            <img src="<?= htmlspecialchars($item['image_url']) ?>" alt="Lost item image" class="h-[260.188px] w-full max-w-[362px] rounded-2xl object-cover">
           <?php else: ?>
-            <div class="flex h-[260.188px] w-[362px] items-center justify-center rounded-2xl border border-dashed border-white-700 bg-white-50 text-sm text-secondary">
+            <div class="flex h-[260.188px] w-full max-w-[362px] items-center justify-center rounded-2xl border border-dashed border-white-700 bg-white-50 text-sm text-secondary">
               <small>No image</small>
             </div>
           <?php endif; ?>

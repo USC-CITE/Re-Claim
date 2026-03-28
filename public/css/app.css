@@ -535,6 +535,21 @@
   .max-w-105 {
     max-width: calc(var(--spacing) * 105);
   }
+  .max-w-\[362px\] {
+    max-width: 362px;
+  }
+  .max-w-\[405px\] {
+    max-width: 405px;
+  }
+  .max-w-\[521px\] {
+    max-width: 521px;
+  }
+  .max-w-\[575px\] {
+    max-width: 575px;
+  }
+  .max-w-\[1327px\] {
+    max-width: 1327px;
+  }
   .max-w-lg {
     max-width: var(--container-lg);
   }
@@ -1324,6 +1339,11 @@
   .sm\:gap-6 {
     @media (width >= 40rem) {
       gap: calc(var(--spacing) * 6);
+    }
+  }
+  .sm\:px-6 {
+    @media (width >= 40rem) {
+      padding-inline: calc(var(--spacing) * 6);
     }
   }
   .sm\:text-base {
