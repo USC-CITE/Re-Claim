@@ -166,7 +166,17 @@
               <p class="text-lg font-semibold text-primary">
                 <span class="mr-1 text-red-600">[Lost]</span><?= htmlspecialchars($item['item_name'] ?: 'Lost Item') ?>
               </p>
-              <p class="text-sm font-normal text-primary"><?= htmlspecialchars($item['event_date'] ?: 'Date unavailable') ?></p>
+              <?php
+                $lostDateLabel = 'Date unavailable';
+                if (!empty($item['event_date'])) {
+                  try {
+                    $lostDateLabel = (new DateTime($item['event_date']))->format('F j, Y \a\t g:i A');
+                  } catch (Exception $e) {
+                    $lostDateLabel = (string) $item['event_date'];
+                  }
+                }
+              ?>
+              <p class="text-sm font-normal text-primary"><?= htmlspecialchars($lostDateLabel) ?></p>
             </div>
             </div>
           </header>
