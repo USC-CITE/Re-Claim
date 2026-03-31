@@ -49,10 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById(tabId).classList.add("active");
         
         // activate selected button
-        const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
-        activeBtn.classList.add("active");
-
-        pageTitle.textContent = activeBtn.dataset.title;
+        document.querySelector(`[data-tab="${tabId}"]`).classList.add("active");
 
     }
 
