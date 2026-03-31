@@ -56,12 +56,6 @@
 
         <!-- Tab Buttons -->
         <nav class="relative w-full border-b border-gray-400 pb-4 mb-6">
-             <!-- Fade Left -->
-            <div id="fadeLeftSettings" class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent z-10 sm:hidden"></div>
-
-            <!-- Fade Right -->
-            <div id="fadeRightSettings" class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent z-10 sm:hidden"></div>
-
             <div class="flex justify-center sm:justify-start">
                 <div id="tabScrollSettings"
                     class="flex flex-nowrap overflow-x-auto gap-12 sm:gap-12 no-scrollbar whitespace-nowrap px-4">
