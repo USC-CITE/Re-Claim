@@ -74,17 +74,20 @@
                                 Upload Picture
                             </label>
 
-                            <!-- Optional: show selected file name -->
                             <span id="file-name" class="text-xs truncate w-40 block text-gray-500"></span>
                         </div>
                         
-
-                        <!-- Delete checkbox -->
-                        <label class="flex items-center gap-2 text-sm text-gray-600">
-                            <!-- More specific label rather than just 'delete' -->
-                            <input type="checkbox" name="delete_avatar">
-                            Remove current avatar
-                        </label>
+                        <!-- Hidden input to track delete action -->
+                        <input type="hidden" name="delete_avatar" id="deleteAvatarInput" value="0">
+                        <div>
+                            <!-- Delete Button -->
+                            <button type="button"
+                                id="deleteAvatarBtn"
+                                class="px-4 py-2 text-md font-semibold border border-gray-800 rounded-xl cursor-pointer hover:bg-red-200 transition text-center">
+                                Remove Avatar
+                            </button>
+                        </div>
+                        
                     </div>
                 </div>
 
@@ -148,6 +151,7 @@
     </main>
 
     <!-- Tabs JS -->
-    <script src="/js/profile/editProfileTabs.js"></script>
+    <script src="/js/profile/editProfileTabs.js" defer></script>
+
 </body>
 </html>
