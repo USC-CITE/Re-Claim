@@ -28,6 +28,15 @@
             border-bottom: 2px solid #044177; 
         }
 
+        /* Hide scrollbar for Chrome, Safari and Opera */ 
+        .no-scrollbar::-webkit-scrollbar { 
+            display: none; 
+        } 
+        /* Hide scrollbar for IE, Edge and Firefox */ 
+        .no-scrollbar { 
+            -ms-overflow-style: none; /* IE and Edge */ 
+            scrollbar-width: none; /* Firefox */ 
+        }
     </style>
 </head>
 <body>
@@ -46,10 +55,34 @@
         </header>
 
         <!-- Tab Buttons -->
-        <nav class="flex gap-6 sm:gap-12 pl-6 border-b border-gray-400 pb-4 mb-6 overflow-x-auto whitespace-nowrap">
-            <button type="button" class="tab-btn shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="edit-profile" data-title="Edit Profile">Edit Profile</button>
-            <button type="button" class="tab-btn shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="change-pass" data-title="Change Password">Change Password</button>
-            <button type="button" class="tab-btn shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-300 transition" data-tab="privacy" data-title="Privacy Security">Privacy Security</button>
+        <nav class="relative w-full border-b border-gray-400 pb-4 mb-6">
+             <!-- Fade Left -->
+            <div id="fadeLeftSettings" class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent z-10 sm:hidden"></div>
+
+            <!-- Fade Right -->
+            <div id="fadeRightSettings" class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent z-10 sm:hidden"></div>
+
+            <div class="flex justify-center sm:justify-start">
+                <div id="tabScrollSettings"
+                    class="flex flex-nowrap overflow-x-auto gap-12 sm:gap-12 no-scrollbar whitespace-nowrap px-4">
+
+                    <button type="button" class="tab-btn shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:border-gray-300 transition"
+                        data-tab="edit-profile" data-title="Edit Profile">
+                        Edit Profile
+                    </button>
+
+                    <button type="button" class="tab-btn shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:border-gray-300 transition"
+                        data-tab="change-pass" data-title="Change Password">
+                        Change Password
+                    </button>
+
+                    <button type="button" class="tab-btn shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:border-gray-300 transition"
+                        data-tab="privacy" data-title="Privacy Security">
+                        Privacy Security
+                    </button>
+
+                </div>
+            </div>
         </nav>
 
         <!-- Tab Contents -->
