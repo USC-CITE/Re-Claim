@@ -53,7 +53,7 @@
             <form action="/profile/edit" method="post" enctype="multipart/form-data" class="space-y-10 mb-6">
 
                 <!-- Avatar -->
-                <div class="flex items-center gap-6">
+                <div class="flex flex-col items-left gap-6 sm:flex-row sm:items-center">
                     <div class="w-24 h-24 rounded-full overflow-hidden ring-2 ring-gray-200">
                         <img src="<?= htmlspecialchars($_SESSION['avatar'] ?? '/avatars/default.png') ?>"
                             class="w-full h-full object-cover">
