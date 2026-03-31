@@ -59,7 +59,7 @@
                             class="w-full h-full object-cover">
                     </div>
 
-                    <div class="flex gap-8 align-center">
+                    <div class="flex gap-4">
                         <div class="flex flex-col gap-2">
                             <!-- Upload Avatar -->
                             <!-- Hidden file input -->

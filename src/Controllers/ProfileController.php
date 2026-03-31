@@ -140,7 +140,7 @@ class ProfileController{
                 @unlink($fullPath);
             }
 
-            $currentAvatar = '/avatars/default.svg';
+            $currentAvatar = '/avatars/default.png';
         }
 
         // =========================
@@ -204,7 +204,7 @@ class ProfileController{
 
         $_SESSION['flash'] = ['success' => 'Profile updated successfully'];
 
-        header("Location: /profile/edit");
+        header("Location: /profile/settings");
         exit;
     }
 
