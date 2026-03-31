@@ -173,8 +173,39 @@
 
         </section>
 
-        <section class="tab-content" id="change-pass">
-            <h3>This is Change Password tab </h3>
+        <section class="tab-content max-w-2xl mx-auto" id="change-pass">
+            <form action="/profile/change-pass" method="post" class="space-y-6 mb-6 mt-8">
+                <p class="text-sm mb-4">A verification email will be sent once all fields are correctly filled out.</p>
+
+                <!-- Main Section -->
+                <div class="space-y-6">
+                    <!-- Current Password -->
+                    <div class="flex flex-col">
+                        <label class="text-md" >Current Password</label>
+                        <input type="text" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm">
+                    </div>
+                    
+                    <!-- New Password -->
+                    <div class="flex flex-col">
+                        <label class="text-md">New Password</label>
+                        <input type="text" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm">
+                    </div>
+
+                    <!-- Confirm Password -->   
+                    <div class="flex flex-col">
+                        <label class="text-md">Confirm Password</label>
+                        <input type="text" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm">
+                    </div>
+                </div>
+
+                  <!-- Change Pass Button -->
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="px-5 py-2 text-md mt-6 font-semibold bg-[#055BA8] text-white rounded-xl hover:bg-blue-700 transition">
+                        Change Password
+                    </button>
+                </div>
+            </form>
         </section>
 
         <section class="tab-content" id="privacy">
