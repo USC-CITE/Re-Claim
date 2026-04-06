@@ -181,6 +181,11 @@ class UserModel {
         return $avatar ?: null;
     }
 
+    public function updatePassword(int $userId, string $password){
+        $stmt = $this->db->prepare("UPDATE users SET password = ? WHERE id = ?");
+        return $stmt->execute([$password, $userId]);
+    }
+
     
 }
 
