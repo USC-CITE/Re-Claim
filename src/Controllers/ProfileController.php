@@ -227,7 +227,7 @@ class ProfileController{
 
         // This would store all error messages
         $errors = [];
-
+        
         // Validate values
         if(!$currentPassword){
             $errors['current_password'] = ['error' => 'This field is required'];
@@ -256,13 +256,13 @@ class ProfileController{
         // If one error occurs show UI
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
-            header("Location: /profile/settings");
+            header("Location: /profile/settings#change-pass");
             exit;
         }
 
         if(!$userData || !password_verify($currentPassword, $userData['password'])){
             $errors['current_password'] = ['error' => 'Current password is incorrect!'];
-            header("Location: /profile/settings");
+            header("Location: /profile/settings#change-pass");
             exit;
         }
 
@@ -273,7 +273,7 @@ class ProfileController{
         $user->updatePassword($userId, $hashedPassword);
         
         $_SESSION['flash'] = ['success' => "Password changed successfully!"];
-        header("Location: /profile/settings");
+        header("Location: /profile/settings#change-pass");
         exit;
 
 

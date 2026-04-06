@@ -33,33 +33,44 @@ document.addEventListener("DOMContentLoaded", function () {
     input.addEventListener('change', () => {
         fileName.textContent = input.files.length > 0 ?  input.files[0].name : '';
     })
+    
     function activateTab(tabId) {
+    console.log("Activating:", tabId);
 
-        // hide all tabs
-        tabs.forEach(tab => {
-            tab.classList.remove("active");
-        });
+    const targetTab = document.getElementById(tabId);
+    const targetBtn = document.querySelector(`[data-tab="${tabId}"]`);
 
-        // deactivate all buttons
-        buttons.forEach(btn => {
-            btn.classList.remove("active");
-        });
+    // 🚨 If not found, fallback
+    if (!targetTab || !targetBtn) {
+        console.warn("Tab not found:", tabId);
 
-        // activate selected tab
-        document.getElementById(tabId).classList.add("active");
-        
-        // activate selected button
-        document.querySelector(`[data-tab="${tabId}"]`).classList.add("active");
-
+        tabId = "edit-profile";
     }
 
-    // default tab
-    activateTab("edit-profile");
+    // reset again using safe tabId
+    tabs.forEach(tab => tab.classList.remove("active"));
+    buttons.forEach(btn => btn.classList.remove("active"));
+
+    document.getElementById(tabId).classList.add("active");
+    document.querySelector(`[data-tab="${tabId}"]`).classList.add("active");
+}
+
+    const hash = window.location.hash.substring(1);
+    console.log("HASH:", hash);
+    if(hash){
+        activateTab(hash);
+    }else{
+        // default tab
+        activateTab("edit-profile");
+    }
+    
 
     // click events
     buttons.forEach(button => {
         button.addEventListener("click", function () {
             activateTab(this.dataset.tab);
+
+            history.replaceState(null, "", `#${this.dataset.tab}`);
         });
     });
 });

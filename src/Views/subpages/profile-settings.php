@@ -175,7 +175,7 @@
         </section>
 
         <section class="tab-content max-w-2xl mx-auto" id="change-pass">
-            <form action="/profile/change-password" method="post" class="space-y-6 mb-6 mt-8">
+            <form action="/profile/change-password" method="post" class="space-y-6 mb-2 mt-8">
                 <p class="text-sm mb-4">A verification email will be sent once all fields are correctly filled out.</p>
 
                 <!-- Main Section -->
@@ -207,7 +207,8 @@
                         </p>
                     </div>
                 </div>
-
+                
+                <?php unset($_SESSION['errors']); ?>
                   <!-- Change Pass Button -->
                 <div class="flex justify-end">
                     <button type="submit"
