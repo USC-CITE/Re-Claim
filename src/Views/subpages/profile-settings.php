@@ -174,7 +174,7 @@
         </section>
 
         <section class="tab-content max-w-2xl mx-auto" id="change-pass">
-            <form action="/profile/change-pass" method="post" class="space-y-6 mb-6 mt-8">
+            <form action="/profile/change-password" method="post" class="space-y-6 mb-6 mt-8">
                 <p class="text-sm mb-4">A verification email will be sent once all fields are correctly filled out.</p>
 
                 <!-- Main Section -->
@@ -182,19 +182,19 @@
                     <!-- Current Password -->
                     <div class="flex flex-col">
                         <label class="text-md" >Current Password</label>
-                        <input type="text" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm">
+                        <input name="current-password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" autocomplete="current-password"required>
                     </div>
                     
                     <!-- New Password -->
                     <div class="flex flex-col">
                         <label class="text-md">New Password</label>
-                        <input type="text" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm">
+                        <input name="new-password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" autocomplete="new-password" required>
                     </div>
 
                     <!-- Confirm Password -->   
                     <div class="flex flex-col">
                         <label class="text-md">Confirm Password</label>
-                        <input type="text" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm">
+                        <input name="confirm-password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" required>
                     </div>
                 </div>
 

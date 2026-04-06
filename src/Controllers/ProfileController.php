@@ -207,5 +207,59 @@ class ProfileController{
         header("Location: /profile/settings");
         exit;
     }
+    
+    public static function changePassword(){
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+            exit;
+        }
 
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Invalid CSRF Token");
+        }
+
+        $userId = $_SESSION['user_id'];
+        
+        // Get Values
+        $currentPassword = $_POST['current_password'] ?? "";
+        $newPassword = $_POST['new_password'] ?? "";
+        $confirmPassword = $_POST['confirm_password'] ?? "";
+
+        // This would store all error messages
+        $errors = [];
+
+        // Validate values
+        if(!$currentPassword){
+            $errors['current_password'] = ['error' => 'This field is required'];
+        }
+
+        if(!$newPassword){
+            $errors['new_password'] = ['error' => 'This field is required'];
+        }
+
+        if(!$confirmPassword){
+            $errors['confirm_password'] = ['error' => 'This field is required'];
+        }
+        
+        if($newPassword && strlen($newPassword) < 6){
+
+        }
+        if($newPassword !== $confirmPassword){
+            $errors['confirm_password'] = ['error' => 'Password do not match!'];
+        }
+        // If one error occurs show UI
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors;
+            header("Location: /profile/settings");
+            exit;
+        }
+
+        // Send email
+
+        // Store temp token
+
+        // Update if verified
+
+    }
 }

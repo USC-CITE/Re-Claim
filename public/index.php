@@ -63,6 +63,7 @@ $router->get('/profile', [ProfileController::class, 'showProfile']);
 $router->get('/profile/settings', [ProfileController::class, 'showProfileSettings']);
 $router->post('/profile/archived/delete', [ProfileController::class, 'deleteArchivedItems']);
 $router->post('/profile/edit', [ProfileController::class, 'updateProfile']);
+$router->post('/profile/change-password', [ProfileController::class, 'changePassword']);
 
 /* Found Item */
 $router->get('/found', [FoundItemController::class, 'index']);      // List Page
