@@ -221,9 +221,11 @@
 
         <section class="tab-content max-w-2xl mx-auto" id="privacy">
             <form action="/profile/delete" method="post" class="space-y-2">
+                <?php \App\Core\Router::setCsrf(); ?>
                 <p>Deleting your account will permanently remove your Re:Claim profile and all associated content. This action will be irreversible. </p>
                 <div class="flex justify-start">
                     <button type="submit"
+                        onclick="return confirm('Are you sure? This action cannot be undone.')"
                         class="px-5 py-2 text-md mt-6 font-semibold bg-[#DE3D31] text-white rounded-xl hover:text-gray-200 transition">
                         Delete Account
                     </button>

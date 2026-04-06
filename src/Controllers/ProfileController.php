@@ -278,4 +278,27 @@ class ProfileController{
 
 
     }
+
+    public static function deleteAccount(){
+        if (!\App\Core\Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Invalid CSRF token");
+        }
+
+        if(!isset($_SESSION['user_id'])){
+            header("Location: /login");
+            exit;
+        }
+
+        $userId = $_SESSION['user_id'];
+        $config = require __DIR__ . "/../Config/config.php";
+        $user = new UserModel($config);
+        
+        $user->deleteUser($userId);
+
+        session_destroy();
+
+        header("Location: /register");
+        exit;
+    }
 }

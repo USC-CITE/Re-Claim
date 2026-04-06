@@ -194,6 +194,11 @@ class UserModel {
         return $stmt->execute([$password, $userId]);
     }
 
+    public function deleteUser(int $userId){
+        $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
+        return $stmt->execute([$userId]);
+    }
+
     
 }
 
