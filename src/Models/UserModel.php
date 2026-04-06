@@ -47,6 +47,14 @@ class UserModel {
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
+    function findById(string $id): ?array{
+        // Query the database and return the row of that email
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id LIMIT 1");
+        $stmt->execute(['id' => $id]);
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
     function verifyOtp(string $email, string $otp): bool{
 
         // We utilized our findByEmail helper function

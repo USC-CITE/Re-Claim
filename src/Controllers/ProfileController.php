@@ -214,17 +214,16 @@ class ProfileController{
             exit;
         }
 
-        if (!Router::isCsrfValid()) {
-            http_response_code(403);
-            die("Invalid CSRF Token");
-        }
-
         $userId = $_SESSION['user_id'];
-        
+        $config = require __DIR__ . '/../Config/config.php';
+        $user = new UserModel($config);
         // Get Values
         $currentPassword = $_POST['current_password'] ?? "";
         $newPassword = $_POST['new_password'] ?? "";
         $confirmPassword = $_POST['confirm_password'] ?? "";
+        
+        // Verify Current Password
+        $userData = $user->findById($userId);
 
         // This would store all error messages
         $errors = [];
@@ -242,11 +241,17 @@ class ProfileController{
             $errors['confirm_password'] = ['error' => 'This field is required'];
         }
         
+        // If new password exist but less than 6 characters
         if($newPassword && strlen($newPassword) < 6){
-
+            $errors['new_password'] = ['error' => 'Password must be at least 6 characters'];
         }
         if($newPassword !== $confirmPassword){
             $errors['confirm_password'] = ['error' => 'Password do not match!'];
+        }
+
+        // If new password value is same as current password
+        if(password_verify($newPassword, $userData['password'])){
+            $errors['new_password'] = ['errors' => "New password is the same as current password!"];
         }
         // If one error occurs show UI
         if (!empty($errors)) {
@@ -255,11 +260,22 @@ class ProfileController{
             exit;
         }
 
-        // Send email
+        if(!$userData || !password_verify($currentPassword, $userData['password'])){
+            $errors['current_password'] = ['error' => 'Current password is incorrect!'];
+            header("Location: /profile/settings");
+            exit;
+        }
 
-        // Store temp token
 
-        // Update if verified
+        // Update Password
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+        $user->updatePassword($userId, $hashedPassword);
+        
+        $_SESSION['flash'] = ['success' => "Password changed successfully!"];
+        header("Location: /profile/settings");
+        exit;
+
 
     }
 }

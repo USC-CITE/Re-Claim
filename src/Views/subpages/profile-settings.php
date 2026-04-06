@@ -40,6 +40,7 @@
     </style>
 </head>
 <body>
+    
     <?php require __DIR__  . "/../mainpages/header.php"; ?>
 
     <main class="max-w-5xl mx-auto mt-16 px-6">
@@ -83,7 +84,7 @@
         <section class="tab-content active max-w-2xl mx-auto" id="edit-profile">
             <!-- Unified Form for Edit Profile -->
             <form action="/profile/edit" method="post" enctype="multipart/form-data" class="space-y-10 mb-6">
-
+                <?php \App\Core\Router::setCsrf(); ?>
                 <!-- Avatar -->
                 <div class="flex flex-col items-left gap-6 sm:flex-row sm:items-center">
                     <div class="w-24 h-24 rounded-full overflow-hidden ring-2 ring-gray-200">
@@ -182,19 +183,28 @@
                     <!-- Current Password -->
                     <div class="flex flex-col">
                         <label class="text-md" >Current Password</label>
-                        <input name="current-password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" autocomplete="current-password"required>
+                        <input name="current_password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" autocomplete="current-password"required>
+                        <p class="text-red-500 text-sm">
+                            <?= $_SESSION['errors']['current_password']['error'] ?? '' ?>
+                        </p>
                     </div>
                     
                     <!-- New Password -->
                     <div class="flex flex-col">
                         <label class="text-md">New Password</label>
-                        <input name="new-password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" autocomplete="new-password" required>
+                        <input name="new_password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" autocomplete="new-password" required>
+                        <p class="text-red-500 text-sm">
+                            <?= $_SESSION['errors']['new_password']['error'] ?? '' ?>
+                        </p>
                     </div>
 
                     <!-- Confirm Password -->   
                     <div class="flex flex-col">
                         <label class="text-md">Confirm Password</label>
-                        <input name="confirm-password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" required>
+                        <input name="confirm_password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" required>
+                        <p class="text-red-500 text-sm">
+                            <?= $_SESSION['errors']['confirm_password']['error'] ?? '' ?>
+                        </p>
                     </div>
                 </div>
 
