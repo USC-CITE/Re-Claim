@@ -116,7 +116,42 @@
                 </p>
             </div>
         </section>
-        <?php require __DIR__ . "/footer.php"?>
+        <?php // require __DIR__ . "/footer.php"?> <!-- Footer is currently commented out for development purposes -->
     </main>
+
+    <aside id="cookie-consent-banner" class="fixed bottom-4 left-0 right-0 z-50 mx-auto w-[94vw] max-w-7xl rounded-2xl border border-gray-300 bg-white px-4 py-3 text-left shadow-[0_4px_12px_rgba(0,0,0,0.16)] md:px-6 md:py-4" role="dialog" aria-modal="true" aria-labelledby="cookie-consent-title" aria-describedby="cookie-consent-desc">
+        <button id="cookie-consent-close" type="button" class="absolute right-3 top-3 shrink-0 rounded-full p-1 text-secondary hover:bg-gray-100 hover:text-primary md:right-4 md:top-4" aria-label="Dismiss cookie notice" data-consent-action="rejected">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <div class="min-w-0 md:pr-74 lg:pr-74">
+            <section class="min-w-0 pr-8 md:pr-0 gap-3 flex flex-col md:flex-col md:items-start">
+                <h2 id="cookie-consent-title" class="text-md font-semibold text-primary">Cookies &amp; Privacy</h2>
+                <p id="cookie-consent-desc" class="text-sm text-primary">
+                    Re:Claim uses cookies to track page visits, used browsers, and referring pages to analyze user patterns in accessing the website.
+                </p>
+                <p class="text-sm text-primary">
+                    You have full rights to accepting or denying our request to place cookies on your browser. We guarantee your information is not shared to advertisers and other third parties.
+                </p>
+            </section>
+        </div>
+
+        <menu class="mt-4 flex list-none flex-wrap items-center justify-end gap-3 md:absolute md:right-6 md:top-1/2 md:mt-0 md:-translate-y-1/2">
+            <li>
+                <button id="cookie-consent-accept" type="button" class="rounded-2xl bg-primary-500 px-6 py-2 text-md font-semibold text-white transition-colors hover:bg-primary-600" data-consent-action="accepted">
+                    Accept
+                </button>
+            </li>
+            <li>
+                <button id="cookie-consent-reject" type="button" class="rounded-2xl border border-secondary px-6 py-2 text-md font-semibold text-primary transition-colors hover:bg-gray-100" data-consent-action="rejected">
+                    Reject
+                </button>
+            </li>
+        </menu>
+    </aside>
+
+    <script src="/js/mainpages/cookie_disclaimer.js"></script>
 </body>
 </html>
