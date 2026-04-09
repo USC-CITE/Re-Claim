@@ -10,6 +10,8 @@
         // Progressive enhancement: detect JS
         document.documentElement.classList.remove('no-js');
         document.documentElement.classList.add('js');
+
+        const originalAvatar = "<?= htmlspecialchars($_SESSION['avatar'] ?? '/avatars/default.png') ?>";
     </script>
 
     <style>
@@ -88,7 +90,7 @@
                 <!-- Avatar -->
                 <div class="flex flex-col items-left gap-6 sm:flex-row sm:items-center">
                     <div class="w-24 h-24 rounded-full overflow-hidden ring-2 ring-gray-200">
-                        <img src="<?= htmlspecialchars($_SESSION['avatar'] ?? '/avatars/default.png') ?>"
+                        <img id="avatarPreview" src="<?= htmlspecialchars($_SESSION['avatar'] ?? '/avatars/default.png') ?>"
                             class="w-full h-full object-cover">
                     </div>
 
@@ -116,8 +118,11 @@
                             <!-- Delete Button -->
                             <button type="button"
                                 id="deleteAvatarBtn"
-                                class="px-4 py-2 text-md font-semibold border border-gray-800 rounded-xl cursor-pointer hover:bg-red-200 transition text-center">
+                                 <?= (!isset($_SESSION['avatar']) || $_SESSION['avatar'] === '/avatars/default.png') ? 'disabled' : '' ?>
+                                class="px-4 py-2 text-md font-semibold border border-gray-800 rounded-xl transition text-center
+                                <?= (!isset($_SESSION['avatar']) || $_SESSION['avatar'] === '/avatars/default.png') ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-200' ?>">
                                 Remove Avatar
+                                
                             </button>
                         </div>
                         

@@ -10,6 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const deleteBtn = document.getElementById("deleteAvatarBtn");
     const deleteInput = document.getElementById("deleteAvatarInput");
 
+    // Avatar Preview
+    const avatarPreview = document.getElementById("avatarPreview");
+
     // Delete state flag
     let isDeleted = false;
 
@@ -20,18 +23,44 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isDeleted) {
             deleteInput.value = "1";
             deleteBtn.textContent = "Undo Remove Avatar";
+
+            // Clear image and file name states
+            avatarPreview.src = "/avatars/default.png";
+            fileName.textContent = '';
+            input.value = '';
+
             deleteBtn.classList.remove("text-red-500", "border-red-500", "hover:bg-red-100");
             deleteBtn.classList.add("text-gray-600", "border-gray-400", "hover:bg-gray-200");
         } else {
             deleteInput.value = "0";
             deleteBtn.textContent = "Remove Avatar";
+
+            avatarPreview.src = originalAvatar;
             deleteBtn.classList.add("hover:bg-red-100");
             deleteBtn.classList.remove("text-gray-600", "border-gray-400", "hover:bg-gray-200");
         }
     });
 
     input.addEventListener('change', () => {
-        fileName.textContent = input.files.length > 0 ?  input.files[0].name : '';
+        const file = input.files[0];
+
+        // Handles the file name preview
+        fileName.textContent = file ? file.name : '';
+
+        if(file){
+            const reader = new FileReader();
+
+            reader.onload = function(e){
+                avatarPreview.src = e.target.result;
+            }
+
+            reader.readAsDataURL(file);
+
+            // Reset delete state if user uploads new image
+            isDeleted = false;
+            deleteInput.value = "0";
+            deleteBtn.textContent = "Remove Avatar";
+        }
     })
     
     function activateTab(tabId) {
@@ -40,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const targetTab = document.getElementById(tabId);
     const targetBtn = document.querySelector(`[data-tab="${tabId}"]`);
 
-    // 🚨 If not found, fallback
+    // If not found, fallback
     if (!targetTab || !targetBtn) {
         console.warn("Tab not found:", tabId);
 
