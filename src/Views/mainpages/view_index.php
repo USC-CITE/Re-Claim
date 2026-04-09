@@ -37,7 +37,7 @@
                 <!-- Card 1 -->
                 <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_4px_16px_rgba(0,0,0,0.2)] p-4 flex flex-col min-h-[500px] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-300">
                     <div class="w-full aspect-362/274 rounded-3xl overflow-hidden mb-8">
-                        <img src="/assets/temp.png" alt="Post lost item" class="w-full h-full object-cover">
+                        <img src="/assets/why-1.png" alt="Post lost item" class="w-full h-full object-cover">
                     </div>
                     <div class="px-2 pb-6 grow">
                         <h3 class="text-display-sm font-medium text-black mb-4 leading-snug w-70">
@@ -52,7 +52,7 @@
                 <!-- Card 2 -->
                 <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_4px_16px_rgba(0,0,0,0.2)] p-4 flex flex-col min-h-[500px] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-300">
                     <div class="w-full aspect-362/274 rounded-3xl overflow-hidden mb-8">
-                        <img src="/assets/temp.png" alt="Find lost item" class="w-full h-full object-cover">
+                        <img src="/assets/why-2.png" alt="Find lost item" class="w-full h-full object-cover">
                     </div>
                     <div class="px-2 pb-6 grow">
                         <h3 class="text-display-sm font-medium text-black mb-4 leading-snug w-65">
@@ -67,7 +67,7 @@
                 <!-- Card 3 -->
                 <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_4px_16px_rgba(0,0,0,0.2)] p-4 flex flex-col min-h-[500px] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-300">
                     <div class="w-full aspect-362/274 rounded-3xl overflow-hidden mb-8">
-                        <img src="/assets/temp.png" alt="Community project" class="w-full h-full object-cover">
+                        <img src="/assets/why-3.png" alt="Community project" class="w-full h-full object-cover">
                     </div>
                     <div class="px-2 pb-6 grow">
                         <h3 class="text-display-sm font-medium text-black mb-4 leading-snug">
@@ -85,7 +85,7 @@
             <!-- Github Screenshot -->
             <div class="flex-1 w-full">
                 <div class="rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100">
-                    <img src="/assets/temp.png" alt="GitHub Issues Screenshot" class="w-full h-auto">
+                    <img src="/assets/contribute.png" alt="GitHub Issues Screenshot" class="w-full h-auto">
                 </div>
             </div>
 
