@@ -40,7 +40,7 @@
                         <img src="/assets/why-1.png" alt="Post lost item" class="w-full h-full object-cover">
                     </div>
                     <div class="px-2 pb-6 grow">
-                        <h3 class="text-display-sm font-medium text-black mb-4 leading-snug w-70">
+                        <h3 class="text-display-sm font-medium text-black mb-4 leading-snug w-full md:w-70">
                             Let people help you: post the item that you lost
                         </h3>
                         <p class="text-lg">
@@ -55,7 +55,7 @@
                         <img src="/assets/why-2.png" alt="Find lost item" class="w-full h-full object-cover">
                     </div>
                     <div class="px-2 pb-6 grow">
-                        <h3 class="text-display-sm font-medium text-black mb-4 leading-snug w-65">
+                        <h3 class="text-display-sm font-medium text-black mb-4 leading-snug w-full md:w-65">
                             Help others in finding their lost items
                         </h3>
                         <p class="text-lg">
@@ -91,7 +91,7 @@
 
             <!-- Content -->
             <div class="flex-1 text-left">
-                <h2 class="text-display-md font-bold text-black mb-6 leading-tight max-w-lg w-70 md:w-full">
+                <h2 class="text-display-md font-bold text-black mb-6 leading-tight max-w-lg w-full md:w-70">
                     Want to Contribute in Improving the System?
                 </h2>
                 <p class="text-lg mb-10 max-w-md">
