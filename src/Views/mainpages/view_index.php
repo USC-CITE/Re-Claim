@@ -110,7 +110,7 @@
         <!-- Collaboration Section -->
         <section class="w-full max-w-5xl mx-auto py-28 px-6 text-center">
             <div class="flex flex-col items-center gap-12">
-                <img src="/assets/spark-cite.png" alt="SPARK Hub and USC-CITE" class="h-28 md:h-36 w-auto">
+                <img src="/assets/spark-cite.svg" alt="SPARK Hub and USC-CITE" class="h-28 md:h-36 w-auto">
                 <p class="text-lg leading-relaxed max-w-4xl">
                     Re:Claim is a collaborative effort between <span class="font-semibold">SPARK Hub</span> and <span class="font-semibold">USC-CITE</span> with the aim of developing systems that contribute to improving digital accessibility.
                 </p>
