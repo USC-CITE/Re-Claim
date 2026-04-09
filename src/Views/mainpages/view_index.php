@@ -19,7 +19,7 @@
                     Re:Claim is a centralized lost and found tracking system for <br class="hidden md:block"> West Visayas State University - Main Campus.
                 </p>
                 <div class="flex justify-center">
-                    <a href="/lost" class="group flex items-center justify-center px-8 py-3 bg-primary-500 hover:bg-primary-600 text-white text-md font-semibold rounded-2xl transition-all duration-300 gap-3">
+                    <a href="/found" class="group flex items-center justify-center px-8 py-3 bg-primary-500 hover:bg-primary-600 text-white text-md font-semibold rounded-2xl transition-all duration-300 gap-3">
                         Find Your Lost Item
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
