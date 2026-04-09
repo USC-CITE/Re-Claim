@@ -97,7 +97,7 @@
                 <p class="text-lg mb-10 max-w-md">
                     Re:Claim is open source! Place an issue on GitHub and we’ll review it.
                 </p>
-                <div class="flex justify-center md:justify-start">
+                <div class="flex justify-start">
                     <a href="https://github.com/USC-CITE/Re-Claim/issues" target="_blank" class="group flex items-center justify-center px-8 py-3.5 bg-primary-500 hover:bg-primary-600 text-white text-md font-semibold rounded-2xl transition-all duration-300 gap-3">
                         Place an Issue
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
@@ -109,10 +109,10 @@
         </section>
         <!-- Collaboration Section -->
         <section class="w-full max-w-5xl mx-auto py-28 px-6 text-center">
-            <div class="flex flex-col items-center gap-12">
-                <img src="/assets/spark-cite.svg" alt="SPARK Hub and USC-CITE" class="h-28 md:h-36 w-auto">
+            <div class="flex flex-col items-center gap-2 md:gap-12">
+                <img src="/assets/spark-cite.svg" alt="SPARK Hub and USC-CITE" class="h-36 w-auto">
                 <p class="text-lg leading-relaxed max-w-4xl">
-                    Re:Claim is a collaborative effort between <span class="font-semibold">SPARK Hub</span> and <span class="font-semibold">USC-CITE</span> with the aim of developing systems that contribute to improving digital accessibility.
+                    Re:Claim is a collaborative effort between <span class="font-semibold">SPARK Hub</span> and <span class="font-semibold">USC-CITE</span> with the aim of turning ideas into impactful solutions and to improve digital accessibility of services within West Visayas State University.
                 </p>
             </div>
         </section>
