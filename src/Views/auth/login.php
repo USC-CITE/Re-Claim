@@ -54,9 +54,8 @@
 
                 <!-- Password -->
                 <div>
-                    <div class="mb-1.5 flex items-center justify-between">
+                    <div class="mb-1.5 flex items-center">
                         <label class="text-sm font-semibold text-primary" for="password">Password</label>
-                        <a href="/forgot-password/" class="text-md font-medium text-primary-500 hover:underline">Forgot password?</a>
                     </div>
                     <div class="relative">
                         <input 
@@ -67,17 +66,19 @@
                             class="w-full pl-4 pr-12 py-2.5 text-sm border border-white-700 rounded-lg bg-white placeholder-secondary"
                         >
                     </div>
-                </div>
+                    <div class="mt-3 flex items-center justify-between">
+                        <label for="remember_me" class="inline-flex items-center gap-2 text-sm text-primary">
+                            <input
+                                id="remember_me"
+                                name="remember_me"
+                                type="checkbox"
+                                class="h-4 w-4 rounded-xs border border-white-900 text-primary-500"
+                            >
+                            Remember Me
+                        </label>
 
-                <!-- Remember Me -->
-                <div class="flex items-center gap-3">
-                    <input
-                        id="remember_me"
-                        name="remember_me"
-                        type="checkbox"
-                        class="h-5 w-5 rounded-xs border border-white-900 text-primary-500"
-                    >
-                    <label for="remember_me" class="text-sm text-primary">Remember Me</label>
+                        <a href="/forgot-password/" class="text-sm font-medium text-primary-500 hover:underline">Forgot password?</a>
+                    </div>
                 </div>
 
                 <!-- Submit Button -->
