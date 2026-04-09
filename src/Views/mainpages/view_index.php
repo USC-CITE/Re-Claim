@@ -138,14 +138,14 @@
             </section>
         </div>
 
-        <menu class="mt-4 flex list-none flex-wrap items-center justify-end gap-3 md:absolute md:right-6 md:top-1/2 md:mt-0 md:-translate-y-1/2">
+        <menu class="mt-4 flex list-none flex-wrap items-center md:justify-end justify-start gap-3 md:absolute md:right-6 md:top-1/2 md:mt-0 md:-translate-y-1/2">
             <li>
-                <button id="cookie-consent-accept" type="button" class="rounded-2xl bg-primary-500 px-6 py-2 text-md font-semibold text-white transition-colors hover:bg-primary-600" data-consent-action="accepted">
+                <button id="cookie-consent-accept" type="button" class="rounded-2xl bg-primary-500 px-6 py-3 text-md font-semibold text-white transition-colors hover:bg-primary-600" data-consent-action="accepted">
                     Accept
                 </button>
             </li>
             <li>
-                <button id="cookie-consent-reject" type="button" class="rounded-2xl border border-secondary px-6 py-2 text-md font-semibold text-primary transition-colors hover:bg-gray-100" data-consent-action="rejected">
+                <button id="cookie-consent-reject" type="button" class="rounded-2xl border border-primary px-6 py-3 text-md font-semibold text-primary transition-colors hover:bg-gray-100" data-consent-action="rejected">
                     Reject
                 </button>
             </li>
