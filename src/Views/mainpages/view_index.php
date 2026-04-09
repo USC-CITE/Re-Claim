@@ -30,7 +30,7 @@
         </section>
 
         <!-- ReClaim Features Section -->
-        <section class="w-full max-w-7xl mx-auto py-24 px-6 md:px-12">
+        <section class="w-full max-w-7xl mx-auto pb-24 px-6 md:px-12">
             <h2 class="text-display-md font-bold text-black mb-7">Why Use Re:Claim?</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
