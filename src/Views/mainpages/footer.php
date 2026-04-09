@@ -1,8 +1,4 @@
-<footer class="relative bg-primary-500 text-white mt-12 font-poppins overflow-hidden">
-    <!-- Background Watermark Logo -->
-    <div class="absolute left-20 right-auto -bottom-40 md:left-auto md:right-12 md:-bottom-60 flex items-center justify-center pointer-events-none">
-        <div class="w-160 h-160 bg-primary-600 -rotate-19" style="-webkit-mask-image: url('/assets/reclaim-logo.svg'); mask-image: url('/assets/reclaim-logo.svg'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;"></div>
-    </div>
+<footer class="site-footer relative bg-primary-500 text-white mt-12 font-poppins overflow-hidden">
 
     <div class="relative z-10 container mx-auto py-12 px-6 flex flex-col gap-12 lg:grid lg:grid-cols-2 lg:gap-12">
         
