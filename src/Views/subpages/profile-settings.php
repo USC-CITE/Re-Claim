@@ -72,8 +72,8 @@
                     </button>
 
                     <button type="button" class="tab-btn shrink-0 py-2 text-md font-semibold text-gray-600 border-b-2 border-transparent hover:border-gray-300 transition"
-                        data-tab="privacy" data-title="Privacy Security">
-                        Privacy Security
+                        data-tab="delete-account" data-title="Delete Account">
+                        Delete Account
                     </button>
 
                 </div>
@@ -219,7 +219,7 @@
             </form>
         </section>
 
-        <section class="tab-content max-w-2xl mx-auto" id="privacy">
+        <section class="tab-content max-w-2xl mx-auto" id="delete-account">
             <form action="/profile/delete" method="post" class="space-y-2">
                 <?php \App\Core\Router::setCsrf(); ?>
                 <p>Deleting your account will permanently remove your Re:Claim profile and all associated content. This action will be irreversible. </p>
