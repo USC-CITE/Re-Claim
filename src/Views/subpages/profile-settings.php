@@ -213,7 +213,7 @@
                             <button type="button"
                                 id="addLinkBtn"
                                 onclick="addLink()"
-                                class="mt-2 px-3 py-2 border rounded-lg text-sm hover:bg-gray-100">
+                                class="flex gap-2 mt-2 items-center px-4 py-2 text-md w-fit font-semibold border border-gray-800 rounded-xl cursor-pointer hover:bg-gray-300 transition text-center">
                                 + Add another social media account
                             </button>
                         </div>
