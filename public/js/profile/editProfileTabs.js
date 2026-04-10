@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 addBtn.classList.add("opacity-50", "cursor-not-allowed");
             } else {
                 addBtn.disabled = false;
-                addBtn.innerText = "+ Add another link";
+                addBtn.innerText = "+ Add another social media account";
                 addBtn.classList.remove("opacity-50", "cursor-not-allowed");
             }
         }
