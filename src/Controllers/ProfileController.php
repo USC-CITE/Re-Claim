@@ -271,25 +271,24 @@ class ProfileController{
         
         // If new password exist but less than 6 characters
         if($newPassword && strlen($newPassword) < 6){
-            $errors['new_password'] = ['error' => 'Password must be at least 6 characters'];
+            $errors['new_password'] = ['error' => 'New password must be at least 6 characters'];
         }
         if($newPassword !== $confirmPassword){
-            $errors['confirm_password'] = ['error' => 'Password do not match!'];
+            $errors['confirm_password'] = ['error' => 'New and confirm passwords do not match!'];
         }
 
         // If new password value is same as current password
         if(password_verify($newPassword, $userData['password'])){
             $errors['new_password'] = ['errors' => "New password is the same as current password!"];
         }
+
+        if(!$userData || !password_verify($currentPassword, $userData['password'])){
+            $errors['current_password'] = ['error' => 'Current password does not match!'];
+        }
+
         // If one error occurs show UI
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
-            header("Location: /profile/settings#change-pass");
-            exit;
-        }
-
-        if(!$userData || !password_verify($currentPassword, $userData['password'])){
-            $errors['current_password'] = ['error' => 'Current password is incorrect!'];
             header("Location: /profile/settings#change-pass");
             exit;
         }

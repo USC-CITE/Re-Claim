@@ -1,3 +1,10 @@
+<?php
+    $errors = $_SESSION['errors'] ?? [];
+    $flash = $_SESSION['flash'] ?? null;
+
+    unset($_SESSION['errors']);
+    unset($_SESSION['flash']);
+?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
@@ -241,32 +248,37 @@
                     <!-- Current Password -->
                     <div class="flex flex-col">
                         <label class="text-md" >Current Password</label>
-                        <input name="current_password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" autocomplete="current-password"required>
+                        <input name="current_password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 <?= !empty($errors['current_password']) ? 'border-red-500 border-2' : 'border-gray-300' ?> text-sm" autocomplete="current-password"required>
                         <p class="text-red-500 text-sm">
-                            <?= $_SESSION['errors']['current_password']['error'] ?? '' ?>
+                            <?= isset($errors['current_password']['error']) ? '✕ ' . $errors['current_password']['error'] : ''?>
                         </p>
                     </div>
                     
                     <!-- New Password -->
                     <div class="flex flex-col">
                         <label class="text-md">New Password</label>
-                        <input name="new_password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" autocomplete="new-password" required>
+                        <input name="new_password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 <?= !empty($errors['new_password']) ? 'border-red-500 border-2' : 'border-gray-300' ?> text-sm" autocomplete="new-password" required>
                         <p class="text-red-500 text-sm">
-                            <?= $_SESSION['errors']['new_password']['error'] ?? '' ?>
+                            <?= isset($errors['new_password']['error']) ? '✕ ' . $errors['new_password']['error'] : ''?>
                         </p>
                     </div>
 
                     <!-- Confirm Password -->   
                     <div class="flex flex-col">
                         <label class="text-md">Confirm Password</label>
-                        <input name="confirm_password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" required>
+                        <input name="confirm_password" type="password" class="w-full mt-1 border rounded-lg px-3 py-2 <?= !empty($errors['confirm_password']) ? 'border-red-500 border-2' : 'border-gray-300' ?> text-sm" required>
                         <p class="text-red-500 text-sm">
-                            <?= $_SESSION['errors']['confirm_password']['error'] ?? '' ?>
+                            <?= isset($errors['confirm_password']['error']) ? '✕ ' . $errors['confirm_password']['error'] : '' ?>
                         </p>
                     </div>
                 </div>
                 
-                <?php unset($_SESSION['errors']); ?>
+                <?php if (!empty($flash['flash']['success'])): ?>
+                <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">
+                    <?= $_SESSION['flash']['success'] ?>
+                </div>
+                <?php unset($_SESSION['flash']); ?>
+            <?php endif; ?>
                   <!-- Change Pass Button -->
                 <div class="flex justify-end">
                     <button type="submit"
