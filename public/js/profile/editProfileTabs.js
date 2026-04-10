@@ -163,4 +163,64 @@ document.addEventListener("DOMContentLoaded", function () {
         updateState();
     }
 
+    const originalState = {
+        firstName: document.querySelector("[name='first_name']").value,
+        lastName: document.querySelector("[name='last_name']").value,
+        phone: document.querySelector("[name='phone_number']").value,
+        social: document.querySelector("[name='social_link']").value,
+        avatar: avatarPreview.src,
+        socialLinks: Array.from(
+            document.querySelectorAll("input[name='social_links[]']")
+        ).map(input => input.value)
+    };
+
+    const cancelBtn = document.getElementById("cancelBtn");
+
+    cancelBtn.addEventListener("click", () => {
+
+        // Restore text fields
+        document.querySelector("[name='first_name']").value = originalState.firstName;
+        document.querySelector("[name='last_name']").value = originalState.lastName;
+        document.querySelector("[name='phone_number']").value = originalState.phone;
+        document.querySelector("[name='social_link']").value = originalState.social;
+
+        // Restore avatar
+        avatarPreview.src = originalState.avatar;
+        input.value = "";
+        fileName.textContent = "";
+        deleteInput.value = "0";
+
+        // Reset delete state
+        isDeleted = false;
+        deleteBtn.textContent = "Remove Avatar";
+
+        // Restore social links
+        const container = document.getElementById("socialLinksContainer");
+        container.innerHTML = "";
+
+        originalState.socialLinks.forEach(link => {
+            const row = document.createElement("div");
+            row.className = "flex gap-2";
+
+            row.innerHTML = `
+                <input type="url" name="social_links[]"
+                    value="${link}"
+                    class="w-full border rounded-lg px-3 py-2 border-gray-300 text-sm">
+
+                <button type="button"
+                    onclick="removeLink(this)"
+                    class="px-3 py-2 border rounded-lg text-sm hover:bg-red-100">
+                    ✕
+                </button>
+            `;
+
+            container.appendChild(row);
+        });
+
+        // re-sync button state
+        if (typeof updateState === "function") {
+            updateState();
+        }
+    });
+
 });

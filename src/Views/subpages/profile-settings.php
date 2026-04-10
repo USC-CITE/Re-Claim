@@ -178,10 +178,10 @@
                             <label class="text-md font-medium">Other Social Accounts</label>
 
                             <?php
-                            $links = $_SESSION['social_links'] ?? [];
-                            if (!is_array($links)) {
-                                $links = json_decode($links, true) ?? [];
-                            }
+                                $links = $_SESSION['social_links'] ?? [];
+                                if (!is_array($links)) {
+                                    $links = json_decode($links, true) ?? [];
+                                }
                             ?>
 
                             <div id="socialLinksContainer" class="space-y-2 mt-2">
@@ -217,6 +217,12 @@
 
                 <!-- Submit Button -->
                 <div class="flex justify-end">
+                    <button type="button"
+                        id="cancelBtn"
+                        class="px-5 py-2 text-md mr-4 font-semibold border border-gray-400 rounded-xl hover:bg-gray-100 transition">
+                        Cancel
+                    </button>
+                                    
                     <button type="submit"
                         class="px-5 py-2 text-md font-semibold bg-[#055BA8] text-white rounded-xl hover:bg-blue-700 transition">
                         Save Profile
