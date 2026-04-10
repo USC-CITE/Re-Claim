@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("This load");
+
     const buttons = document.querySelectorAll(".tab-btn");
     const tabs = document.querySelectorAll(".tab-content");
     const pageTitle = document.getElementById('page-title');
@@ -102,4 +102,65 @@ document.addEventListener("DOMContentLoaded", function () {
             history.replaceState(null, "", `#${this.dataset.tab}`);
         });
     });
+
+    /* =========================
+    SOCIAL LINKS SYSTEM (MAX 3 TOTAL)
+    ========================= */
+
+    const MAX_LINKS = 3;
+    const container = document.getElementById("socialLinksContainer");
+    const addBtn = document.getElementById("addLinkBtn");
+
+    if (container && addBtn) {
+
+        function getCount() {
+            return container.querySelectorAll("input[name='social_links[]']").length;
+        }
+
+        function updateState() {
+            const count = getCount();
+
+            if (count >= MAX_LINKS) {
+                addBtn.disabled = true;
+                addBtn.innerText = "Max 3 links reached";
+                addBtn.classList.add("opacity-50", "cursor-not-allowed");
+            } else {
+                addBtn.disabled = false;
+                addBtn.innerText = "+ Add another link";
+                addBtn.classList.remove("opacity-50", "cursor-not-allowed");
+            }
+        }
+
+        window.addLink = function () {
+            if (getCount() >= MAX_LINKS) return;
+
+            const row = document.createElement("div");
+            row.className = "flex gap-2";
+
+            row.innerHTML = `
+                <input type="url"
+                    name="social_links[]"
+                    class="w-full border rounded-lg px-3 py-2 border-gray-300 text-sm"
+                    placeholder="https://..." />
+
+                <button type="button"
+                    onclick="removeLink(this)"
+                    class="px-3 py-2 border rounded-lg text-sm hover:bg-red-100">
+                    ✕
+                </button>
+            `;
+
+            container.appendChild(row);
+            updateState();
+        };
+
+        window.removeLink = function (btn) {
+            btn.parentElement.remove();
+            updateState();
+        };
+
+        // initialize on page load (IMPORTANT for session-loaded links)
+        updateState();
+    }
+
 });

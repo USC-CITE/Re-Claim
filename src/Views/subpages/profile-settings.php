@@ -155,16 +155,63 @@
                         Update Contact Details
                     </h2>
 
-                    <div class="space-y-4">
-                        <div class="flex flex-col">
-                            <label  class="text-md font-medium">Mobile Number</label>
-                            <input name="phone_number" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" value="<?= htmlspecialchars($_SESSION['phone_number'] ?? '') ?>">
-                        </div>
-                        <div class="flex flex-col">
-                            <label  class="text-md font-medium">Social Link</label>
-                            <input name="social_link" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" value="<?= htmlspecialchars($_SESSION['social_link'] ?? '') ?>">
-                        </div>
-                    </div>
+                    <div class="space-y-6">
+
+    <!-- Mobile Number -->
+    <div class="flex flex-col">
+        <label class="text-md font-medium">Mobile Number</label>
+        <input name="phone_number"
+            class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm"
+            value="<?= htmlspecialchars($_SESSION['phone_number'] ?? '') ?>">
+    </div>
+
+    <!-- MAIN SOCIAL LINK -->
+    <div class="flex flex-col">
+        <label class="text-md font-medium">Main Social Link</label>
+        <input name="social_link"
+            class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm"
+            value="<?= htmlspecialchars($_SESSION['social_link'] ?? '') ?>">
+    </div>
+
+    <!-- ADDITIONAL SOCIAL LINKS -->
+    <div class="flex flex-col">
+        <label class="text-md font-medium">Additional Social Links</label>
+
+        <?php
+        $links = $_SESSION['social_links'] ?? [];
+        if (!is_array($links)) {
+            $links = json_decode($links, true) ?? [];
+        }
+        ?>
+
+        <div id="socialLinksContainer" class="space-y-2 mt-2">
+
+            <?php foreach ($links as $i => $link): ?>
+                <div class="flex gap-2">
+                    <input type="url"
+                        name="social_links[]"
+                        value="<?= htmlspecialchars($link) ?>"
+                        class="w-full border rounded-lg px-3 py-2 border-gray-300 text-sm">
+
+                    <button type="button"
+                        onclick="removeLink(this)"
+                        class="px-3 py-2 border rounded-lg text-sm hover:bg-red-100">
+                        ✕
+                    </button>
+                </div>
+            <?php endforeach; ?>
+
+        </div>
+
+        <button type="button"
+            id="addLinkBtn"
+            onclick="addLink()"
+            class="mt-2 px-3 py-2 border rounded-lg text-sm hover:bg-gray-100">
+            + Add another contact
+        </button>
+    </div>
+
+</div>
                     
                 </section>
 
