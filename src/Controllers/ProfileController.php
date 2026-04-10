@@ -182,6 +182,33 @@ class ProfileController{
         $phone = $_POST['phone_number'] ?? '';
         $social = $_POST['social_link'] ?? '';
 
+        // Retrieve social links
+        $socialLinks = $_POST['social_links'] ?? [];
+
+        // Ensure it an array
+        if(!is_array($socialLinks)){
+            $socialLinks = [];
+        }
+
+        // Clean, validate, and limit to 3 fields
+        $socialLinks = array_filter(array_map(function ($link){
+            $link = trim($link);
+            return filter_var($link, FILTER_VALIDATE_URL) ? $link : null; 
+        }, $socialLinks));
+
+        // No duplication
+        $socialLinks = array_unique($socialLinks);
+
+        // Enfore 3 max
+        $socialLinks = array_slice($socialLinks, 0, 3);
+
+        $user->deleteSocialLinks($userId);
+
+        foreach($socialLinks as $link){
+            $user->addSocialLinks($userId, $link);
+        }
+
+
         // =========================
         // 4. UPDATE DATABASE
         // =========================
@@ -200,6 +227,7 @@ class ProfileController{
         $_SESSION['last_name'] = $lastName;
         $_SESSION['phone_number'] = $phone;
         $_SESSION['social_link'] = $social;
+        $_SESSION['social_links'] = $socialLinks;
         $_SESSION['avatar'] = $currentAvatar ?? '/avatars/default.png';
 
         $_SESSION['flash'] = ['success' => 'Profile updated successfully'];

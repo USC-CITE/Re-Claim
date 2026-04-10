@@ -199,7 +199,26 @@ class UserModel {
         return $stmt->execute([$userId]);
     }
 
-    
+    public function deleteSocialLinks($userId){
+        $stmt = $this->db->prepare("DELETE from users_social_links WHERE user_id = ?");
+        return $stmt->execute([$userId]);
+    }
+
+    public function addSocialLinks($userId, $link){
+        $stmt = $this->db->prepare(
+            "INSERT INTO users_social_links (user_id, social_link) VALUES (?, ?)"
+        );
+        return $stmt->execute([$userId, $link]);
+    }
+
+    public function getSocialLinks($userId){
+        $stmt = $this->db->prepare("SELECT social_link FROM users_social_links WHERE user_id = ?");
+        $stmt->execute([$userId]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
 }
 
 
