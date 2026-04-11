@@ -333,8 +333,8 @@
         <div id="otpModal" class="fixed p-2 inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 <?=  $showOtpModal ? '' : 'hidden' ?>">
             
         <!-- Modal Contents -->
-            <div class="bg-white p-6  max-w-2xl w-fit rounded-xl relative">
-                <button id="closeModal" class="absolute top-3 right-3 text-gray-600 hover:text-black text-lg">
+            <div class="bg-white p-8  max-w-2xl w-fit rounded-3xl relative">
+                <button id="closeModal" class="absolute top-3 right-4 text-gray-600 hover:text-black text-lg">
                     ✕
                 </button>
                 <div class="flex flex-col items-center text-center space-y-3 mb-6">
