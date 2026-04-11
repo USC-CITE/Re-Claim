@@ -210,7 +210,7 @@ class ProfileController{
                     $filename = uniqid('avatar_', true) . '.' . $ext;
 
                     $uploadPath = __DIR__ . '/../../public/avatars/' . $filename;
-
+                    
                     if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
 
                         // delete old avatar
