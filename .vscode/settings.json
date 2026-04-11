@@ -1,0 +1,14 @@
+{
+  "tailwindCSS.includeLanguages": {
+    "php": "html"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "tailwindCSS.experimental.configFile": {
+    "public/css/input.css": [
+      "src/**/*.php",
+      "public/**/*.js"
+    ]
+  }
+}

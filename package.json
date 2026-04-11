@@ -1,0 +1,27 @@
+{
+  "name": "re-claim",
+  "version": "1.0.0",
+  "description": "Re:Claim is a web-based lost and found tracking system for West Visayas State University (WVSU) students, college student councils, and the University Student Council (USC).",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tailwindcss -i ./public/css/input.css -o ./public/css/app.css --watch",
+    "build": "tailwindcss -i ./public/css/input.css -o ./public/css/app.css --minify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/USC-CITE/Re-Claim.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/USC-CITE/Re-Claim/issues"
+  },
+  "homepage": "https://github.com/USC-CITE/Re-Claim#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.1",
+    "tailwindcss": "^4.2.1"
+  }
+}

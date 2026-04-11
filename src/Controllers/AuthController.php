@@ -22,6 +22,10 @@ class AuthController{
         require __DIR__ . '/../Views/auth/register.php';
     }
 
+    public static function showForgotPassword(){
+        require __DIR__ . '/../Views/auth/forgot_password.php';
+    }
+
     public static function showVerify(){
         if (!isset($_SESSION['user_id'])) {
             header("Location: /login");

@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WVSU ReClaim</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
     <?php require __DIR__ . "/header.php"?>
@@ -58,5 +59,6 @@
             </div>
         </section>
     </main>
+    <?php require __DIR__ . "/footer.php"?>
 </body>
 </html>
