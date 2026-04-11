@@ -273,9 +273,9 @@
                     </div>
                 </div>
                 
-                <?php if (!empty($flash['flash']['success'])): ?>
+                <?php if (!empty($flash['success'])): ?>
                 <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">
-                    <?= $_SESSION['flash']['success'] ?>
+                    <?= $flash['success'] ?>
                 </div>
                 <?php unset($_SESSION['flash']); ?>
             <?php endif; ?>
