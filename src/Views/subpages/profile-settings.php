@@ -330,7 +330,7 @@
     <!-- Tabs JS -->
     <script src="/js/profile/editProfileTabs.js" defer></script>
      <!-- Verification Code Modal -->
-        <div id="otpModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 <?=  $showOtpModal ? '' : 'hidden' ?>">
+        <div id="otpModal" class="fixed p-2 inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 <?=  $showOtpModal ? '' : 'hidden' ?>">
             
         <!-- Modal Contents -->
             <div class="bg-white p-6  max-w-2xl w-fit rounded-xl relative">
@@ -355,15 +355,18 @@
                         A verification code has been sent to your email.
                     </p>
                 </div>
-
-                <input class="w-full mt-1 border rounded-lg px-3 py-2 text-sm" placeholder="XXXX" name="verification_code">
                 
-                <button class="px-5 flex gap-2 items-center justify-center w-full py-2 text-md mt-6 font-semibold bg-[#055BA8] text-white rounded-xl hover:bg-blue-700 transition">
-                    Submit 
-                    <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.3644 7.37629C17.5519 7.18876 17.6572 6.93445 17.6572 6.66929C17.6572 6.40412 17.5519 6.14982 17.3644 5.96229L11.7074 0.305288C11.6152 0.209778 11.5048 0.133596 11.3828 0.0811866C11.2608 0.0287776 11.1296 0.00119129 10.9968 3.74652e-05C10.8641 -0.00111636 10.7324 0.0241856 10.6095 0.0744665C10.4866 0.124747 10.3749 0.199 10.281 0.292893C10.1872 0.386786 10.1129 0.498437 10.0626 0.621334C10.0123 0.74423 9.98704 0.87591 9.98819 1.00869C9.98934 1.14147 10.0169 1.27269 10.0693 1.39469C10.1217 1.5167 10.1979 1.62704 10.2934 1.71929L14.2434 5.66929L1.00044 5.66929C0.735224 5.66929 0.480869 5.77464 0.293333 5.96218C0.105797 6.14972 0.000440318 6.40407 0.000440306 6.66929C0.000440294 6.9345 0.105796 7.18886 0.293333 7.37639C0.480869 7.56393 0.735223 7.66929 1.00044 7.66929L14.2434 7.66929L10.2934 11.6193C10.1113 11.8079 10.0105 12.0605 10.0128 12.3227C10.015 12.5849 10.1202 12.8357 10.3056 13.0211C10.491 13.2065 10.7418 13.3117 11.004 13.314C11.2662 13.3162 11.5188 13.2154 11.7074 13.0333L17.3644 7.37629Z" fill="white"/>
-                    </svg>
-                </button>
+                <form action="/profile/change-password/verify" method="POST" class="space-y-4">
+                    <input class="w-full mt-1 border rounded-lg px-3 py-2 text-sm" placeholder="Enter 6-digit code" name="otp">
+                
+                    <button type="submit" class="px-5 flex gap-2 items-center justify-center w-full py-2 text-md mt-6 font-semibold bg-[#055BA8] text-white rounded-xl hover:bg-blue-700 transition">
+                        Verify & Change Password 
+                        <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.3644 7.37629C17.5519 7.18876 17.6572 6.93445 17.6572 6.66929C17.6572 6.40412 17.5519 6.14982 17.3644 5.96229L11.7074 0.305288C11.6152 0.209778 11.5048 0.133596 11.3828 0.0811866C11.2608 0.0287776 11.1296 0.00119129 10.9968 3.74652e-05C10.8641 -0.00111636 10.7324 0.0241856 10.6095 0.0744665C10.4866 0.124747 10.3749 0.199 10.281 0.292893C10.1872 0.386786 10.1129 0.498437 10.0626 0.621334C10.0123 0.74423 9.98704 0.87591 9.98819 1.00869C9.98934 1.14147 10.0169 1.27269 10.0693 1.39469C10.1217 1.5167 10.1979 1.62704 10.2934 1.71929L14.2434 5.66929L1.00044 5.66929C0.735224 5.66929 0.480869 5.77464 0.293333 5.96218C0.105797 6.14972 0.000440318 6.40407 0.000440306 6.66929C0.000440294 6.9345 0.105796 7.18886 0.293333 7.37639C0.480869 7.56393 0.735223 7.66929 1.00044 7.66929L14.2434 7.66929L10.2934 11.6193C10.1113 11.8079 10.0105 12.0605 10.0128 12.3227C10.015 12.5849 10.1202 12.8357 10.3056 13.0211C10.491 13.2065 10.7418 13.3117 11.004 13.314C11.2662 13.3162 11.5188 13.2154 11.7074 13.0333L17.3644 7.37629Z" fill="white"/>
+                        </svg>
+                    </button>
+                </form>
+                
             </div>
         </div> 
                                

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use App\Core\Router;
 use App\Models\UserModel;
+use App\Helpers\Mailer;
 use DateTime;
 use DateTimeZone;
 
@@ -335,18 +336,72 @@ class ProfileController{
             header("Location: /profile/settings#change-pass");
             exit;
         }
+        
+        // generate otp code
+        $otp = rand(100000, 999999);
 
+        // store temp data 
+        $_SESSION['otp_code'] = $otp;
+        $_SESSION['otp_expiry'] = time() + 300; // 5 mins
+        // Store new password
+        $_SESSION['pending_password'] = password_hash($newPassword, PASSWORD_DEFAULT);
+        $_SESSION['wvsu_email'] = $userData['wvsu_email'];
+
+        $name = !empty($_SESSION['first_name']) ? $_SESSION['first_name'] : 'User';
+
+
+        Mailer::sendPasswordOtp($_SESSION['wvsu_email'], $name, $otp);
         // If no errors open verification code modal
         $_SESSION['show_otp_modal'] = true;
-        // Update Password
-        // $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-
-        // $user->updatePassword($userId, $hashedPassword);
         
-        $_SESSION['flash'] = ['success' => "Password changed successfully!"];
         header("Location: /profile/settings#change-pass");
         exit;
+    }
 
+    public static function verifyPassword(){
+        if(!isset($_SESSION['user_id'])){
+            header("Location: /login");
+            exit;
+        }
+
+        $enteredOtp = $_POST['otp'] ?? "";
+
+         // Check OTP existence
+        if (!isset($_SESSION['otp_code'])) {
+            $_SESSION['flash'] = ['error' => 'Session expired. Try again.'];
+            header("Location: /profile/settings#change-pass");
+            exit;
+        }
+
+        // Expiry check
+        if (time() > $_SESSION['otp_expiry']) {
+            unset($_SESSION['otp_code']);
+            $_SESSION['flash'] = ['error' => 'OTP expired.'];
+            header("Location: /profile/settings#change-pass");
+            exit;
+        }
+
+         // Validate OTP
+        if ($enteredOtp != $_SESSION['otp_code']) {
+            $_SESSION['flash'] = ['error' => 'Invalid OTP'];
+            $_SESSION['show_otp_modal'] = true;
+            header("Location: /profile/settings#change-pass");
+            exit;
+        }
+
+        $userId = $_SESSION['user_id'];
+        $config = require __DIR__ . '/../Config/config.php';
+        $user = new UserModel($config);
+
+        $user->updatePassword($userId, $_SESSION['pending_password']);
+
+        unset($_SESSION['otp_code']);
+        unset($_SESSION['otp_expiry']);
+        unset($_SESSION['pending_password']);
+
+        $_SESSION['flash'] =['success' => 'Password changed successfully!'];
+        header("Location: /profile/settings#change-pass");
+        exit;
 
     }
 

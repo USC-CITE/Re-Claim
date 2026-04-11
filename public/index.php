@@ -64,6 +64,7 @@ $router->get('/profile/settings', [ProfileController::class, 'showProfileSetting
 $router->post('/profile/archived/delete', [ProfileController::class, 'deleteArchivedItems']);
 $router->post('/profile/edit', [ProfileController::class, 'updateProfile']);
 $router->post('/profile/change-password', [ProfileController::class, 'changePassword']);
+$router->post('/profile/change-password/verify', [ProfileController::class, 'verifyPassword']);
 $router->post('/profile/delete', [ProfileController::class, 'deleteAccount']);
 
 /* Found Item */
