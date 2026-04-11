@@ -87,6 +87,8 @@ class AuthController{
         $_SESSION['phone_number'] = $user['phone_number'];
         $_SESSION['social_link'] = $user['social_link'];
         $_SESSION['wvsu_email'] = $user['wvsu_email'];
+        $_SESSION['avatar'] = $user['avatar_path'];
+
         header('Location: /');
     }
 
@@ -167,6 +169,7 @@ class AuthController{
             $_SESSION['social_link'] = $socialLink;
             $_SESSION['phone_number'] = $phoneNum;
             $_SESSION['otp_expires_at'] = $expires;
+            $_SESSION['avatar'] = $user['avatar_path'];
             $_SESSION['user_id'] = $userId;
             // Send OTP via Gmail
             if (Mailer::sendOtp($email, $firstName, $otp)) {

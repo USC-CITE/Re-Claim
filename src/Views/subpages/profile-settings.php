@@ -1,7 +1,9 @@
 <?php
     $errors = $_SESSION['errors'] ?? [];
     $flash = $_SESSION['flash'] ?? null;
+    $showOtpModal = $_SESSION['show_otp_modal'] ?? false;
 
+    unset($_SESSION['show_otp_modal']);
     unset($_SESSION['errors']);
     unset($_SESSION['flash']);
 ?>
@@ -53,6 +55,17 @@
     <?php require __DIR__  . "/../mainpages/header.php"; ?>
 
     <main class="max-w-5xl mx-auto mt-16 px-6">
+        <?php if (!empty($flash) && !empty($flash['success'])): ?>
+            <div class="mb-4 max-w-2xl mx-auto p-3 bg-green-100 text-green-700 rounded-lg">
+                <?= htmlspecialchars($flash['success']) ?>
+            </div>
+
+        <?php elseif (!empty($flash) && !empty($flash['error'])): ?>
+            <div class="mb-4 max-w-2xl mx-auto p-3 bg-red-100 text-red-700 rounded-lg">
+                <?= htmlspecialchars($flash['error']) ?>
+            </div>
+        <?php endif; ?>
+        
         <!-- Page Header -->
         <header class="pb-4 mb-8">                
             <a class="flex gap-2 text-md font-semibold text-[#5B5B5B] mb-6" href="/profile">
@@ -93,6 +106,7 @@
         <section class="tab-content active max-w-2xl mx-auto" id="edit-profile">
             <!-- Unified Form for Edit Profile -->
             <form action="/profile/edit" method="post" enctype="multipart/form-data" class="space-y-10 mb-6">
+                
                 <?php \App\Core\Router::setCsrf(); ?>
                 <!-- Avatar -->
                 <div class="flex flex-col items-left gap-6 sm:flex-row sm:items-center">
@@ -144,12 +158,18 @@
                     <div  class="space-y-4">
                         <div class="flex flex-col">
                             <label class="text-md font-medium">First Name</label>
-                            <input class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" name="first_name" value="<?= htmlspecialchars($_SESSION['first_name'] ?? '') ?>">
+                            <input class="w-full mt-1 border rounded-lg px-3 py-2  <?= !empty($errors['first_name']) ? 'border-red-500 border-2' : 'border-gray-300' ?> text-sm" name="first_name" value="<?= htmlspecialchars($_SESSION['first_name'] ?? '') ?>">
+                            <p class="text-red-500 text-sm">
+                                <?= isset($errors['first_name']) ? '✕ ' . $errors['first_name'] : ''?>
+                            </p>
                         </div>
                         
                         <div class="flex flex-col">
                             <label class="text-md font-medium">Last Name</label>
-                            <input name="last_name" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" value="<?= htmlspecialchars($_SESSION['last_name'] ?? '') ?>">
+                            <input name="last_name" class="w-full mt-1 border rounded-lg px-3 py-2  <?= !empty($errors['last_name']) ? 'border-red-500 border-2' : 'border-gray-300' ?>text-sm" value="<?= htmlspecialchars($_SESSION['last_name'] ?? '') ?>">
+                            <p class="text-red-500 text-sm">
+                                <?= isset($errors['last_name']) ? '✕ ' . $errors['last_name'] : ''?>
+                            </p>
                         </div>  
                         
                     </div>
@@ -168,16 +188,22 @@
                         <div class="flex flex-col">
                             <label class="text-md font-medium">Mobile Number</label>
                             <input name="phone_number"
-                                class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm"
+                                class="w-full mt-1 border rounded-lg px-3 py-2 <?= !empty($errors['phone_number']) ? 'border-red-500 border-2' : 'border-gray-300' ?> text-sm"
                                 value="<?= htmlspecialchars($_SESSION['phone_number'] ?? '') ?>">
+                            <p class="text-red-500 text-sm">
+                                <?= isset($errors['phone_number']) ? '✕ ' . $errors['phone_number'] : ''?>
+                            </p>
                         </div>
 
                         <!-- MAIN SOCIAL LINK -->
                         <div class="flex flex-col">
                             <label class="text-md font-medium">Link to Social Account</label>
                             <input name="social_link"
-                                class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm"
+                                class="w-full mt-1 border rounded-lg px-3 py-2 <?= !empty($errors['social_link']) ? 'border-red-500 border-2' : 'border-gray-300' ?> text-sm "
                                 value="<?= htmlspecialchars($_SESSION['social_link'] ?? '') ?>">
+                            <p class="text-red-500 text-sm">
+                                <?= isset($errors['social_link']) ? '✕ ' . $errors['social_link'] : ''?>
+                            </p>
                         </div>
 
                         <!-- ADDITIONAL SOCIAL LINKS -->
@@ -221,7 +247,7 @@
                     </div>
                     
                 </section>
-
+                
                 <!-- Submit Button -->
                 <div class="flex justify-end">
                     <button type="button"
@@ -234,6 +260,7 @@
                         class="px-5 py-2 text-md font-semibold bg-[#055BA8] text-white rounded-xl hover:bg-blue-700 transition">
                         Save Profile
                     </button>
+
                 </div>
             </form>
 
@@ -273,12 +300,6 @@
                     </div>
                 </div>
                 
-                <?php if (!empty($flash['flash']['success'])): ?>
-                <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">
-                    <?= $_SESSION['flash']['success'] ?>
-                </div>
-                <?php unset($_SESSION['flash']); ?>
-            <?php endif; ?>
                   <!-- Change Pass Button -->
                 <div class="flex justify-end">
                     <button type="submit"
@@ -302,10 +323,52 @@
                 </div>
             </form>
         </section>
+         
+       
     </main>
 
     <!-- Tabs JS -->
     <script src="/js/profile/editProfileTabs.js" defer></script>
+     <!-- Verification Code Modal -->
+        <div id="otpModal" class="fixed p-2 inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 <?=  $showOtpModal ? '' : 'hidden' ?>">
+            
+        <!-- Modal Contents -->
+            <div class="bg-white p-8  max-w-2xl w-fit rounded-3xl relative">
+                <button id="closeModal" class="absolute top-3 right-4 text-gray-600 hover:text-black text-lg">
+                    ✕
+                </button>
+                <div class="flex flex-col items-center text-center space-y-3 mb-6">
 
+                <!-- Logo -->
+                <div class="w-20 h-20 rounded-full bg-[#055BA8] flex items-center justify-center">
+                    <svg width="40" height="39" viewBox="0 0 40 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.5 33.4082V15.1392C1.5 13.7711 2.18697 12.4936 3.33068 11.7347L17.7196 2.18721C19.1005 1.27093 20.8995 1.27093 22.2804 2.18721L36.6693 11.7347C37.813 12.4936 38.5 13.7711 38.5 15.1392V33.4082M1.5 33.4082C1.5 35.6681 3.34061 37.5 5.61111 37.5H34.3889C36.6594 37.5 38.5 35.6681 38.5 33.4082M1.5 33.4082L15.375 24.2018M38.5 33.4082L24.625 24.2018M1.5 14.9953L15.375 24.2018M38.5 14.9953L24.625 24.2018M24.625 24.2018L22.2804 25.7574C20.8995 26.6737 19.1005 26.6737 17.7196 25.7574L15.375 24.2018" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <!-- Text Content -->
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-700">
+                        Enter Verification Code
+                    </h2>
+                    <p class="text-sm text-gray-500 mt-1">
+                        A verification code has been sent to your email.
+                    </p>
+                </div>
+                
+                <form action="/profile/change-password/verify" method="POST" class="space-y-4">
+                    <input class="w-full mt-1 border rounded-lg px-3 py-2 text-sm" placeholder="Enter 6-digit code" name="otp">
+                
+                    <button type="submit" class="px-5 flex gap-2 items-center justify-center w-full py-2 text-md mt-6 font-semibold bg-[#055BA8] text-white rounded-xl hover:bg-blue-700 transition">
+                        Verify & Change Password 
+                        <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.3644 7.37629C17.5519 7.18876 17.6572 6.93445 17.6572 6.66929C17.6572 6.40412 17.5519 6.14982 17.3644 5.96229L11.7074 0.305288C11.6152 0.209778 11.5048 0.133596 11.3828 0.0811866C11.2608 0.0287776 11.1296 0.00119129 10.9968 3.74652e-05C10.8641 -0.00111636 10.7324 0.0241856 10.6095 0.0744665C10.4866 0.124747 10.3749 0.199 10.281 0.292893C10.1872 0.386786 10.1129 0.498437 10.0626 0.621334C10.0123 0.74423 9.98704 0.87591 9.98819 1.00869C9.98934 1.14147 10.0169 1.27269 10.0693 1.39469C10.1217 1.5167 10.1979 1.62704 10.2934 1.71929L14.2434 5.66929L1.00044 5.66929C0.735224 5.66929 0.480869 5.77464 0.293333 5.96218C0.105797 6.14972 0.000440318 6.40407 0.000440306 6.66929C0.000440294 6.9345 0.105796 7.18886 0.293333 7.37639C0.480869 7.56393 0.735223 7.66929 1.00044 7.66929L14.2434 7.66929L10.2934 11.6193C10.1113 11.8079 10.0105 12.0605 10.0128 12.3227C10.015 12.5849 10.1202 12.8357 10.3056 13.0211C10.491 13.2065 10.7418 13.3117 11.004 13.314C11.2662 13.3162 11.5188 13.2154 11.7074 13.0333L17.3644 7.37629Z" fill="white"/>
+                        </svg>
+                    </button>
+                </form>
+                
+            </div>
+        </div> 
+                               
 </body>
 </html>
