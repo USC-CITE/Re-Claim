@@ -60,7 +60,7 @@
             <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 w-full max-w-lg">
                 <!-- Temporary Placeholder for avatar -->
                 <div class="w-24 h-24 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-gray-200">
-                    <img src="/assets/temp.png"
+                    <img src="<?= $_SESSION['avatar'] ?>"
                     alt="Profile"
                     class="w-full h-full object-cover">
                 </div>
