@@ -223,4 +223,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    const closeModal = document.getElementById("closeModal");
+    const modal = document.getElementById("otpModal");
+
+    closeModal.addEventListener("click", () => {
+        modal.classList.add("hidden");
+    })
+
 });

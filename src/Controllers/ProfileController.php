@@ -322,7 +322,7 @@ class ProfileController{
 
         // If new password value is same as current password
         if(password_verify($newPassword, $userData['password'])){
-            $errors['new_password'] = ['errors' => "New password is the same as current password!"];
+            $errors['new_password'] = ['error' => "New password is the same as current password!"];
         }
 
         if(!$userData || !password_verify($currentPassword, $userData['password'])){
@@ -336,11 +336,12 @@ class ProfileController{
             exit;
         }
 
-
+        // If no errors open verification code modal
+        $_SESSION['show_otp_modal'] = true;
         // Update Password
-        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        // $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
-        $user->updatePassword($userId, $hashedPassword);
+        // $user->updatePassword($userId, $hashedPassword);
         
         $_SESSION['flash'] = ['success' => "Password changed successfully!"];
         header("Location: /profile/settings#change-pass");

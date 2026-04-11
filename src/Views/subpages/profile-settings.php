@@ -1,7 +1,9 @@
 <?php
     $errors = $_SESSION['errors'] ?? [];
     $flash = $_SESSION['flash'] ?? null;
+    $showOtpModal = $_SESSION['show_otp_modal'] ?? false;
 
+    unset($_SESSION['show_otp_modal']);
     unset($_SESSION['errors']);
     unset($_SESSION['flash']);
 ?>
@@ -321,11 +323,21 @@
                 </div>
             </form>
         </section>
-
+         
+       
     </main>
 
     <!-- Tabs JS -->
     <script src="/js/profile/editProfileTabs.js" defer></script>
-
+     <!-- Verification Code Modal -->
+        <div id="otpModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 <?=  $showOtpModal ? '' : 'hidden' ?>">
+            
+        <!-- Modal Contents -->
+            <div class="bg-white p-6 rounded-lg">
+                <h2>Modal is working</h2>
+                <button id="closeModal">Close</button>
+            </div>
+        </div> 
+                               
 </body>
 </html>

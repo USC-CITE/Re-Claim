@@ -67,6 +67,30 @@ class Mailer{
         return self::sendMessage($toEmail, $toName, $subject, $body); 
 
     }
+
+    public static function sendPasswordOtp(string $toEmail, string $toName, string $code): bool{
+        $subject = 'WVSU ReClaim - Change Password Verification';
+
+        $body = "
+            <div style='font-family: Arial, sans-serif;'>
+                <h2>Password Change Request</h2>
+                <p>Hello {$toName},</p>
+
+                <p>You requested to change your password. Use the verification code below:</p>
+
+                <h1 style='letter-spacing: 3px;'>{$code}</h1>
+
+                <p>This code is valid for <b>5 minutes</b>.</p>
+
+                <p>If this wasn't you, please secure your account immediately.</p>
+
+                <br>
+                <p>- WVSU ReClaim Support Team</p>
+            </div>
+        ";
+
+        return self::sendMessage($toEmail, $toName, $subject, $body);
+    }
 }
 
 ?>
