@@ -53,6 +53,15 @@
     <?php require __DIR__  . "/../mainpages/header.php"; ?>
 
     <main class="max-w-5xl mx-auto mt-16 px-6">
+        <?php if (!empty($flash['success'])): ?>
+            <div class="mb-4 max-w-2xl p-3 bg-green-100 text-green-700 rounded-lg">
+                <?= htmlspecialchars($flash['success']) ?>
+            </div>
+        <?php elseif (!empty($flash['error'])): ?>
+            <div class="mb-4 max-w-2xl align-center p-3 bg-red-100 text-red-700 rounded-lg">
+                <?= htmlspecialchars($flash['error']) ?>
+            </div>
+        <?php endif; ?>
         <!-- Page Header -->
         <header class="pb-4 mb-8">                
             <a class="flex gap-2 text-md font-semibold text-[#5B5B5B] mb-6" href="/profile">
@@ -93,6 +102,7 @@
         <section class="tab-content active max-w-2xl mx-auto" id="edit-profile">
             <!-- Unified Form for Edit Profile -->
             <form action="/profile/edit" method="post" enctype="multipart/form-data" class="space-y-10 mb-6">
+                
                 <?php \App\Core\Router::setCsrf(); ?>
                 <!-- Avatar -->
                 <div class="flex flex-col items-left gap-6 sm:flex-row sm:items-center">
@@ -221,7 +231,7 @@
                     </div>
                     
                 </section>
-
+                
                 <!-- Submit Button -->
                 <div class="flex justify-end">
                     <button type="button"
@@ -234,6 +244,7 @@
                         class="px-5 py-2 text-md font-semibold bg-[#055BA8] text-white rounded-xl hover:bg-blue-700 transition">
                         Save Profile
                     </button>
+
                 </div>
             </form>
 
@@ -273,12 +284,6 @@
                     </div>
                 </div>
                 
-                <?php if (!empty($flash['success'])): ?>
-                <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">
-                    <?= $flash['success'] ?>
-                </div>
-                <?php unset($_SESSION['flash']); ?>
-            <?php endif; ?>
                   <!-- Change Pass Button -->
                 <div class="flex justify-end">
                     <button type="submit"
@@ -302,6 +307,7 @@
                 </div>
             </form>
         </section>
+
     </main>
 
     <!-- Tabs JS -->

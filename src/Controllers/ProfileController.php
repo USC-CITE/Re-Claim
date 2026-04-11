@@ -143,39 +143,9 @@ class ProfileController{
             $currentAvatar = '/avatars/default.png';
         }
 
-        // =========================
-        // 2. HANDLE AVATAR UPLOAD
-        // =========================
-        if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === 0) {
-
-            $file = $_FILES['avatar'];
-
-            $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-
-            if (in_array($file['type'], $allowedTypes) && $file['size'] <= 2 * 1024 * 1024) {
-
-                $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-                $filename = uniqid('avatar_', true) . '.' . $ext;
-
-                $uploadPath = __DIR__ . '/../../public/avatars/' . $filename;
-
-                if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
-
-                    // delete old avatar
-                    if ($currentAvatar && $currentAvatar !== '/avatars/default.png') {
-                        $oldPath = __DIR__ . "/../../public" . $currentAvatar;
-                        if (is_file($oldPath)) {
-                            @unlink($oldPath);
-                        }
-                    }
-
-                    $currentAvatar = '/avatars/' . $filename;
-                }
-            }
-        }
 
         // =========================
-        // 3. HANDLE TEXT FIELDS
+        // 2. HANDLE TEXT FIELDS
         // =========================
         $firstName = $_POST['first_name'] ?? '';
         $lastName = $_POST['last_name'] ?? '';
@@ -184,6 +154,24 @@ class ProfileController{
 
         // Retrieve social links
         $socialLinks = $_POST['social_links'] ?? [];
+
+        $errors = [];
+
+        if (!$firstName) {
+            $errors['first_name'] = 'First name is required';
+        }
+
+        if (!$lastName) {
+            $errors['last_name'] = 'Last name is required';
+        }
+
+        if ($phone && !preg_match('/^[0-9+\-() ]+$/', $phone)) {
+            $errors['phone_number'] = 'Invalid phone number format';
+        }
+
+        if ($social && !filter_var($social, FILTER_VALIDATE_URL)) {
+            $errors['social_link'] = 'Invalid social link URL';
+        }
 
         // Ensure it an array
         if(!is_array($socialLinks)){
@@ -196,6 +184,52 @@ class ProfileController{
             return filter_var($link, FILTER_VALIDATE_URL) ? $link : null; 
         }, $socialLinks));
 
+        // =========================
+        // 3. HANDLE AVATAR UPLOAD
+        // =========================
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === 0) {
+            
+            $file = $_FILES['avatar'];
+
+            if ($file['error'] !== 0){
+                $errors['avatar'] = 'Upload failed. Try again.';
+            }else{
+                $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                if (!in_array($file['type'], $allowedTypes)){
+                    $errors['avatar'] = 'Only JPG, PNG, WEBP allowed';
+                }
+
+                if ($file['size'] > 2 * 1024 * 1024){
+                    $errors['avatar'] = 'Max file size is 2MB';
+                }
+
+                // Only upload if no avatar errors
+                if (!isset($errors['avatar'])) {
+                    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+                    $filename = uniqid('avatar_', true) . '.' . $ext;
+
+                    $uploadPath = __DIR__ . '/../../public/avatars/' . $filename;
+
+                    if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
+
+                        // delete old avatar
+                        if ($currentAvatar && $currentAvatar !== '/avatars/default.png') {
+                            $oldPath = __DIR__ . "/../../public" . $currentAvatar;
+                            if (is_file($oldPath)) {
+                                @unlink($oldPath);
+                            }
+                        }
+
+                        $currentAvatar = '/avatars/' . $filename;
+
+                    } else {
+                        $errors['avatar'] = 'Failed to save uploaded file';
+                    }
+                }
+
+            }
+        }
+
         // No duplication
         $socialLinks = array_unique($socialLinks);
 
@@ -206,6 +240,15 @@ class ProfileController{
 
         foreach($socialLinks as $link){
             $user->addSocialLinks($userId, $link);
+        }
+
+        // If error array has values return to frontend
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors;
+            $_SESSION['flash'] = ['error' => 'Please fix the errors'];
+
+            header("Location: /profile/settings");
+            exit;
         }
 
 
