@@ -154,12 +154,18 @@
                     <div  class="space-y-4">
                         <div class="flex flex-col">
                             <label class="text-md font-medium">First Name</label>
-                            <input class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" name="first_name" value="<?= htmlspecialchars($_SESSION['first_name'] ?? '') ?>">
+                            <input class="w-full mt-1 border rounded-lg px-3 py-2  <?= !empty($errors['first_name']) ? 'border-red-500 border-2' : 'border-gray-300' ?> text-sm" name="first_name" value="<?= htmlspecialchars($_SESSION['first_name'] ?? '') ?>">
+                            <p class="text-red-500 text-sm">
+                                <?= isset($errors['first_name']) ? '✕ ' . $errors['first_name'] : ''?>
+                            </p>
                         </div>
                         
                         <div class="flex flex-col">
                             <label class="text-md font-medium">Last Name</label>
-                            <input name="last_name" class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm" value="<?= htmlspecialchars($_SESSION['last_name'] ?? '') ?>">
+                            <input name="last_name" class="w-full mt-1 border rounded-lg px-3 py-2  <?= !empty($errors['last_name']) ? 'border-red-500 border-2' : 'border-gray-300' ?>text-sm" value="<?= htmlspecialchars($_SESSION['last_name'] ?? '') ?>">
+                            <p class="text-red-500 text-sm">
+                                <?= isset($errors['last_name']) ? '✕ ' . $errors['last_name'] : ''?>
+                            </p>
                         </div>  
                         
                     </div>
@@ -178,16 +184,22 @@
                         <div class="flex flex-col">
                             <label class="text-md font-medium">Mobile Number</label>
                             <input name="phone_number"
-                                class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm"
+                                class="w-full mt-1 border rounded-lg px-3 py-2 <?= !empty($errors['phone_number']) ? 'border-red-500 border-2' : 'border-gray-300' ?> text-sm"
                                 value="<?= htmlspecialchars($_SESSION['phone_number'] ?? '') ?>">
+                            <p class="text-red-500 text-sm">
+                                <?= isset($errors['phone_number']) ? '✕ ' . $errors['phone_number'] : ''?>
+                            </p>
                         </div>
 
                         <!-- MAIN SOCIAL LINK -->
                         <div class="flex flex-col">
                             <label class="text-md font-medium">Link to Social Account</label>
                             <input name="social_link"
-                                class="w-full mt-1 border rounded-lg px-3 py-2 border-gray-300 text-sm"
+                                class="w-full mt-1 border rounded-lg px-3 py-2 <?= !empty($errors['social_link']) ? 'border-red-500 border-2' : 'border-gray-300' ?> text-sm "
                                 value="<?= htmlspecialchars($_SESSION['social_link'] ?? '') ?>">
+                            <p class="text-red-500 text-sm">
+                                <?= isset($errors['social_link']) ? '✕ ' . $errors['social_link'] : ''?>
+                            </p>
                         </div>
 
                         <!-- ADDITIONAL SOCIAL LINKS -->
