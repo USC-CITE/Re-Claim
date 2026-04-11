@@ -53,15 +53,17 @@
     <?php require __DIR__  . "/../mainpages/header.php"; ?>
 
     <main class="max-w-5xl mx-auto mt-16 px-6">
-        <?php if (!empty($flash['success'])): ?>
-            <div class="mb-4 max-w-2xl p-3 bg-green-100 text-green-700 rounded-lg">
+        <?php if (!empty($flash) && !empty($flash['success'])): ?>
+            <div class="mb-4 max-w-2xl mx-auto p-3 bg-green-100 text-green-700 rounded-lg">
                 <?= htmlspecialchars($flash['success']) ?>
             </div>
-        <?php elseif (!empty($flash['error'])): ?>
-            <div class="mb-4 max-w-2xl align-center p-3 bg-red-100 text-red-700 rounded-lg">
+
+        <?php elseif (!empty($flash) && !empty($flash['error'])): ?>
+            <div class="mb-4 max-w-2xl mx-auto p-3 bg-red-100 text-red-700 rounded-lg">
                 <?= htmlspecialchars($flash['error']) ?>
             </div>
         <?php endif; ?>
+        
         <!-- Page Header -->
         <header class="pb-4 mb-8">                
             <a class="flex gap-2 text-md font-semibold text-[#5B5B5B] mb-6" href="/profile">
