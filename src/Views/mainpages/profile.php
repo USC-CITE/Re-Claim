@@ -242,7 +242,7 @@
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p>No lost items posted yet.</p>
+                        <p class="text-lg font-semibold text-gray-700">No lost items posted yet.</p>
                     <?php endif; ?>
                 </article>
             </section>
@@ -299,14 +299,13 @@
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p>No found items posted yet.</p>
+                        <h2 class="text-lg font-semibold text-gray-700">No found items posted yet.</h2>
                     <?php endif; ?>
                 </article>
             </section>
 
             <section class="tab-content mt-12 mb-12" id="archive">
-                <article>
-                    <h4>My Archived Posts</h4>
+                <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
                     <?php if (!empty($archivedItems)): ?>
                         <form id="bulk-delete-archived-form" method="POST" action="/profile/archived/delete" onsubmit="return confirm('Delete the selected archived items permanently? This cannot be undone.');">
                             <?php \App\Core\Router::setCsrf(); ?>
@@ -348,7 +347,7 @@
 
                         <button type="submit" form="bulk-delete-archived-form" class="secondary">Delete Selected</button>
                     <?php else: ?>
-                        <p>No archived posts yet.</p>
+                        <h2 class="text-lg font-semibold text-gray-700">No archived posts yet.</h2>
                     <?php endif; ?> 
                 </article>
             </section>
