@@ -61,7 +61,8 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        modal.setAttribute("open", "");
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
     }
 
     function closeDialog(modal) {
@@ -74,7 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        modal.removeAttribute("open");
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
     }
 
     window.openModal = function (id) {
