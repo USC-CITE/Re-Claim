@@ -349,8 +349,8 @@ class ProfileController{
 
         $name = !empty($_SESSION['first_name']) ? $_SESSION['first_name'] : 'User';
 
-
-        //Mailer::sendPasswordOtp($_SESSION['wvsu_email'], $name, $otp);
+        Mailer::sendPasswordOtp($_SESSION['wvsu_email'], $name, $otp);
+        
         // If no errors open verification code modal
         $_SESSION['show_otp_modal'] = true;
         
