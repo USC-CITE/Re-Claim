@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="/css/app.css">
     <script src="/js/found/index.js" defer></script>
 </head>
-<body class="font-poppins bg-white text-primary min-h-screen">
+<body class="font-poppins bg-white text-primary min-h-screen overflow-x-hidden">
 <?php require __DIR__ . "/../mainpages/header.php"?>
-<main class="mx-auto max-w-[1327px] px-4 py-10 sm:px-6">
+<main class="mx-auto max-w-[1327px] px-4 py-8 sm:px-6 sm:py-10">
     <hgroup class="mb-8 space-y-2 text-center">
-        <h1 class="text-center text-display-md font-bold text-black">Found Items</h1>
+        <h1 class="text-center text-[2rem] font-bold text-black sm:text-display-md">Found Items</h1>
     </hgroup>
 
       <!-- SEARCH AND FILTER -->
@@ -49,7 +49,7 @@
 
     <!-- LOST AND FOUND TABS -->
     <nav aria-label="Listing type" class="mb-10 flex justify-center">
-        <ul class="flex items-center gap-8 text-md font-semibold">
+        <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-md font-semibold sm:gap-8">
             <li>
                 <a href="/lost" class="border-b-2 border-transparent pb-1 text-secondary transition-colors hover:text-secondary">
                     Lost Items
@@ -106,14 +106,14 @@
     <?php else: ?>
         <section class="flex flex-wrap justify-center gap-6" data-listing-grid>
             <?php foreach ($foundItems as $item): ?>
-                <article class="item-card flex h-full w-full max-w-[405px] flex-col items-start gap-4 overflow-hidden rounded-[32px] border border-[#d9d9d9] bg-white px-[22px] py-6 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)]" data-item-status="<?= htmlspecialchars((string)($item['status'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" data-item-location="<?= htmlspecialchars((string)($item['location'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" data-item-categories="<?= htmlspecialchars(implode('|', $item['categories'] ?? []), ENT_QUOTES, 'UTF-8') ?>">
+                <article class="item-card flex h-full w-full max-w-[405px] min-w-0 flex-col items-start gap-4 overflow-hidden rounded-[32px] border border-[#d9d9d9] bg-white px-4 py-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)] sm:px-[22px] sm:py-6" data-item-status="<?= htmlspecialchars((string)($item['status'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" data-item-location="<?= htmlspecialchars((string)($item['location'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" data-item-categories="<?= htmlspecialchars(implode('|', $item['categories'] ?? []), ENT_QUOTES, 'UTF-8') ?>">
                     <header class="flex w-full flex-col items-start gap-4">
-                        <div class="flex items-start gap-3">
+                        <div class="flex w-full items-start gap-3">
                         <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[124px] bg-white-600 text-sm font-semibold text-primary">
                             <?= strtoupper(substr((string)($item['name'] ?: 'A'), 0, 1)) ?>
                         </div>
                         <div class="min-w-0 flex-1">
-                            <p class="item-card-title text-lg font-semibold text-primary">
+                            <p class="item-card-title break-words text-lg font-semibold text-primary">
                                 <span class="mr-1 text-green-800">[Found]</span><?= htmlspecialchars($item['title']) ?>
                             </p>
                             <p class="text-sm font-normal text-primary"><?= htmlspecialchars(!empty($item['date_found']) ? preg_replace('/(\d{4})\s+(\d{1,2}:\d{2}(?::\d{2})?\s*[APMapm]*)$/', '$1 at $2', (string) $item['date_found']) : 'Date unavailable') ?></p>
@@ -121,12 +121,12 @@
                         </div>
                     </header>
 
-                    <div class="w-full max-w-[362px] self-center border-t border-secondary"></div>
+                    <div class="w-full self-center border-t border-secondary"></div>
                     
                     <?php if ($item['image_url']): ?>
-                        <img src="<?= htmlspecialchars($item['image_url']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" class="h-[260.188px] w-full max-w-[362px] rounded-2xl object-cover">
+                        <img src="<?= htmlspecialchars($item['image_url']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" class="h-auto max-h-[420px] w-full rounded-2xl object-cover sm:h-[260.188px] sm:max-w-[362px] sm:self-center">
                     <?php else: ?>
-                        <div class="flex h-[260.188px] w-full max-w-[362px] items-center justify-center rounded-2xl border border-dashed border-white-700 bg-white-50 text-sm text-secondary">
+                        <div class="flex h-[260.188px] w-full items-center justify-center rounded-2xl border border-dashed border-white-700 bg-white-50 text-sm text-secondary sm:max-w-[362px] sm:self-center">
                             No Image
                         </div>
                     <?php endif; ?>
@@ -152,7 +152,7 @@
                     
                     <footer class="mt-auto flex w-full flex-wrap justify-end gap-3 pt-2">
                         <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
-                            <button class="ml-auto inline-flex w-full max-w-[362px] items-center justify-center gap-[10px] self-center rounded-[16px] bg-primary-500 px-6 py-3 text-md font-semibold text-white-500 transition-colors hover:bg-primary-600" onclick="openModal('contact-modal-<?= $item['id'] ?>')">
+                            <button class="ml-auto inline-flex w-full items-center justify-center gap-[10px] self-center rounded-[16px] bg-primary-500 px-6 py-3 text-md font-semibold text-white-500 transition-colors hover:bg-primary-600 sm:max-w-[362px]" onclick="openModal('contact-modal-<?= $item['id'] ?>')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" viewBox="0 0 24 21" fill="none" class="h-[21px] w-6 shrink-0" aria-hidden="true">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M24 10.5C24 16.299 18.6274 21 12 21C9.76254 21 7.66811 20.4642 5.87515 19.5312L0 21L2.00745 16.3159C0.739202 14.6509 0 12.651 0 10.5C0 4.70101 5.37258 0 12 0C18.6274 0 24 4.70101 24 10.5ZM7.5 9H4.5V12H7.5V9ZM19.5 9H16.5V12H19.5V9ZM10.5 9H13.5V12H10.5V9Z" fill="white"/>
                                 </svg>
