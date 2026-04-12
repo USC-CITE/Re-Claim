@@ -45,4 +45,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Default tab
     activateTab("account");
+    
+    function showDialog(modal) {
+        if (!modal) {
+            return;
+        }
+
+        if (typeof modal.showModal === "function") {
+            modal.showModal();
+            return;
+        }
+
+        if (typeof modal.show === "function") {
+            modal.show();
+            return;
+        }
+
+        modal.setAttribute("open", "");
+    }
+
+    function closeDialog(modal) {
+        if (!modal) {
+            return;
+        }
+
+        if (typeof modal.close === "function") {
+            modal.close();
+            return;
+        }
+
+        modal.removeAttribute("open");
+    }
+
+    window.openModal = function (id) {
+        const modal = document.getElementById(id);
+        showDialog(modal);
+    };
+
+    window.closeModal = function (id) {
+        const modal = document.getElementById(id);
+        closeDialog(modal);
+    };
 });
