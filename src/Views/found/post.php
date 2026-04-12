@@ -12,7 +12,7 @@
 <body>
 
 <main class="container">
-    <h2>Post a Found Item</h2>
+    <h2>Report a Found Item</h2>
     
     <?php if (!empty($flash['error'])): ?>
     <div style="background: #fee; padding: 1rem; border-left: 4px solid #f44; margin-bottom: 1rem;">
@@ -24,26 +24,15 @@
         <?php \App\Core\Router::setCsrf(); ?>
         
         <fieldset>
-            <legend>Item Photo</legend>
+            <!-- ITEM NAME -->
             <label>
-                Upload Image or Take Photo:
-                <input 
-                    type="file" 
-                    name="item_image" 
-                    id="item_image"
-                    accept="image/jpeg,image/png,image/webp,image/avif"
-                    required
-                >
+                Item Name:
+                <input type="text" name="item_name" id="item_name"  placeholder="e.g., Black Wallet" value="<?= htmlspecialchars($old['item_name'] ?? '') ?>">
             </label>
-            <div id="preview-container">
-                <img id="preview-image" alt="Image Preview">
-            </div>
-        </fieldset>
-        
-        <fieldset>
-            <legend>Location Found</legend>
+
+            <!-- LOCATION -->
             <label>
-                Select Location:
+                Location Item was Found:
                 <select name="location" id="location" required>
                     <option value="">-- Select Location --</option>
                     <option value="General Services Office|10.713457,122.559756" <?= ($old['location'] ?? '') === 'General Services Office|10.713457,122.559756' ? 'selected' : '' ?>>General Services Office</option>
@@ -76,21 +65,21 @@
                 </select>
             </label>
 
+            <!-- ROOM NUMBER -->
             <label id="room-number-wrapper" style="display: none;">
                 Room Number:
                 <input type="text" name="room_number" id="room_number" placeholder="e.g., 203" value="<?= htmlspecialchars($old['room_number'] ?? '') ?>">
             </label>
-        </fieldset>
-        <fieldset>
-            <legend>Item Details</legend>
 
+            <!-- DATE AND TIME FOUND -->
             <label>
-                Item Name:
-                <input type="text" name="item_name" id="item_name"  placeholder="e.g., Black Wallet" value="<?= htmlspecialchars($old['item_name'] ?? '') ?>">
+                Date and Time Item was Found:
+                <input type="datetime-local" name="date_found" value="<?= htmlspecialchars($old['date_found'] ?? date('Y-m-d\TH:i')) ?>" >
             </label>
 
+            <!-- CATEGORY -->
             <label>
-                Category Tags:
+                Category:
                 <select name="category" >
                     <option value="Books" <?= (isset($old['category']) && (is_array($old['category']) ? in_array('Books', $old['category']) : $old['category'] === 'Books')) ? 'selected' : '' ?>>Books</option>
                     <option value="Electronics" <?= (isset($old['category']) && (is_array($old['category']) ? in_array('Electronics', $old['category']) : $old['category'] === 'Electronics')) ? 'selected' : '' ?>>Electronics</option>
@@ -104,16 +93,29 @@
                 </select>
             </label>
 
+            <!-- ITEM DESCRIPTION -->
             <label>
-                Description:
+                Item Description:
                 <textarea name="description" rows="4" placeholder="Color, brand, or distinguishing marks" ><?= htmlspecialchars($old['description'] ?? '') ?></textarea>
             </label>
+        </fieldset>
 
+        <!-- ITEM PHOTO -->
+        <fieldset>
+            <legend>Item Photo:</legend>
             <label>
-                Date & Time Found:
-                <input type="datetime-local" name="date_found" value="<?= htmlspecialchars($old['date_found'] ?? date('Y-m-d\TH:i')) ?>" >
+                Upload Image or Take Photo:
+                <input 
+                    type="file" 
+                    name="item_image" 
+                    id="item_image"
+                    accept="image/jpeg,image/png,image/webp,image/avif"
+                    required
+                >
             </label>
-
+            <div id="preview-container">
+                <img id="preview-image" alt="Image Preview">
+            </div>
         </fieldset>
         
         <fieldset>
