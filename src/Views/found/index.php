@@ -11,7 +11,7 @@
 <?php require __DIR__ . "/../mainpages/header.php"?>
 <main class="mx-auto max-w-[1327px] px-4 py-8 sm:px-6 sm:py-10">
     <hgroup class="mb-8 space-y-2 text-center">
-        <h1 class="text-center text-[2rem] font-bold text-black sm:text-display-md">Found Items</h1>
+        <h1 class="text-center text-display-md font-bold text-black">Found Items</h1>
     </hgroup>
 
       <!-- SEARCH AND FILTER -->
