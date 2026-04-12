@@ -343,14 +343,14 @@ class LostItemController
 
         if (empty($_SESSION['user_id'])) {
             $_SESSION['flash'] = ['error' => 'You must be logged in to recover an item you posted.'];
-            header('Location: /lost');
+            header('Location: ' . self::postActionRedirect());
             exit;
         }
 
         $itemId = isset($_POST['item_id']) ? (int)$_POST['item_id'] : 0;
         if ($itemId <= 0) {
             $_SESSION['flash'] = ['error' => 'Invalid item selected for recovery.'];
-            header('Location: /lost');
+            header('Location: ' . self::postActionRedirect());
             exit;
         }
 
@@ -365,8 +365,19 @@ class LostItemController
             $_SESSION['flash'] = ['error' => 'Unable to mark this item as recovered. You can only recover lost items that you posted and are still unrecovered.'];
         }
 
-        header('Location: /lost');
+        header('Location: ' . self::postActionRedirect());
         exit;
+    }
+
+    private static function postActionRedirect(): string
+    {
+        $redirectTo = trim((string)($_POST['redirect_to'] ?? ''));
+
+        if ($redirectTo !== '' && str_starts_with($redirectTo, '/')) {
+            return $redirectTo;
+        }
+
+        return '/lost';
     }
 
     public static function archive()
@@ -381,7 +392,7 @@ class LostItemController
 
         if (!$userId || empty($itemIds)) {
             $_SESSION['flash'] = ['error' => 'Archive request is invalid.'];
-            header('Location: /lost');
+            header('Location: ' . self::postActionRedirect());
             exit;
         }
 
@@ -398,7 +409,7 @@ class LostItemController
             $_SESSION['flash'] = ['error' => 'Could not archive selected post(s).'];
         }
 
-        header('Location: /lost');
+        header('Location: ' . self::postActionRedirect());
         exit;
     }
 
@@ -415,7 +426,7 @@ class LostItemController
 
         if (!$userId || $itemId <= 0) {
             $_SESSION['flash'] = ['error' => 'Delay request is invalid.'];
-            header('Location: /lost');
+            header('Location: ' . self::postActionRedirect());
             exit;
         }
 
@@ -428,7 +439,7 @@ class LostItemController
             $_SESSION['flash'] = ['error' => 'Could not update archive schedule.'];
         }
 
-        header('Location: /lost');
+        header('Location: ' . self::postActionRedirect());
         exit;
     }
 
