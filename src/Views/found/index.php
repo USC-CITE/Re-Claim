@@ -37,6 +37,7 @@
             <button
                 type="button"
                 aria-label="Filter found items"
+                data-filter-toggle
                 class="flex h-[38px] w-[38px] shrink-0 items-center justify-center gap-[10px] rounded-2xl border border-black bg-white p-[9px_10px]"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="14" viewBox="0 0 13 14" fill="none">
@@ -61,6 +62,31 @@
             </li>
         </ul>
     </nav>
+
+    <section class="mx-auto mb-8 hidden w-full max-w-[840px] rounded-[24px] border border-[#d9d9d9] bg-white p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.08)]" data-filter-panel>
+        <div class="grid gap-4 md:grid-cols-3">
+            <label class="flex flex-col gap-2 text-sm font-medium text-primary">
+                Recovery status
+                <select id="found-status-filter" class="rounded-2xl border border-[#d9d9d9] bg-white px-4 py-3 text-sm text-primary">
+                    <option value="">All statuses</option>
+                    <option value="Unrecovered">Unrecovered</option>
+                    <option value="Recovered">Recovered</option>
+                </select>
+            </label>
+            <label class="flex flex-col gap-2 text-sm font-medium text-primary">
+                Location
+                <select id="found-location-filter" class="rounded-2xl border border-[#d9d9d9] bg-white px-4 py-3 text-sm text-primary">
+                    <option value="">All locations</option>
+                </select>
+            </label>
+            <label class="flex flex-col gap-2 text-sm font-medium text-primary">
+                Category tag
+                <select id="found-category-filter" class="rounded-2xl border border-[#d9d9d9] bg-white px-4 py-3 text-sm text-primary">
+                    <option value="">All categories</option>
+                </select>
+            </label>
+        </div>
+    </section>
 
     <?php /*
     // Bulk archive UI is temporarily cut during the staged Figma implementation.
@@ -144,7 +170,7 @@
 
         <section class="flex flex-wrap justify-center gap-6" data-listing-grid>
             <?php foreach ($foundItems as $item): ?>
-                <article class="item-card flex h-full w-full max-w-[405px] flex-col items-start gap-4 overflow-hidden rounded-[32px] border border-[#d9d9d9] bg-white px-[22px] py-6 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)]">
+                <article class="item-card flex h-full w-full max-w-[405px] flex-col items-start gap-4 overflow-hidden rounded-[32px] border border-[#d9d9d9] bg-white px-[22px] py-6 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)]" data-item-status="<?= htmlspecialchars((string)($item['status'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" data-item-location="<?= htmlspecialchars((string)($item['location'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" data-item-categories="<?= htmlspecialchars(implode('|', $item['categories'] ?? []), ENT_QUOTES, 'UTF-8') ?>">
                     <?php /*
                     // Bulk archive checkbox is temporarily cut during the staged Figma implementation.
                     // Bring it back once the matching UI section is designed.
@@ -190,6 +216,13 @@
                         </div>
 
                         <p class="text-sm font-normal text-primary"><?= htmlspecialchars($item['description']) ?></p>
+                        <?php if (!empty($item['categories'])): ?>
+                            <div class="flex flex-wrap gap-2">
+                                <?php foreach ($item['categories'] as $category): ?>
+                                    <span class="rounded-full bg-primary-50 px-3 py-1 text-xs font-medium text-primary-700"><?= htmlspecialchars($category) ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     
                     <footer class="mt-auto flex w-full flex-wrap justify-end gap-3 pt-2">
