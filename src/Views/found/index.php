@@ -186,6 +186,7 @@
         <p class="hidden py-10 text-center text-md text-secondary" data-empty-search-state>No found items match your search.</p>
     <?php endif; ?>
 </main>
+<?php require __DIR__ . "/../mainpages/footer.php"?>
 
 </body>
 </html>
