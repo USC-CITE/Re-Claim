@@ -59,7 +59,7 @@ class Mailer{
      public static function sendOtp(string $toEmail, string $toName, string $otp): bool {
         $subject = 'WVSU: ReClaim Verification Code';
         $body = "DO NOT SHARE!<br><br>"
-            . "Your One-Time Pin is: <b>$otp</b>. This is only valid for 5 minutes. <br>
+            . "Your One-Time Pin is: <h1 style='letter-spacing: 3px;'>{$otp}</h1> This is only valid for 5 minutes. <br>
                 If this was not you, please report immediately at <b>info@reclaim.wvsu-usc.org</b> or through the official <b>WVSU - CITE</b> Facebook page<br><br>
                 
                 - WVSU ReClaim Support Team";
@@ -82,8 +82,13 @@ class Mailer{
 
                 <p>This code is valid for <b>5 minutes</b>.</p>
 
-                <p>If this wasn't you, please secure your account immediately.</p>
+                <p>If this wasn't you, secure your account immediately by <a href='http://localhost:49152/forgot-password'> resetting your password here</a>.</p>
+                
+                <hr style='margin:20px 0;'>
 
+                <p style='font-size:12px; color:#888;'>
+                    This is an automated message. Please do not reply to this email.
+                </p>
                 <br>
                 <p>- WVSU ReClaim Support Team</p>
             </div>
