@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Post Found Item</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/css/app.css">
+    <script src="/js/found/post.js"></script>
     <style>
         #preview-container { margin-top: 1rem; }
         #preview-image { max-width: 100%; max-height: 300px; display: none; border-radius: 8px; }
@@ -96,7 +97,7 @@
             <!-- ITEM DESCRIPTION -->
             <label>
                 Item Description:
-                <textarea name="description" rows="4" placeholder="Color, brand, or distinguishing marks" ><?= htmlspecialchars($old['description'] ?? '') ?></textarea>
+                <textarea name="description" rows="4" placeholder="Color, brand, and any distinguishing marks." ><?= htmlspecialchars($old['description'] ?? '') ?></textarea>
             </label>
         </fieldset>
 
@@ -140,9 +141,7 @@
             <button type="submit">Post Item</button>
             <button type="button" class="secondary" onclick="window.location.href='/'">Cancel</button>
         </div>
-    </form>
-            
+    </form>      
 </main>
-<script src="/js/found/post.js"></script>
 </body>
 </html>

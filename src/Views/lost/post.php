@@ -9,7 +9,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Post Lost Item</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/css/app.css">
+    <script src="/js/lost/post.js"></script>
     <style>
         /* NOTE: Styling for dev/testing purposes only. Will move to own css file and update styling in the future. */
         #flash-error { background:#fee; padding:1rem; border-left:4px solid #f44; margin-bottom:1rem; }
@@ -49,7 +50,7 @@
                 <input
                     type="text"
                     name="item_name"
-                    placeholder="e.g., Black Backpack, iPhone 13"
+                    placeholder="e.g., Black Wallet"
                     required
                     value="<?= htmlspecialchars($old['item_name'] ?? '') ?>"
                 >
@@ -231,7 +232,7 @@
                 <textarea 
                     name="description" 
                     rows="4" 
-                    placeholder="Describe the item: color, brand, distinguishing marks, etc."
+                    placeholder="Color, brand, and any distinguishing marks."
                 ><?= htmlspecialchars($old['description'] ?? '') ?></textarea>
             </label>
         </div>
@@ -310,7 +311,5 @@
         </div>
     </form>
 </main>
-
-<script src="/js/lost/post.js"></script>
 </body>
 </html>
