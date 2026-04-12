@@ -88,4 +88,30 @@ document.addEventListener("DOMContentLoaded", function () {
         const modal = document.getElementById(id);
         closeDialog(modal);
     };
+
+    window.toggleBulkArchiveMode = function (type) {
+        const section = document.getElementById(`${type}-items-section`);
+        const toggleButton = document.getElementById(`toggle-bulk-archive-${type}`);
+
+        if (!section || !toggleButton) {
+            return;
+        }
+
+        const isActive = !section.classList.contains('bulk-archive-mode');
+        section.classList.toggle('bulk-archive-mode', isActive);
+        toggleButton.textContent = isActive
+            ? `Cancel ${type === 'lost' ? 'Lost' : 'Found'} archive selection`
+            : `Archive ${type === 'lost' ? 'Lost' : 'Found'} Items`;
+
+        const submitButton = document.getElementById(`bulk-archive-submit-${type}`);
+        if (submitButton) {
+            submitButton.style.display = isActive ? 'inline-flex' : 'none';
+        }
+
+        if (!isActive) {
+            section.querySelectorAll('input[name="item_ids[]"]').forEach(function (checkbox) {
+                checkbox.checked = false;
+            });
+        }
+    };
 });

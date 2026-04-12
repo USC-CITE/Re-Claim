@@ -39,6 +39,19 @@
             -ms-overflow-style: none;  /* IE and Edge */
             scrollbar-width: none;     /* Firefox */
         }
+
+        .bulk-archive-section .bulk-archive-box,
+        .bulk-archive-section .bulk-archive-submit {
+            display: none;
+        }
+
+        .bulk-archive-section.bulk-archive-mode .bulk-archive-box {
+            display: block;
+        }
+
+        .bulk-archive-section.bulk-archive-mode .bulk-archive-submit {
+            display: inline-flex;
+        }
     </style>
    
 </head>
@@ -192,9 +205,47 @@
                 </article>
             </section>
 
-             <section class="tab-content mt-12 mb-12" id="lost">
-                <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
-                    <?php if (!empty($lostItems)): ?>
+            <?php
+                $lostBulkAvailable = false;
+                foreach ($lostItems ?? [] as $item) {
+                    if (!empty($item['can_recover'])) {
+                        $lostBulkAvailable = true;
+                        break;
+                    }
+                }
+
+                $foundBulkAvailable = false;
+                foreach ($foundItems ?? [] as $item) {
+                    if (!empty($item['can_recover'])) {
+                        $foundBulkAvailable = true;
+                        break;
+                    }
+                }
+            ?>
+
+            <section class="tab-content mt-12 mb-12" id="lost">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h4 class="text-xl font-semibold">My Lost Items</h4>
+                        <p class="text-sm text-slate-500">Manage your lost listings and archive them in bulk from your profile.</p>
+                    </div>
+                    <?php if ($lostBulkAvailable): ?>
+                        <button type="button" id="toggle-bulk-archive-lost" class="secondary outline" onclick="toggleBulkArchiveMode('lost')">
+                            Archive Lost Items
+                        </button>
+                    <?php endif; ?>
+                </div>
+
+                <?php if ($lostBulkAvailable): ?>
+                    <form id="bulk-archive-form-lost" method="POST" action="/lost/archive" onsubmit="return confirm('Archive the selected lost items?');">
+                        <?php \App\Core\Router::setCsrf(); ?>
+                        <input type="hidden" name="redirect_to" value="/profile#lost">
+                    </form>
+                <?php endif; ?>
+
+                <div id="lost-items-section" class="bulk-archive-section">
+                    <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
+                        <?php if (!empty($lostItems)): ?>
                         <?php foreach ($lostItems as $item): ?>    
                             <!-- Item Card-->
                             <div class="border rounded-2xl p-4 bg-white w-full min-h-[480px] flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.20)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)] transition-shadow duration-300">
@@ -203,6 +254,12 @@
                                     <h3 class="font-semibold text-lg"><span class="text-red-500">[ Lost ]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
                                     <p class="text-sm"><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
                                 </div>
+                                <?php if (!empty($item['can_recover'])): ?>
+                                    <label class="bulk-archive-box" style="margin-bottom:0.75rem;">
+                                        <input type="checkbox" name="item_ids[]" value="<?= (int)$item['id'] ?>" form="bulk-archive-form-lost">
+                                        Select for bulk archive
+                                    </label>
+                                <?php endif; ?>
                                 <!-- Card Content -->
                                 <div class="flex flex-col flex-grow">
                                     <img src="<?= htmlspecialchars($item['image_path']) ?>"
@@ -300,11 +357,39 @@
                         <p>No lost items posted yet.</p>
                     <?php endif; ?>
                 </article>
+
+                <?php if ($lostBulkAvailable): ?>
+                    <div class="mt-6">
+                        <button type="submit" form="bulk-archive-form-lost" id="bulk-archive-submit-lost" class="secondary bulk-archive-submit" style="display:none;">
+                            Archive Selected
+                        </button>
+                    </div>
+                <?php endif; ?>
             </section>
 
             <section class="tab-content mt-12 mb-12" id="found">
-                <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
-                    <?php if (!empty($foundItems)): ?>
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h4 class="text-xl font-semibold">My Found Items</h4>
+                        <p class="text-sm text-slate-500">Review and archive your found item posts in bulk.</p>
+                    </div>
+                    <?php if ($foundBulkAvailable): ?>
+                        <button type="button" id="toggle-bulk-archive-found" class="secondary outline" onclick="toggleBulkArchiveMode('found')">
+                            Archive Found Items
+                        </button>
+                    <?php endif; ?>
+                </div>
+
+                <?php if ($foundBulkAvailable): ?>
+                    <form id="bulk-archive-form-found" method="POST" action="/found/archive" onsubmit="return confirm('Archive the selected found items?');">
+                        <?php \App\Core\Router::setCsrf(); ?>
+                        <input type="hidden" name="redirect_to" value="/profile#found">
+                    </form>
+                <?php endif; ?>
+
+                <div id="found-items-section" class="bulk-archive-section">
+                    <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
+                        <?php if (!empty($foundItems)): ?>
                         <?php foreach ($foundItems as $item): ?>    
                             <!-- Item Card-->
                             <div class="border rounded-2xl p-4 bg-white w-full min-h-[480px] flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.20)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)] transition-shadow duration-300">
@@ -313,6 +398,12 @@
                                     <h3 class="font-semibold text-lg"><span class="text-green-500">[ Found ]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
                                     <p class="text-sm"><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
                                 </div>
+                                <?php if (!empty($item['can_recover'])): ?>
+                                    <label class="bulk-archive-box" style="margin-bottom:0.75rem;">
+                                        <input type="checkbox" name="item_ids[]" value="<?= (int)$item['id'] ?>" form="bulk-archive-form-found">
+                                        Select for bulk archive
+                                    </label>
+                                <?php endif; ?>
 
                                 <!-- Card Content -->
                                 <div class="flex flex-col flex-grow">
@@ -410,6 +501,14 @@
                         <p>No found items posted yet.</p>
                     <?php endif; ?>
                 </article>
+
+                <?php if ($foundBulkAvailable): ?>
+                    <div class="mt-6">
+                        <button type="submit" form="bulk-archive-form-found" id="bulk-archive-submit-found" class="secondary bulk-archive-submit" style="display:none;">
+                            Archive Selected
+                        </button>
+                    </div>
+                <?php endif; ?>
             </section>
 
             <section class="tab-content mt-12 mb-12" id="archive">

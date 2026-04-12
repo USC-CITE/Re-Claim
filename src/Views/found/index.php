@@ -13,18 +13,6 @@
         <p>Recent items reported by the community.</p>
     </hgroup>
 
-    <style>
-        .bulk-archive-box,
-        .bulk-archive-submit {
-            display: none;
-        }
-
-        .bulk-archive-mode .bulk-archive-box,
-        .bulk-archive-mode .bulk-archive-submit {
-            display: block;
-        }
-    </style>
-
     <?php if (!empty($flash['success'])): ?>
         <article style="border-left: 4px solid #2ecc71; padding: 1rem;">
             <strong>Success:</strong> <?= htmlspecialchars($flash['success']) ?>
@@ -35,46 +23,16 @@
         </article>
     <?php endif; ?>
 
-    <?php
-        // Only show bulk archive mode if at least one post belongs to the current user.
-        $hasBulkArchivable = false;
-        foreach ($foundItems ?? [] as $bulkItem) {
-            if (!empty($bulkItem['can_archive'])) {
-                $hasBulkArchivable = true;
-                break;
-            }
-        }
-    ?>
-
     <div style="display:flex; gap:0.75rem; align-items:stretch; flex-wrap:wrap; margin-bottom:1rem;">
         <a href="/found/post" role="button" style="margin:0; display:inline-flex; align-items:center;">Post a Found Item</a>
-        <?php if ($hasBulkArchivable): ?>
-            <button type="button" id="toggle-bulk-archive" class="secondary outline" onclick="toggleBulkArchiveMode()" style="margin:0; display:inline-flex; align-items:center;">
-                Archive Found Items
-            </button>
-        <?php endif; ?>
     </div>
 
     <?php if (empty($foundItems)): ?>
         <p>No found items reported yet.</p>
     <?php else: ?>
-        <?php if ($hasBulkArchivable): ?>
-            <!-- Standalone form so it does not clash with the forms inside each modal. -->
-            <form id="bulk-archive-form" method="POST" action="/found/archive" onsubmit="return confirm('Archive the selected found items?');">
-                <?php \App\Core\Router::setCsrf(); ?>
-            </form>
-        <?php endif; ?>
-
         <div class="grid">
             <?php foreach ($foundItems as $item): ?>
                 <article class="item-card">
-                    <?php if (!empty($item['can_archive'])): ?>
-                        <label class="bulk-archive-box" style="margin-bottom:0.75rem;">
-                            <input type="checkbox" name="item_ids[]" value="<?= (int)$item['id'] ?>" form="bulk-archive-form">
-                            Select for bulk archive
-                        </label>
-                    <?php endif; ?>
-
                     <header>
                         <div class="grid">
                             <strong><?= htmlspecialchars($item['title']) ?></strong>
@@ -136,11 +94,6 @@
             <?php endforeach; ?>
         </div>
 
-        <?php if ($hasBulkArchivable): ?>
-            <button type="submit" form="bulk-archive-form" class="secondary bulk-archive-submit" style="margin-top: 1rem;">
-                Archive Selected
-            </button>
-        <?php endif; ?>
     <?php endif; ?>
 </main>
 
