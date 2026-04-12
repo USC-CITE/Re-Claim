@@ -249,47 +249,50 @@
                                 <?php endif; ?>
 
                                 <?php if (!empty($item['can_recover'])): ?>
-                                    <dialog id="recover-modal-<?= $item['id'] ?>">
-                                        <article>
-                                            <header>
-                                                <button aria-label="Close" rel="prev" onclick="closeModal('recover-modal-<?= $item['id'] ?>')"></button>
-                                                <h3>Confirm Lost Item Recovery</h3>
+                                                    <div id="recover-modal-<?= $item['id'] ?>" data-modal="true" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/40 p-4">
+                                                        <div class="w-full max-w-lg overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_20px_50px_rgba(15,23,42,0.18)] space-y-6">
+                                                            <header class="relative space-y-2 border-b border-slate-200 pb-4">
+                                                                <button type="button" aria-label="Close" rel="prev" onclick="closeModal('recover-modal-<?= $item['id'] ?>')" class="absolute right-0 top-0 text-slate-500 transition hover:text-slate-900">×</button>
+                                                                <h3 class="text-xl font-semibold text-slate-900">
+                                                            Confirm Lost Item Recovery</h3>
                                             </header>
-                                            <p>
-                                                Are you sure you want to mark this lost item as recovered? This will update its status for everyone.
+                                            <div class="space-y-3">
+                                                <p class="text-sm leading-7 text-slate-700">
+                                                    Are you sure you want to mark this lost item as recovered? This will update its status for everyone.
+                                                </p>
                                                 <?php if (!empty($item['archive_date'])): ?>
-                                                    <br><small>This post will be archived on <strong><?= htmlspecialchars($item['archive_date']) ?></strong>.</small>
+                                                    <p class="text-sm text-slate-500">This post will be archived on <strong class="text-slate-900"><?= htmlspecialchars($item['archive_date']) ?></strong>.</p>
                                                 <?php endif; ?>
-                                            </p>
-                                            <footer>
-                                                <form method="POST" action="/lost/recover" style="display:inline-block; margin-right:0.5rem;">
+                                            </div>
+                                            <footer class="flex flex-wrap justify-end gap-3 pt-4">
+                                                <form method="POST" action="/lost/recover" class="inline-flex">
                                                     <?php \App\Core\Router::setCsrf(); ?>
                                                     <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
                                                     <input type="hidden" name="redirect_to" value="/profile#lost">
-                                                    <button type="submit">Yes, mark as recovered</button>
+                                                    <button type="submit" class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700">Yes, mark as recovered</button>
                                                 </form>
 
-                                                <form method="POST" action="/lost/archive" style="display:inline-block; margin-left: 0.5rem;">
+                                                <form method="POST" action="/lost/archive" class="inline-flex">
                                                     <?php \App\Core\Router::setCsrf(); ?>
                                                     <input type="hidden" name="item_ids[]" value="<?= (int)$item['id'] ?>">
                                                     <input type="hidden" name="redirect_to" value="/profile#lost">
-                                                    <button type="submit" class="secondary outline" onclick="return confirm('Are you sure you want to archive this item?');">
+                                                    <button type="submit" class="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100" onclick="return confirm('Are you sure you want to archive this item?');">
                                                         Archive
                                                     </button>
                                                 </form>
 
-                                                <form method="POST" action="/lost/delay-archive" style="display:inline-block; margin-left: 0.5rem;">
+                                                <form method="POST" action="/lost/delay-archive" class="inline-flex">
                                                     <?php \App\Core\Router::setCsrf(); ?>
                                                     <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
                                                     <input type="hidden" name="delay_days" value="7">
                                                     <input type="hidden" name="redirect_to" value="/profile#lost">
-                                                    <button type="submit" class="outline" data-tooltip="Adds 7 days to auto-archive date">
+                                                    <button type="submit" class="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-100" title="Extend auto-archiving date by 7 days">
                                                         Delay Archiving
                                                     </button>
                                                 </form>
                                             </footer>
-                                        </article>
-                                    </dialog>
+                                        </div>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
@@ -357,47 +360,49 @@
                                 <?php endif; ?>
 
                                 <?php if (!empty($item['can_recover'])): ?>
-                                    <dialog id="recover-found-modal-<?= $item['id'] ?>">
-                                        <article>
-                                            <header>
-                                                <button aria-label="Close" rel="prev" onclick="closeModal('recover-found-modal-<?= $item['id'] ?>')"></button>
-                                                <h3>Confirm Found Item Recovery</h3>
+                                    <div id="recover-found-modal-<?= $item['id'] ?>" data-modal="true" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/40 p-4">
+                                        <div class="w-full max-w-lg overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_20px_50px_rgba(15,23,42,0.18)] space-y-6">
+                                            <header class="relative space-y-2 border-b border-slate-200 pb-4">
+                                                <button type="button" aria-label="Close" rel="prev" onclick="closeModal('recover-found-modal-<?= $item['id'] ?>')" class="absolute right-0 top-0 text-slate-500 transition hover:text-slate-900">×</button>
+                                                <h3 class="text-xl font-semibold text-slate-900">Confirm Found Item Recovery</h3>
                                             </header>
-                                            <p>
-                                                Are you sure you want to mark this found item as recovered? This will update its status for everyone.
+                                            <div class="space-y-3">
+                                                <p class="text-sm leading-7 text-slate-700">
+                                                    Are you sure you want to mark this found item as recovered? This will update its status for everyone.
+                                                </p>
                                                 <?php if (!empty($item['archive_date'])): ?>
-                                                    <br><small>This post will be archived on <strong><?= htmlspecialchars($item['archive_date']) ?></strong>.</small>
+                                                    <p class="text-sm text-slate-500">This post will be archived on <strong class="text-slate-900"><?= htmlspecialchars($item['archive_date']) ?></strong>.</p>
                                                 <?php endif; ?>
-                                            </p>
-                                            <footer>
-                                                <form method="POST" action="/found/recover" style="display:inline-block; margin-right:0.5rem;">
+                                            </div>
+                                            <footer class="flex flex-wrap justify-end gap-3 pt-4">
+                                                <form method="POST" action="/found/recover" class="inline-flex">
                                                     <?php \App\Core\Router::setCsrf(); ?>
                                                     <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
                                                     <input type="hidden" name="redirect_to" value="/profile#found">
-                                                    <button type="submit">Yes, mark as recovered</button>
+                                                    <button type="submit" class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700">Yes, mark as recovered</button>
                                                 </form>
 
-                                                <form method="POST" action="/found/archive" style="display:inline-block; margin-left: 0.5rem;">
+                                                <form method="POST" action="/found/archive" class="inline-flex">
                                                     <?php \App\Core\Router::setCsrf(); ?>
                                                     <input type="hidden" name="item_ids[]" value="<?= (int)$item['id'] ?>">
                                                     <input type="hidden" name="redirect_to" value="/profile#found">
-                                                    <button type="submit" class="secondary outline" onclick="return confirm('Are you sure you want to archive this item?');">
+                                                    <button type="submit" class="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100" onclick="return confirm('Are you sure you want to archive this item?');">
                                                         Archive
                                                     </button>
                                                 </form>
 
-                                                <form method="POST" action="/found/delay-archive" style="display:inline-block; margin-left: 0.5rem;">
+                                                <form method="POST" action="/found/delay-archive" class="inline-flex">
                                                     <?php \App\Core\Router::setCsrf(); ?>
                                                     <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
                                                     <input type="hidden" name="delay_days" value="7">
                                                     <input type="hidden" name="redirect_to" value="/profile#found">
-                                                    <button type="submit" class="outline" data-tooltip="Adds 7 days to auto-archive date">
+                                                    <button type="submit" class="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-100" title="Extend auto-archiving date by 7 days">
                                                         Delay Archiving
                                                     </button>
                                                 </form>
                                             </footer>
-                                        </article>
-                                    </dialog>
+                                        </div>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
