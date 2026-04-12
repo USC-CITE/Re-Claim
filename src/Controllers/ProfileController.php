@@ -6,6 +6,7 @@ use App\Models\UserModel;
 use App\Helpers\Mailer;
 use DateTime;
 use DateTimeZone;
+use Exception;
 
 class ProfileController{
     public static function showProfile(){
@@ -19,8 +20,37 @@ class ProfileController{
 
         $user = new UserModel($config);
         
-        $lostItems = $user->fetchItems($id, "lost");
-        $foundItems = $user->fetchItems($id, "found");
+        $lostItems = array_map(function ($item) use ($id) {
+            try {
+                $archiveAt = new DateTime($item['archive_date'], new DateTimeZone('Asia/Manila'));
+                $archiveDate = $archiveAt->format('F j, Y g:i A');
+            } catch (Exception $e) {
+                $archiveDate = $item['archive_date'] ?? null;
+            }
+
+            return array_merge($item, [
+                'archive_date' => $archiveDate,
+                'can_recover' => (int)($item['user_id'] ?? 0) === (int)$id
+                    && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
+                    && ($item['item_type'] ?? 'lost') === 'lost',
+            ]);
+        }, $user->fetchItems($id, "lost"));
+        $foundItems = array_map(function ($item) use ($id) {
+            try {
+                $archiveAt = new DateTime($item['archive_date'], new DateTimeZone('Asia/Manila'));
+                $archiveDate = $archiveAt->format('F j, Y g:i A');
+            } catch (Exception $e) {
+                $archiveDate = $item['archive_date'] ?? null;
+            }
+
+            return array_merge($item, [
+                'archive_date' => $archiveDate,
+                'can_recover' => (int)($item['user_id'] ?? 0) === (int)$id
+                    && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
+                    && ($item['item_type'] ?? 'found') === 'found',
+            ]);
+        }, $user->fetchItems($id, "found"));
+
         $archivedItems = array_map(function ($item) {
             try {
                 $archivedAt = new DateTime($item['archive_date'], new DateTimeZone('Asia/Manila'));
