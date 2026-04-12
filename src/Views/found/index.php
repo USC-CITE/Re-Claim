@@ -112,15 +112,6 @@
                                 Contact Finder
                             </button>
                         <?php endif; ?>
-                        
-                        <?php if (!empty($item['can_recover'])): ?>
-                            <button type="button"
-                                    class="secondary outline"
-                                    style="margin-left: 0.5rem;"
-                                    onclick="openModal('recover-modal-<?= $item['id'] ?>')">
-                                Mark as Recovered
-                            </button>
-                        <?php endif; ?>
                     </footer>
 
                     <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
@@ -141,48 +132,6 @@
                         </dialog>
                     <?php endif; ?>
 
-                    <?php if (!empty($item['can_recover'])): ?>
-                        <dialog id="recover-modal-<?= $item['id'] ?>">
-                            <article>
-                                <header>
-                                    <button aria-label="Close" rel="prev" onclick="closeModal('recover-modal-<?= $item['id'] ?>')"></button>
-                                    <h3>Confirm Recovery</h3>
-                                </header>
-                                <p>
-                                    Are you sure you want to mark this found item as recovered? This will update its status for everyone.
-                                    <?php if (!empty($item['archive_date'])): ?>
-                                        <br><small>This post will be archived on <strong><?= htmlspecialchars($item['archive_date']) ?></strong>.</small>
-                                    <?php endif; ?>
-                                </p>
-                                <footer>
-                                    <form method="POST" action="/found/recover" style="display:inline-block; margin-right: 0.5rem;">
-                                        <?php \App\Core\Router::setCsrf(); ?>
-                                        <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
-                                        <button type="submit">
-                                            Yes, mark as recovered
-                                        </button>
-                                    </form>
-
-                                    <form method="POST" action="/found/archive" style="display:inline-block; margin-left: 0.5rem;">
-                                        <?php \App\Core\Router::setCsrf(); ?>
-                                        <input type="hidden" name="item_ids[]" value="<?= (int)$item['id'] ?>">
-                                        <button type="submit" class="secondary outline" onclick="return confirm('Are you sure you want to archive this item?');">
-                                            Archive
-                                        </button>
-                                    </form>
-
-                                    <form method="POST" action="/found/delay-archive" style="display:inline-block; margin-left: 0.5rem;">
-                                        <?php \App\Core\Router::setCsrf(); ?>
-                                        <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
-                                        <input type="hidden" name="delay_days" value="7">
-                                        <button type="submit" class="outline" data-tooltip="Adds 7 days to auto-archive date">
-                                            Delay Archiving
-                                        </button>
-                                    </form>
-                                </footer>
-                            </article>
-                        </dialog>
-                    <?php endif; ?>
                 </article>
             <?php endforeach; ?>
         </div>
