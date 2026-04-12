@@ -121,7 +121,7 @@
                         <button type="button" 
                             class="tab-btn flex-shrink-0 px-5 py-3 text-md sm:text-base font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-800 transition-all snap-start" 
                             data-tab="archive">
-                            Archive Items
+                            Archived Items
                         </button>
 
                     </div>
