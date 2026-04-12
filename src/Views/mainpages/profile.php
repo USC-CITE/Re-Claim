@@ -233,17 +233,17 @@
                 <?php endif; ?>
 
                 <!-- Inline Bulk Action Bar for Lost Items -->
-                <div id="bulk-action-bar-lost" class="hidden items-center justify-between bg-gray-100 rounded-xl px-5 py-3 mb-6">
+                <div id="bulk-action-bar-lost" class="hidden flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-100 rounded-xl px-5 py-3 mb-6 gap-3">
                     <span id="bulk-count-lost" class="text-sm font-semibold text-gray-800">0 Items Selected</span>
-                    <div class="flex items-center gap-3">
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
                         <button type="button"
                             onclick="toggleBulkArchiveMode('lost')"
-                            class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-400 bg-white text-gray-800 hover:bg-gray-50 transition">
+                            class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-400 bg-white text-gray-800 hover:bg-gray-50 transition text-center">
                             Cancel Archive Selection
                         </button>
                         <button type="submit" form="bulk-archive-form-lost"
                             onclick="return confirm('Archive the selected lost items?')"
-                            class="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full bg-[#055BA8] text-white hover:bg-blue-800 transition">
+                            class="flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-full bg-[#055BA8] text-white hover:bg-blue-800 transition">
                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                             <g clip-path="url(#clip0_956_6212)">
                                 <path d="M14.9371 7.5H11.0631C10.9874 7.20446 10.9802 6.89553 11.0421 6.59679C11.104 6.29804 11.2333 6.01738 11.4201 5.77621C11.607 5.53505 11.8465 5.33975 12.1203 5.20523C12.3941 5.07071 12.695 5.00051 13.0001 5C13.3052 5.00051 13.6061 5.07071 13.88 5.20523C14.1538 5.33975 14.3933 5.53505 14.5801 5.77621C14.767 6.01738 14.8963 6.29804 14.9581 6.59679C15.02 6.89553 15.0128 7.20446 14.9371 7.5Z" fill="white"/>
@@ -414,17 +414,17 @@
 
                 
                 <!-- Inline Bulk Action Bar for Found Items -->
-                <div id="bulk-action-bar-found" class="hidden items-center justify-between bg-gray-100 rounded-xl px-5 py-3 mb-6">
+                <div id="bulk-action-bar-found" class="hidden flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-100 rounded-xl px-5 py-3 mb-6 gap-3">
                     <span id="bulk-count-found" class="text-sm font-semibold text-gray-800">0 Items Selected</span>
-                    <div class="flex items-center gap-3">
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
                         <button type="button"
                             onclick="toggleBulkArchiveMode('found')"
-                            class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-400 bg-white text-gray-800 hover:bg-gray-50 transition">
+                            class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-400 bg-white text-gray-800 hover:bg-gray-50 transition text-center">
                             Cancel Archive Selection
                         </button>
                         <button type="submit" form="bulk-archive-form-found"
                             onclick="return confirm('Archive the selected found items?')"
-                            class="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full bg-[#055BA8] text-white hover:bg-blue-800 transition">
+                            class="flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-full bg-[#055BA8] text-white hover:bg-blue-800 transition">
                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                             <g clip-path="url(#clip0_956_6212)">
                                 <path d="M14.9371 7.5H11.0631C10.9874 7.20446 10.9802 6.89553 11.0421 6.59679C11.104 6.29804 11.2333 6.01738 11.4201 5.77621C11.607 5.53505 11.8465 5.33975 12.1203 5.20523C12.3941 5.07071 12.695 5.00051 13.0001 5C13.3052 5.00051 13.6061 5.07071 13.88 5.20523C14.1538 5.33975 14.3933 5.53505 14.5801 5.77621C14.767 6.01738 14.8963 6.29804 14.9581 6.59679C15.02 6.89553 15.0128 7.20446 14.9371 7.5Z" fill="white"/>
