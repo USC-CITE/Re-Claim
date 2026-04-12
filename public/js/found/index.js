@@ -36,3 +36,47 @@ function toggleBulkArchiveMode() {
         });
     }
 }
+
+function setupTitleSearch(inputId) {
+    const searchInput = document.getElementById(inputId);
+    const cards = Array.from(document.querySelectorAll(".item-card"));
+    const emptyState = document.querySelector("[data-empty-search-state]");
+    const listingGrid = document.querySelector("[data-listing-grid]");
+
+    if (!searchInput || !cards.length) return;
+
+    const updateResults = function () {
+        const query = searchInput.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        cards.forEach(function (card) {
+            const titleElement = card.querySelector(".item-card-title");
+            const title = titleElement ? titleElement.textContent.toLowerCase() : "";
+            const isMatch = query === "" || title.includes(query);
+
+            card.style.display = isMatch ? "" : "none";
+            if (isMatch) visibleCount += 1;
+        });
+
+        if (emptyState) {
+            emptyState.style.display = visibleCount === 0 ? "block" : "none";
+        }
+
+        if (listingGrid) {
+            listingGrid.style.display = visibleCount === 0 ? "none" : "flex";
+        }
+    };
+
+    if (searchInput.form) {
+        searchInput.form.addEventListener("submit", function (event) {
+            event.preventDefault();
+        });
+    }
+
+    searchInput.addEventListener("input", updateResults);
+    updateResults();
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    setupTitleSearch("found-search");
+});

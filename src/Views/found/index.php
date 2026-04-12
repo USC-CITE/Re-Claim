@@ -142,7 +142,7 @@
         <?php endif; ?>
         */ ?>
 
-        <section class="flex flex-wrap justify-center gap-6">
+        <section class="flex flex-wrap justify-center gap-6" data-listing-grid>
             <?php foreach ($foundItems as $item): ?>
                 <article class="item-card flex h-full w-full max-w-[405px] flex-col items-start gap-4 overflow-hidden rounded-[32px] border border-[#d9d9d9] bg-white px-[22px] py-6 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)]">
                     <?php /*
@@ -162,7 +162,7 @@
                             <?= strtoupper(substr((string)($item['name'] ?: 'A'), 0, 1)) ?>
                         </div>
                         <div class="min-w-0 flex-1">
-                            <p class="text-lg font-semibold text-primary">
+                            <p class="item-card-title text-lg font-semibold text-primary">
                                 <span class="mr-1 text-green-800">[Found]</span><?= htmlspecialchars($item['title']) ?>
                             </p>
                             <p class="text-sm font-normal text-primary"><?= htmlspecialchars(!empty($item['date_found']) ? preg_replace('/(\d{4})\s+(\d{1,2}:\d{2}(?::\d{2})?\s*[APMapm]*)$/', '$1 at $2', (string) $item['date_found']) : 'Date unavailable') ?></p>
@@ -284,6 +284,7 @@
                 </article>
             <?php endforeach; ?>
         </section>
+        <p class="hidden py-10 text-center text-md text-secondary" data-empty-search-state>No found items match your search.</p>
 
         <?php /*
         // Bulk archive submit UI is temporarily cut during the staged Figma implementation.

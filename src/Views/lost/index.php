@@ -145,9 +145,9 @@
     */ ?>
 
     <!--LOST ITEM CARDS -->
-    <section class="flex flex-wrap justify-center gap-6">
+    <section class="flex flex-wrap justify-center gap-6" data-listing-grid>
       <?php foreach ($lostItems as $item): ?>
-        <article class="flex h-full w-full max-w-[405px] flex-col items-start gap-4 overflow-hidden rounded-[32px] border border-[#d9d9d9] bg-white px-[22px] py-6 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)]">
+        <article class="item-card flex h-full w-full max-w-[405px] flex-col items-start gap-4 overflow-hidden rounded-[32px] border border-[#d9d9d9] bg-white px-[22px] py-6 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)]">
           <?php /*
           // Bulk archive checkbox
           // Bring them back once the matching UI section is designed.
@@ -165,7 +165,7 @@
               <?= strtoupper(substr((string)($item['name'] ?: 'A'), 0, 1)) ?>
             </div>
             <div class="min-w-0 flex-1">
-              <p class="text-lg font-semibold text-primary">
+              <p class="item-card-title text-lg font-semibold text-primary">
                 <span class="mr-1 text-red-600">[Lost]</span><?= htmlspecialchars($item['item_name'] ?: 'Lost Item') ?>
               </p>
               <?php
@@ -297,6 +297,7 @@
   </article>
       <?php endforeach; ?>
     </section>
+    <p class="hidden py-10 text-center text-md text-secondary" data-empty-search-state>No lost items match your search.</p>
 
     <?php /*
     // Bulk archive submit UI
