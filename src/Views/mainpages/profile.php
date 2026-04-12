@@ -242,7 +242,7 @@
 
                                 <?php if (!empty($item['can_recover'])): ?>
                                     <button type="button"
-                                        class="mt-auto w-fit rounded-full border border-gray-900 bg-white px-4 py-2 text-sm font-medium text-gray-900 transition hover:bg-gray-100"
+                                        class="mt-6 w-full min-h-[52px] rounded-[16px] bg-[#055BA8] px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
                                         onclick="openModal('recover-modal-<?= $item['id'] ?>')">
                                         Mark as Recovered
                                     </button>
@@ -353,7 +353,7 @@
 
                                 <?php if (!empty($item['can_recover'])): ?>
                                     <button type="button"
-                                        class="mt-auto w-fit rounded-full border border-gray-900 bg-white px-4 py-2 text-sm font-medium text-gray-900 transition hover:bg-gray-100"
+                                        class="mt-6 w-full min-h-[52px] rounded-[16px] bg-[#055BA8] px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
                                         onclick="openModal('recover-found-modal-<?= $item['id'] ?>')">
                                         Mark as Recovered
                                     </button>
