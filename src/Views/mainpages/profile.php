@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/app.css">
     <title>WVSU ReClaim</title>
      <script>
         // This would handle the page javascript status if class is 'js' then works if still 'no-js' does not work
@@ -82,6 +83,11 @@
                     </a>
                 </div>
             </div>
+
+            <a href="/profile/settings" role="button">
+                Edit Profile
+            </a>
+
         </header>
 
         <section class="w-full">
@@ -401,5 +407,6 @@
         </section>
     </main>
     <script src="/js/profile/tabs.js"></script>
+    <?php require __DIR__ . "/footer.php"?>
 </body>
 </html>

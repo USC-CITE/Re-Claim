@@ -47,6 +47,14 @@ class UserModel {
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
+    function findById(string $id): ?array{
+        // Query the database and return the row of that email
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id LIMIT 1");
+        $stmt->execute(['id' => $id]);
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
     function verifyOtp(string $email, string $otp): bool{
 
         // We utilized our findByEmail helper function
@@ -155,6 +163,62 @@ class UserModel {
 
         return $stmt->rowCount();
     }
+
+    public function updateFullProfile($userId, $data) {
+        $stmt = $this->db->prepare("
+            UPDATE users 
+            SET first_name = ?, last_name = ?, phone_number = ?, social_link = ?, avatar_path = ?
+            WHERE id = ?
+        ");
+
+        $stmt->execute([
+            $data['first_name'],
+            $data['last_name'],
+            $data['phone_number'],
+            $data['social_link'],
+            $data['avatar_path'],
+            $userId
+        ]);
+    }
+
+    public function getAvatar(int $userId){
+        $stmt = $this->db->prepare("SELECT avatar_path FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        $avatar = $stmt->fetchColumn();
+
+        return $avatar ?: null;
+    }
+
+    public function updatePassword(int $userId, string $password){
+        $stmt = $this->db->prepare("UPDATE users SET password = ? WHERE id = ?");
+        return $stmt->execute([$password, $userId]);
+    }
+
+    public function deleteUser(int $userId){
+        $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
+        return $stmt->execute([$userId]);
+    }
+
+    public function deleteSocialLinks($userId){
+        $stmt = $this->db->prepare("DELETE from users_social_links WHERE user_id = ?");
+        return $stmt->execute([$userId]);
+    }
+
+    public function addSocialLinks($userId, $link){
+        $stmt = $this->db->prepare(
+            "INSERT INTO users_social_links (user_id, social_link) VALUES (?, ?)"
+        );
+        return $stmt->execute([$userId, $link]);
+    }
+
+    public function getSocialLinks($userId){
+        $stmt = $this->db->prepare("SELECT social_link FROM users_social_links WHERE user_id = ?");
+        $stmt->execute([$userId]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
 }
 
 

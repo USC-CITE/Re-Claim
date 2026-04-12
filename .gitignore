@@ -7,3 +7,5 @@ node_modules/
 php.ini
 uploads/
 .env
+
+/public/css/app.css

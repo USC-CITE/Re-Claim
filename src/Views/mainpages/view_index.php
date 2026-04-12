@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WVSU ReClaim</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
     <?php require __DIR__ . "/header.php"?>
@@ -58,5 +59,6 @@
             </div>
         </section>
     </main>
+    <?php require __DIR__ . "/footer.php"?>
 </body>
 </html>
