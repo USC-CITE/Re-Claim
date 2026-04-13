@@ -11,7 +11,7 @@
         </h2>
     </div>
 
-    <div class="relative w-full max-w-lg mt-6 xl:mt-8 mb-auto h-full min-h-[450px]">
+    <div class="relative w-full max-w-lg mt-6 xl:mt-8 mb-auto h-full min-h-112.5">
 
         <!-- Bottom Left Card - Calculator -->
         <div class="absolute left-0 bottom-4 w-64 xl:w-72 bg-white rounded-3xl p-4 xl:p-5 shadow-2xl z-10 
@@ -64,11 +64,11 @@
             </p>
 
             <button
-                class="w-full bg-primary-600 text-white rounded-xl py-2 text-xs font-medium flex items-center justify-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+                class="w-full bg-primary-500 text-white rounded-xl py-2 text-xs font-medium flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="18" viewBox="0 0 21 18" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M20.4336 8.93972C20.4336 13.877 15.8594 17.8794 10.2168 17.8794C8.31185 17.8794 6.52864 17.4232 5.00211 16.6289L0 17.8794L1.70915 13.8914C0.629357 12.4738 0 10.7711 0 8.93972C0 4.00245 4.57423 0 10.2168 0C15.8594 0 20.4336 4.00245 20.4336 8.93972ZM6.38551 7.66261H3.83131V10.2168H6.38551V7.66261ZM16.6023 7.66261H14.0481V10.2168H16.6023V7.66261ZM8.93972 7.66261H11.4939V10.2168H8.93972V7.66261Z"
+                        fill="white" />
                 </svg>
                 Contact Owner
             </button>
@@ -128,11 +128,11 @@
             </p>
 
             <button
-                class="w-full bg-primary-600 text-white rounded-xl py-2 text-xs font-medium flex items-center justify-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+                class="w-full bg-primary-500 text-white rounded-xl py-2 text-xs font-medium flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="18" viewBox="0 0 21 18" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M20.4336 8.93972C20.4336 13.877 15.8594 17.8794 10.2168 17.8794C8.31185 17.8794 6.52864 17.4232 5.00211 16.6289L0 17.8794L1.70915 13.8914C0.629357 12.4738 0 10.7711 0 8.93972C0 4.00245 4.57423 0 10.2168 0C15.8594 0 20.4336 4.00245 20.4336 8.93972ZM6.38551 7.66261H3.83131V10.2168H6.38551V7.66261ZM16.6023 7.66261H14.0481V10.2168H16.6023V7.66261ZM8.93972 7.66261H11.4939V10.2168H8.93972V7.66261Z"
+                        fill="white" />
                 </svg>
                 Contact Owner
             </button>
@@ -142,8 +142,9 @@
 
     <!-- Footer Logos -->
     <div class="mt-auto pt-8 flex w-full flex-col items-center">
-        <img src="/assets/spark-cite.svg" alt="Spark Cite Logo" class="mb-4 brightness-0 invert h-10 xl:h-14">
-        <p class="text-white text-xs xl:text-sm font-normal text-center">Re:Claim is a collaborative effort between SPARK Hub and
+        <img src="/assets/spark-cite.svg" alt="Spark Cite Logo" class="mb-4 brightness-0 invert h-14">
+        <p class="text-white text-xs xl:text-sm font-normal text-center">Re:Claim is a collaborative effort between
+            SPARK Hub and
             USC-CITE.</p>
     </div>
 
