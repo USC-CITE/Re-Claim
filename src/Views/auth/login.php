@@ -67,19 +67,19 @@
                         >
                     </div>
                     <div class="mt-3 flex items-center justify-between">
+                        <a href="/forgot-password/" class="text-sm font-medium text-primary-500 hover:underline">Forgot password?</a>
+
                         <label for="remember_me" class="inline-flex items-center gap-2 text-sm text-primary">
+                            Remember Me
                             <input
                                 id="remember_me"
                                 name="remember_me"
                                 type="checkbox"
                                 class="h-4 w-4 rounded-xs border border-white-900 text-primary-500"
                             >
-                            Remember Me
                         </label>
-
-                        <a href="/forgot-password/" class="text-sm font-medium text-primary-500 hover:underline">Forgot password?</a>
                     </div>
-                </div>
+                </div>  
 
                 <!-- Submit Button -->
                 <div class="pt-1">
