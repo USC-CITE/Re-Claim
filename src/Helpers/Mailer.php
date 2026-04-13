@@ -96,6 +96,35 @@ class Mailer{
 
         return self::sendMessage($toEmail, $toName, $subject, $body);
     }
+
+    public static function sendResetLink(string $toEmail, string $toName, string $resetLink): bool {
+        $subject = 'WVSU ReClaim - Password Reset';
+
+        $body = "
+            <div style='font-family: Arial, sans-serif;'>
+                <h2>Password Reset Request</h2>
+                <p>Hello {$toName},</p>
+
+                <p>We received a request to reset your password. Click the link below to set a new password:</p>
+
+                <p><a href='{$resetLink}' style='display:inline-block; padding:12px 24px; background-color:#055BA8; color:white; text-decoration:none; border-radius:8px; font-weight:bold;'>Reset Password</a></p>
+
+                <p>This link is valid for <b>30 minutes</b>.</p>
+
+                <p>If you did not request this, you can safely ignore this email. Your password will remain unchanged.</p>
+                
+                <hr style='margin:20px 0;'>
+
+                <p style='font-size:12px; color:#888;'>
+                    This is an automated message. Please do not reply to this email.
+                </p>
+                <br>
+                <p>- WVSU ReClaim Support Team</p>
+            </div>
+        ";
+
+        return self::sendMessage($toEmail, $toName, $subject, $body);
+    }
 }
 
 ?>
