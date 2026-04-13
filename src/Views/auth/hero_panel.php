@@ -1,20 +1,20 @@
 <!-- Right Side: Hero Panel -->
 <aside
-    class="hidden lg:flex flex-col justify-center items-center bg-primary-600 rounded-[40px] p-10 min-h-[700px] h-full relative overflow-hidden">
+    class="hidden lg:flex flex-col justify-center items-center bg-primary-600 rounded-[40px] p-8 xl:p-10 min-h-[700px] h-full relative overflow-hidden">
     <!-- Background Elements -->
     <img src="/assets/reclaim-logo.svg" alt=""
-        class="absolute -right-220 -bottom-110 w-full h-full object-contain pointer-events-none scale-500 opacity-8 transform brightness-0 invert">
+        class="absolute lg:-right-160 lg:-bottom-75  xl:-right-200 xl:-bottom-110 w-full h-full object-contain pointer-events-none scale-500 opacity-8 transform brightness-0 invert">
 
     <div class="relative z-10 w-[90%]">
-        <h2 class="text-white text-display-sm leading-tight font-medium">
+        <h2 class="text-white text-2xl xl:text-display-sm leading-tight font-medium">
             Seamlessly Track and Recover Your Belongings
         </h2>
     </div>
 
-    <div class="relative w-full max-w-lg mt-8 mb-auto h-full min-h-[450px]">
+    <div class="relative w-full max-w-lg mt-6 xl:mt-8 mb-auto h-full min-h-[450px]">
 
         <!-- Bottom Left Card - Calculator -->
-        <div class="absolute left-0 bottom-4 w-72 bg-white rounded-3xl p-5 shadow-2xl z-10 
+        <div class="absolute left-0 bottom-4 w-64 xl:w-72 bg-white rounded-3xl p-4 xl:p-5 shadow-2xl z-10 
                     transform transition-transform duration-500 hover:-translate-y-2">
             <!-- Profile Logo -->
             <div class="flex items-center gap-3 mb-3">
@@ -76,7 +76,7 @@
         </div>
 
         <!-- Top Right Card - Fan -->
-        <div class="absolute right-0 top-0 w-72 bg-white rounded-3xl p-5 shadow-2xl z-20
+        <div class="absolute right-0 top-0 w-64 xl:w-72 bg-white rounded-3xl p-4 xl:p-5 shadow-2xl z-20
                     transform transition-transform duration-500 hover:-translate-y-2">
 
             <!-- Profile Logo -->
@@ -142,8 +142,8 @@
 
     <!-- Footer Logos -->
     <div class="mt-auto pt-8 flex w-full flex-col items-center">
-        <img src="/assets/spark-cite.svg" alt="Spark Cite Logo" class="mb-4 brightness-0 invert h-14">
-        <p class="text-white text-sm font-normal">Re:Claim is a collaborative effort between SPARK Hub and
+        <img src="/assets/spark-cite.svg" alt="Spark Cite Logo" class="mb-4 brightness-0 invert h-10 xl:h-14">
+        <p class="text-white text-xs xl:text-sm font-normal text-center">Re:Claim is a collaborative effort between SPARK Hub and
             USC-CITE.</p>
     </div>
 
