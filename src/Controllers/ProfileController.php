@@ -240,7 +240,7 @@ class ProfileController{
                     $filename = uniqid('avatar_', true) . '.' . $ext;
 
                     $uploadPath = __DIR__ . '/../../public/avatars/' . $filename;
-
+                    
                     if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
 
                         // delete old avatar
@@ -379,8 +379,8 @@ class ProfileController{
 
         $name = !empty($_SESSION['first_name']) ? $_SESSION['first_name'] : 'User';
 
-
-        //Mailer::sendPasswordOtp($_SESSION['wvsu_email'], $name, $otp);
+        Mailer::sendPasswordOtp($_SESSION['wvsu_email'], $name, $otp);
+        
         // If no errors open verification code modal
         $_SESSION['show_otp_modal'] = true;
         
