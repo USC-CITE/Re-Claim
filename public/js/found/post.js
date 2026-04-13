@@ -129,28 +129,37 @@ if (cameraButton) {
 }
 
 // Cross-form status switch
-document.getElementById('status-select').addEventListener('change', function () {
-    const status = this.value;
-    if (!status) return;
+const statusSelect = document.getElementById('status-select');
+statusSelect.value = 'Found';
 
-    const params = new URLSearchParams();
-    params.set('item_name',       document.querySelector('[name="item_name"]').value);
-    params.set('location',        document.querySelector('[name="location"]').value);
-    params.set('room_number',     document.querySelector('[name="room_number"]').value);
-    params.set('category',        document.querySelector('[name="category"]').value);
-    params.set('description',     document.querySelector('[name="description"]').value);
-    params.set('first_name',      document.querySelector('[name="first_name"]').value);
-    params.set('last_name',       document.querySelector('[name="last_name"]').value);
-    params.set('contact_details', document.querySelector('[name="contact_details"]').value);
-    params.set('status',          status);
+function handleStatusSwitch() {
+    const status = statusSelect.value;
 
-    // Send date/time under both names so the lost form can pick them up
-    const date = document.querySelector('[name="date_found_date"]').value;
-    const time = document.querySelector('[name="date_found_time"]').value;
-    params.set('date_found_date', date);
-    params.set('date_found_time', time);
-    params.set('event_date',      date);
-    params.set('event_time',      time);
+     if (status === 'Lost') {
 
-    window.location.href = '/lost/post?' + params.toString();
+            const params = new URLSearchParams();
+            params.set('item_name',       document.querySelector('[name="item_name"]').value);
+            params.set('location',        document.querySelector('[name="location"]').value);
+            params.set('room_number',     document.querySelector('[name="room_number"]').value);
+            params.set('category',        document.querySelector('[name="category"]').value);
+            params.set('description',     document.querySelector('[name="description"]').value);
+            params.set('first_name',      document.querySelector('[name="first_name"]').value);
+            params.set('last_name',       document.querySelector('[name="last_name"]').value);
+            params.set('contact_details', document.querySelector('[name="contact_details"]').value);
+            params.set('status',          status);
+
+            // Send date/time under both names so the lost form can pick them up
+            const date = document.querySelector('[name="date_found_date"]').value;
+            const time = document.querySelector('[name="date_found_time"]').value;
+            params.set('date_found_date', date);
+            params.set('date_found_time', time);
+            params.set('event_date',      date);
+            params.set('event_time',      time);
+
+            window.location.href = '/lost/post?' + params.toString();
+        }
+         // If status === 'Found', do nothing
+     }
+    statusSelect.addEventListener('change', function () {
+    setTimeout(handleStatusSwitch, 100);  // Delay to ensure DOM updates on mobile (Safari)
 });
