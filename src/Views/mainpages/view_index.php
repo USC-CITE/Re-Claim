@@ -116,8 +116,8 @@
                 </p>
             </div>
         </section>
-        <?php require __DIR__ . "/footer.php"?>
     </main>
+    <?php require __DIR__ . "/footer.php"?>
 
     <aside id="cookie-consent-banner" class="fixed bottom-4 left-0 right-0 z-50 mx-auto w-[94vw] max-w-7xl rounded-2xl border border-gray-300 bg-white px-4 py-3 text-left shadow-[0_4px_12px_rgba(0,0,0,0.16)] md:px-6 md:py-4" role="dialog" aria-modal="true" aria-labelledby="cookie-consent-title" aria-describedby="cookie-consent-desc">
         <button id="cookie-consent-close" type="button" class="absolute right-3 top-3 shrink-0 rounded-full p-1 text-secondary hover:bg-gray-100 hover:text-primary md:right-4 md:top-4" aria-label="Dismiss cookie notice" data-consent-action="rejected">
