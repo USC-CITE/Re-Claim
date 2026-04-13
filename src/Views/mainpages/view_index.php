@@ -109,7 +109,7 @@
         </section>
         <!-- Collaboration Section -->
         <section class="w-full max-w-5xl mx-auto py-6 md:py-12 lg:py-28 px-6 text-center">
-            <div class="flex flex-col items-center gap-2 md:gap-12">
+            <div class="flex flex-col items-center gap-8 md:gap-12">
                 <img src="/assets/spark-cite.svg" alt="SPARK Hub and USC-CITE" class="h-36 w-auto">
                 <p class="text-lg leading-relaxed max-w-4xl">
                     Re:Claim is a collaborative effort between <span class="font-semibold">SPARK Hub</span> and <span class="font-semibold">USC-CITE</span> with the aim of turning ideas into impactful solutions and to improve digital accessibility of services within West Visayas State University.
