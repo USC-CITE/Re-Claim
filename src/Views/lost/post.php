@@ -14,8 +14,8 @@
     <style>
         #preview-image { display: none; max-width: 100%; max-height: 300px; }
         #camera-block { display: none; }
-        #camera-video { width: 50%; max-width: 50%; }
-        #camera-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem; width: 50%; }
+        #camera-video { width: 100%; max-width: 100%; border-radius: 12px; }
+        #camera-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem; }
         #room-number-wrapper { display: none; }
     </style>
 </head>

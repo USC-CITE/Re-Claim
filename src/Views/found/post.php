@@ -8,6 +8,10 @@
     <style>
         #preview-image { display: none; max-width: 100%; max-height: 300px; border-radius: 8px; }
         #room-number-wrapper { display: none; }
+
+        #camera-block { display: none; }
+        #camera-video { width: 100%; max-width: 100%; border-radius: 12px; }
+        #camera-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem; }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
@@ -146,28 +150,39 @@
 
         <!-- ITEM PHOTO -->
         <fieldset class="flex flex-col gap-2 border-none p-0">
-
             <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold text-black">Item Photo:</label>
                 <label for="item_image" class="w-full border border-gray-300 rounded-xl px-4 py-2 bg-white flex items-center justify-center gap-3 cursor-pointer hover:bg-gray-100 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="shrink-0">
                         <path d="M11 16V7.85L8.4 10.45L7 9L12 4L17 9L15.6 10.45L13 7.85V16H11ZM6 20C5.45 20 4.97933 19.8043 4.588 19.413C4.19667 19.0217 4.00067 18.5507 4 18V15H6V18H18V15H20V18C20 18.55 19.8043 19.021 19.413 19.413C19.0217 19.805 18.5507 20.0007 18 20H6Z" fill="black"/>
                     </svg>
-                    <input
-                        type="file"
-                        name="item_image"
-                        id="item_image"
-                        accept="image/jpeg,image/png,image/webp,image/avif"
-                        required
-                        class="hidden"
-                    >
+                    <input type="file" name="item_image" id="item_image" accept="image/jpeg,image/png,image/webp,image/avif" required class="hidden">
                 </label>
                 <small class="text-xs text-gray-500">Accepts: JPG, JPEG, PNG, WEBP, AVIF</small>
                 <div id="preview-container" class="w-full">
                     <img id="preview-image" alt="Image Preview" class="w-full rounded-lg object-cover">
                 </div>
             </div>
-        </fieldset>
+
+            <button type="button" id="camera-button"
+                class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm font-semibold bg-white hover:bg-gray-100 transition mt-2">
+                Open Camera
+            </button>
+
+            <div id="camera-block" class="flex flex-col gap-2">
+                <video id="camera-video" autoplay class="w-full rounded-xl"></video>
+                <div id="camera-buttons" class="grid grid-cols-2 gap-2">
+                    <button type="button" id="capture-btn"
+                        class="border border-gray-300 rounded-xl px-4 py-3 text-sm font-semibold bg-white hover:bg-gray-100 transition">
+                        Capture Photo
+                    </button>
+                    <button type="button" id="stop-btn"
+                        class="border border-gray-300 rounded-xl px-4 py-3 text-sm font-semibold bg-white hover:bg-gray-100 transition">
+                        Stop Camera
+                    </button>
+                </div>
+            </div>
+</fieldset>
 
         <!-- CONTACT INFORMATION -->
         <fieldset class="flex flex-col gap-4 border-none p-0">
