@@ -81,9 +81,9 @@
             </div>
         </section>
         <!-- Issue Section -->
-        <section class="w-full max-w-7xl mx-auto pb-16 lg:py-24 px-6 md:px-12 flex flex-col-reverse md:flex-row items-center gap-16 md:gap-24">
+        <section class="w-full max-w-7xl mx-auto pb-16 lg:py-24 px-6 md:px-12 flex flex-col-reverse lg:flex-row items-center gap-16 lg:gap-24">
             <!-- Github Screenshot -->
-            <div class="flex-1 w-full">
+            <div class="flex-1 w-full max-w-2xl lg:max-w-none mx-auto">
                 <div class="rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100">
                     <img src="/assets/contribute.png" alt="GitHub Issues Screenshot" class="w-full h-auto">
                 </div>
