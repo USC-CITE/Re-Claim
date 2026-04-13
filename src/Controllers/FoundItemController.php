@@ -306,14 +306,14 @@ class FoundItemController
 
         if (empty($_SESSION['user_id'])) {
             $_SESSION['flash'] = ['error' => 'You must be logged in to recover an item you posted.'];
-            header('Location: /found');
+            header('Location: ' . self::postActionRedirect());
             exit;
         }
 
         $itemId = isset($_POST['item_id']) ? (int)$_POST['item_id'] : 0;
         if ($itemId <= 0) {
             $_SESSION['flash'] = ['error' => 'Invalid item selected for recovery.'];
-            header('Location: /found');
+            header('Location: ' . self::postActionRedirect());
             exit;
         }
 
@@ -328,8 +328,19 @@ class FoundItemController
             $_SESSION['flash'] = ['error' => 'Unable to mark this item as recovered. You can only recover found items that you posted and are still unrecovered.'];
         }
 
-        header('Location: /found');
+        header('Location: ' . self::postActionRedirect());
         exit;
+    }
+
+    private static function postActionRedirect(): string
+    {
+        $redirectTo = trim((string)($_POST['redirect_to'] ?? ''));
+
+        if ($redirectTo !== '' && str_starts_with($redirectTo, '/')) {
+            return $redirectTo;
+        }
+
+        return '/found';
     }
 
     public static function archive()
@@ -344,7 +355,7 @@ class FoundItemController
 
         if (!$userId || empty($itemIds)) {
             $_SESSION['flash'] = ['error' => 'Invalid action or not logged in.'];
-            header('Location: /found');
+            header('Location: ' . self::postActionRedirect());
             exit;
         }
 
@@ -368,7 +379,7 @@ class FoundItemController
             $_SESSION['flash'] = ['error' => 'An error occurred while archiving: ' . $e->getMessage()];
         }
 
-        header('Location: /found');
+        header('Location: ' . self::postActionRedirect());
         exit;
     }
     
@@ -385,7 +396,7 @@ class FoundItemController
 
         if (!$userId || $itemId <= 0) {
             $_SESSION['flash'] = ['error' => 'Invalid action.'];
-            header('Location: /found');
+            header('Location: ' . self::postActionRedirect());
             exit;
         }
 
@@ -398,7 +409,7 @@ class FoundItemController
             $_SESSION['flash'] = ['error' => 'Could not update archive schedule.'];
         }
 
-        header('Location: /found');
+        header('Location: ' . self::postActionRedirect());
         exit;
     }
     

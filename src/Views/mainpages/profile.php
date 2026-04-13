@@ -121,7 +121,7 @@
                         <button type="button" 
                             class="tab-btn flex-shrink-0 px-5 py-3 text-md sm:text-base font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-800 transition-all snap-start" 
                             data-tab="archive">
-                            Archive Items
+                            Archived Items
                         </button>
 
                     </div>
@@ -192,16 +192,104 @@
                 </article>
             </section>
 
-             <section class="tab-content mt-12 mb-12" id="lost">
-                <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
-                    <?php if (!empty($lostItems)): ?>
+            <?php
+                $lostBulkAvailable = false;
+                foreach ($lostItems ?? [] as $item) {
+                    if (!empty($item['can_recover'])) {
+                        $lostBulkAvailable = true;
+                        break;
+                    }
+                }
+
+                $foundBulkAvailable = false;
+                foreach ($foundItems ?? [] as $item) {
+                    if (!empty($item['can_recover'])) {
+                        $foundBulkAvailable = true;
+                        break;
+                    }
+                }
+            ?>
+
+            <section class="tab-content mt-12 mb-12" id="lost">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h4 class="text-xl font-semibold">My Lost Items</h4>
+                        <p class="text-sm text-slate-500">Manage your lost listings and archive them in bulk from your profile.</p>
+                    </div>
+                    <?php if ($lostBulkAvailable): ?>
+                        <button type="button" id="toggle-bulk-archive-lost"
+                            onclick="toggleBulkArchiveMode('lost')"
+                            class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-800 bg-white text-gray-800 hover:bg-gray-100 transition">
+                            Archive Lost Items
+                        </button>
+                    <?php endif; ?>
+                </div>
+
+                <?php if ($lostBulkAvailable): ?>
+                    <form id="bulk-archive-form-lost" method="POST" action="/lost/archive" onsubmit="return confirm('Archive the selected lost items?');">
+                        <?php \App\Core\Router::setCsrf(); ?>
+                        <input type="hidden" name="redirect_to" value="/profile#lost">
+                    </form>
+                <?php endif; ?>
+
+                <!-- Inline Bulk Action Bar for Lost Items -->
+                <div id="bulk-action-bar-lost" class="hidden flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-100 rounded-xl px-5 py-3 mb-6 gap-3">
+                    <span id="bulk-count-lost" class="text-sm font-semibold text-gray-800">0 Items Selected</span>
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+                        <button type="button"
+                            onclick="toggleBulkArchiveMode('lost')"
+                            class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-400 bg-white text-gray-800 hover:bg-gray-50 transition text-center">
+                            Cancel Archive Selection
+                        </button>
+                        <button type="submit" form="bulk-archive-form-lost"
+                            onclick="return confirm('Archive the selected lost items?')"
+                            class="flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-full bg-[#055BA8] text-white hover:bg-blue-800 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+                            <g clip-path="url(#clip0_956_6212)">
+                                <path d="M14.9371 7.5H11.0631C10.9874 7.20446 10.9802 6.89553 11.0421 6.59679C11.104 6.29804 11.2333 6.01738 11.4201 5.77621C11.607 5.53505 11.8465 5.33975 12.1203 5.20523C12.3941 5.07071 12.695 5.00051 13.0001 5C13.3052 5.00051 13.6061 5.07071 13.88 5.20523C14.1538 5.33975 14.3933 5.53505 14.5801 5.77621C14.767 6.01738 14.8963 6.29804 14.9581 6.59679C15.02 6.89553 15.0128 7.20446 14.9371 7.5Z" fill="white"/>
+                                <path d="M7.5 8.5C7.23478 8.5 6.98043 8.39464 6.79289 8.20711C6.60536 8.01957 6.5 7.76522 6.5 7.5C6.5 7.23478 6.60536 6.98043 6.79289 6.79289C6.98043 6.60536 7.23478 6.5 7.5 6.5H18.5C18.7652 6.5 19.0196 6.60536 19.2071 6.79289C19.3946 6.98043 19.5 7.23478 19.5 7.5C19.5 7.76522 19.3946 8.01957 19.2071 8.20711C19.0196 8.39464 18.7652 8.5 18.5 8.5H7.5Z" fill="white"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M17.5 21.5C17.7652 21.5 18.0196 21.3946 18.2071 21.2071C18.3946 21.0196 18.5 20.7652 18.5 20.5V10C18.5 9.73478 18.3946 9.48043 18.2071 9.29289C18.0196 9.10536 17.7652 9 17.5 9H8.5C8.23478 9 7.98043 9.10536 7.79289 9.29289C7.60536 9.48043 7.5 9.73478 7.5 10V20.5C7.5 20.7652 7.60536 21.0196 7.79289 21.2071C7.98043 21.3946 8.23478 21.5 8.5 21.5H17.5ZM15.5 11.5C15.5 11.3674 15.5527 11.2402 15.6464 11.1464C15.7402 11.0527 15.8674 11 16 11C16.1326 11 16.2598 11.0527 16.3536 11.1464C16.4473 11.2402 16.5 11.3674 16.5 11.5V18.5C16.5 18.6326 16.4473 18.7598 16.3536 18.8536C16.2598 18.9473 16.1326 19 16 19C15.8674 19 15.7402 18.9473 15.6464 18.8536C15.5527 18.7598 15.5 18.6326 15.5 18.5V11.5ZM13 11C12.8674 11 12.7402 11.0527 12.6464 11.1464C12.5527 11.2402 12.5 11.3674 12.5 11.5V18.5C12.5 18.6326 12.5527 18.7598 12.6464 18.8536C12.7402 18.9473 12.8674 19 13 19C13.1326 19 13.2598 18.9473 13.3536 18.8536C13.4473 18.7598 13.5 18.6326 13.5 18.5V11.5C13.5 11.3674 13.4473 11.2402 13.3536 11.1464C13.2598 11.0527 13.1326 11 13 11ZM9.5 11.5C9.5 11.3674 9.55268 11.2402 9.64645 11.1464C9.74021 11.0527 9.86739 11 10 11C10.1326 11 10.2598 11.0527 10.3536 11.1464C10.4473 11.2402 10.5 11.3674 10.5 11.5V18.5C10.5 18.6326 10.4473 18.7598 10.3536 18.8536C10.2598 18.9473 10.1326 19 10 19C9.86739 19 9.74021 18.9473 9.64645 18.8536C9.55268 18.7598 9.5 18.6326 9.5 18.5V11.5Z" fill="white"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M13 24C19.075 24 24 19.075 24 13C24 6.925 19.075 2 13 2C6.925 2 2 6.925 2 13C2 19.075 6.925 24 13 24ZM13 26C20.18 26 26 20.18 26 13C26 5.82 20.18 0 13 0C5.82 0 0 5.82 0 13C0 20.18 5.82 26 13 26Z" fill="white"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_956_6212">
+                                <rect width="26" height="26" fill="white"/>
+                                </clipPath>
+                            </defs>
+                            </svg>
+                            Confirm Archive Selection
+                        </button>
+                    </div>
+                </div>
+
+                <div id="lost-items-section" class="bulk-archive-section">
+                    <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
+                        <?php if (!empty($lostItems)): ?>
                         <?php foreach ($lostItems as $item): ?>    
                             <!-- Item Card-->
-                            <div class="border rounded-2xl p-4 bg-white w-full min-h-[480px] flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.20)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)] transition-shadow duration-300">
+                            <div data-card class="border rounded-2xl p-4 bg-white w-full min-h-[480px] flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.20)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)] transition-shadow duration-300">
                                 <!-- Card Header -->
-                                <div class="py-2 mb-4 border-b-2 border-[#5B5B5B]">
-                                    <h3 class="font-semibold text-lg"><span class="text-red-500">[ Lost ]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
-                                    <p class="text-sm"><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
+                                <div class="relative py-2 mb-4 border-b-2 border-[#5B5B5B]">
+                                    <div class="pr-8">
+                                        <h3 class="font-semibold text-lg">
+                                            <span class="text-red-500">[ Lost ]</span> <?= htmlspecialchars($item['item_name']) ?>
+                                        </h3>
+                                        <p class="text-sm"><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
+                                    </div>
+                                    <?php if (!empty($item['can_recover'])): ?>
+                                    <label class="bulk-archive-box absolute top-2 right-0 hidden cursor-pointer">
+                                        <input type="checkbox"
+                                            name="item_ids[]"
+                                            value="<?= (int)$item['id'] ?>"
+                                            form="bulk-archive-form-lost"
+                                            class="sr-only bulk-checkbox">
+                                        <div class="bulk-checkbox-box w-6 h-6 rounded border-2 border-[#055BA8] bg-white flex items-center justify-center transition-colors duration-150">
+                                            <svg class="bulk-checkbox-icon opacity-0 transition-opacity duration-150" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M18.6 9.06133C18.8502 8.81132 18.9908 8.47217 18.9909 8.11847C18.9911 7.76478 18.8507 7.42552 18.6007 7.17533C18.3507 6.92515 18.0115 6.78452 17.6578 6.7844C17.3041 6.78427 16.9649 6.92466 16.7147 7.17467L10.1147 13.7747L7.28667 10.9467C7.16287 10.8228 7.01589 10.7245 6.85412 10.6574C6.69234 10.5903 6.51894 10.5558 6.3438 10.5557C5.99011 10.5556 5.65085 10.696 5.40067 10.946C5.15048 11.196 5.00986 11.5352 5.00973 11.8889C5.0096 12.2426 5.14999 12.5818 5.4 12.832L9.07733 16.5093C9.21353 16.6456 9.37525 16.7537 9.55324 16.8274C9.73123 16.9012 9.922 16.9392 10.1147 16.9392C10.3073 16.9392 10.4981 16.9012 10.6761 16.8274C10.8541 16.7537 11.0158 16.6456 11.152 16.5093L18.6 9.06133Z" fill="white"/>
+                                            </svg>
+                                        </div>
+                                    </label>
+                                    <?php endif; ?>
                                 </div>
                                 <!-- Card Content -->
                                 <div class="flex flex-col flex-grow">
@@ -239,6 +327,61 @@
                                         <?= htmlspecialchars($item['description'] ?? 'No description provided.') ?>
                                     </p>
                                 </div>
+
+                                <?php if (!empty($item['can_recover'])): ?>
+                                    <button type="button"
+                                        class="mt-6 w-full min-h-[52px] rounded-[16px] bg-[#055BA8] px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
+                                        onclick="openModal('recover-modal-<?= $item['id'] ?>')">
+                                        Mark as Recovered
+                                    </button>
+                                <?php endif; ?>
+
+                                <?php if (!empty($item['can_recover'])): ?>
+                                                    <div id="recover-modal-<?= $item['id'] ?>" data-modal="true" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/40 p-4">
+                                                        <div class="w-full max-w-lg overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_20px_50px_rgba(15,23,42,0.18)] space-y-6">
+                                                            <header class="relative space-y-2 border-b border-slate-200 pb-4">
+                                                                <button type="button" aria-label="Close" rel="prev" onclick="closeModal('recover-modal-<?= $item['id'] ?>')" class="absolute right-0 top-0 text-slate-500 transition hover:text-slate-900">×</button>
+                                                                <h3 class="text-xl font-semibold text-slate-900">
+                                                            Confirm Lost Item Recovery</h3>
+                                            </header>
+                                            <div class="space-y-3">
+                                                <p class="text-sm leading-7 text-slate-700">
+                                                    Are you sure you want to mark this lost item as recovered? This will update its status for everyone.
+                                                </p>
+                                                <?php if (!empty($item['archive_date'])): ?>
+                                                    <p class="text-sm text-slate-500">This post will be archived on <strong class="text-slate-900"><?= htmlspecialchars($item['archive_date']) ?></strong>.</p>
+                                                <?php endif; ?>
+                                            </div>
+                                            <footer class="flex flex-wrap justify-end gap-3 pt-4">
+                                                <form method="POST" action="/lost/recover" class="inline-flex">
+                                                    <?php \App\Core\Router::setCsrf(); ?>
+                                                    <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
+                                                    <input type="hidden" name="redirect_to" value="/profile#lost">
+                                                    <button type="submit" class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700">Yes, mark as recovered</button>
+                                                </form>
+
+                                                <form method="POST" action="/lost/archive" class="inline-flex">
+                                                    <?php \App\Core\Router::setCsrf(); ?>
+                                                    <input type="hidden" name="item_ids[]" value="<?= (int)$item['id'] ?>">
+                                                    <input type="hidden" name="redirect_to" value="/profile#lost">
+                                                    <button type="submit" class="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100" onclick="return confirm('Are you sure you want to archive this item?');">
+                                                        Archive
+                                                    </button>
+                                                </form>
+
+                                                <form method="POST" action="/lost/delay-archive" class="inline-flex">
+                                                    <?php \App\Core\Router::setCsrf(); ?>
+                                                    <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
+                                                    <input type="hidden" name="delay_days" value="7">
+                                                    <input type="hidden" name="redirect_to" value="/profile#lost">
+                                                    <button type="submit" class="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-100" title="Extend auto-archiving date by 7 days">
+                                                        Delay Archiving
+                                                    </button>
+                                                </form>
+                                            </footer>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -248,16 +391,87 @@
             </section>
 
             <section class="tab-content mt-12 mb-12" id="found">
-                <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
-                    <?php if (!empty($foundItems)): ?>
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h4 class="text-xl font-semibold">My Found Items</h4>
+                        <p class="text-sm text-slate-500">Review and archive your found item posts in bulk.</p>
+                    </div>
+                    <?php if ($foundBulkAvailable): ?>
+                        <button type="button" id="toggle-bulk-archive-found"
+                            onclick="toggleBulkArchiveMode('found')"
+                            class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-800 bg-white text-gray-800 hover:bg-gray-100 transition">
+                            Archive Lost Items
+                        </button>
+                    <?php endif; ?>
+                </div>
+
+                <?php if ($foundBulkAvailable): ?>
+                    <form id="bulk-archive-form-found" method="POST" action="/found/archive" onsubmit="return confirm('Archive the selected found items?');">
+                        <?php \App\Core\Router::setCsrf(); ?>
+                        <input type="hidden" name="redirect_to" value="/profile#found">
+                    </form>
+                <?php endif; ?>
+
+                
+                <!-- Inline Bulk Action Bar for Found Items -->
+                <div id="bulk-action-bar-found" class="hidden flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-100 rounded-xl px-5 py-3 mb-6 gap-3">
+                    <span id="bulk-count-found" class="text-sm font-semibold text-gray-800">0 Items Selected</span>
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+                        <button type="button"
+                            onclick="toggleBulkArchiveMode('found')"
+                            class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-400 bg-white text-gray-800 hover:bg-gray-50 transition text-center">
+                            Cancel Archive Selection
+                        </button>
+                        <button type="submit" form="bulk-archive-form-found"
+                            onclick="return confirm('Archive the selected found items?')"
+                            class="flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-full bg-[#055BA8] text-white hover:bg-blue-800 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+                            <g clip-path="url(#clip0_956_6212)">
+                                <path d="M14.9371 7.5H11.0631C10.9874 7.20446 10.9802 6.89553 11.0421 6.59679C11.104 6.29804 11.2333 6.01738 11.4201 5.77621C11.607 5.53505 11.8465 5.33975 12.1203 5.20523C12.3941 5.07071 12.695 5.00051 13.0001 5C13.3052 5.00051 13.6061 5.07071 13.88 5.20523C14.1538 5.33975 14.3933 5.53505 14.5801 5.77621C14.767 6.01738 14.8963 6.29804 14.9581 6.59679C15.02 6.89553 15.0128 7.20446 14.9371 7.5Z" fill="white"/>
+                                <path d="M7.5 8.5C7.23478 8.5 6.98043 8.39464 6.79289 8.20711C6.60536 8.01957 6.5 7.76522 6.5 7.5C6.5 7.23478 6.60536 6.98043 6.79289 6.79289C6.98043 6.60536 7.23478 6.5 7.5 6.5H18.5C18.7652 6.5 19.0196 6.60536 19.2071 6.79289C19.3946 6.98043 19.5 7.23478 19.5 7.5C19.5 7.76522 19.3946 8.01957 19.2071 8.20711C19.0196 8.39464 18.7652 8.5 18.5 8.5H7.5Z" fill="white"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M17.5 21.5C17.7652 21.5 18.0196 21.3946 18.2071 21.2071C18.3946 21.0196 18.5 20.7652 18.5 20.5V10C18.5 9.73478 18.3946 9.48043 18.2071 9.29289C18.0196 9.10536 17.7652 9 17.5 9H8.5C8.23478 9 7.98043 9.10536 7.79289 9.29289C7.60536 9.48043 7.5 9.73478 7.5 10V20.5C7.5 20.7652 7.60536 21.0196 7.79289 21.2071C7.98043 21.3946 8.23478 21.5 8.5 21.5H17.5ZM15.5 11.5C15.5 11.3674 15.5527 11.2402 15.6464 11.1464C15.7402 11.0527 15.8674 11 16 11C16.1326 11 16.2598 11.0527 16.3536 11.1464C16.4473 11.2402 16.5 11.3674 16.5 11.5V18.5C16.5 18.6326 16.4473 18.7598 16.3536 18.8536C16.2598 18.9473 16.1326 19 16 19C15.8674 19 15.7402 18.9473 15.6464 18.8536C15.5527 18.7598 15.5 18.6326 15.5 18.5V11.5ZM13 11C12.8674 11 12.7402 11.0527 12.6464 11.1464C12.5527 11.2402 12.5 11.3674 12.5 11.5V18.5C12.5 18.6326 12.5527 18.7598 12.6464 18.8536C12.7402 18.9473 12.8674 19 13 19C13.1326 19 13.2598 18.9473 13.3536 18.8536C13.4473 18.7598 13.5 18.6326 13.5 18.5V11.5C13.5 11.3674 13.4473 11.2402 13.3536 11.1464C13.2598 11.0527 13.1326 11 13 11ZM9.5 11.5C9.5 11.3674 9.55268 11.2402 9.64645 11.1464C9.74021 11.0527 9.86739 11 10 11C10.1326 11 10.2598 11.0527 10.3536 11.1464C10.4473 11.2402 10.5 11.3674 10.5 11.5V18.5C10.5 18.6326 10.4473 18.7598 10.3536 18.8536C10.2598 18.9473 10.1326 19 10 19C9.86739 19 9.74021 18.9473 9.64645 18.8536C9.55268 18.7598 9.5 18.6326 9.5 18.5V11.5Z" fill="white"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M13 24C19.075 24 24 19.075 24 13C24 6.925 19.075 2 13 2C6.925 2 2 6.925 2 13C2 19.075 6.925 24 13 24ZM13 26C20.18 26 26 20.18 26 13C26 5.82 20.18 0 13 0C5.82 0 0 5.82 0 13C0 20.18 5.82 26 13 26Z" fill="white"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_956_6212">
+                                <rect width="26" height="26" fill="white"/>
+                                </clipPath>
+                            </defs>
+                            </svg>
+                            Confirm Archive Selection
+                        </button>
+                    </div>
+                </div>
+
+                <div id="found-items-section" class="bulk-archive-section">
+                    <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
+                        <?php if (!empty($foundItems)): ?>
                         <?php foreach ($foundItems as $item): ?>    
                             <!-- Item Card-->
-                            <div class="border rounded-2xl p-4 bg-white w-full min-h-[480px] flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.20)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)] transition-shadow duration-300">
-                                <!-- Card Header -->
-                                <div class="py-2 mb-4 border-b-2 border-[#5B5B5B]">
-                                    <h3 class="font-semibold text-lg"><span class="text-green-500">[ Found ]</span> <?= htmlspecialchars($item['item_name']) ?></h3>
+                            <div data-card class="border rounded-2xl p-4 bg-white w-full min-h-[480px] flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.20)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)] transition-shadow duration-300">
+                            <!-- Card Header -->
+                            <div class="relative py-2 mb-4 border-b-2 border-[#5B5B5B]">
+                                <div class="pr-8">
+                                    <h3 class="font-semibold text-lg">
+                                        <span class="text-green-500">[ Found ]</span> <?= htmlspecialchars($item['item_name']) ?>
+                                    </h3>
                                     <p class="text-sm"><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
                                 </div>
+                                <?php if (!empty($item['can_recover'])): ?>
+                                    <label class="bulk-archive-box absolute top-2 right-0 hidden cursor-pointer">
+                                        <input type="checkbox"
+                                            name="item_ids[]"
+                                            value="<?= (int)$item['id'] ?>"
+                                            form="bulk-archive-form-found"
+                                            class="sr-only bulk-checkbox">
+                                        <div class="bulk-checkbox-box w-6 h-6 rounded border-2 border-[#055BA8] bg-white flex items-center justify-center transition-colors duration-150">
+                                            <svg class="bulk-checkbox-icon opacity-0 transition-opacity duration-150" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M18.6 9.06133C18.8502 8.81132 18.9908 8.47217 18.9909 8.11847C18.9911 7.76478 18.8507 7.42552 18.6007 7.17533C18.3507 6.92515 18.0115 6.78452 17.6578 6.7844C17.3041 6.78427 16.9649 6.92466 16.7147 7.17467L10.1147 13.7747L7.28667 10.9467C7.16287 10.8228 7.01589 10.7245 6.85412 10.6574C6.69234 10.5903 6.51894 10.5558 6.3438 10.5557C5.99011 10.5556 5.65085 10.696 5.40067 10.946C5.15048 11.196 5.00986 11.5352 5.00973 11.8889C5.0096 12.2426 5.14999 12.5818 5.4 12.832L9.07733 16.5093C9.21353 16.6456 9.37525 16.7537 9.55324 16.8274C9.73123 16.9012 9.922 16.9392 10.1147 16.9392C10.3073 16.9392 10.4981 16.9012 10.6761 16.8274C10.8541 16.7537 11.0158 16.6456 11.152 16.5093L18.6 9.06133Z" fill="white"/>
+                                            </svg>
+                                        </div>
+                                    </label>
+                                <?php endif; ?>
+                            </div>
 
                                 <!-- Card Content -->
                                 <div class="flex flex-col flex-grow">
@@ -295,7 +509,60 @@
                                         <?= htmlspecialchars($item['description'] ?? 'No description provided.') ?>
                                     </p>
                                 </div>
-                                
+
+                                <?php if (!empty($item['can_recover'])): ?>
+                                    <button type="button"
+                                        class="mt-6 w-full min-h-[52px] rounded-[16px] bg-[#055BA8] px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
+                                        onclick="openModal('recover-found-modal-<?= $item['id'] ?>')">
+                                        Mark as Recovered
+                                    </button>
+                                <?php endif; ?>
+
+                                <?php if (!empty($item['can_recover'])): ?>
+                                    <div id="recover-found-modal-<?= $item['id'] ?>" data-modal="true" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/40 p-4">
+                                        <div class="w-full max-w-lg overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_20px_50px_rgba(15,23,42,0.18)] space-y-6">
+                                            <header class="relative space-y-2 border-b border-slate-200 pb-4">
+                                                <button type="button" aria-label="Close" rel="prev" onclick="closeModal('recover-found-modal-<?= $item['id'] ?>')" class="absolute right-0 top-0 text-slate-500 transition hover:text-slate-900">×</button>
+                                                <h3 class="text-xl font-semibold text-slate-900">Confirm Found Item Recovery</h3>
+                                            </header>
+                                            <div class="space-y-3">
+                                                <p class="text-sm leading-7 text-slate-700">
+                                                    Are you sure you want to mark this found item as recovered? This will update its status for everyone.
+                                                </p>
+                                                <?php if (!empty($item['archive_date'])): ?>
+                                                    <p class="text-sm text-slate-500">This post will be archived on <strong class="text-slate-900"><?= htmlspecialchars($item['archive_date']) ?></strong>.</p>
+                                                <?php endif; ?>
+                                            </div>
+                                            <footer class="flex flex-wrap justify-end gap-3 pt-4">
+                                                <form method="POST" action="/found/recover" class="inline-flex">
+                                                    <?php \App\Core\Router::setCsrf(); ?>
+                                                    <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
+                                                    <input type="hidden" name="redirect_to" value="/profile#found">
+                                                    <button type="submit" class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700">Yes, mark as recovered</button>
+                                                </form>
+
+                                                <form method="POST" action="/found/archive" class="inline-flex">
+                                                    <?php \App\Core\Router::setCsrf(); ?>
+                                                    <input type="hidden" name="item_ids[]" value="<?= (int)$item['id'] ?>">
+                                                    <input type="hidden" name="redirect_to" value="/profile#found">
+                                                    <button type="submit" class="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100" onclick="return confirm('Are you sure you want to archive this item?');">
+                                                        Archive
+                                                    </button>
+                                                </form>
+
+                                                <form method="POST" action="/found/delay-archive" class="inline-flex">
+                                                    <?php \App\Core\Router::setCsrf(); ?>
+                                                    <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
+                                                    <input type="hidden" name="delay_days" value="7">
+                                                    <input type="hidden" name="redirect_to" value="/profile#found">
+                                                    <button type="submit" class="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-100" title="Extend auto-archiving date by 7 days">
+                                                        Delay Archiving
+                                                    </button>
+                                                </form>
+                                            </footer>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
