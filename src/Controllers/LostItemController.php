@@ -136,7 +136,7 @@ class LostItemController
             'contact_details'  => $_POST['contact_details'] ?? '',
             'location'         => $_POST['location'] ?? '',
             'room_number'      => $_POST['room_number'] ?? '',
-            'event_date'       => $_POST['event_date'] ?? '',
+            'event_date'       => ($_POST['event_date'] ?? '') . ' ' . ($_POST['event_time'] ?? ''), 
             'category'         => $_POST['category'] ?? '',
             'description'      => $_POST['description'] ?? '',
         ];
@@ -185,16 +185,18 @@ class LostItemController
             // 4) Event date / date lost (required) with timezone awareness
             $timezone = new \DateTimeZone('Asia/Manila');
             $eventDate = $_POST['event_date'] ?? '';
+            $eventTime = $_POST['event_time'] ?? '';
             
             try {
-                // Parse datetime-local input with explicit timezone
-                $dt = \DateTime::createFromFormat('Y-m-d\TH:i', $eventDate, $timezone);
-                if (!$dt) {
-                    throw new Exception('Please provide a valid date and time.');
+                // Combine date and time
+                if (empty($eventDate) || empty($eventTime)) {
+                    throw new Exception('Please provide both date and time.');
                 }
                 
-                // Validate format matches input
-                if ($dt->format('Y-m-d\TH:i') !== $eventDate) {
+                $dateTimeString = $eventDate . ' ' . $eventTime;
+                $dt = \DateTime::createFromFormat('Y-m-d H:i', $dateTimeString, $timezone);
+                
+                if (!$dt) {
                     throw new Exception('Please provide a valid date and time.');
                 }
                 
@@ -205,7 +207,8 @@ class LostItemController
                 }
 
                 // Convert HTML datetime-local value to MySQL DATETIME format
-                $eventDate = $dt->format('Y-m-d H:i:s');
+                 $eventDateFormatted = $dt->format('Y-m-d H:i:s');
+
             } catch (\Exception $e) {
                 if (strpos($e->getMessage(), 'Date and time') === 0 || strpos($e->getMessage(), 'valid') !== false) {
                     throw $e;
@@ -286,7 +289,7 @@ class LostItemController
                 'room_number'      => $roomNumber,
                 'latitude'         => $latitude,
                 'longitude'        => $longitude,
-                'event_date'       => $eventDate,
+                'event_date'       => $eventDateFormatted,
                 'category'         => $categoryJson,
                 'description'      => $description,
                 'first_name'       => $firstName,

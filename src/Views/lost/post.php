@@ -108,10 +108,27 @@
         <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold text-black">Date Item was Lost:</label>
             <input
-                type="datetime-local"
+                type="date"
                 name="event_date"
+                id="event_date"
                 required
-                value="<?= htmlspecialchars($old['event_date'] ?? '') ?>"
+                value="<?= htmlspecialchars(explode(' ', ($old['event_date'] ?? ''))[0] ?? '') ?>"
+                class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
+            >
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label class="text-sm font-semibold text-black">Time Item was Lost:</label>
+            <input
+                type="time"
+                name="event_time"
+                id="event_time"
+                required
+                value="<?= htmlspecialchars(
+                    !empty($old['event_date']) ? 
+                    date('H:i', strtotime(explode(' ', ($old['event_date'] ?? ''))[1] ?? '12:00:00')) : 
+                    ''
+                ) ?>"
                 class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
             >
         </div>
