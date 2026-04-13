@@ -231,6 +231,22 @@ class UserModel {
         ]);
     }
 
+    /* get user whose reset token matches and has not expired. */
+    public function findByResetToken(string $token): ?array {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM users WHERE verification_expiry > :now AND verification_code IS NOT NULL"
+        );
+        $stmt->execute(['now' => date('Y-m-d H:i:s')]);
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            if (password_verify($token, $row['verification_code'])) {
+                return $row;
+            }
+        }
+
+        return null;
+    }
+
 }
 
 
