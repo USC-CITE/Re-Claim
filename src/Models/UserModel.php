@@ -218,6 +218,18 @@ class UserModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /* Store a password-reset token (hashed) with an expiry timestamp. */
+    public function storeResetToken(string $email, string $hashedToken, string $expires): bool {
+        $stmt = $this->db->prepare(
+            "UPDATE users SET verification_code = :token, verification_expiry = :expiry WHERE wvsu_email = :email"
+        );
+
+        return $stmt->execute([
+            'token'  => $hashedToken,
+            'expiry' => $expires,
+            'email'  => $email
+        ]);
+    }
 
 }
 
