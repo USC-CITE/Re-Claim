@@ -64,6 +64,7 @@
             </p>
 
             <button
+                tabindex="-1" aria-hidden="true"
                 class="w-full bg-primary-500 text-white rounded-xl py-2 text-xs font-medium flex items-center justify-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="18" viewBox="0 0 21 18" fill="none">
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -128,6 +129,7 @@
             </p>
 
             <button
+                tabindex="-1" aria-hidden="true"
                 class="w-full bg-primary-500 text-white rounded-xl py-2 text-xs font-medium flex items-center justify-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="18" viewBox="0 0 21 18" fill="none">
                     <path fill-rule="evenodd" clip-rule="evenodd"
