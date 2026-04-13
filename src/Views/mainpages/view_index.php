@@ -81,7 +81,7 @@
             </div>
         </section>
         <!-- Issue Section -->
-        <section class="w-full max-w-7xl mx-auto py-24 px-6 md:px-12 flex flex-col-reverse md:flex-row items-center gap-16 md:gap-24">
+        <section class="w-full max-w-7xl mx-auto pb-16 lg:py-24 px-6 md:px-12 flex flex-col-reverse md:flex-row items-center gap-16 md:gap-24">
             <!-- Github Screenshot -->
             <div class="flex-1 w-full">
                 <div class="rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100">
@@ -108,7 +108,7 @@
             </div>
         </section>
         <!-- Collaboration Section -->
-        <section class="w-full max-w-5xl mx-auto sm:py-4 md:py-12 px-6 text-center">
+        <section class="w-full max-w-5xl mx-auto py-6 md:py-12 lg:py-28 px-6 text-center">
             <div class="flex flex-col items-center gap-2 md:gap-12">
                 <img src="/assets/spark-cite.svg" alt="SPARK Hub and USC-CITE" class="h-36 w-auto">
                 <p class="text-lg leading-relaxed max-w-4xl">
