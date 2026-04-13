@@ -116,7 +116,7 @@
                 </p>
             </div>
         </section>
-        <?php // require __DIR__ . "/footer.php"?> <!-- Footer is currently commented out for development purposes -->
+        <?php require __DIR__ . "/footer.php"?>
     </main>
 
     <aside id="cookie-consent-banner" class="fixed bottom-4 left-0 right-0 z-50 mx-auto w-[94vw] max-w-7xl rounded-2xl border border-gray-300 bg-white px-4 py-3 text-left shadow-[0_4px_12px_rgba(0,0,0,0.16)] md:px-6 md:py-4" role="dialog" aria-modal="true" aria-labelledby="cookie-consent-title" aria-describedby="cookie-consent-desc">

@@ -5,12 +5,12 @@ define('ASSETS_URL', BASE_URL . 'assets/')?>
 
 <header class="w-full bg-white shadow-md">
     <!-- Main Navigation Menu-->
-    <nav class="container mx-auto flex justify-between items-center py-4 px-4 md:px-6">
+    <nav class="mx-auto flex w-full max-w-[1327px] flex-col items-center gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <!-- Reclaim Logo-->
-        <div class="flex-shrink-0">
-            <img src="<?= ASSETS_URL ?>reclaim-header.svg" alt="Reclaim Logo" class="h-10 w-auto">
+        <div class="flex shrink-0 justify-center sm:justify-start">
+            <img src="<?= ASSETS_URL ?>reclaim-header.svg" alt="Reclaim Logo" class="h-9 w-auto sm:h-10">
         </div>
-        <ul class="flex items-center gap-3 md:gap-6 text-sm md:text-base text-gray-700 font-medium">
+        <ul class="flex w-full flex-wrap items-center justify-center gap-x-5 gap-y-3 text-center font-medium text-gray-700 sm:w-auto sm:justify-center">
             <?php 
                 // The found lost & found and post an item link would only be visible once a user is logged in
                 if(isset($_SESSION['user_id'])){
@@ -28,7 +28,7 @@ define('ASSETS_URL', BASE_URL . 'assets/')?>
                 <a href="/contact" class='whitespace-nowrap hover:text-blue-500 transition'>Contact Us</a>
             </li>
         </ul>
-        <ul class="flex items-center gap-2 md:gap-4 text-sm md:text-base text-gray-700 font-medium ml-3 md:ml-6">
+        <ul class="flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-3 text-center font-medium text-gray-700 sm:ml-6 sm:w-auto sm:justify-end">
              <!-- Ternary Operator to check if user is logged in display profile and logout if not register-->
             <?php 
                 if(!isset($_SESSION['user_id'])){

@@ -8,4 +8,4 @@ php.ini
 uploads/
 .env
 
-public/css/app.css
+/public/css/app.css
