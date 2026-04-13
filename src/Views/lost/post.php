@@ -145,6 +145,19 @@
             </select>
         </div>
 
+        <!-- STATUS TAG-->
+        <div class="flex flex-col gap-2">
+            <label class="text-sm font-semibold text-black">Status Tag:</label>
+            <select name="status" required
+                class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
+                
+                <option value="">-- Select Status --</option>
+                <option value="Lost" <?= (($old['status'] ?? '') === 'Lost') ? 'selected' : '' ?>>Lost</option>
+                <option value="Found" <?= (($old['status'] ?? '') === 'Found') ? 'selected' : '' ?>>Found</option>
+                
+            </select>
+        </div>
+        
         <!-- ITEM DESCRIPTION -->
         <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold text-black">Item Description:</label>
