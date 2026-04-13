@@ -84,9 +84,6 @@
                 </div>
             </div>
 
-            <a href="/profile/settings" role="button">
-                Edit Profile
-            </a>
 
         </header>
 
