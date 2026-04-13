@@ -22,6 +22,11 @@ class FoundItemController
         $rawItems = $model->getAll();
         
         $foundItems = array_map(function($item) {
+            $categories = [];
+            if (!empty($item['category'])) {
+                $decoded = json_decode($item['category'], true);
+                $categories = is_array($decoded) ? $decoded : [$item['category']];
+            }
 
             // 1. Format Date
             try {
@@ -48,6 +53,7 @@ class FoundItemController
                 'archive_date' => $archiveDateDisplay,
                 'location' => $item['location_name'],
                 'description' => $item['description'] ?: 'No description provided.',
+                'categories' => $categories,
                 'contact_info' => $item['contact_details'], // Pass raw contact info for the modal
                 'item_type' => $item['item_type'] ?? 'found',
                 'name' => trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? '')),
