@@ -105,6 +105,11 @@ class LostItemController
             unset($_SESSION['flash']);
         }
 
+         // Merge GET params for cross-form carry-over (session $old takes priority)
+        if (!empty($_GET)) {
+            $old = array_merge($_GET, $old);
+        }
+
         require __DIR__ . '/../Views/lost/post.php';
     }
 
