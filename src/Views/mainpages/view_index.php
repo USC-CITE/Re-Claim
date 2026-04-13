@@ -91,7 +91,7 @@
 
             <!-- Content -->
             <div class="flex-1 text-left">
-                <h2 class="text-display-md font-bold text-black mb-6 leading-tight max-w-lg">
+                <h2 class="text-display-md font-bold text-black mb-6 leading-tight max-w-lg w-full">
                     Want to Contribute in Improving the System?
                 </h2>
                 <p class="text-lg mb-10 max-w-md">
