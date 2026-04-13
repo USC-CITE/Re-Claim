@@ -48,8 +48,10 @@ class AuthController{
         $password = trim($_POST['password'] ?? '');
 
         // Validate email format
-        if (!str_ends_with($email, '@wvsu.edu.ph') || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                return $email;
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !str_ends_with($email, '@wvsu.edu.ph')) {
+            $_SESSION['error'] = 'Invalid email format. Please use your WVSU email address (@wvsu.edu.ph).';
+            header('Location: /login');
+            exit();
         }
 
         // Initialize object for UserModel class
@@ -60,27 +62,27 @@ class AuthController{
 
         // Handle if user not exist
         if(!$user){
-            // Frontend will handle UI/UX error handling
-            echo $email;
-            return;
+            $_SESSION['error'] = 'Invalid credentials. Please try again.';
+            header('Location: /login');
+            exit();
         }
 
         // Handle if user account is created but not verified
         if((int)$user['email_verified'] !== 1){
-            // Frontend will handle UI/UX error handling
-            echo $email;
-            return;
+            $_SESSION['pending_email'] = $email;
+            $_SESSION['error'] = 'Email not verified. Please check your inbox.';
+            header('Location: /verify');
+            exit();
         } 
         
         // Verify credentials
         if(!password_verify($password, $user['password'])){
-            // Frontend will handle UI/UX error handling
-            echo $email; // Invalid credentials
-            return;
+            $_SESSION['error'] = 'Invalid credentials. Please try again.';
+            header('Location: /login');
+            exit();
         }
 
         // If no errors
-        session_start();
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['first_name'] = $user['first_name'];
         $_SESSION['last_name'] = $user['last_name'];
