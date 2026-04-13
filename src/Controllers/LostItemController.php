@@ -137,7 +137,7 @@ class LostItemController
             'location'         => $_POST['location'] ?? '',
             'room_number'      => $_POST['room_number'] ?? '',
             'event_date'       => $_POST['event_date'] ?? '',
-            'category'         => $_POST['category'] ?? [],
+            'category'         => $_POST['category'] ?? '',
             'description'      => $_POST['description'] ?? '',
         ];
 
@@ -213,16 +213,13 @@ class LostItemController
                 throw new Exception('Please provide a valid date and time.');
             }
 
-            // 5) Category tags (at least one required)
-            $categories = $_POST['category'] ?? [];
-            if (!is_array($categories)) {
-                $categories = [$categories];
+            // 5) Category tags (ONLY ONE catrgory required)
+            $category = trim($_POST['category'] ?? '');
+            if (empty($category)) {
+                throw new Exception('Please select a category.');
             }
-            $categories = array_values(array_filter(array_map('trim', $categories)));
-            if (count($categories) === 0) {
-                throw new Exception('Please select at least one category.');
-            }
-            $categoryJson = json_encode($categories);
+            // Store as JSON string for consistency with database schema
+            $categoryJson = json_encode($category);
 
             // 6) Description (optional)
             $description = trim($_POST['description'] ?? '');

@@ -119,29 +119,18 @@
         <!-- CATEGORY -->
         <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold text-black">Category:</label>
-            <select name="category[]" multiple required
+            <select name="category" required
                 class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
-                <?php
-                    $oldCats = $old['category'] ?? [];
-                    if (!is_array($oldCats)) $oldCats = [$oldCats];
-                    $options = [
-                        'Electronics'   => 'Electronics',
-                        'Keys'          => 'Keys',
-                        'Documents'     => 'Documents',
-                        'Books'         => 'Books',
-                        'Personal'      => 'Personal',
-                        'IDs/Documents' => 'IDs/Documents',
-                        'Bags'          => 'Bags',
-                        'Clothing'      => 'Clothing',
-                        'Accessories'   => 'Accessories',
-                        'Stationery'    => 'Stationery',
-                        'Others'        => 'Others',
-                    ];
-                    foreach ($options as $val => $label):
-                        $selected = in_array($val, $oldCats, true) ? 'selected' : '';
-                ?>
-                    <option value="<?= htmlspecialchars($val) ?>" <?= $selected ?>><?= htmlspecialchars($label) ?></option>
-                <?php endforeach; ?>
+                <option value="">-- Select Category --</option>
+                <option value="Books" <?= (($old['category'] ?? '') === 'Books') ? 'selected' : '' ?>>Books</option>
+                <option value="Electronics" <?= (($old['category'] ?? '') === 'Electronics') ? 'selected' : '' ?>>Electronics</option>
+                <option value="Personal" <?= (($old['category'] ?? '') === 'Personal') ? 'selected' : '' ?>>Personal</option>
+                <option value="IDs/Documents" <?= (($old['category'] ?? '') === 'IDs/Documents') ? 'selected' : '' ?>>IDs/Documents</option>
+                <option value="Bags" <?= (($old['category'] ?? '') === 'Bags') ? 'selected' : '' ?>>Bags</option>
+                <option value="Clothing" <?= (($old['category'] ?? '') === 'Clothing') ? 'selected' : '' ?>>Clothing</option>
+                <option value="Accessories" <?= (($old['category'] ?? '') === 'Accessories') ? 'selected' : '' ?>>Accessories</option>
+                <option value="Stationery" <?= (($old['category'] ?? '') === 'Stationery') ? 'selected' : '' ?>>Stationery</option>
+                <option value="Others" <?= (($old['category'] ?? '') === 'Others') ? 'selected' : '' ?>>Others</option>
             </select>
         </div>
 
