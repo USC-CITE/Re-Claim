@@ -2,11 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
   var consentKey = "reclaim_cookie_consent";
   var consentVersion = 1;
   var consentExpiryDays = 180;
-  var banner = document.getElementById("cookie-consent-banner");
-
-  if (!banner) {
-    return;
-  }
 
   function safeGetStorage(key) {
     try {
@@ -41,7 +36,14 @@ document.addEventListener("DOMContentLoaded", function () {
   function writeCookie(name, value, days) {
     var maxAge = days * 24 * 60 * 60;
     var secureFlag = window.location.protocol === "https:" ? "; Secure" : "";
-    document.cookie = name + "=" + encodeURIComponent(value) + "; Max-Age=" + maxAge + "; Path=/; SameSite=Lax" + secureFlag;
+    document.cookie =
+      name +
+      "=" +
+      encodeURIComponent(value) +
+      "; Max-Age=" +
+      maxAge +
+      "; Path=/; SameSite=Lax" +
+      secureFlag;
   }
 
   function parseConsent(rawValue) {
@@ -51,9 +53,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     try {
       var parsed = JSON.parse(rawValue);
-      var validStatus = parsed.status === "accepted" || parsed.status === "rejected";
+      var validStatus =
+        parsed.status === "accepted" || parsed.status === "rejected";
       var validVersion = parsed.version === consentVersion;
-      var notExpired = typeof parsed.expiresAt === "number" && Date.now() < parsed.expiresAt;
+      var notExpired =
+        typeof parsed.expiresAt === "number" && Date.now() < parsed.expiresAt;
 
       if (validStatus && validVersion && notExpired) {
         return parsed;
@@ -63,6 +67,47 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     return null;
+  }
+
+  // Umami Script
+
+  function loadUmamiScript() {
+    var script = document.createElement("script");
+    script.src = "https://cloud.umami.is/script.js";
+    script.setAttribute(
+      "data-website-id",
+      "48dd6012-bf70-4253-be54-35b793acf16b",
+    );
+
+    // TODO: Uncomment when transferring to production
+    // document.head.appendChild(script);
+  }
+
+  // This runs before the banner guard so script is injected correctly on all pages, even those without the cookie banner element.
+
+  var storedRecord = parseConsent(safeGetStorage(consentKey));
+  if (!storedRecord) {
+    storedRecord = parseConsent(readCookie(consentKey));
+  }
+
+  if (storedRecord) {
+    if (storedRecord.status === "accepted") {
+      loadUmamiScript();
+    }
+  }
+
+  // Banner
+
+  var banner = document.getElementById("cookie-consent-banner");
+
+  if (!banner) {
+    return;
+  }
+
+  // Banner is already decided then hide it and stop.
+  if (storedRecord) {
+    hideBanner();
+    return;
   }
 
   function hideBanner() {
@@ -76,21 +121,11 @@ document.addEventListener("DOMContentLoaded", function () {
       status: status,
       version: consentVersion,
       createdAt: Date.now(),
-      expiresAt: expiresAt
+      expiresAt: expiresAt,
     });
 
     safeSetStorage(consentKey, record);
     writeCookie(consentKey, record, consentExpiryDays);
-  }
-
-  var storedRecord = parseConsent(safeGetStorage(consentKey));
-  if (!storedRecord) {
-    storedRecord = parseConsent(readCookie(consentKey));
-  }
-
-  if (storedRecord) {
-    hideBanner();
-    return;
   }
 
   function setConsent(choice) {
@@ -100,6 +135,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     persistConsent(choice);
     hideBanner();
+
+    if (choice === "accepted") {
+      loadUmamiScript();
+    }
   }
 
   banner.addEventListener("click", function (event) {
