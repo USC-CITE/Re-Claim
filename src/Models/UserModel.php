@@ -247,6 +247,15 @@ class UserModel {
         return null;
     }
 
+    /* Clear the reset token after a successful password change. */
+    public function clearResetToken(int $userId): bool {
+        $stmt = $this->db->prepare(
+            "UPDATE users SET verification_code = NULL, verification_expiry = NULL WHERE id = ?"
+        );
+
+        return $stmt->execute([$userId]);
+    }
+
 }
 
 
