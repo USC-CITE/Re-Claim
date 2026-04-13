@@ -31,16 +31,16 @@
 
         <!-- ReClaim Features Section -->
         <section class="w-full max-w-7xl mx-auto pb-24 px-6 md:px-12">
-            <h2 class="text-display-md font-bold text-black mb-7">Why Use Re:Claim?</h2>
+            <h2 class="text-display-md font-bold text-black mb-7 text-center lg:text-left">Why Use Re:Claim?</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 max-w-2xl lg:max-w-none mx-auto">
                 <!-- Card 1 -->
-                <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_4px_16px_rgba(0,0,0,0.2)] p-4 flex flex-col min-h-[500px] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-300">
-                    <div class="w-full aspect-362/274 rounded-3xl overflow-hidden mb-8">
+                <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_4px_16px_rgba(0,0,0,0.2)] p-4 flex flex-col min-h-[440px] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-300">
+                    <div class="w-full aspect-362/274 rounded-3xl overflow-hidden mb-6">
                         <img src="/assets/why-1.png" alt="Post lost item" class="w-full h-full object-cover">
                     </div>
                     <div class="px-2 pb-6 grow">
-                        <h3 class="text-display-sm font-medium text-black mb-4 leading-snug w-full md:w-70">
+                        <h3 class="text-display-sm font-medium text-black mb-4 leading-snug">
                             Let people help you: post the item that you lost
                         </h3>
                         <p class="text-lg">
@@ -55,7 +55,7 @@
                         <img src="/assets/why-2.png" alt="Find lost item" class="w-full h-full object-cover">
                     </div>
                     <div class="px-2 pb-6 grow">
-                        <h3 class="text-display-sm font-medium text-black mb-4 leading-snug w-full md:w-65">
+                        <h3 class="text-display-sm font-medium text-black mb-4 leading-snug">
                             Help others in finding their lost items
                         </h3>
                         <p class="text-lg">
@@ -91,7 +91,7 @@
 
             <!-- Content -->
             <div class="flex-1 text-left">
-                <h2 class="text-display-md font-bold text-black mb-6 leading-tight max-w-lg w-full md:w-70">
+                <h2 class="text-display-md font-bold text-black mb-6 leading-tight max-w-lg">
                     Want to Contribute in Improving the System?
                 </h2>
                 <p class="text-lg mb-10 max-w-md">
