@@ -98,7 +98,7 @@
         <aside
             class="hidden lg:flex flex-col justify-center items-center bg-primary-600 rounded-[40px] p-10 min-h-[700px] h-full relative overflow-hidden">
             <!-- Background Elements -->
-            <img src="/assets/reclaim-logo.svg" alt="" class="absolute -top-52 -left-40 w-full h-full object-contain opacity-3 pointer-events-none scale-60 transform brightness-0 invert">
+            <img src="/assets/reclaim-logo.svg" alt="" class="absolute -right-220 -bottom-110 w-full h-full object-contain pointer-events-none scale-500 opacity-8 transform brightness-0 invert">
 
             <div class="relative z-10 w-[90%]">
                 <h2 class="text-white text-display-sm leading-tight font-medium">
