@@ -108,7 +108,7 @@
             </div>
         </section>
         <!-- Collaboration Section -->
-        <section class="w-full max-w-5xl mx-auto py-28 px-6 text-center">
+        <section class="w-full max-w-5xl mx-auto sm:py-4 md:py-12 px-6 text-center">
             <div class="flex flex-col items-center gap-2 md:gap-12">
                 <img src="/assets/spark-cite.svg" alt="SPARK Hub and USC-CITE" class="h-36 w-auto">
                 <p class="text-lg leading-relaxed max-w-4xl">
