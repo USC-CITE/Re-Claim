@@ -287,6 +287,29 @@ class AuthController{
             header('Location: /forgot-password');
             exit();
         }
+        
+        // Generate a secure token
+        $token = bin2hex(random_bytes(32));
+        $hashedToken = password_hash($token, PASSWORD_DEFAULT);
+        $expires = date('Y-m-d H:i:s', strtotime('+30 minutes'));
+
+        $model->storeResetToken($email, $hashedToken, $expires);
+
+        // reset link
+        $protocol = 'http';
+        if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
+            ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https') {
+            $protocol = 'https';
+        }
+        $host = $_SERVER['HTTP_HOST'];
+        $resetLink = "{$protocol}://{$host}/reset-password?token={$token}";
+
+        // Send reset email
+        Mailer::sendResetLink($email, $user['first_name'], $resetLink);
+
+        $_SESSION['success'] = 'If an account with that email exists, a password reset link has been sent.';
+        header('Location: /forgot-password');
+        exit();
     }
 }
 ?>
