@@ -267,5 +267,26 @@ class AuthController{
         exit();
 
     }
+
+    public static function forgotPassword(array $config){
+        $email = trim($_POST['email'] ?? '');
+
+        // Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !str_ends_with($email, '@wvsu.edu.ph')) {
+            $_SESSION['error'] = 'Please use a valid WVSU email address (@wvsu.edu.ph).';
+            header('Location: /forgot-password');
+            exit();
+        }
+
+        $model = new UserModel($config);
+        $user = $model->findByEmail($email);
+
+        if (!$user || (int)$user['email_verified'] !== 1) {
+            // Show generic success to prevent email enumeration
+            $_SESSION['success'] = 'If an account with that email exists, a password reset link has been sent.';
+            header('Location: /forgot-password');
+            exit();
+        }
+    }
 }
 ?>
