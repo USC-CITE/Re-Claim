@@ -102,7 +102,7 @@
                     name="date_found_date"
                     id="date_found_date"
                     required
-                    value="<?= htmlspecialchars(explode(' ', ($old['date_found'] ?? ''))[0] ?? '') ?>"
+                    value="<?= htmlspecialchars($old['date_found_date'] ?? explode(' ', ($old['date_found'] ?? ''))[0] ?? '') ?>"
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
                 >
             </div>
@@ -114,11 +114,7 @@
                     name="date_found_time"
                     id="date_found_time"
                     required
-                    value="<?= htmlspecialchars(
-                        !empty($old['date_found']) ? 
-                        date('H:i', strtotime(explode(' ', ($old['date_found'] ?? ''))[1] ?? '12:00:00')) : 
-                        ''
-                    ) ?>"
+                    value="<?= htmlspecialchars($old['date_found_time'] ?? (!empty($old['date_found']) ? date('H:i', strtotime(explode(' ', ($old['date_found'] ?? ''))[1] ?? '12:00:00')) : '')) ?>"
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
                 >
             </div>
@@ -144,12 +140,11 @@
             <!-- STATUS TAG-->
             <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold text-black">Status Tag:</label>
-                <select name="status" required
+                <select name="status" id="status-select" required
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
                     
-                    <option value="">-- Select Status --</option>
                     <option value="Lost" <?= (($old['status'] ?? '') === 'Lost') ? 'selected' : '' ?>>Lost</option>
-                    <option value="Found" <?= (($old['status'] ?? '') === 'Found') ? 'selected' : '' ?>>Found</option>
+                    <option value="Found" <?= (($old['status'] ?? 'Found') !== 'Lost') ? 'selected' : '' ?>>Found</option>
                     
                 </select>
             </div>
