@@ -96,11 +96,29 @@
 
             <!-- DATE AND TIME FOUND -->
             <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold text-black">Date and Time Item was Found:</label>
+                <label class="text-sm font-semibold text-black">Date Item was Found:</label>
                 <input
-                    type="datetime-local"
-                    name="date_found"
-                    value="<?= htmlspecialchars($old['date_found'] ?? date('Y-m-d\TH:i')) ?>"
+                    type="date"
+                    name="date_found_date"
+                    id="date_found_date"
+                    required
+                    value="<?= htmlspecialchars(explode(' ', ($old['date_found'] ?? ''))[0] ?? '') ?>"
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">Time Item was Found:</label>
+                <input
+                    type="time"
+                    name="date_found_time"
+                    id="date_found_time"
+                    required
+                    value="<?= htmlspecialchars(
+                        !empty($old['date_found']) ? 
+                        date('H:i', strtotime(explode(' ', ($old['date_found'] ?? ''))[1] ?? '12:00:00')) : 
+                        ''
+                    ) ?>"
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
                 >
             </div>
@@ -110,6 +128,7 @@
                 <label class="text-sm font-semibold text-black">Category:</label>
                 <select name="category"
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
+                    <option value="">-- Select Category --</option>
                     <option value="Books" <?= (isset($old['category']) && (is_array($old['category']) ? in_array('Books', $old['category']) : $old['category'] === 'Books')) ? 'selected' : '' ?>>Books</option>
                     <option value="Electronics" <?= (isset($old['category']) && (is_array($old['category']) ? in_array('Electronics', $old['category']) : $old['category'] === 'Electronics')) ? 'selected' : '' ?>>Electronics</option>
                     <option value="Personal" <?= (isset($old['category']) && (is_array($old['category']) ? in_array('Personal', $old['category']) : $old['category'] === 'Personal')) ? 'selected' : '' ?>>Personal</option>
