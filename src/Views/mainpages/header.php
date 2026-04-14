@@ -59,3 +59,4 @@ define('ASSETS_URL', BASE_URL . 'assets/')?>
         </div>
     </nav>
 </header>
+<script src="/js/main/header.js" defer></script>
