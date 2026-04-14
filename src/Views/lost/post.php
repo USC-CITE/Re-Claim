@@ -12,13 +12,6 @@
     <title>Post Lost Item</title>
     <link rel="stylesheet" href="/css/app.css">
     <script src="/js/lost/post.js" defer></script>
-    <style>
-        #preview-image { display: none; max-width: 100%; max-height: 300px; }
-        #camera-block { display: none; }
-        #camera-video { width: 100%; max-width: 100%; border-radius: 12px; }
-        #camera-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem; }
-        #room-number-wrapper { display: none; }
-    </style>
 </head>
 
 <body class="font-poppins bg-white text-primary min-h-screen overflow-x-hidden">
@@ -97,7 +90,7 @@
         </div>
 
         <!-- ROOM NUMBER (hidden by default, shown via JS) -->
-        <div id="room-number-wrapper" class="flex flex-col gap-2">
+        <div id="room-number-wrapper" class="hidden flex flex-col gap-2">
             <label class="text-sm font-semibold text-black">Room Number:</label>
             <input
                 type="text"
@@ -196,7 +189,7 @@
                 </label>
                 <small class="text-xs text-gray-500">Accepts: JPG, JPEG, PNG, WEBP, AVIF</small>
                 <div id="preview-container" class="w-full">
-                    <img id="preview-image" alt="Image Preview" class="w-full rounded-lg object-cover">
+                    <img id="preview-image" alt="Image Preview" class="hidden w-full max-h-[300px] rounded-lg object-cover">
                 </div>
             </div>
 
@@ -205,9 +198,9 @@
                 Open Camera
             </button>
 
-            <div id="camera-block" class="flex flex-col gap-2">
+            <div id="camera-block" class="hidden flex flex-col gap-2">
                 <video id="camera-video" autoplay class="w-full rounded-xl"></video>
-                <div id="camera-buttons" class="grid grid-cols-2 gap-2">
+                <div id="camera-buttons" class="grid grid-cols-2 gap-2 mt-2">
                     <button type="button" id="capture-btn"
                         class="border border-gray-300 rounded-xl px-4 py-3 text-sm font-semibold bg-white hover:bg-gray-100 transition">
                         Capture Photo
