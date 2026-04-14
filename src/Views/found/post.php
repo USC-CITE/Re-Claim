@@ -213,6 +213,7 @@
                 <input
                     type="text"
                     name="first_name"
+                    required
                     value="<?= htmlspecialchars($old['first_name'] ?? ($user['first_name'] ?? '')) ?>"
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
                 >
@@ -223,6 +224,7 @@
                 <input
                     type="text"
                     name="last_name"
+                    required
                     value="<?= htmlspecialchars($old['last_name'] ?? ($user['last_name'] ?? '')) ?>"
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
                 >
@@ -233,6 +235,7 @@
                 <input
                     type="text"
                     name="contact_details"
+                    required
                     value="<?= htmlspecialchars($old['contact_details'] ?? ($user['phone_number'] ?? '')) ?>"
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
                 >

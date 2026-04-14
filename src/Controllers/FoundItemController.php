@@ -155,6 +155,19 @@ class FoundItemController
                 throw new Exception('Please provide an item name/title.');
             }
 
+            //Require contact details
+            if ($firstName === '') {
+                throw new Exception('Please provide your first name.');
+            }
+
+            if ($lastName === '') {
+                throw new Exception('Please provide your last name.');
+            }
+
+            if ($contact === '') {
+                throw new Exception('Please provide contact details.');
+            }
+
             // 2. Parse Location
             $locationRaw = $_POST['location'] ?? '';
 
