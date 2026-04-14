@@ -8,6 +8,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Lost Item</title>
     <link rel="stylesheet" href="/css/app.css">
     <script src="/js/lost/post.js" defer></script>
@@ -19,11 +20,12 @@
         #room-number-wrapper { display: none; }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+
+<body class="font-poppins bg-white text-primary min-h-screen overflow-x-hidden">
 
 <?php require __DIR__ . "/../mainpages/header.php"; ?>
 
-<main class="max-w-lg mx-auto px-4 py-12">
+<main class="w-full px-5 py-8 sm:max-w-lg sm:mx-auto sm:px-6 sm:py-10">
 
     <h2 class="text-3xl font-bold text-center mb-8">Report a Lost Item</h2>
 
@@ -39,7 +41,7 @@
         </div>
     <?php endif; ?>
 
-    <form method="POST" action="/lost/post" enctype="multipart/form-data" class="flex flex-col gap-6">
+    <form method="POST" action="/lost/post" enctype="multipart/form-data" class="flex flex-col gap-4">
         <?php \App\Core\Router::setCsrf(); ?>
 
         <!-- ITEM NAME -->
@@ -107,6 +109,7 @@
         <!-- DATE & TIME -->
         <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold text-black">Date Item was Lost:</label>
+            <div class="w-full overflow-hidden rounded-xl border border-gray-300">
             <input
                 type="date"
                 name="event_date"
@@ -115,10 +118,12 @@
                 value="<?= htmlspecialchars(explode(' ', ($old['event_date'] ?? ''))[0] ?? '') ?>"
                 class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
             >
+            </div>
         </div>
 
         <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold text-black">Time Item was Lost:</label>
+            <div class="w-full overflow-hidden rounded-xl border border-gray-300">
             <input
                 type="time"
                 name="event_time"
@@ -131,6 +136,7 @@
                 ) ?>"
                 class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
             >
+            </div>
         </div>
 
         <!-- CATEGORY -->

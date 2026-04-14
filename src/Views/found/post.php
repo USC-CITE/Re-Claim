@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Found Item</title>
     <link rel="stylesheet" href="/css/app.css">
     <script src="/js/found/post.js" defer></script>
@@ -14,11 +15,11 @@
         #camera-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem; }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
 
+<body class="font-poppins bg-white text-primary min-h-screen overflow-x-hidden">
 <?php require __DIR__ . "/../mainpages/header.php"; ?>
 
-<main class="max-w-lg mx-auto px-4 py-12">
+<main class="w-full px-5 py-8 sm:max-w-lg sm:mx-auto sm:px-6 sm:py-10">
 
     <h2 class="text-3xl font-bold text-center mb-8">Report a Found Item</h2>
 
@@ -28,7 +29,7 @@
         </div>
     <?php endif; ?>
 
-    <form method="POST" action="/found/post" enctype="multipart/form-data" class="flex flex-col gap-6">
+    <form method="POST" action="/found/post" enctype="multipart/form-data" class="flex flex-col gap-4">
         <?php \App\Core\Router::setCsrf(); ?>
 
         <fieldset class="flex flex-col gap-6 border-none p-0">
@@ -90,13 +91,14 @@
                     id="room_number"
                     placeholder="e.g., 203"
                     value="<?= htmlspecialchars($old['room_number'] ?? '') ?>"
-                    class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
+                    class="w-full max-w-full min-w-0 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
                 >
             </div>
 
             <!-- DATE AND TIME FOUND -->
             <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold text-black">Date Item was Found:</label>
+                <div class="w-full overflow-hidden rounded-xl border border-gray-300">
                 <input
                     type="date"
                     name="date_found_date"
@@ -105,10 +107,12 @@
                     value="<?= htmlspecialchars($old['date_found_date'] ?? explode(' ', ($old['date_found'] ?? ''))[0] ?? '') ?>"
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
                 >
+                </div>
             </div>
 
             <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold text-black">Time Item was Found:</label>
+                <div class="w-full overflow-hidden rounded-xl border border-gray-300">
                 <input
                     type="time"
                     name="date_found_time"
@@ -117,6 +121,7 @@
                     value="<?= htmlspecialchars($old['date_found_time'] ?? (!empty($old['date_found']) ? date('H:i', strtotime(explode(' ', ($old['date_found'] ?? ''))[1] ?? '12:00:00')) : '')) ?>"
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
                 >
+                </div>
             </div>
 
             <!-- CATEGORY -->
