@@ -19,7 +19,7 @@ define('ASSETS_URL', BASE_URL . 'assets/')?>
                         <a href='/lost' class='hover:text-blue-500 transition'>Lost & Found</a>
                     </li>
                     <li>
-                        <a href='/lost' class='hover:text-blue-500 transition'>Post an item</a>
+                        <a href='/lost/post' class='hover:text-blue-500 transition'>Post an item</a>
                     </li>
                     ";
                 }     
