@@ -19,7 +19,7 @@
 <body class="font-poppins bg-white text-primary min-h-screen overflow-x-hidden">
 <?php require __DIR__ . "/../mainpages/header.php"; ?>
 
-<main class="w-full px-5 py-8 sm:max-w-lg sm:mx-auto sm:px-6 sm:py-10">
+<main class="max-w-xl mx-auto w-full px-5 py-8 sm:px-6 sm:py-10">
 
     <h2 class="text-3xl font-bold text-center mb-8">Report a Found Item</h2>
 
@@ -258,5 +258,6 @@
 
     </form>
 </main>
+<?php require __DIR__ . "/../mainpages/footer.php"?>
 </body>
 </html>
