@@ -331,6 +331,48 @@ class AuthController{
 
         require __DIR__ . '/../Views/auth/reset_password.php';
     }
+    
+    public static function resetPassword(array $config){
+        $token = trim($_POST['token'] ?? '');
+        $password = trim($_POST['password'] ?? '');
+        $confirmPassword = trim($_POST['confirm-password'] ?? '');
+
+        if (empty($token)) {
+            $_SESSION['error'] = 'Invalid reset token.';
+            header('Location: /forgot-password');
+            exit();
+        }
+
+        if (strlen($password) < 8) {
+            $_SESSION['error'] = 'Password must be at least 8 characters.';
+            header("Location: /reset-password?token={$token}");
+            exit();
+        }
+
+        if ($password !== $confirmPassword) {
+            $_SESSION['error'] = 'Passwords do not match.';
+            header("Location: /reset-password?token={$token}");
+            exit();
+        }
+
+        $model = new UserModel($config);
+        $user = $model->findByResetToken($token);
+
+        if (!$user) {
+            $_SESSION['error'] = 'This reset link is invalid or has expired.';
+            header('Location: /forgot-password');
+            exit();
+        }
+
+        // Update password and clear token
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $model->updatePassword((int)$user['id'], $hashedPassword);
+        $model->clearResetToken((int)$user['id']);
+
+        $_SESSION['success'] = 'Your password has been reset successfully. Please log in.';
+        header('Location: /login');
+        exit();
+    }
 }
 
 ?>
