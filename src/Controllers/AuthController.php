@@ -311,5 +311,26 @@ class AuthController{
         header('Location: /forgot-password');
         exit();
     }
+    public static function showResetPassword(array $config){
+        $token = $_GET['token'] ?? '';
+
+        if (empty($token)) {
+            $_SESSION['error'] = 'Invalid or missing reset token.';
+            header('Location: /forgot-password');
+            exit();
+        }
+
+        $model = new UserModel($config);
+        $user = $model->findByResetToken($token);
+
+        if (!$user) {
+            $_SESSION['error'] = 'This reset link is invalid or has expired.';
+            header('Location: /forgot-password');
+            exit();
+        }
+
+        require __DIR__ . '/../Views/auth/reset_password.php';
+    }
 }
+
 ?>
