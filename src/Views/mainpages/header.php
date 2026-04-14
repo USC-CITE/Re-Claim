@@ -8,7 +8,10 @@ define('ASSETS_URL', BASE_URL . 'assets/')?>
     <nav class="mx-auto flex w-full max-w-[1327px] flex-col items-center gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <!-- Reclaim Logo-->
         <div class="flex shrink-0 justify-center sm:justify-start">
-            <img src="<?= ASSETS_URL ?>reclaim-header.svg" alt="Reclaim Logo" class="h-9 w-auto sm:h-10">
+            <a href="/">
+                <img src="<?= ASSETS_URL ?>reclaim-header.svg" alt="Reclaim Logo" class="h-9 w-auto sm:h-10">
+            </a>
+            
         </div>
         <ul class="flex w-full flex-wrap items-center justify-center gap-x-5 gap-y-3 text-center font-medium text-gray-700 sm:w-auto sm:justify-center">
             <?php 
