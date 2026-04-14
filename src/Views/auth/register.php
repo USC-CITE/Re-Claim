@@ -101,16 +101,7 @@
             </footer>
         </section>
 
-        <!-- Right Side: Hero Panel -->
-        <aside class="hidden lg:flex flex-col justify-start bg-primary-600 rounded-[40px] p-20 min-h-[700px] h-full relative overflow-hidden">
-            <!-- Background Logo Watermark -->
-            <img src="/assets/reclaim-logo.svg" alt="" class="absolute -top-52 -left-40 w-full h-full object-contain opacity-3 pointer-events-none scale-60 transform brightness-0 invert">
-            <div class="relative z-10">
-                <h2 class="text-white text-display-sm font-normal max-w-s">
-                    Seamlessly Track and<br>Recover Your<br>Belongings
-                </h2>
-            </div>
-        </aside>
+        <?php require __DIR__ . '/hero_panel.php'; ?>
         
     </main>
 </body>

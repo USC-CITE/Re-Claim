@@ -3,7 +3,7 @@ define('BASE_URL', '/');
 define('ASSETS_URL', BASE_URL . 'assets/')?>
 
 
-<header class="bg-white shadow-md">
+<header class="w-full bg-white shadow-md">
     <!-- Main Navigation Menu-->
     <nav class="mx-auto flex w-full max-w-[1327px] flex-col items-center gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <!-- Reclaim Logo-->
@@ -25,7 +25,7 @@ define('ASSETS_URL', BASE_URL . 'assets/')?>
                 }     
             ?>
             <li>
-                <a href="/contact" class='hover:text-blue-500 transition'>Contact Us</a>
+                <a href="/contact" class='whitespace-nowrap hover:text-blue-500 transition'>Contact Us</a>
             </li>
         </ul>
         <ul class="flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-3 text-center font-medium text-gray-700 sm:ml-6 sm:w-auto sm:justify-end">
@@ -33,10 +33,10 @@ define('ASSETS_URL', BASE_URL . 'assets/')?>
             <?php 
                 if(!isset($_SESSION['user_id'])){
                     
-                    echo "<li><a href='/register' class='hover:text-blue-600 transition'>Sign up</a></li>";
+                    echo "<li><a href='/register' class='whitespace-nowrap hover:text-blue-600 transition'>Sign up</a></li>";
                 }else{
                     echo "<li>
-                            <a href='/profile' class='hover:text-blue-600 transition'>Profile</a>
+                            <a href='/profile' class='whitespace-nowrap hover:text-blue-600 transition'>Profile</a>
                         </li>
                         <li> 
                             <form action='/logout' method='post'>
