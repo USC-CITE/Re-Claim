@@ -32,6 +32,7 @@
     <form method="POST" action="/found/post" enctype="multipart/form-data" class="flex flex-col gap-4">
         <?php \App\Core\Router::setCsrf(); ?>
 
+        <!-- ===== ITEM INFORMATION SECTION ====== -->
         <fieldset class="flex flex-col gap-6 border-none p-0">
             <!-- ITEM NAME -->
             <div class="flex flex-col gap-2">
@@ -167,7 +168,7 @@
 
         </fieldset>
 
-        <!-- ITEM PHOTO -->
+        <!-- ===== ITEM PHOTO SECTION ====== -->
         <fieldset class="flex flex-col gap-2 border-none p-0">
             <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold text-black">Item Photo:</label>
@@ -201,9 +202,9 @@
                     </button>
                 </div>
             </div>
-</fieldset>
+        </fieldset>
 
-        <!-- CONTACT INFORMATION -->
+        <!-- ===== CONTACT INFORMATION SECTION ====== -->
         <fieldset class="flex flex-col gap-4 border-none p-0">
 
             <h3 class="text-sm font-semibold text-black">Contact Information</h3>
@@ -240,11 +241,10 @@
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
                 >
             </div>
-
         </fieldset>
 
-        <!-- ACTION BUTTONS -->
-        <div class="flex flex-row gap-8 mt-2 justify-center">
+        <!-- ===== ACTION BUTTONS ===== -->
+        <section class="flex flex-row gap-8 mt-2 justify-center">
             <button type="button"
                 onclick="window.location.href='/'"
                 class="flex items-center justify-center px-6 py-3 rounded-2xl border border-black bg-white text-black font-semibold text-sm transition hover:bg-gray-100">
@@ -254,7 +254,7 @@
                 class="flex items-center justify-center px-6 py-3 rounded-2xl bg-[#E6BA05] text-white font-semibold text-sm transition hover:bg-yellow-500">
                 Submit
             </button>
-        </div>
+        </section>
 
     </form>
 </main>
