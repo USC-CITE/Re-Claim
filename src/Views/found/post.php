@@ -197,7 +197,7 @@
         </fieldset>
 
         <!-- ===== CONTACT INFORMATION SECTION ====== -->
-        <fieldset class="flex flex-col gap-4 border-none p-0">
+        <fieldset class="flex flex-col gap-4 border-none p-0 mt-3">
 
             <h3 class="text-sm font-semibold text-black">Contact Information</h3>
 
