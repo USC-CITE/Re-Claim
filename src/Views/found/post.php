@@ -149,7 +149,7 @@
 
             <!-- ITEM DESCRIPTION -->
             <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold text-black">Item Description:</label>
+                <label class="text-sm font-semibold text-black">Item Description (Optional):</label>
                 <textarea
                     name="description"
                     rows="4"
