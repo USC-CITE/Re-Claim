@@ -218,6 +218,43 @@ class UserModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /* Store a password-reset token (hashed) with an expiry timestamp. */
+    public function storeResetToken(string $email, string $hashedToken, string $expires): bool {
+        $stmt = $this->db->prepare(
+            "UPDATE users SET verification_code = :token, verification_expiry = :expiry WHERE wvsu_email = :email"
+        );
+
+        return $stmt->execute([
+            'token'  => $hashedToken,
+            'expiry' => $expires,
+            'email'  => $email
+        ]);
+    }
+
+    /* get user whose reset token matches and has not expired. */
+    public function findByResetToken(string $token): ?array {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM users WHERE verification_expiry > :now AND verification_code IS NOT NULL"
+        );
+        $stmt->execute(['now' => date('Y-m-d H:i:s')]);
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            if (password_verify($token, $row['verification_code'])) {
+                return $row;
+            }
+        }
+
+        return null;
+    }
+
+    /* Clear the reset token after a successful password change. */
+    public function clearResetToken(int $userId): bool {
+        $stmt = $this->db->prepare(
+            "UPDATE users SET verification_code = NULL, verification_expiry = NULL WHERE id = ?"
+        );
+
+        return $stmt->execute([$userId]);
+    }
 
 }
 

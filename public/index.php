@@ -41,6 +41,15 @@ $router->get('/register', [AuthController::class, 'showRegister']);
 $router->post('/register', function () use ($config) {
     AuthController::register($config);
 });
+$router->post('/forgot-password', function () use ($config) {
+    AuthController::forgotPassword($config);
+});
+$router->get('/reset-password', function () use ($config) {
+    AuthController::showResetPassword($config);
+});
+$router->post('/reset-password', function () use ($config) {
+    AuthController::resetPassword($config);
+});
 
 
 /* [PROTECTED ROUTES] */
