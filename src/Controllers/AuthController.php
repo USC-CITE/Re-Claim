@@ -267,5 +267,112 @@ class AuthController{
         exit();
 
     }
+
+    public static function forgotPassword(array $config){
+        $email = trim($_POST['email'] ?? '');
+
+        // Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !str_ends_with($email, '@wvsu.edu.ph')) {
+            $_SESSION['error'] = 'Please use a valid WVSU email address (@wvsu.edu.ph).';
+            header('Location: /forgot-password');
+            exit();
+        }
+
+        $model = new UserModel($config);
+        $user = $model->findByEmail($email);
+
+        if (!$user || (int)$user['email_verified'] !== 1) {
+            // Show generic success to prevent email enumeration
+            $_SESSION['success'] = 'If an account with that email exists, a password reset link has been sent.';
+            header('Location: /forgot-password');
+            exit();
+        }
+        
+        // Generate a secure token
+        $token = bin2hex(random_bytes(32));
+        $hashedToken = password_hash($token, PASSWORD_DEFAULT);
+        $expires = date('Y-m-d H:i:s', strtotime('+30 minutes'));
+
+        $model->storeResetToken($email, $hashedToken, $expires);
+
+        // reset link
+        $protocol = 'http';
+        if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
+            ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https') {
+            $protocol = 'https';
+        }
+        $host = $_SERVER['HTTP_HOST'];
+        $resetLink = "{$protocol}://{$host}/reset-password?token={$token}";
+
+        // Send reset email
+        Mailer::sendResetLink($email, $user['first_name'], $resetLink);
+
+        $_SESSION['success'] = 'If an account with that email exists, a password reset link has been sent.';
+        header('Location: /forgot-password');
+        exit();
+    }
+    public static function showResetPassword(array $config){
+        $token = $_GET['token'] ?? '';
+
+        if (empty($token)) {
+            $_SESSION['error'] = 'Invalid or missing reset token.';
+            header('Location: /forgot-password');
+            exit();
+        }
+
+        $model = new UserModel($config);
+        $user = $model->findByResetToken($token);
+
+        if (!$user) {
+            $_SESSION['error'] = 'This reset link is invalid or has expired.';
+            header('Location: /forgot-password');
+            exit();
+        }
+
+        require __DIR__ . '/../Views/auth/reset_password.php';
+    }
+    
+    public static function resetPassword(array $config){
+        $token = trim($_POST['token'] ?? '');
+        $password = trim($_POST['password'] ?? '');
+        $confirmPassword = trim($_POST['confirm-password'] ?? '');
+
+        if (empty($token)) {
+            $_SESSION['error'] = 'Invalid reset token.';
+            header('Location: /forgot-password');
+            exit();
+        }
+
+        if (strlen($password) < 8) {
+            $_SESSION['error'] = 'Password must be at least 8 characters.';
+            header("Location: /reset-password?token={$token}");
+            exit();
+        }
+
+        if ($password !== $confirmPassword) {
+            $_SESSION['error'] = 'Passwords do not match.';
+            header("Location: /reset-password?token={$token}");
+            exit();
+        }
+
+        $model = new UserModel($config);
+        $user = $model->findByResetToken($token);
+
+        if (!$user) {
+            $_SESSION['error'] = 'This reset link is invalid or has expired.';
+            header('Location: /forgot-password');
+            exit();
+        }
+
+        // Update password and clear token
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $model->updatePassword((int)$user['id'], $hashedPassword);
+        $model->clearResetToken((int)$user['id']);
+
+        $_SESSION['success'] = 'Your password has been reset successfully. Please log in.';
+        header('Location: /login');
+        exit();
+    }
 }
+
 ?>
