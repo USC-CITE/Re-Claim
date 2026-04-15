@@ -105,6 +105,11 @@ class LostItemController
             unset($_SESSION['flash']);
         }
 
+         // Merge GET params for cross-form carry-over (session $old takes priority)
+        if (!empty($_GET)) {
+            $old = array_merge($_GET, $old);
+        }
+
         require __DIR__ . '/../Views/lost/post.php';
     }
 
@@ -136,8 +141,8 @@ class LostItemController
             'contact_details'  => $_POST['contact_details'] ?? '',
             'location'         => $_POST['location'] ?? '',
             'room_number'      => $_POST['room_number'] ?? '',
-            'event_date'       => $_POST['event_date'] ?? '',
-            'category'         => $_POST['category'] ?? [],
+            'event_date'       => ($_POST['event_date'] ?? '') . ' ' . ($_POST['event_time'] ?? ''), 
+            'category'         => $_POST['category'] ?? '',
             'description'      => $_POST['description'] ?? '',
         ];
 
@@ -185,16 +190,18 @@ class LostItemController
             // 4) Event date / date lost (required) with timezone awareness
             $timezone = new \DateTimeZone('Asia/Manila');
             $eventDate = $_POST['event_date'] ?? '';
+            $eventTime = $_POST['event_time'] ?? '';
             
             try {
-                // Parse datetime-local input with explicit timezone
-                $dt = \DateTime::createFromFormat('Y-m-d\TH:i', $eventDate, $timezone);
-                if (!$dt) {
-                    throw new Exception('Please provide a valid date and time.');
+                // Combine date and time
+                if (empty($eventDate) || empty($eventTime)) {
+                    throw new Exception('Please provide both date and time.');
                 }
                 
-                // Validate format matches input
-                if ($dt->format('Y-m-d\TH:i') !== $eventDate) {
+                $dateTimeString = $eventDate . ' ' . $eventTime;
+                $dt = \DateTime::createFromFormat('Y-m-d H:i', $dateTimeString, $timezone);
+                
+                if (!$dt) {
                     throw new Exception('Please provide a valid date and time.');
                 }
                 
@@ -205,7 +212,8 @@ class LostItemController
                 }
 
                 // Convert HTML datetime-local value to MySQL DATETIME format
-                $eventDate = $dt->format('Y-m-d H:i:s');
+                 $eventDateFormatted = $dt->format('Y-m-d H:i:s');
+
             } catch (\Exception $e) {
                 if (strpos($e->getMessage(), 'Date and time') === 0 || strpos($e->getMessage(), 'valid') !== false) {
                     throw $e;
@@ -213,16 +221,13 @@ class LostItemController
                 throw new Exception('Please provide a valid date and time.');
             }
 
-            // 5) Category tags (at least one required)
-            $categories = $_POST['category'] ?? [];
-            if (!is_array($categories)) {
-                $categories = [$categories];
+            // 5) Category tags (ONLY ONE catrgory required)
+            $category = trim($_POST['category'] ?? '');
+            if (empty($category)) {
+                throw new Exception('Please select a category.');
             }
-            $categories = array_values(array_filter(array_map('trim', $categories)));
-            if (count($categories) === 0) {
-                throw new Exception('Please select at least one category.');
-            }
-            $categoryJson = json_encode($categories);
+            // Store as JSON string for consistency with database schema
+            $categoryJson = json_encode($category);
 
             // 6) Description (optional)
             $description = trim($_POST['description'] ?? '');
@@ -289,7 +294,7 @@ class LostItemController
                 'room_number'      => $roomNumber,
                 'latitude'         => $latitude,
                 'longitude'        => $longitude,
-                'event_date'       => $eventDate,
+                'event_date'       => $eventDateFormatted,
                 'category'         => $categoryJson,
                 'description'      => $description,
                 'first_name'       => $firstName,

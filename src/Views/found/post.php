@@ -2,49 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Found Item</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <style>
-        #preview-container { margin-top: 1rem; }
-        #preview-image { max-width: 100%; max-height: 300px; display: none; border-radius: 8px; }
-    </style>
+    <link rel="stylesheet" href="/css/app.css">
+    <script src="/js/found/post.js" defer></script>
 </head>
-<body>
 
-<main class="container">
-    <h2>Post a Found Item</h2>
-    
+<body class="font-poppins bg-white text-primary min-h-screen overflow-x-hidden">
+<?php require __DIR__ . "/../mainpages/header.php"; ?>
+
+<main class="max-w-xl mx-auto w-full px-5 py-8 sm:px-6 sm:py-10">
+
+    <h2 class="text-3xl font-bold text-center mb-8">Report a Found Item</h2>
+
     <?php if (!empty($flash['error'])): ?>
-    <div style="background: #fee; padding: 1rem; border-left: 4px solid #f44; margin-bottom: 1rem;">
-        <strong>Error:</strong> <?= htmlspecialchars($flash['error']) ?>
-    </div>
+        <div class="border-l-4 border-red-500 bg-red-100 p-4 mb-6 rounded-lg">
+            <strong>Error:</strong> <?= htmlspecialchars($flash['error']) ?>
+        </div>
     <?php endif; ?>
-    
-    <form method="POST" action="/found/post" enctype="multipart/form-data">
+
+    <form method="POST" action="/found/post" enctype="multipart/form-data" class="flex flex-col gap-4">
         <?php \App\Core\Router::setCsrf(); ?>
-        
-        <fieldset>
-            <legend>Item Photo</legend>
-            <label>
-                Upload Image or Take Photo:
-                <input 
-                    type="file" 
-                    name="item_image" 
-                    id="item_image"
-                    accept="image/jpeg,image/png,image/webp,image/avif"
-                    required
+
+        <!-- ===== ITEM INFORMATION SECTION ====== -->
+        <fieldset class="flex flex-col gap-6 border-none p-0">
+            <!-- ITEM NAME -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">Item Name:</label>
+                <input
+                    type="text"
+                    name="item_name"
+                    id="item_name"
+                    placeholder="e.g., Black Wallet"
+                    value="<?= htmlspecialchars($old['item_name'] ?? '') ?>"
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
                 >
-            </label>
-            <div id="preview-container">
-                <img id="preview-image" alt="Image Preview">
             </div>
-        </fieldset>
-        
-        <fieldset>
-            <legend>Location Found</legend>
-            <label>
-                Select Location:
-                <select name="location" id="location" required>
+
+            <!-- LOCATION -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">Location Item was Found:</label>
+                <select name="location" id="location" required
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
                     <option value="">-- Select Location --</option>
                     <option value="General Services Office|10.713457,122.559756" <?= ($old['location'] ?? '') === 'General Services Office|10.713457,122.559756' ? 'selected' : '' ?>>General Services Office</option>
                     <option value="Office of Student Affairs|10.712972,122.563018" <?= ($old['location'] ?? '') === 'Office of Student Affairs|10.712972,122.563018' ? 'selected' : '' ?>>Office of Student Affairs</option>
@@ -74,24 +73,56 @@
                     <option value="PESCAR Building / Ramon Magsaysay Hall|10.712845,122.563332" <?= ($old['location'] ?? '') === 'PESCAR Building / Ramon Magsaysay Hall|10.712845,122.563332' ? 'selected' : '' ?>>PESCAR Building / Ramon Magsaysay Hall</option>
                     <option value="New Academic Building|10.713086,122.563506" <?= ($old['location'] ?? '') === 'New Academic Building|10.713086,122.563506' ? 'selected' : '' ?>>New Academic Building</option>
                 </select>
-            </label>
+            </div>
 
-            <label id="room-number-wrapper" style="display: none;">
-                Room Number:
-                <input type="text" name="room_number" id="room_number" placeholder="e.g., 203" value="<?= htmlspecialchars($old['room_number'] ?? '') ?>">
-            </label>
-        </fieldset>
-        <fieldset>
-            <legend>Item Details</legend>
+            <!-- ROOM NUMBER -->
+            <div id="room-number-wrapper" class="hidden flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">Room Number:</label>
+                <input
+                    type="text"
+                    name="room_number"
+                    id="room_number"
+                    placeholder="e.g., 203"
+                    value="<?= htmlspecialchars($old['room_number'] ?? '') ?>"
+                    class="w-full max-w-full min-w-0 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+            </div>
 
-            <label>
-                Item Name:
-                <input type="text" name="item_name" id="item_name"  placeholder="e.g., Black Wallet" value="<?= htmlspecialchars($old['item_name'] ?? '') ?>">
-            </label>
+            <!-- DATE AND TIME FOUND -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">Date Item was Found:</label>
+                <div class="w-full overflow-hidden rounded-xl border border-gray-300">
+                <input
+                    type="date"
+                    name="date_found_date"
+                    id="date_found_date"
+                    required
+                    value="<?= htmlspecialchars($old['date_found_date'] ?? '') ?>"
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+                </div>
+            </div>
 
-            <label>
-                Category Tags:
-                <select name="category" >
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">Time Item was Found:</label>
+                <div class="w-full overflow-hidden rounded-xl border border-gray-300">
+                <input
+                    type="time"
+                    name="date_found_time"
+                    id="date_found_time"
+                    required
+                    value="<?= htmlspecialchars($old['date_found_time'] ?? '') ?>"
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+                </div>
+            </div>
+
+            <!-- CATEGORY -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">Category:</label>
+                <select name="category"
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
+                    <option value="">-- Select Category --</option>
                     <option value="Books" <?= (isset($old['category']) && (is_array($old['category']) ? in_array('Books', $old['category']) : $old['category'] === 'Books')) ? 'selected' : '' ?>>Books</option>
                     <option value="Electronics" <?= (isset($old['category']) && (is_array($old['category']) ? in_array('Electronics', $old['category']) : $old['category'] === 'Electronics')) ? 'selected' : '' ?>>Electronics</option>
                     <option value="Personal" <?= (isset($old['category']) && (is_array($old['category']) ? in_array('Personal', $old['category']) : $old['category'] === 'Personal')) ? 'selected' : '' ?>>Personal</option>
@@ -102,45 +133,123 @@
                     <option value="Stationery" <?= (isset($old['category']) && (is_array($old['category']) ? in_array('Stationery', $old['category']) : $old['category'] === 'Stationery')) ? 'selected' : '' ?>>Stationery</option>
                     <option value="Others" <?= (isset($old['category']) && (is_array($old['category']) ? in_array('Others', $old['category']) : $old['category'] === 'Others')) ? 'selected' : '' ?>>Others</option>
                 </select>
-            </label>
+            </div>
 
-            <label>
-                Description:
-                <textarea name="description" rows="4" placeholder="Color, brand, or distinguishing marks" ><?= htmlspecialchars($old['description'] ?? '') ?></textarea>
-            </label>
+            <!-- STATUS TAG-->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">Status Tag:</label>
+                <select name="status" id="status-select" required
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
+                    
+                    <option value="Lost" <?= (($old['status'] ?? '') === 'Lost') ? 'selected' : '' ?>>Lost</option>
+                    <option value="Found" <?= (($old['status'] ?? 'Found') !== 'Lost') ? 'selected' : '' ?>>Found</option>
+                    
+                </select>
+            </div>
 
-            <label>
-                Date & Time Found:
-                <input type="datetime-local" name="date_found" value="<?= htmlspecialchars($old['date_found'] ?? date('Y-m-d\TH:i')) ?>" >
-            </label>
+            <!-- ITEM DESCRIPTION -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">Item Description (Optional):</label>
+                <textarea
+                    name="description"
+                    rows="4"
+                    placeholder="Color, brand, and any distinguishing marks."
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white resize"
+                ><?= htmlspecialchars($old['description'] ?? '') ?></textarea>
+            </div>
 
         </fieldset>
-        
-        <fieldset>
-            <legend>Contact Information</legend>
-            <label>
-                First Name:
-                <input type="text" name="first_name"  value="<?= htmlspecialchars($old['first_name'] ?? ($user['first_name'] ?? '')) ?>">
-            </label>
 
-            <label>
-                Last Name:
-                <input type="text" name="last_name"  value="<?= htmlspecialchars($old['last_name'] ?? ($user['last_name'] ?? '')) ?>">
-            </label>
+        <!-- ===== ITEM PHOTO SECTION ====== -->
+        <fieldset class="flex flex-col gap-2 border-none p-0">
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">Item Photo:</label>
+                <label for="item_image" class="w-full border border-gray-300 rounded-xl px-4 py-2 bg-white flex items-center justify-center gap-3 cursor-pointer hover:bg-gray-100 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="shrink-0">
+                        <path d="M11 16V7.85L8.4 10.45L7 9L12 4L17 9L15.6 10.45L13 7.85V16H11ZM6 20C5.45 20 4.97933 19.8043 4.588 19.413C4.19667 19.0217 4.00067 18.5507 4 18V15H6V18H18V15H20V18C20 18.55 19.8043 19.021 19.413 19.413C19.0217 19.805 18.5507 20.0007 18 20H6Z" fill="black"/>
+                    </svg>
+                    <input type="file" name="item_image" id="item_image" accept="image/jpeg,image/png,image/webp,image/avif" required class="hidden">
+                </label>
+                <small class="text-xs text-gray-500">Accepts: JPG, JPEG, PNG, WEBP, AVIF</small>
+                <div id="preview-container" class="w-full">
+                    <img id="preview-image" alt="Image Preview" class="hidden w-full max-h-[300px] rounded-lg object-cover">
+                </div>
+            </div>
 
-            <label>
-                Contact Details:
-                <input type="text" name="contact_details"  value="<?= htmlspecialchars($old['contact_details'] ?? ($user['phone_number'] ?? '')) ?>">
-            </label>
+            <button type="button" id="camera-button"
+                class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm font-semibold bg-white hover:bg-gray-100 transition mt-2">
+                Open Camera
+            </button>
+
+            <div id="camera-block" class="hidden flex flex-col gap-2">
+                <video id="camera-video" autoplay class="w-full rounded-xl"></video>
+                <div id="camera-buttons" class="grid grid-cols-2 gap-2 mt-2">
+                    <button type="button" id="capture-btn"
+                        class="border border-gray-300 rounded-xl px-4 py-3 text-sm font-semibold bg-white hover:bg-gray-100 transition">
+                        Capture Photo
+                    </button>
+                    <button type="button" id="stop-btn"
+                        class="border border-gray-300 rounded-xl px-4 py-3 text-sm font-semibold bg-white hover:bg-gray-100 transition">
+                        Stop Camera
+                    </button>
+                </div>
+            </div>
         </fieldset>
 
-        <div class="grid">
-            <button type="submit">Post Item</button>
-            <button type="button" class="secondary" onclick="window.location.href='/'">Cancel</button>
-        </div>
+        <!-- ===== CONTACT INFORMATION SECTION ====== -->
+        <fieldset class="flex flex-col gap-4 border-none p-0 mt-3">
+
+            <h3 class="text-sm font-semibold text-black">Contact Information</h3>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">First Name:</label>
+                <input
+                    type="text"
+                    name="first_name"
+                    required
+                    value="<?= htmlspecialchars($old['first_name'] ?? ($user['first_name'] ?? '')) ?>"
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">Last Name:</label>
+                <input
+                    type="text"
+                    name="last_name"
+                    required
+                    value="<?= htmlspecialchars($old['last_name'] ?? ($user['last_name'] ?? '')) ?>"
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">Contact Details:</label>
+                <input
+                    type="text"
+                    name="contact_details"
+                    required
+                    value="<?= htmlspecialchars($old['contact_details'] ?? ($user['phone_number'] ?? '')) ?>"
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+            </div>
+        </fieldset>
+
+        <!-- ===== ACTION BUTTONS ===== -->
+        <section class="flex flex-row gap-8 mt-2 justify-center">
+            <button type="button"
+                onclick="window.location.href='/'"
+                class="flex items-center justify-center px-6 py-3 rounded-2xl border border-black bg-white text-black font-semibold text-sm transition hover:bg-gray-100">
+                Reset
+            </button>
+            <button type="submit"
+                class="flex items-center justify-center px-6 py-3 rounded-2xl bg-[#E6BA05] text-white font-semibold text-sm transition hover:bg-yellow-500">
+                Submit
+            </button>
+        </section>
+
     </form>
-            
 </main>
-<script src="/js/found/post.js"></script>
+<?php require __DIR__ . "/../mainpages/footer.php"?>
 </body>
 </html>

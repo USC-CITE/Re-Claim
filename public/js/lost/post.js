@@ -122,3 +122,58 @@ function updateRoomField() {
 
 locationSelect.addEventListener('change', updateRoomField);
 updateRoomField(); // run on load
+
+
+// Set the Date & Time Lost fields to the browser's local time
+const dateInput = document.querySelector('input[name="event_date"]');
+const timeInput = document.querySelector('input[name="event_time"]');
+
+if (dateInput && timeInput) {
+    // Only set defaults if BOTH fields are empty (first load, not form switch)
+    if (!dateInput.value && !timeInput.value) {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        
+        dateInput.value = `${year}-${month}-${day}`;
+        timeInput.value = `${hours}:${minutes}`;
+    }
+}
+
+// Cross-form status switch
+const statusSelect = document.getElementById('status-select');
+statusSelect.value = 'Lost';
+
+function handleStatusSwitch() {
+    const status = statusSelect.value;
+    
+    if (status === 'Found') {
+            const params = new URLSearchParams();
+            params.set('item_name',       document.querySelector('[name="item_name"]').value);
+            params.set('location',        document.querySelector('[name="location"]').value);
+            params.set('room_number',     document.querySelector('[name="room_number"]').value);
+            params.set('category',        document.querySelector('[name="category"]').value);
+            params.set('description',     document.querySelector('[name="description"]').value);
+            params.set('first_name',      document.querySelector('[name="first_name"]').value);
+            params.set('last_name',       document.querySelector('[name="last_name"]').value);
+            params.set('contact_details', document.querySelector('[name="contact_details"]').value);
+            params.set('status',          status);
+
+            // Send date/time under both names so the found form can pick them up
+            const date = document.querySelector('[name="event_date"]').value;
+            const time = document.querySelector('[name="event_time"]').value;
+            params.set('event_date',      date);
+            params.set('event_time',      time);
+            params.set('date_found_date', date);
+            params.set('date_found_time', time);
+
+            window.location.href = '/found/post?' + params.toString();
+        }
+        // If status === 'Lost', do nothing
+    }
+    statusSelect.addEventListener('change', function () {
+    setTimeout(handleStatusSwitch, 100); // Delay to ensure DOM updates on mobile (Safari)
+});

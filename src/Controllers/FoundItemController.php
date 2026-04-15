@@ -103,6 +103,11 @@ class FoundItemController
             unset($_SESSION['flash']);
         }
 
+         // Merge GET params for cross-form carry-over (session $old takes priority)
+        if (!empty($_GET)) {
+            $old = array_merge($_GET, $old);
+        }
+
         // Pass $old and $flash to the view (views can access these variables)
         require __DIR__ . '/../Views/found/post.php';
     }
@@ -134,8 +139,8 @@ class FoundItemController
             'contact_details' => $_POST['contact_details'] ?? '',
             'location' => $_POST['location'] ?? '',
             'room_number' => $_POST['room_number'] ?? '',
-            'date_found' => $_POST['date_found'] ?? '',
-            'category' => $_POST['category'] ?? [],
+            'date_found' => ($_POST['date_found_date'] ?? '') . ' ' . ($_POST['date_found_time'] ?? ''),
+            'category' => $_POST['category'] ?? '',
             'description' => $_POST['description'] ?? '',
         ];
 
@@ -148,6 +153,19 @@ class FoundItemController
 
             if ($itemName === '') {
                 throw new Exception('Please provide an item name/title.');
+            }
+
+            //Require contact details
+            if ($firstName === '') {
+                throw new Exception('Please provide your first name.');
+            }
+
+            if ($lastName === '') {
+                throw new Exception('Please provide your last name.');
+            }
+
+            if ($contact === '') {
+                throw new Exception('Please provide contact details.');
             }
 
             // 2. Parse Location
@@ -183,11 +201,21 @@ class FoundItemController
 
             // 3. Date Found (Timezone Fix Applied)
             $timezone = new DateTimeZone('Asia/Manila');
-            $dateInput = $_POST['date_found'] ?? null;
+            $dateFoundDate = $_POST['date_found_date'] ?? '';
+            $dateFoundTime = $_POST['date_found_time'] ?? '';
 
             try {
-                // If input is empty, use 'now'.
-                $dt = new DateTime($dateInput ?: 'now', $timezone);
+                // Combine date and time
+                if (empty($dateFoundDate) || empty($dateFoundTime)) {
+                    throw new Exception('Please provide both date and time.');
+                }
+                
+                $dateTimeString = $dateFoundDate . ' ' . $dateFoundTime;
+                $dt = DateTime::createFromFormat('Y-m-d H:i', $dateTimeString, $timezone);
+                
+                if (!$dt) {
+                    throw new Exception('Please provide a valid date and time.');
+                }
 
                 // Validation: Prevent future dates
                 if ($dt > new DateTime('now', $timezone)) {
@@ -201,12 +229,12 @@ class FoundItemController
                 throw new Exception('Please provide a valid date and time.');
             }
 
-            // 4. Categories
-            $categories = $_POST['category'] ?? [];
-            if (!is_array($categories)) {
-                $categories = [$categories]; // Handle single selection
+            // 4. Categories (ONLY ONE category required)
+            $category = trim($_POST['category'] ?? '');
+            if (empty($category)) {
+                throw new Exception('Please select a category.');
             }
-            $categoryJson = json_encode($categories);
+            $categoryJson = json_encode($category);
 
             // 5. Description
             $description = trim($_POST['description'] ?? '');
