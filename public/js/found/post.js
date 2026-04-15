@@ -37,13 +37,24 @@
         }
     });
 
-    // Set the Date & Time Found field to the browser's local time (fix timezone mismatch)
-    const dtInput = document.querySelector('input[name="date_found"]');
-    if (dtInput) {
+// Set the Date & Time Found field to the browser's local time (fix timezone mismatch)
+const dateInput = document.querySelector('input[name="date_found_date"]');
+const timeInput = document.querySelector('input[name="date_found_time"]');
+
+if (dateInput && timeInput) {
+    // Only set defaults if BOTH fields are empty (first load, not form switch)
+    if (!dateInput.value && !timeInput.value) {
         const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-        dtInput.value = now.toISOString().slice(0,16);
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        
+        dateInput.value = `${year}-${month}-${day}`;
+        timeInput.value = `${hours}:${minutes}`;
     }
+}
 
     // Camera Capture Logic
 const cameraButton = document.getElementById('camera-button');

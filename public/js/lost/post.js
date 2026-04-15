@@ -123,6 +123,26 @@ function updateRoomField() {
 locationSelect.addEventListener('change', updateRoomField);
 updateRoomField(); // run on load
 
+
+// Set the Date & Time Lost fields to the browser's local time
+const dateInput = document.querySelector('input[name="event_date"]');
+const timeInput = document.querySelector('input[name="event_time"]');
+
+if (dateInput && timeInput) {
+    // Only set defaults if BOTH fields are empty (first load, not form switch)
+    if (!dateInput.value && !timeInput.value) {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        
+        dateInput.value = `${year}-${month}-${day}`;
+        timeInput.value = `${hours}:${minutes}`;
+    }
+}
+
 // Cross-form status switch
 const statusSelect = document.getElementById('status-select');
 statusSelect.value = 'Lost';
