@@ -28,7 +28,14 @@ class ProfileController{
                 $archiveDate = $item['archive_date'] ?? null;
             }
 
+            $categories = [];
+                if (!empty($item['category'])) {
+                    $decoded = json_decode($item['category'], true);
+                    $categories = is_array($decoded) ? $decoded : [$item['category']];
+            }
+
             return array_merge($item, [
+                'categories' => $categories,
                 'archive_date' => $archiveDate,
                 'can_recover' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
@@ -43,7 +50,14 @@ class ProfileController{
                 $archiveDate = $item['archive_date'] ?? null;
             }
 
+            $categories = [];
+                if (!empty($item['category'])) {
+                    $decoded = json_decode($item['category'], true);
+                    $categories = is_array($decoded) ? $decoded : [$item['category']];
+            }
+
             return array_merge($item, [
+                'categories' => $categories,
                 'archive_date' => $archiveDate,
                 'can_recover' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
