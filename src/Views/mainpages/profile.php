@@ -192,7 +192,7 @@
             <?php
                 $lostBulkAvailable = false;
                 foreach ($lostItems ?? [] as $item) {
-                    if (!empty($item['can_recover'])) {
+                    if (!empty($item['can_archive'])) {
                         $lostBulkAvailable = true;
                         break;
                     }
@@ -200,7 +200,7 @@
 
                 $foundBulkAvailable = false;
                 foreach ($foundItems ?? [] as $item) {
-                    if (!empty($item['can_recover'])) {
+                    if (!empty($item['can_archive'])) {
                         $foundBulkAvailable = true;
                         break;
                     }
@@ -273,7 +273,7 @@
                                         </h3>
                                         <p class="text-sm"><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
                                     </div>
-                                    <?php if (!empty($item['can_recover'])): ?>
+                                    <?php if (!empty($item['can_archive'])): ?>
                                     <label class="bulk-archive-box absolute top-2 right-0 hidden cursor-pointer">
                                         <input type="checkbox"
                                             name="item_ids[]"
@@ -325,37 +325,43 @@
                                     </p>
                                 </div>
 
-                                <?php if (!empty($item['can_recover'])): ?>
+                                <?php if (!empty($item['can_archive'])): ?>
                                     <button type="button"
                                         class="mt-6 w-full min-h-[52px] rounded-[16px] bg-[#055BA8] px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
                                         onclick="openModal('recover-modal-<?= $item['id'] ?>')">
-                                        Mark as Recovered
+                                        <?= ($item['status'] === 'Recovered') ? 'Archive Item' : 'Mark as Recovered' ?>
                                     </button>
                                 <?php endif; ?>
 
-                                <?php if (!empty($item['can_recover'])): ?>
+                                <?php if (!empty($item['can_archive'])): ?>
                                                     <div id="recover-modal-<?= $item['id'] ?>" data-modal="true" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/40 p-4">
                                                         <div class="w-full max-w-lg overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_20px_50px_rgba(15,23,42,0.18)] space-y-6">
                                                             <header class="relative space-y-2 border-b border-slate-200 pb-4">
                                                                 <button type="button" aria-label="Close" rel="prev" onclick="closeModal('recover-modal-<?= $item['id'] ?>')" class="absolute right-0 top-0 text-slate-500 transition hover:text-slate-900">×</button>
                                                                 <h3 class="text-xl font-semibold text-slate-900">
-                                                            Confirm Lost Item Recovery</h3>
+                                                                    <?= $item['status'] === 'Recovered' ? 'Confirm Lost Item Archival' : 'Confirm Lost Item Recovery' ?>
+                                                                </h3>
                                             </header>
                                             <div class="space-y-3">
                                                 <p class="text-sm leading-7 text-slate-700">
-                                                    Are you sure you want to mark this lost item as recovered? This will update its status for everyone.
+                                                    <?= $item['status'] === 'Recovered' 
+                                                        ? 'Are you sure you want to archive this lost item? This will remove the item from all listing pages.'
+                                                        : 'Are you sure you want to mark this lost item as recovered? This will update its status for everyone.' 
+                                                    ?>
                                                 </p>
                                                 <?php if (!empty($item['archive_date'])): ?>
                                                     <p class="text-sm text-slate-500">This post will be archived on <strong class="text-slate-900"><?= htmlspecialchars($item['archive_date']) ?></strong>.</p>
                                                 <?php endif; ?>
                                             </div>
                                             <footer class="flex flex-wrap justify-end gap-3 pt-4">
+                                            <?php if (!empty($item['can_recover'])): ?>    
                                                 <form method="POST" action="/lost/recover" class="inline-flex">
                                                     <?php \App\Core\Router::setCsrf(); ?>
                                                     <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
                                                     <input type="hidden" name="redirect_to" value="/profile#lost">
                                                     <button type="submit" class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700">Yes, mark as recovered</button>
                                                 </form>
+                                            <?php endif; ?>
 
                                                 <form method="POST" action="/lost/archive" class="inline-flex">
                                                     <?php \App\Core\Router::setCsrf(); ?>
@@ -454,7 +460,7 @@
                                     </h3>
                                     <p class="text-sm"><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
                                 </div>
-                                <?php if (!empty($item['can_recover'])): ?>
+                                <?php if (!empty($item['can_archive'])): ?>
                                     <label class="bulk-archive-box absolute top-2 right-0 hidden cursor-pointer">
                                         <input type="checkbox"
                                             name="item_ids[]"
@@ -507,36 +513,43 @@
                                     </p>
                                 </div>
 
-                                <?php if (!empty($item['can_recover'])): ?>
+                                <?php if (!empty($item['can_archive'])): ?>
                                     <button type="button"
                                         class="mt-6 w-full min-h-[52px] rounded-[16px] bg-[#055BA8] px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
                                         onclick="openModal('recover-found-modal-<?= $item['id'] ?>')">
-                                        Mark as Recovered
+                                        <?= ($item['status'] === 'Recovered') ? 'Archive Item' : 'Mark as Recovered' ?>
                                     </button>
                                 <?php endif; ?>
 
-                                <?php if (!empty($item['can_recover'])): ?>
+                                <?php if (!empty($item['can_archive'])): ?>
                                     <div id="recover-found-modal-<?= $item['id'] ?>" data-modal="true" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/40 p-4">
                                         <div class="w-full max-w-lg overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_20px_50px_rgba(15,23,42,0.18)] space-y-6">
                                             <header class="relative space-y-2 border-b border-slate-200 pb-4">
                                                 <button type="button" aria-label="Close" rel="prev" onclick="closeModal('recover-found-modal-<?= $item['id'] ?>')" class="absolute right-0 top-0 text-slate-500 transition hover:text-slate-900">×</button>
-                                                <h3 class="text-xl font-semibold text-slate-900">Confirm Found Item Recovery</h3>
+                                                <h3 class="text-xl font-semibold text-slate-900">
+                                                    <?= $item['status'] === 'Recovered' ? 'Confirm Found Item Archival' : 'Confirm Found Item Recovery' ?>
+                                                </h3>
                                             </header>
                                             <div class="space-y-3">
                                                 <p class="text-sm leading-7 text-slate-700">
-                                                    Are you sure you want to mark this found item as recovered? This will update its status for everyone.
+                                                    <?= $item['status'] === 'Recovered' 
+                                                        ? 'Are you sure you want to archive this found item? This will remove the item from all listing pages.'
+                                                        : 'Are you sure you want to mark this found item as recovered? This will update its status for everyone.' 
+                                                    ?>
                                                 </p>
                                                 <?php if (!empty($item['archive_date'])): ?>
                                                     <p class="text-sm text-slate-500">This post will be archived on <strong class="text-slate-900"><?= htmlspecialchars($item['archive_date']) ?></strong>.</p>
                                                 <?php endif; ?>
                                             </div>
                                             <footer class="flex flex-wrap justify-end gap-3 pt-4">
+                                                <?php if (!empty($item['can_recover'])): ?>
                                                 <form method="POST" action="/found/recover" class="inline-flex">
                                                     <?php \App\Core\Router::setCsrf(); ?>
                                                     <input type="hidden" name="item_id" value="<?= (int)$item['id'] ?>">
                                                     <input type="hidden" name="redirect_to" value="/profile#found">
                                                     <button type="submit" class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700">Yes, mark as recovered</button>
                                                 </form>
+                                                <?php endif; ?>
 
                                                 <form method="POST" action="/found/archive" class="inline-flex">
                                                     <?php \App\Core\Router::setCsrf(); ?>
