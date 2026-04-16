@@ -272,6 +272,13 @@
                                             <span class="text-red-500">[ Lost ]</span> <?= htmlspecialchars($item['item_name']) ?>
                                         </h3>
                                         <p class="text-sm"><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
+                                         <?php if (!empty($item['categories'])): ?>
+                                        <div class="mt-3 flex flex-wrap gap-2">
+                                            <?php foreach ($item['categories'] as $category): ?>
+                                            <span class="inline-flex items-center justify-center rounded-[12px] border border-[#03325C] bg-[#E6EFF6] px-3 text-sm font-medium text-[#044177]" style="height:30px; min-width:121px;"><?= htmlspecialchars(trim($category, '"')) ?></span>
+                                            <?php endforeach; ?>
+                                        </div>
+                                        <?php endif; ?>
                                     </div>
                                     <?php if (!empty($item['can_recover'])): ?>
                                     <label class="bulk-archive-box absolute top-2 right-0 hidden cursor-pointer">
@@ -453,6 +460,13 @@
                                         <span class="text-green-500">[ Found ]</span> <?= htmlspecialchars($item['item_name']) ?>
                                     </h3>
                                     <p class="text-sm"><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
+                                    <?php if (!empty($item['categories'])): ?>
+                                        <div class="mt-3 flex flex-wrap gap-2">
+                                            <?php foreach ($item['categories'] as $category): ?>
+                                            <span class="inline-flex items-center justify-center rounded-[12px] border border-[#03325C] bg-[#E6EFF6] px-3 text-sm font-medium text-[#044177]" style="height:30px; min-width:121px;"><?= htmlspecialchars(trim($category, '"')) ?></span>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                                 <?php if (!empty($item['can_recover'])): ?>
                                     <label class="bulk-archive-box absolute top-2 right-0 hidden cursor-pointer">
