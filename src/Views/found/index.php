@@ -117,6 +117,17 @@
                                 <span class="mr-1 text-green-800">[Found]</span><?= htmlspecialchars($item['title']) ?>
                             </p>
                             <p class="text-sm font-normal text-primary"><?= htmlspecialchars(!empty($item['date_found']) ? preg_replace('/(\d{4})\s+(\d{1,2}:\d{2}(?::\d{2})?\s*[APMapm]*)$/', '$1 at $2', (string) $item['date_found']) : 'Date unavailable') ?></p>
+
+                            <?php if (!empty($item['categories'])): ?>
+                              <div class="mt-3 flex flex-wrap gap-2">
+                                <?php foreach ($item['categories'] as $category): ?>
+                                  <span class="inline-flex items-center justify-center rounded-[12px] border border-[#03325C] bg-[#E6EFF6] px-3 text-sm font-medium text-[#044177]" style="height:30px; min-width:121px;"><?= htmlspecialchars(trim($category, '"')) ?></span>
+                                <?php endforeach; ?>
+                              </div>
+                            <?php endif; ?>
+                        </div>
+                        </div>
+                    </header>
                         </div>
                         </div>
                     </header>
@@ -141,13 +152,6 @@
                         </div>
 
                         <p class="text-sm font-normal text-primary"><?= htmlspecialchars($item['description']) ?></p>
-                        <?php if (!empty($item['categories'])): ?>
-                            <div class="flex flex-wrap gap-2">
-                                <?php foreach ($item['categories'] as $category): ?>
-                                    <span class="rounded-full bg-primary-50 px-3 py-1 text-xs font-medium text-primary-700"><?= htmlspecialchars($category) ?></span>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endif; ?>
                     </div>
                     
                     <footer class="mt-auto flex w-full flex-wrap justify-end gap-3 pt-2">

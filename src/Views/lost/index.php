@@ -130,6 +130,14 @@
                 }
               ?>
               <p class="text-sm font-normal text-primary"><?= htmlspecialchars($lostDateLabel) ?></p>
+
+              <?php if (!empty($item['categories'])): ?>
+                <div class="mt-3 flex flex-wrap gap-2">
+                  <?php foreach ($item['categories'] as $category): ?>
+                    <span class="inline-flex items-center justify-center rounded-[12px] border border-[#03325C] bg-[#E6EFF6] px-3 text-sm font-medium text-[#044177]" style="height:30px; min-width:121px;"><?= htmlspecialchars(trim($category, '"')) ?></span>
+                  <?php endforeach; ?>
+                </div>
+              <?php endif; ?>
             </div>
             </div>
           </header>
@@ -154,13 +162,6 @@
             </div>
 
             <p class="text-sm font-normal text-primary"><?= htmlspecialchars($item['description']) ?></p>
-            <?php if (!empty($item['categories'])): ?>
-              <div class="flex flex-wrap gap-2">
-                <?php foreach ($item['categories'] as $category): ?>
-                  <span class="rounded-full bg-primary-50 px-3 py-1 text-xs font-medium text-primary-700"><?= htmlspecialchars($category) ?></span>
-                <?php endforeach; ?>
-              </div>
-            <?php endif; ?>
           </div>
 
           <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
