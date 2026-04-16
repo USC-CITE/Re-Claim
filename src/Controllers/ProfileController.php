@@ -34,12 +34,17 @@ class ProfileController{
                     $categories = is_array($decoded) ? $decoded : [$item['category']];
             }
 
+            $isRecovered = ($item['status'] ?? '') === 'Recovered';
+            $statusTag = $isRecovered ? 'Recovered' : 'Lost';
+
             return array_merge($item, [
                 'categories' => $categories,
                 'archive_date' => $archiveDate,
                 'can_recover' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
                     && ($item['item_type'] ?? 'lost') === 'lost',
+                'status_tag' => $statusTag,
+                'is_recovered' => $isRecovered,
             ]);
         }, $user->fetchItems($id, "lost"));
         $foundItems = array_map(function ($item) use ($id) {
@@ -56,12 +61,18 @@ class ProfileController{
                     $categories = is_array($decoded) ? $decoded : [$item['category']];
             }
 
+            $isRecovered = ($item['status'] ?? '') === 'Recovered';
+            $statusTag = $isRecovered ? 'Recovered' : 'Found';
+
             return array_merge($item, [
                 'categories' => $categories,
                 'archive_date' => $archiveDate,
                 'can_recover' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
                     && ($item['item_type'] ?? 'found') === 'found',
+                'status_tag' => $statusTag,
+                'is_recovered' => $isRecovered,
+                
             ]);
         }, $user->fetchItems($id, "found"));
 

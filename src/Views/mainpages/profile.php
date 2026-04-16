@@ -269,7 +269,10 @@
                                 <div class="relative py-2 mb-4 border-b-2 border-[#5B5B5B]">
                                     <div class="pr-8">
                                         <h3 class="font-semibold text-lg">
-                                            <span class="text-red-600">[Lost]</span> <?= htmlspecialchars($item['item_name']) ?>
+                                            <span class="status-tag-<?= strtolower($item['status_tag']) ?>">
+                                                [<?= htmlspecialchars($item['status_tag']) ?>]
+                                            </span>
+                                            </span> <?= htmlspecialchars($item['item_name']) ?>
                                         </h3>
                                         <p class="text-sm"><?= date("F j, Y", strtotime($item['event_date'])) ?></p>
                                          <?php if (!empty($item['categories'])): ?>
@@ -457,7 +460,8 @@
                             <div class="relative py-2 mb-4 border-b-2 border-[#5B5B5B]">
                                 <div class="pr-8">
                                     <h3 class="font-semibold text-lg">
-                                        <span class="text-green-600">[Found]</span> <?= htmlspecialchars($item['item_name']) ?>
+                                        <span class="status-tag-<?= strtolower($item['status_tag']) ?>"> [<?= htmlspecialchars($item['status_tag']) ?>]</span>
+                                        </span> <?= htmlspecialchars($item['item_name']) ?>
                                     </h3>
                                     <p class="text-sm"><?= date("F j, Y", strtotime($item['event_date'])) ?></p>
                                     <?php if (!empty($item['categories'])): ?>
