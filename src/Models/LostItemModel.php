@@ -70,7 +70,7 @@ class LostItemModel
                 SET status = 'Archived',
                     archive_date = NOW()
                 WHERE item_type = 'lost'
-                AND status = 'Unrecovered'
+                AND status IN ('Unrecovered', 'Recovered')
                 AND archive_date IS NOT NULL
                 AND archive_date <= NOW()";
         $this->db->exec($sql);
