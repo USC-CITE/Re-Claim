@@ -230,4 +230,13 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.classList.add("hidden");
     })
 
+    // Tab Navigation for Upload Avatar
+    const avatarLabel = document.querySelector('label[for="avatarInput"');
+
+    avatarLabel.addEventListener("keydown", (e) => {
+        if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            input.click();
+        }
+    })
 });
