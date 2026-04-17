@@ -43,6 +43,9 @@ class ProfileController{
                 'can_recover' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
                     && ($item['item_type'] ?? 'lost') === 'lost',
+                'can_archive' => (int)($item['user_id'] ?? 0) === (int)$id
+                    && ($item['item_type'] ?? 'lost') === 'lost'
+                    && ($item['status'] ?? '') !== 'Archived', 
                 'status_tag' => $statusTag,
                 'is_recovered' => $isRecovered,
             ]);
@@ -70,6 +73,9 @@ class ProfileController{
                 'can_recover' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
                     && ($item['item_type'] ?? 'found') === 'found',
+                'can_archive' => (int)($item['user_id'] ?? 0) === (int)$id
+                    && ($item['item_type'] ?? 'found') === 'found'
+                    && ($item['status'] ?? '') !== 'Archived', 
                 'status_tag' => $statusTag,
                 'is_recovered' => $isRecovered,
                 
