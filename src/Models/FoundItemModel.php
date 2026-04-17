@@ -22,7 +22,7 @@ class FoundItemModel
                 SET status = 'Archived',
                     archive_date = NOW()
                 WHERE item_type = 'found'
-                AND status = 'Unrecovered' 
+                AND status IN ('Unrecovered', 'Recovered') 
                 AND archive_date IS NOT NULL 
                 AND archive_date <= NOW()";
         $this->db->exec($sql);

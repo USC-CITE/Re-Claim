@@ -33,6 +33,9 @@ class ProfileController{
                 'can_recover' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
                     && ($item['item_type'] ?? 'lost') === 'lost',
+                'can_archive' => (int)($item['user_id'] ?? 0) === (int)$id
+                    && ($item['item_type'] ?? 'lost') === 'lost'
+                    && ($item['status'] ?? '') !== 'Archived', 
             ]);
         }, $user->fetchItems($id, "lost"));
         $foundItems = array_map(function ($item) use ($id) {
@@ -48,6 +51,9 @@ class ProfileController{
                 'can_recover' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
                     && ($item['item_type'] ?? 'found') === 'found',
+                'can_archive' => (int)($item['user_id'] ?? 0) === (int)$id
+                    && ($item['item_type'] ?? 'found') === 'found'
+                    && ($item['status'] ?? '') !== 'Archived', 
             ]);
         }, $user->fetchItems($id, "found"));
 
