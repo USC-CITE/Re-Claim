@@ -160,7 +160,7 @@ class ProfileController{
         // =========================
         // 1. HANDLE AVATAR DELETE
         // =========================
-        $deleteAvatar = isset($_POST['delete_avatar']);
+        $deleteAvatar = isset($_POST['delete_avatar']) && $_POST['delete_avatar'] === "1";
 
         $currentAvatar = $user->getAvatar($userId);
 
