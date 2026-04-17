@@ -64,25 +64,25 @@
     </ul>
   </nav>
 
-  <section class="mx-auto mb-8 hidden w-full max-w-[840px] rounded-[24px] border border-[#d9d9d9] bg-white p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.08)]" data-filter-panel>
-    <div class="grid gap-4 md:grid-cols-3">
-      <label class="flex flex-col gap-2 text-sm font-medium text-primary">
+  <section class="mx-auto mb-8 hidden w-full max-w-[841px] rounded-[32px] bg-white p-8 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)]" data-filter-panel>
+    <div class="grid gap-6 md:grid-cols-3">
+      <label class="flex flex-col gap-2 text-lg font-semibold text-black">
         Recovery status
-        <select id="lost-status-filter" class="rounded-2xl border border-[#d9d9d9] bg-white px-4 py-3 text-sm text-primary">
+        <select id="lost-status-filter" class="h-10 w-full rounded-[8px] border border-white-700 bg-white px-4 text-sm font-normal text-black">
           <option value="">All statuses</option>
           <option value="Unrecovered">Unrecovered</option>
           <option value="Recovered">Recovered</option>
         </select>
       </label>
-      <label class="flex flex-col gap-2 text-sm font-medium text-primary">
+      <label class="flex flex-col gap-2 text-lg font-semibold text-black">
         Location
-        <select id="lost-location-filter" class="rounded-2xl border border-[#d9d9d9] bg-white px-4 py-3 text-sm text-primary">
+        <select id="lost-location-filter" class="h-10 w-full rounded-[8px] border border-white-700 bg-white px-4 text-sm font-normal text-black">
           <option value="">All locations</option>
         </select>
       </label>
-      <label class="flex flex-col gap-2 text-sm font-medium text-primary">
-        Category tag
-        <select id="lost-category-filter" class="rounded-2xl border border-[#d9d9d9] bg-white px-4 py-3 text-sm text-primary">
+      <label class="flex flex-col gap-2 text-lg font-semibold text-black">
+        Category
+        <select id="lost-category-filter" class="h-10 w-full rounded-[8px] border border-white-700 bg-white px-4 text-sm font-normal text-black">
           <option value="">All categories</option>
         </select>
       </label>
