@@ -196,6 +196,13 @@ class ProfileController{
             $errors['last_name'] = 'Last name is required';
         }
 
+        if(!$phone){
+            $errors['phone_number'] = 'Mobile number is required';
+        }
+
+        if(!$social){
+            $errors['social_link'] = "Social link is required";
+        }
         if ($phone && !preg_match('/^[0-9+\-() ]+$/', $phone)) {
             $errors['phone_number'] = 'Invalid phone number format';
         }
@@ -398,7 +405,8 @@ class ProfileController{
 
          // Check OTP existence
         if (!isset($_SESSION['otp_code'])) {
-            $_SESSION['flash'] = ['error' => 'Session expired. Try again.'];
+            $_SESSION['errors']['otp'] = 'Session expired. Try again!';
+            $_SESSION['show_otp_modal'] = true;
             header("Location: /profile/settings#change-pass");
             exit;
         }
@@ -406,14 +414,15 @@ class ProfileController{
         // Expiry check
         if (time() > $_SESSION['otp_expiry']) {
             unset($_SESSION['otp_code']);
-            $_SESSION['flash'] = ['error' => 'OTP expired.'];
+            $_SESSION['errors']['otp'] = 'OTP expired.';
+            $_SESSION['show_otp_modal'] = true;
             header("Location: /profile/settings#change-pass");
             exit;
         }
 
          // Validate OTP
         if ($enteredOtp != $_SESSION['otp_code']) {
-            $_SESSION['flash'] = ['error' => 'Invalid OTP'];
+            $_SESSION['errors']['otp'] = 'Invalid OTP';
             $_SESSION['show_otp_modal'] = true;
             header("Location: /profile/settings#change-pass");
             exit;

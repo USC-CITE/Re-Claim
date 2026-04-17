@@ -1,6 +1,7 @@
 <?php
     $errors = $_SESSION['errors'] ?? [];
     $flash = $_SESSION['flash'] ?? null;
+    $flashOtp = $_SESSION['flash-otp'] ?? null;
     $showOtpModal = $_SESSION['show_otp_modal'] ?? false;
 
     unset($_SESSION['show_otp_modal']);
@@ -356,9 +357,11 @@
                     </p>
                 </div>
                 
-                <form action="/profile/change-password/verify" method="POST" class="space-y-4">
-                    <input class="w-full mt-1 border rounded-lg px-3 py-2 text-sm" placeholder="Enter 6-digit code" name="otp">
-                
+                <form action="/profile/change-password/verify" method="POST" class="space-y-2">
+                    <input class="w-full mt-1 border rounded-lg px-3 py-2 text-sm <?= !empty($errors['otp']) ? 'border-red-500 border-2' : 'border-gray-300' ?> algin-" placeholder="Enter 6-digit code" name="otp">
+                    <p class="text-red-500 text-sm text-left w-full">
+                        <?= isset($errors['otp']) ? '✕ ' . $errors['otp'] : '' ?>
+                    </p>
                     <button type="submit" class="px-5 flex gap-2 items-center justify-center w-full py-2 text-md mt-6 font-semibold bg-[#055BA8] text-white rounded-xl hover:bg-blue-700 transition">
                         Verify & Change Password 
                         <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
