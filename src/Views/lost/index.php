@@ -117,7 +117,8 @@
             </div>
             <div class="min-w-0 flex-1">
               <p class="item-card-title break-words text-lg font-semibold text-primary">
-                <span class="mr-1 text-red-600">[Lost]</span><?= htmlspecialchars($item['item_name'] ?: 'Lost Item') ?>
+                <span class="mr-1 status-tag-<?= strtolower($item['status_tag']) ?>"> [<?= htmlspecialchars($item['status_tag']) ?>] </span> 
+                <?= htmlspecialchars($item['item_name'] ?: 'Lost Item') ?>
               </p>
               <?php
                 $lostDateLabel = 'Date unavailable';

@@ -114,7 +114,8 @@
                         </div>
                         <div class="min-w-0 flex-1">
                             <p class="item-card-title break-words text-lg font-semibold text-primary">
-                                <span class="mr-1 text-green-800">[Found]</span><?= htmlspecialchars($item['title']) ?>
+                                <span class="mr-1 status-tag-<?= strtolower($item['status_tag']) ?>"> [<?= htmlspecialchars($item['status_tag']) ?>] </span> 
+                                <?= htmlspecialchars($item['title']) ?>
                             </p>
                             <p class="text-sm font-normal text-primary"><?= htmlspecialchars(!empty($item['date_found']) ? preg_replace('/(\d{4})\s+(\d{1,2}:\d{2}(?::\d{2})?\s*[APMapm]*)$/', '$1 at $2', (string) $item['date_found']) : 'Date unavailable') ?></p>
 
