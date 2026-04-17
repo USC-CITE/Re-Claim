@@ -54,6 +54,7 @@ class LostItemController
                 'description' => $item['description'] ?: 'No description provided.',
                 'categories' => $categories,
                 'status' => $item['status'] ?? 'Unrecovered',
+                'status_tag' => ($item['status'] ?? 'Unrecovered') === 'Recovered' ? 'Recovered' : 'Lost',
                 'archive_date' => $archiveDisplay,
                 'contact_info' => $item['contact_details'] ?? '',
                 'name' => trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? '')),

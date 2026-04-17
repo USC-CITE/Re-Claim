@@ -48,6 +48,7 @@ class FoundItemController
                 'id' => $item['id'] ?? uniqid(), // ID for the modal
                 'title' => $item['item_name'] ?: "Found Item",
                 'status' => $item['status'],
+                'status_tag' => ($item['status'] ?? 'Unrecovered') === 'Recovered' ? 'Recovered' : 'Found',
                 'image_url' => !empty($item['image_path']) ? '/' . $item['image_path'] : null,
                 'date_found' => $dateDisplay,
                 'archive_date' => $archiveDateDisplay,
