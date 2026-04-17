@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
             input.value = '';
 
             deleteBtn.classList.remove("text-red-500", "border-red-500", "hover:bg-red-100");
-            deleteBtn.classList.add("text-gray-600", "border-gray-400", "hover:bg-gray-200");
+            deleteBtn.classList.add("text-gray-900", "border-gray-400", "hover:bg-red-100");
         } else {
             deleteInput.value = "0";
             deleteBtn.textContent = "Remove Avatar";
@@ -230,4 +230,13 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.classList.add("hidden");
     })
 
+    // Tab Navigation for Upload Avatar
+    const avatarLabel = document.querySelector('label[for="avatarInput"');
+
+    avatarLabel.addEventListener("keydown", (e) => {
+        if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            input.click();
+        }
+    })
 });
