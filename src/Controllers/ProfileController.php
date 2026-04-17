@@ -28,7 +28,17 @@ class ProfileController{
                 $archiveDate = $item['archive_date'] ?? null;
             }
 
+            $categories = [];
+                if (!empty($item['category'])) {
+                    $decoded = json_decode($item['category'], true);
+                    $categories = is_array($decoded) ? $decoded : [$item['category']];
+            }
+
+            $isRecovered = ($item['status'] ?? '') === 'Recovered';
+            $statusTag = $isRecovered ? 'Recovered' : 'Lost';
+
             return array_merge($item, [
+                'categories' => $categories,
                 'archive_date' => $archiveDate,
                 'can_recover' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
@@ -36,6 +46,8 @@ class ProfileController{
                 'can_archive' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['item_type'] ?? 'lost') === 'lost'
                     && ($item['status'] ?? '') !== 'Archived', 
+                'status_tag' => $statusTag,
+                'is_recovered' => $isRecovered,
             ]);
         }, $user->fetchItems($id, "lost"));
         $foundItems = array_map(function ($item) use ($id) {
@@ -46,7 +58,17 @@ class ProfileController{
                 $archiveDate = $item['archive_date'] ?? null;
             }
 
+            $categories = [];
+                if (!empty($item['category'])) {
+                    $decoded = json_decode($item['category'], true);
+                    $categories = is_array($decoded) ? $decoded : [$item['category']];
+            }
+
+            $isRecovered = ($item['status'] ?? '') === 'Recovered';
+            $statusTag = $isRecovered ? 'Recovered' : 'Found';
+
             return array_merge($item, [
+                'categories' => $categories,
                 'archive_date' => $archiveDate,
                 'can_recover' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
@@ -54,6 +76,9 @@ class ProfileController{
                 'can_archive' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['item_type'] ?? 'found') === 'found'
                     && ($item['status'] ?? '') !== 'Archived', 
+                'status_tag' => $statusTag,
+                'is_recovered' => $isRecovered,
+                
             ]);
         }, $user->fetchItems($id, "found"));
 

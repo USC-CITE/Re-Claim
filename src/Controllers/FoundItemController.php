@@ -193,11 +193,6 @@ class FoundItemController
                     $locationName = $locationRaw; // Fallback if no coords
                 }
             }
-            
-            // Append Room Number if provided
-            if (!empty($_POST['room_number'])) {
-                $locationName .= ' (Room ' . trim($_POST['room_number']) . ')';
-            }
 
             // 3. Date Found (Timezone Fix Applied)
             $timezone = new DateTimeZone('Asia/Manila');

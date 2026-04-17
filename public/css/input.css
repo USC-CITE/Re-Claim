@@ -198,3 +198,24 @@ html {
   --shadow-400:
     0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
+
+.status-tag-recovered {
+    color: #055BA8;
+    font-family: var(--font-poppins);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.status-tag-lost {
+    color: #DC2626;
+    font-family: var(--font-poppins);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.status-tag-found {
+    color: #16A34A;
+    font-family: var(--font-poppins);
+    font-size: 20px;
+    font-weight: 600;
+}

@@ -269,9 +269,19 @@
                                 <div class="relative py-2 mb-4 border-b-2 border-[#5B5B5B]">
                                     <div class="pr-8">
                                         <h3 class="font-semibold text-lg">
-                                            <span class="text-red-500">[ Lost ]</span> <?= htmlspecialchars($item['item_name']) ?>
+                                            <span class="status-tag-<?= strtolower($item['status_tag']) ?>">
+                                                [<?= htmlspecialchars($item['status_tag']) ?>]
+                                            </span>
+                                            </span> <?= htmlspecialchars($item['item_name']) ?>
                                         </h3>
-                                        <p class="text-sm"><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
+                                        <p class="text-sm"><?= date("F j, Y", strtotime($item['event_date'])) ?></p>
+                                         <?php if (!empty($item['categories'])): ?>
+                                        <div class="mt-3 flex flex-wrap gap-2">
+                                            <?php foreach ($item['categories'] as $category): ?>
+                                            <span class="inline-flex items-center justify-center rounded-[12px] border border-[#03325C] bg-[#E6EFF6] px-3 text-sm font-medium text-[#044177]" style="height:30px; min-width:121px;"><?= htmlspecialchars(trim($category, '"')) ?></span>
+                                            <?php endforeach; ?>
+                                        </div>
+                                        <?php endif; ?>
                                     </div>
                                     <?php if (!empty($item['can_archive'])): ?>
                                     <label class="bulk-archive-box absolute top-2 right-0 hidden cursor-pointer">
@@ -327,8 +337,19 @@
 
                                 <?php if (!empty($item['can_archive'])): ?>
                                     <button type="button"
-                                        class="mt-6 w-full min-h-[52px] rounded-[16px] bg-[#055BA8] px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
+                                        class="mt-6 w-full min-h-[52px] rounded-[16px] bg-[#055BA8] px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700 inline-flex items-center justify-center gap-2"
                                         onclick="openModal('recover-modal-<?= $item['id'] ?>')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="shrink-0">
+                                        <g clip-path="url(#clip0_1415_3797)">
+                                            <path d="M8.77734 11.9125L10.6441 10.3453L12.2088 12.2108L15.9399 9.08008L17.5058 10.9456L11.9093 15.6423L8.77734 11.9125Z" fill="white"/>
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M19.1795 5.40324C20.8581 7.08133 21.8662 9.31451 22.0147 11.6834C22.1631 14.0522 21.4416 16.3938 19.9856 18.2683C20.0043 18.2845 20.0226 18.3016 20.0404 18.3194L25.2071 23.4861C25.4289 23.7158 25.5517 24.0234 25.5489 24.3427C25.5461 24.662 25.4181 24.9674 25.1923 25.1931C24.9665 25.4189 24.6611 25.547 24.3418 25.5498C24.0226 25.5525 23.715 25.4298 23.4853 25.208L18.3186 20.0413L18.2674 19.9865C16.3098 21.5049 13.8472 22.2206 11.3807 21.9878C8.91411 21.755 6.62889 20.5913 4.9899 18.7334C3.3509 16.8755 2.48126 14.463 2.55789 11.9867C2.63452 9.51036 3.65166 7.15624 5.40239 5.40324C6.30699 4.49859 7.38092 3.78098 8.56286 3.29139C9.7448 2.8018 11.0116 2.5498 12.2909 2.5498C13.5703 2.5498 14.8371 2.8018 16.019 3.29139C17.201 3.78098 18.2749 4.49859 19.1795 5.40324ZM17.4577 17.4585C18.1452 16.7821 18.692 15.9763 19.0665 15.0875C19.441 14.1987 19.6359 13.2445 19.6398 12.2801C19.6437 11.3156 19.4566 10.3599 19.0894 9.46811C18.7221 8.5763 18.1819 7.76603 17.4999 7.08405C16.8179 6.40206 16.0077 5.86185 15.1158 5.49458C14.224 5.12731 13.2683 4.94024 12.3039 4.94416C11.3394 4.94809 10.3853 5.14294 9.49647 5.51746C8.60769 5.89198 7.80185 6.43877 7.12544 7.12629C5.77369 8.50024 5.01961 10.3527 5.02746 12.2801C5.03531 14.2075 5.80445 16.0537 7.16734 17.4166C8.53024 18.7795 10.3765 19.5486 12.3039 19.5565C14.2313 19.5643 16.0837 18.8103 17.4577 17.4585Z" fill="white"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_1415_3797">
+                                            <rect width="24" height="24" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                        </svg>
                                         <?= ($item['status'] === 'Recovered') ? 'Archive Item' : 'Mark as Recovered' ?>
                                     </button>
                                 <?php endif; ?>
@@ -456,9 +477,17 @@
                             <div class="relative py-2 mb-4 border-b-2 border-[#5B5B5B]">
                                 <div class="pr-8">
                                     <h3 class="font-semibold text-lg">
-                                        <span class="text-green-500">[ Found ]</span> <?= htmlspecialchars($item['item_name']) ?>
+                                        <span class="status-tag-<?= strtolower($item['status_tag']) ?>"> [<?= htmlspecialchars($item['status_tag']) ?>]</span>
+                                        </span> <?= htmlspecialchars($item['item_name']) ?>
                                     </h3>
-                                    <p class="text-sm"><?= date("F, j, Y", strtotime($item['event_date'])) ?></p>
+                                    <p class="text-sm"><?= date("F j, Y", strtotime($item['event_date'])) ?></p>
+                                    <?php if (!empty($item['categories'])): ?>
+                                        <div class="mt-3 flex flex-wrap gap-2">
+                                            <?php foreach ($item['categories'] as $category): ?>
+                                            <span class="inline-flex items-center justify-center rounded-[12px] border border-[#03325C] bg-[#E6EFF6] px-3 text-sm font-medium text-[#044177]" style="height:30px; min-width:121px;"><?= htmlspecialchars(trim($category, '"')) ?></span>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                                 <?php if (!empty($item['can_archive'])): ?>
                                     <label class="bulk-archive-box absolute top-2 right-0 hidden cursor-pointer">
@@ -515,8 +544,19 @@
 
                                 <?php if (!empty($item['can_archive'])): ?>
                                     <button type="button"
-                                        class="mt-6 w-full min-h-[52px] rounded-[16px] bg-[#055BA8] px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
+                                        class="mt-6 w-full min-h-[52px] rounded-[16px] bg-[#055BA8] px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700 inline-flex items-center justify-center gap-2"
                                         onclick="openModal('recover-found-modal-<?= $item['id'] ?>')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="shrink-0">
+                                        <g clip-path="url(#clip0_1415_3797)">
+                                            <path d="M8.77734 11.9125L10.6441 10.3453L12.2088 12.2108L15.9399 9.08008L17.5058 10.9456L11.9093 15.6423L8.77734 11.9125Z" fill="white"/>
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M19.1795 5.40324C20.8581 7.08133 21.8662 9.31451 22.0147 11.6834C22.1631 14.0522 21.4416 16.3938 19.9856 18.2683C20.0043 18.2845 20.0226 18.3016 20.0404 18.3194L25.2071 23.4861C25.4289 23.7158 25.5517 24.0234 25.5489 24.3427C25.5461 24.662 25.4181 24.9674 25.1923 25.1931C24.9665 25.4189 24.6611 25.547 24.3418 25.5498C24.0226 25.5525 23.715 25.4298 23.4853 25.208L18.3186 20.0413L18.2674 19.9865C16.3098 21.5049 13.8472 22.2206 11.3807 21.9878C8.91411 21.755 6.62889 20.5913 4.9899 18.7334C3.3509 16.8755 2.48126 14.463 2.55789 11.9867C2.63452 9.51036 3.65166 7.15624 5.40239 5.40324C6.30699 4.49859 7.38092 3.78098 8.56286 3.29139C9.7448 2.8018 11.0116 2.5498 12.2909 2.5498C13.5703 2.5498 14.8371 2.8018 16.019 3.29139C17.201 3.78098 18.2749 4.49859 19.1795 5.40324ZM17.4577 17.4585C18.1452 16.7821 18.692 15.9763 19.0665 15.0875C19.441 14.1987 19.6359 13.2445 19.6398 12.2801C19.6437 11.3156 19.4566 10.3599 19.0894 9.46811C18.7221 8.5763 18.1819 7.76603 17.4999 7.08405C16.8179 6.40206 16.0077 5.86185 15.1158 5.49458C14.224 5.12731 13.2683 4.94024 12.3039 4.94416C11.3394 4.94809 10.3853 5.14294 9.49647 5.51746C8.60769 5.89198 7.80185 6.43877 7.12544 7.12629C5.77369 8.50024 5.01961 10.3527 5.02746 12.2801C5.03531 14.2075 5.80445 16.0537 7.16734 17.4166C8.53024 18.7795 10.3765 19.5486 12.3039 19.5565C14.2313 19.5643 16.0837 18.8103 17.4577 17.4585Z" fill="white"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_1415_3797">
+                                            <rect width="24" height="24" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                        </svg>
                                         <?= ($item['status'] === 'Recovered') ? 'Archive Item' : 'Mark as Recovered' ?>
                                     </button>
                                 <?php endif; ?>
