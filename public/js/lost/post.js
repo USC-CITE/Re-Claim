@@ -160,6 +160,9 @@ function handleStatusSwitch() {
             params.set('first_name',      document.querySelector('[name="first_name"]').value);
             params.set('last_name',       document.querySelector('[name="last_name"]').value);
             params.set('contact_details', document.querySelector('[name="contact_details"]').value);
+            document.querySelectorAll('[name="social_links[]"]').forEach(function(input) {
+                if (input.value.trim()) params.append('social_links[]', input.value.trim());
+            });
             params.set('status',          status);
 
             // Send date/time under both names so the found form can pick them up
