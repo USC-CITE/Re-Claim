@@ -54,8 +54,20 @@ class LostItemController
                 'description' => $item['description'] ?: 'No description provided.',
                 'categories' => $categories,
                 'status' => $item['status'] ?? 'Unrecovered',
+                'status_tag' => ($item['status'] ?? 'Unrecovered') === 'Recovered' ? 'Recovered' : 'Lost',
                 'archive_date' => $archiveDisplay,
-                'contact_info' => $item['contact_details'] ?? '',
+                'contact_info' => (function($raw) {
+                    $d = json_decode($raw, true);
+                    return is_array($d) ? ($d['phone'] ?? $raw) : $raw;
+                })($item['contact_details'] ?? ''),
+                'contact_social_links' => (function($raw) {
+                    $d = json_decode($raw, true);
+                    $links = is_array($d) ? ($d['social_links'] ?? []) : [];
+                    return array_map(fn($link) => [
+                        'url' => $link,
+                        'platform' => self::detectPlatform($link),
+                    ], $links);
+                })($item['contact_details'] ?? ''),
                 'name' => trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? '')),
                 'can_recover' => isset($_SESSION['user_id'], $item['user_id'])
                     && (int)$item['user_id'] === (int)$_SESSION['user_id']
@@ -139,6 +151,7 @@ class LostItemController
             'first_name'       => $_POST['first_name'] ?? '',
             'last_name'        => $_POST['last_name'] ?? '',
             'contact_details'  => $_POST['contact_details'] ?? '',
+            'social_links'     => $_POST['social_links'] ?? [],
             'location'         => $_POST['location'] ?? '',
             'room_number'      => $_POST['room_number'] ?? '',
             'event_date'       => ($_POST['event_date'] ?? '') . ' ' . ($_POST['event_time'] ?? ''), 
@@ -160,6 +173,17 @@ class LostItemController
             $firstName = trim($_POST['first_name'] ?? '');
             $lastName  = trim($_POST['last_name'] ?? '');
             $contact   = trim($_POST['contact_details'] ?? '');
+            $socialLinks = array_values(array_filter(array_map('trim', $_POST['social_links'] ?? []), fn($l) => filter_var($l, FILTER_VALIDATE_URL)));
+
+            // Require at least one valid social link
+            if (empty($socialLinks)) {
+                throw new Exception('Please provide at least one valid social media link.');
+            }
+
+            $contactData = json_encode([
+                'phone' => $contact,
+                'social_links' => $socialLinks,
+            ]);
 
             // 3) Parse Location (format: "Name|lat,long")
             $locationRaw  = $_POST['location'] ?? '';
@@ -299,7 +323,7 @@ class LostItemController
                 'description'      => $description,
                 'first_name'       => $firstName,
                 'last_name'        => $lastName,
-                'contact_details'  => $contact,
+                'contact_details'  => $contactData,
                 'user_id'          => $userId,
             ]);
 
@@ -448,4 +472,11 @@ class LostItemController
         exit;
     }
 
+    private static function detectPlatform(string $url): string
+    {
+        $host = strtolower(parse_url($url, PHP_URL_HOST) ?? '');
+        $host = preg_replace('/^www\./', '', $host);
+        $hostParts = explode('.', $host);
+        return !empty($hostParts[0]) ? ucfirst($hostParts[0]) : 'Link';
+    }
 }
