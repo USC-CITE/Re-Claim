@@ -1,6 +1,7 @@
 <?php
     $errors = $_SESSION['errors'] ?? [];
     $flash = $_SESSION['flash'] ?? null;
+    $flashOtp = $_SESSION['flash-otp'] ?? null;
     $showOtpModal = $_SESSION['show_otp_modal'] ?? false;
 
     unset($_SESSION['show_otp_modal']);
@@ -119,10 +120,11 @@
                         <div class="flex flex-col gap-2">
                             <!-- Upload Avatar -->
                             <!-- Hidden file input -->
-                            <input type="file" name="avatar" id="avatarInput" class="hidden">
+                            <input type="file" name="avatar" id="avatarInput" class="absolute opacity-0 w-0 h-0">
 
                             <!-- Styled button -->
                             <label for="avatarInput"
+                                tabindex="0"
                                 class="flex gap-2 items-center px-4 py-2 text-md font-semibold border border-gray-800 rounded-xl cursor-pointer hover:bg-gray-300 transition text-center">
                                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M7 0C7.55228 0 8 0.447715 8 1V6H13C13.5523 6 14 6.44772 14 7C14 7.55228 13.5523 8 13 8H8V13C8 13.5523 7.55228 14 7 14C6.44772 14 6 13.5523 6 13V8H1C0.447715 8 0 7.55228 0 7C0 6.44771 0.447715 6 1 6L6 6V1C6 0.447715 6.44772 0 7 0Z" fill="#111827"/>
@@ -356,9 +358,11 @@
                     </p>
                 </div>
                 
-                <form action="/profile/change-password/verify" method="POST" class="space-y-4">
-                    <input class="w-full mt-1 border rounded-lg px-3 py-2 text-sm" placeholder="Enter 6-digit code" name="otp">
-                
+                <form action="/profile/change-password/verify" method="POST" class="space-y-2">
+                    <input class="w-full mt-1 border rounded-lg px-3 py-2 text-sm <?= !empty($errors['otp']) ? 'border-red-500 border-2' : 'border-gray-300' ?> algin-" placeholder="Enter 6-digit code" name="otp">
+                    <p class="text-red-500 text-sm text-left w-full">
+                        <?= isset($errors['otp']) ? '✕ ' . $errors['otp'] : '' ?>
+                    </p>
                     <button type="submit" class="px-5 flex gap-2 items-center justify-center w-full py-2 text-md mt-6 font-semibold bg-[#055BA8] text-white rounded-xl hover:bg-blue-700 transition">
                         Verify & Change Password 
                         <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
