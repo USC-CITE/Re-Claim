@@ -89,154 +89,83 @@ document.addEventListener("DOMContentLoaded", function () {
         closeDialog(modal);
     };
 
-    window.toggleBulkArchiveMode = function (type) {
-        const section      = document.getElementById(`${type}-items-section`);
-        const toggleButton = document.getElementById(`toggle-bulk-archive-${type}`);
-        const actionBar    = document.getElementById(`bulk-action-bar-${type}`);
-        const countEl      = document.getElementById(`bulk-count-${type}`);
+    window.toggleBulkMode = function (type) {
+        // type is 'lost', 'found', or 'archived'
+        const isDelete = type === 'archived';
 
-        if (!section || !toggleButton) return;
+        const section   = document.getElementById(`${type}-items-section`);
+        const toggleBtn = document.getElementById(isDelete ? 'toggle-bulk-delete-archived' : `toggle-bulk-archive-${type}`);
+        const actionBar = document.getElementById(isDelete ? 'bulk-action-bar-archived' : `bulk-action-bar-${type}`);
+        const countEl   = document.getElementById(isDelete ? 'bulk-count-archived' : `bulk-count-${type}`);
 
-        const isActive = !section.classList.contains("bulk-archive-mode");
-        section.classList.toggle("bulk-archive-mode", isActive);
+        if (!section || !toggleBtn) return;
 
-        const label = type === "lost" ? "Lost" : "Found";
-        toggleButton.textContent = isActive
-            ? `Cancel Archive Selection`
-            : `Archive ${label} Items`;
+        const modeClass = isDelete ? 'bulk-delete-mode' : 'bulk-archive-mode';
+        const isActive  = !section.classList.contains(modeClass);
+        section.classList.toggle(modeClass, isActive);
 
-        // Show / hide inline action bar
+        const labelActive   = isDelete ? 'Cancel Selection' : 'Cancel Archive Selection';
+        const labelInactive = isDelete ? 'Delete Archived Items' : `Archive ${type === 'lost' ? 'Lost' : 'Found'} Items`;
+        toggleBtn.textContent = isActive ? labelActive : labelInactive;
+
         if (actionBar) {
-            if (isActive) {
-                actionBar.classList.remove("hidden");
-                actionBar.classList.add("flex");
-            } else {
-                actionBar.classList.add("hidden");
-                actionBar.classList.remove("flex");
-            }
+            actionBar.classList.toggle('hidden', !isActive);
+            actionBar.classList.toggle('flex', isActive);
         }
 
-        // Show / hide per-card checkbox labels
-        section.querySelectorAll(".bulk-archive-box").forEach(lbl => {
-            lbl.classList.toggle("hidden", !isActive);
+        const checkboxClass = isDelete ? '.bulk-delete-box' : '.bulk-archive-box';
+        section.querySelectorAll(checkboxClass).forEach(lbl => {
+            lbl.classList.toggle('hidden', !isActive);
         });
 
-        const checkboxes = section.querySelectorAll(`input[name="item_ids[]"]`);
+        const checkboxes = section.querySelectorAll('input[name="item_ids[]"]');
+        const activeColor = isDelete ? '#dc2626' : '#055BA8';
+        const handlerKey  = isDelete ? '_bulkDeleteHandler' : '_bulkChangeHandler';
+        const boxClass    = isDelete ? '.bulk-delete-checkbox-box' : '.bulk-checkbox-box';
+        const iconClass   = isDelete ? '.bulk-delete-checkbox-icon' : '.bulk-checkbox-icon';
+        const cardAttr    = isDelete ? '[data-card-archived]' : '[data-card]';
 
         if (!isActive) {
             checkboxes.forEach(cb => {
                 cb.checked = false;
 
-                const card = cb.closest("[data-card]");
-                if (card) card.style.boxShadow = "0 4px 12px rgba(0,0,0,0.20)";
+                const card = cb.closest(cardAttr);
+                if (card) card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.20)';
 
-                const box  = cb.closest("label")?.querySelector(".bulk-checkbox-box");
-                const icon = cb.closest("label")?.querySelector(".bulk-checkbox-icon");
-                if (box)  box.style.backgroundColor = "";
-                if (icon) icon.style.opacity = "0";
+                const box  = cb.closest('label')?.querySelector(boxClass);
+                const icon = cb.closest('label')?.querySelector(iconClass);
+                if (box)  box.style.backgroundColor = '';
+                if (icon) icon.style.opacity = '0';
             });
 
-            if (countEl) countEl.textContent = "0 Items Selected";
+            if (countEl) countEl.textContent = '0 Items Selected';
 
         } else {
             checkboxes.forEach(cb => {
-                cb.removeEventListener("change", cb._bulkChangeHandler);
+                cb.removeEventListener('change', cb[handlerKey]);
 
-                cb._bulkChangeHandler = function () {
-                    const card = this.closest("[data-card]");
-                    const box  = this.closest("label").querySelector(".bulk-checkbox-box");
-                    const icon = this.closest("label").querySelector(".bulk-checkbox-icon");
+                cb[handlerKey] = function () {
+                    const card = this.closest(cardAttr);
+                    const box  = this.closest('label')?.querySelector(boxClass);
+                    const icon = this.closest('label')?.querySelector(iconClass);
 
-                    if (box)  box.style.backgroundColor = this.checked ? "#055BA8" : "";
-                    if (icon) icon.style.opacity = this.checked ? "1" : "0";
+                    if (box)  box.style.backgroundColor = this.checked ? activeColor : '';
+                    if (icon) icon.style.opacity = this.checked ? '1' : '0';
 
                     if (card) {
                         card.style.boxShadow = this.checked
-                            ? "0 0 0 2px #055BA8"
-                            : "0 4px 12px rgba(0,0,0,0.20)";
+                            ? `0 0 0 2px ${activeColor}`
+                            : '0 4px 12px rgba(0,0,0,0.20)';
                     }
 
-                    const selected = section.querySelectorAll(`input[name="item_ids[]"]:checked`).length;
+                    const selected = section.querySelectorAll('input[name="item_ids[]"]:checked').length;
                     if (countEl) {
-                        countEl.textContent = `${selected} Item${selected !== 1 ? "s" : ""} Selected`;
+                        countEl.textContent = `${selected} Item${selected !== 1 ? 's' : ''} Selected`;
                     }
                 };
 
-                cb.addEventListener("change", cb._bulkChangeHandler);
+                cb.addEventListener('change', cb[handlerKey]);
             });
         }
     };
-
-    window.toggleBulkDeleteMode = function () {
-    const section   = document.getElementById('archived-items-section');
-    const toggleBtn = document.getElementById('toggle-bulk-delete-archived');
-    const actionBar = document.getElementById('bulk-action-bar-archived');
-    const countEl   = document.getElementById('bulk-count-archived');
-
-    if (!section || !toggleBtn) return;
-
-    const isActive = !section.classList.contains('bulk-delete-mode');
-    section.classList.toggle('bulk-delete-mode', isActive);
-
-    toggleBtn.textContent = isActive ? 'Cancel Selection' : 'Delete Archived Items';
-
-    if (actionBar) {
-        if (isActive) {
-            actionBar.classList.remove('hidden');
-            actionBar.classList.add('flex');
-        } else {
-            actionBar.classList.add('hidden');
-            actionBar.classList.remove('flex');
-        }
-    }
-
-    section.querySelectorAll('.bulk-delete-box').forEach(lbl => {
-        lbl.classList.toggle('hidden', !isActive);
-    });
-
-    const checkboxes = section.querySelectorAll('input[name="item_ids[]"]');
-
-    if (!isActive) {
-        checkboxes.forEach(cb => {
-            cb.checked = false;
-
-            const card = cb.closest('[data-card-archived]');
-            if (card) card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.20)';
-
-            const box  = cb.closest('label')?.querySelector('.bulk-delete-checkbox-box');
-            const icon = cb.closest('label')?.querySelector('.bulk-delete-checkbox-icon');
-            if (box)  box.style.backgroundColor = '';
-            if (icon) icon.style.opacity = '0';
-        });
-
-        if (countEl) countEl.textContent = '0 Items Selected';
-
-    } else {
-        checkboxes.forEach(cb => {
-            cb.removeEventListener('change', cb._bulkDeleteHandler);
-
-            cb._bulkDeleteHandler = function () {
-                const card = this.closest('[data-card-archived]');
-                const box  = this.closest('label')?.querySelector('.bulk-delete-checkbox-box');
-                const icon = this.closest('label')?.querySelector('.bulk-delete-checkbox-icon');
-
-                if (box)  box.style.backgroundColor = this.checked ? '#dc2626' : '';
-                if (icon) icon.style.opacity = this.checked ? '1' : '0';
-
-                if (card) {
-                    card.style.boxShadow = this.checked
-                        ? '0 0 0 2px #dc2626'
-                        : '0 4px 12px rgba(0,0,0,0.20)';
-                }
-
-                const selected = section.querySelectorAll('input[name="item_ids[]"]:checked').length;
-                if (countEl) {
-                    countEl.textContent = `${selected} Item${selected !== 1 ? 's' : ''} Selected`;
-                }
-            };
-
-            cb.addEventListener('change', cb._bulkDeleteHandler);
-        });
-    }
-};
 });

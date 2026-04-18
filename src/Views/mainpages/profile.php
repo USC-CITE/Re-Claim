@@ -215,7 +215,7 @@
                     </div>
                     <?php if ($lostBulkAvailable): ?>
                         <button type="button" id="toggle-bulk-archive-lost"
-                            onclick="toggleBulkArchiveMode('lost')"
+                            onclick="toggleBulkMode('lost')"
                             class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-800 bg-white text-gray-800 hover:bg-gray-100 transition">
                             Archive Lost Items
                         </button>
@@ -234,7 +234,7 @@
                     <span id="bulk-count-lost" class="text-sm font-semibold text-gray-800">0 Items Selected</span>
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
                         <button type="button"
-                            onclick="toggleBulkArchiveMode('lost')"
+                           onclick="toggleBulkMode('lost')"
                             class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-400 bg-white text-gray-800 hover:bg-gray-50 transition text-center">
                             Cancel Archive Selection
                         </button>
@@ -422,9 +422,9 @@
                     </div>
                     <?php if ($foundBulkAvailable): ?>
                         <button type="button" id="toggle-bulk-archive-found"
-                            onclick="toggleBulkArchiveMode('found')"
+                            onclick="toggleBulkMode('found')"
                             class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-800 bg-white text-gray-800 hover:bg-gray-100 transition">
-                            Archive Lost Items
+                            Archive Found Items
                         </button>
                     <?php endif; ?>
                 </div>
@@ -442,7 +442,7 @@
                     <span id="bulk-count-found" class="text-sm font-semibold text-gray-800">0 Items Selected</span>
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
                         <button type="button"
-                            onclick="toggleBulkArchiveMode('found')"
+                            onclick="toggleBulkMode('found')"
                             class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-400 bg-white text-gray-800 hover:bg-gray-50 transition text-center">
                             Cancel Archive Selection
                         </button>
@@ -629,7 +629,7 @@
                     </div>
                     <?php if (!empty($archivedItems)): ?>
                         <button type="button" id="toggle-bulk-delete-archived"
-                            onclick="toggleBulkDeleteMode()"
+                            onclick="toggleBulkMode('archived')"
                             class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-800 bg-white text-gray-800 hover:bg-gray-100 transition">
                             Delete Archived Items
                         </button>
@@ -646,7 +646,7 @@
                         <span id="bulk-count-archived" class="text-sm font-semibold text-red-800">0 Items Selected</span>
                         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
                             <button type="button"
-                                onclick="toggleBulkDeleteMode()"
+                                onclick="toggleBulkMode('archived')"
                                 class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-400 bg-white text-gray-800 hover:bg-gray-50 transition text-center">
                                 Cancel Selection
                             </button>
