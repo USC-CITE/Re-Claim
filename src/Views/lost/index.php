@@ -64,25 +64,25 @@
     </ul>
   </nav>
 
-  <section class="mx-auto mb-8 hidden w-full max-w-[840px] rounded-[24px] border border-[#d9d9d9] bg-white p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.08)]" data-filter-panel>
-    <div class="grid gap-4 md:grid-cols-3">
-      <label class="flex flex-col gap-2 text-sm font-medium text-primary">
+  <section class="mx-auto mb-8 hidden w-full max-w-[841px] rounded-[32px] bg-white p-8 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)]" data-filter-panel>
+    <div class="grid gap-6 md:grid-cols-3">
+      <label class="flex flex-col gap-2 text-lg font-semibold text-black">
         Recovery status
-        <select id="lost-status-filter" class="rounded-2xl border border-[#d9d9d9] bg-white px-4 py-3 text-sm text-primary">
+        <select id="lost-status-filter" class="h-10 w-full rounded-[8px] border border-white-700 bg-white px-4 text-sm font-normal text-black">
           <option value="">All statuses</option>
           <option value="Unrecovered">Unrecovered</option>
           <option value="Recovered">Recovered</option>
         </select>
       </label>
-      <label class="flex flex-col gap-2 text-sm font-medium text-primary">
+      <label class="flex flex-col gap-2 text-lg font-semibold text-black">
         Location
-        <select id="lost-location-filter" class="rounded-2xl border border-[#d9d9d9] bg-white px-4 py-3 text-sm text-primary">
+        <select id="lost-location-filter" class="h-10 w-full rounded-[8px] border border-white-700 bg-white px-4 text-sm font-normal text-black">
           <option value="">All locations</option>
         </select>
       </label>
-      <label class="flex flex-col gap-2 text-sm font-medium text-primary">
-        Category tag
-        <select id="lost-category-filter" class="rounded-2xl border border-[#d9d9d9] bg-white px-4 py-3 text-sm text-primary">
+      <label class="flex flex-col gap-2 text-lg font-semibold text-black">
+        Category
+        <select id="lost-category-filter" class="h-10 w-full rounded-[8px] border border-white-700 bg-white px-4 text-sm font-normal text-black">
           <option value="">All categories</option>
         </select>
       </label>
@@ -117,7 +117,8 @@
             </div>
             <div class="min-w-0 flex-1">
               <p class="item-card-title break-words text-lg font-semibold text-primary">
-                <span class="mr-1 text-red-600">[Lost]</span><?= htmlspecialchars($item['item_name'] ?: 'Lost Item') ?>
+                <span class="mr-1 status-tag-<?= strtolower($item['status_tag']) ?>"> [<?= htmlspecialchars($item['status_tag']) ?>] </span> 
+                <?= htmlspecialchars($item['item_name'] ?: 'Lost Item') ?>
               </p>
               <?php
                 $lostDateLabel = 'Date unavailable';
@@ -130,6 +131,14 @@
                 }
               ?>
               <p class="text-sm font-normal text-primary"><?= htmlspecialchars($lostDateLabel) ?></p>
+
+              <?php if (!empty($item['categories'])): ?>
+                <div class="mt-3 flex flex-wrap gap-2">
+                  <?php foreach ($item['categories'] as $category): ?>
+                    <span class="inline-flex items-center justify-center rounded-[12px] border border-[#03325C] bg-[#E6EFF6] px-3 text-sm font-medium text-[#044177]" style="height:30px; min-width:121px;"><?= htmlspecialchars(trim($category, '"')) ?></span>
+                  <?php endforeach; ?>
+                </div>
+              <?php endif; ?>
             </div>
             </div>
           </header>
@@ -154,13 +163,6 @@
             </div>
 
             <p class="text-sm font-normal text-primary"><?= htmlspecialchars($item['description']) ?></p>
-            <?php if (!empty($item['categories'])): ?>
-              <div class="flex flex-wrap gap-2">
-                <?php foreach ($item['categories'] as $category): ?>
-                  <span class="rounded-full bg-primary-50 px-3 py-1 text-xs font-medium text-primary-700"><?= htmlspecialchars($category) ?></span>
-                <?php endforeach; ?>
-              </div>
-            <?php endif; ?>
           </div>
 
           <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
@@ -175,25 +177,49 @@
             </button>
           <?php endif; ?>
 
-  <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
-    <dialog id="contact-modal-<?= $item['id'] ?>" class="w-full max-w-xl rounded-[28px] border-none bg-transparent p-0 backdrop:bg-black/30" style="left:50%; top:50%; transform:translate(-50%, -50%);">
-      <article class="w-full rounded-[28px] bg-white p-6 text-primary shadow-[0_12px_32px_rgba(10,10,10,0.18)]">
-        <header class="mb-4 flex items-start justify-between gap-4">
-          <h3 class="text-display-sm font-semibold text-primary">Contact Owner</h3>
-          <button type="button" aria-label="Close" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white-700 text-primary transition-colors hover:bg-white-50" onclick="closeModal('contact-modal-<?= $item['id'] ?>')">
-            <span class="text-lg leading-none">&times;</span>
-          </button>
-        </header>
-        <p class="text-sm leading-7 text-secondary">
-          You can contact the owner at:
-          <strong class="text-primary"><?= htmlspecialchars($item['contact_info'] ?: 'No contact details.') ?></strong>
-        </p>
-        <footer class="mt-6 flex justify-end">
-          <button type="button" class="inline-flex items-center justify-center rounded-2xl bg-primary-500 px-5 py-3 text-sm font-semibold text-white-50 transition-colors hover:bg-primary-600" onclick="closeModal('contact-modal-<?= $item['id'] ?>')">Close</button>
-        </footer>
-      </article>
-    </dialog>
-  <?php endif; ?>
+          <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
+            <dialog id="contact-modal-<?= $item['id'] ?>" class="border-none bg-transparent p-0 backdrop:bg-black/30 w-full max-w-[480px] rounded-[24px]" s
+            style="left:50%; top:50%; transform:translate(-50%,-50%); max-width:calc(100vw - 2rem);" 
+            onclick="if(event.target === this) closeModal('contact-modal-<?= $item['id'] ?>')">
+              <article class="bg-white shadow-[0_4px_16px_0_rgba(0,0,0,0.20)] rounded-[24px] p-6 flex flex-col gap-4">
+
+                <header class="flex items-start justify-between gap-4">
+                  <h3 class="text-2xl font-semibold text-black">Contact Owner</h3>
+                  <button type="button" aria-label="Close" class="shrink-0 hover:opacity-60 focus:outline-none transition-opacity" onclick="closeModal('contact-modal-<?= $item['id'] ?>')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 23 23" fill="none">
+                      <path d="M1.5 21.5L21.5 1.5M1.5 1.5L21.5 21.5" stroke="#111827" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </header>
+
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>
+                    <span class="text-black text-sm font-normal">Name: </span><span class="text-black text-sm font-semibold"><?= htmlspecialchars(trim($item['name'])) ?: 'N/A' ?></span>
+                  </li>
+                  <li>
+                    <span class="text-black text-sm font-normal">Contact Number: </span><span class="text-black text-sm font-semibold"><?= htmlspecialchars($item['contact_info'] ?: 'N/A') ?></span>
+                  </li>
+                  <?php if (!empty($item['contact_social_links'])): ?>
+                  <li>
+                    <span class="text-black text-sm font-normal">Social Account/s:</span>
+                    <ul class="list-disc pl-8 mt-1 space-y-1">
+                      <?php foreach ($item['contact_social_links'] as $link): ?>
+                        <li>
+                            <span class="text-black text-sm font-normal"><?= htmlspecialchars($link['platform']) ?>: </span><a href="<?= htmlspecialchars($link['url']) ?>" target="_blank" rel="noopener noreferrer" class="text-primary-500 underline text-sm font-normal break-all"><?= htmlspecialchars($link['url']) ?></a>
+                        </li>
+                      <?php endforeach; ?>
+                    </ul>
+                  </li>
+                  <?php endif; ?>
+                </ul>
+
+                <footer class="flex justify-end">
+                  <button type="button" class="inline-flex items-center justify-center rounded-[12px] bg-primary-500 text-white text-sm font-semibold transition-colors hover:bg-primary-600 px-4 py-2" onclick="closeModal('contact-modal-<?= $item['id'] ?>')">Close</button>
+                </footer>
+
+              </article>
+            </dialog>
+          <?php endif; ?>
 
   </article>
       <?php endforeach; ?>

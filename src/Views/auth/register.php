@@ -84,8 +84,16 @@
                     </div>
                 </div>
 
+                <!-- Legal Notice -->
+                <div class="text-center text-xs text-secondary mt-4">
+                    By creating an account, you agree to our
+                    <a href="/terms-of-service" class="text-primary-500 hover:underline font-medium">Terms of Service</a>
+                    and
+                    <a href="/privacy-policy" class="text-primary-500 hover:underline font-medium">Privacy Policy</a>
+                </div>
+
                 <!-- Submit Button -->
-                <div class="pt-2">
+                <div class="pt-2 mt-4">
                     <button type="submit" class="w-full bg-primary-500 hover:bg-primary-600 text-white-50 font-semibold rounded-2xl py-3 flex items-center justify-center transition-colors text-md">
                         Next
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-5 ml-2">

@@ -76,7 +76,7 @@ function setupListingFilters(config) {
         (card.dataset.itemCategories || "")
             .split("|")
             .map(function (category) {
-                return category.trim();
+                return category.trim().replace(/^"+|"+$/g, ''); 
             })
             .filter(Boolean)
             .forEach(function (category) {

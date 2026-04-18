@@ -160,6 +160,9 @@ function handleStatusSwitch() {
             params.set('first_name',      document.querySelector('[name="first_name"]').value);
             params.set('last_name',       document.querySelector('[name="last_name"]').value);
             params.set('contact_details', document.querySelector('[name="contact_details"]').value);
+            document.querySelectorAll('[name="social_links[]"]').forEach(function(input) {
+                if (input.value.trim()) params.append('social_links[]', input.value.trim());
+            });
             params.set('status',          status);
 
             // Send date/time under both names so the found form can pick them up
@@ -177,3 +180,35 @@ function handleStatusSwitch() {
     statusSelect.addEventListener('change', function () {
     setTimeout(handleStatusSwitch, 100); // Delay to ensure DOM updates on mobile (Safari)
 });
+
+function addSocialLinkRow() {
+    const container = document.getElementById('social-links-container');
+    const div = document.createElement('div');
+    div.className = 'flex gap-2 social-link-row';
+    div.innerHTML = `<input type="url" name="social_links[]" placeholder="https://platform.com/yourprofile" class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"><button type="button" onclick="removeSocialLinkRow(this)" class="px-3 py-2 border border-gray-300 rounded-xl text-sm hover:bg-red-100 transition shrink-0">✕</button>`;
+    container.appendChild(div);
+}
+
+function removeSocialLinkRow(button) {
+    const container = document.getElementById('social-links-container');
+    const rows = container.querySelectorAll('.social-link-row');
+    
+    if (rows.length === 1) {
+        // Show error message
+        let errorMsg = document.getElementById('social-links-error');
+        if (!errorMsg) {
+            errorMsg = document.createElement('p');
+            errorMsg.id = 'social-links-error';
+            errorMsg.className = 'text-red-500 text-sm mt-1';
+            container.parentNode.appendChild(errorMsg);
+        }
+        errorMsg.textContent = 'You must keep at least one social link.';
+        return;
+    }
+    
+    // Clear error if exists
+    const existingError = document.getElementById('social-links-error');
+    if (existingError) existingError.remove();
+    
+    button.closest('.social-link-row').remove();
+}

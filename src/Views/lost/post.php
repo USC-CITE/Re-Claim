@@ -236,7 +236,7 @@
             </div>
 
             <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold text-black">Contact Details:</label>
+                <label class="text-sm font-semibold text-black">Contact Number:</label>
                 <input
                     type="text"
                     name="contact_details"
@@ -245,7 +245,52 @@
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
                 >
             </div>
+
+            <!-- SOCIAL LINKS -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-black">Social Links:</label>
+                <div id="social-links-container" class="flex flex-col gap-2">
+                    <?php
+                        $prefillLinks = $old['social_links'] ?? ($_SESSION['social_links'] ?? []);
+                        if (!is_array($prefillLinks)) $prefillLinks = [];
+                    ?>
+                    <?php foreach ($prefillLinks as $link): ?>
+                        <div class="flex gap-2 social-link-row">
+                            <input type="url" name="social_links[]"
+                                value="<?= htmlspecialchars($link) ?>"
+                                placeholder="https://platform.com/yourprofile" required
+                                class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
+                            <button type="button" onclick="removeSocialLinkRow(this)"
+                                class="px-3 py-2 border border-gray-300 rounded-xl text-sm hover:bg-red-100 transition shrink-0">✕</button>
+                        </div>
+                    <?php endforeach; ?>
+                    <?php if (empty($prefillLinks)): ?>
+                        <div class="flex gap-2 social-link-row">
+                            <input type="url" name="social_links[]"
+                                placeholder="https://platform.com/yourprofile"
+                                class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
+                            <button type="button" onclick="removeSocialLinkRow(this)"
+                                class="px-3 py-2 border border-gray-300 rounded-xl text-sm hover:bg-red-100 transition shrink-0">✕</button>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <button type="button"
+                    onclick="addSocialLinkRow()"
+                    class="w-fit text-sm font-semibold text-primary-500 hover:underline mt-1">
+                    + Add another link
+                </button>
+            </div>
         </fieldset>
+
+        <!-- ===== LEGAL NOTICE ===== -->
+        <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 mt-4">
+            <p class="text-xs text-gray-600 text-center">
+                By posting an item, you agree to follow our
+                <a href="/terms-of-service" class="text-blue-500 hover:underline">Terms of Service</a>
+                and
+                <a href="/privacy-policy" class="text-blue-500 hover:underline">Privacy Policy</a>
+            </p>
+        </div>
 
         <!-- ===== ACTION BUTTONS ==== -->
         <section class="flex flex-row gap-8 mt-2 justify-center">
