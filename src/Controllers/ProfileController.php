@@ -45,7 +45,7 @@ class ProfileController{
                     && ($item['item_type'] ?? 'lost') === 'lost',
                 'can_archive' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['item_type'] ?? 'lost') === 'lost'
-                    && ($item['status'] ?? '') !== 'Archived', 
+                    && !($item['is_archived'] ?? false), 
                 'status_tag' => $statusTag,
                 'is_recovered' => $isRecovered,
             ]);
@@ -75,7 +75,7 @@ class ProfileController{
                     && ($item['item_type'] ?? 'found') === 'found',
                 'can_archive' => (int)($item['user_id'] ?? 0) === (int)$id
                     && ($item['item_type'] ?? 'found') === 'found'
-                    && ($item['status'] ?? '') !== 'Archived', 
+                    && !($item['is_archived'] ?? false),
                 'status_tag' => $statusTag,
                 'is_recovered' => $isRecovered,
                 
@@ -90,13 +90,35 @@ class ProfileController{
                 $archiveDate = $item['archive_date'] ?? 'N/A';
             }
 
+            $categories = [];
+            if (!empty($item['category'])) {
+                $decoded = json_decode($item['category'], true);
+                $categories = is_array($decoded) ? $decoded : [$item['category']];
+            }
+
+            $rawStatus = $item['status'] ?? 'Unrecovered';
+            $rawType   = $item['item_type'] ?? 'lost';
+
+            if ($rawStatus === 'Recovered') {
+                $statusTag = 'Recovered';
+            } elseif ($rawType === 'found') {
+                $statusTag = 'Found';
+            } else {
+                $statusTag = 'Lost';
+            }
+
             return [
                 'id' => (int)($item['id'] ?? 0),
                 'item_name' => $item['item_name'] ?? 'Unnamed Item',
                 'description' => $item['description'] ?? 'No description provided.',
-                'item_type' => ucfirst($item['item_type'] ?? 'Item'),
-                'status' => $item['status'] ?? 'Archived',
+                'item_type'     => $rawType,         
+                'status'        => $rawStatus,
+                'status_tag'    => $statusTag,
                 'archive_date' => $archiveDate,
+                'image_path'    => $item['image_path'] ?? '',
+                'location_name' => $item['location_name'] ?? 'Unknown location',
+                'room_number'   => $item['room_number'] ?? null,
+                'categories'    => $categories,
             ];
         }, $user->fetchArchivedItems($id));
 
