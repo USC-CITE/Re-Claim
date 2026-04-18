@@ -32,6 +32,12 @@ $router->get('/', function () {
 });
 $router->get('/contact', [ContactController::class, 'showContactPage']);
 $router->post('/contact/send', [ContactController::class, 'sendMessage']);
+$router->get('/terms-of-service', function() {
+    require __DIR__ . '/../src/Views/mainpages/terms-of-service.php';
+});
+$router->get('/privacy-policy', function() {
+    require __DIR__ . '/../src/Views/mainpages/privacy-policy.php';
+});
 $router->get('/login', [AuthController::class, 'showLogin']);
 $router->get('/forgot-password', [AuthController::class, 'showForgotPassword']);
 $router->post('/login', function () use ($config) {
