@@ -73,8 +73,16 @@
                     </div>
                 </div>
 
+                <!-- Legal Notice -->
+                <div class="text-center text-xs text-secondary mt-6">
+                    By logging in, you agree to our
+                    <a href="/terms-of-service" class="text-primary-500 hover:underline font-medium">Terms of Service</a>
+                    and
+                    <a href="/privacy-policy" class="text-primary-500 hover:underline font-medium">Privacy Policy</a>
+                </div>
+
                 <!-- Submit Button -->
-                <div class="pt-1">
+                <div class="pt-1 mt-6">
                     <button type="submit"
                         class="w-full bg-primary-500 hover:bg-primary-600 text-white-50 font-semibold rounded-2xl py-3.5 flex items-center justify-center transition-colors text-md">
                         Log-in

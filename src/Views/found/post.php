@@ -271,6 +271,16 @@
             </div>
         </fieldset>
 
+        <!-- ===== LEGAL NOTICE ===== -->
+        <div class="border border-gray-200 rounded-xl p-4 mt-4">
+            <p class="text-xs text-gray-600 text-center">
+                By posting an item, you agree to follow our
+                <a href="/terms-of-service" class="text-blue-500 hover:underline">Terms of Service</a>
+                and
+                <a href="/privacy-policy" class="text-blue-500 hover:underline">Privacy Policy</a>
+            </p>
+        </div>
+
         <!-- ===== ACTION BUTTONS ===== -->
         <section class="flex flex-row gap-8 mt-2 justify-center">
             <button type="button"
