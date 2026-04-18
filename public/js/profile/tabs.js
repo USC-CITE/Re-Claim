@@ -166,4 +166,77 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     };
+
+    window.toggleBulkDeleteMode = function () {
+    const section   = document.getElementById('archived-items-section');
+    const toggleBtn = document.getElementById('toggle-bulk-delete-archived');
+    const actionBar = document.getElementById('bulk-action-bar-archived');
+    const countEl   = document.getElementById('bulk-count-archived');
+
+    if (!section || !toggleBtn) return;
+
+    const isActive = !section.classList.contains('bulk-delete-mode');
+    section.classList.toggle('bulk-delete-mode', isActive);
+
+    toggleBtn.textContent = isActive ? 'Cancel Selection' : 'Delete Archived Items';
+
+    if (actionBar) {
+        if (isActive) {
+            actionBar.classList.remove('hidden');
+            actionBar.classList.add('flex');
+        } else {
+            actionBar.classList.add('hidden');
+            actionBar.classList.remove('flex');
+        }
+    }
+
+    section.querySelectorAll('.bulk-delete-box').forEach(lbl => {
+        lbl.classList.toggle('hidden', !isActive);
+    });
+
+    const checkboxes = section.querySelectorAll('input[name="item_ids[]"]');
+
+    if (!isActive) {
+        checkboxes.forEach(cb => {
+            cb.checked = false;
+
+            const card = cb.closest('[data-card-archived]');
+            if (card) card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.20)';
+
+            const box  = cb.closest('label')?.querySelector('.bulk-delete-checkbox-box');
+            const icon = cb.closest('label')?.querySelector('.bulk-delete-checkbox-icon');
+            if (box)  box.style.backgroundColor = '';
+            if (icon) icon.style.opacity = '0';
+        });
+
+        if (countEl) countEl.textContent = '0 Items Selected';
+
+    } else {
+        checkboxes.forEach(cb => {
+            cb.removeEventListener('change', cb._bulkDeleteHandler);
+
+            cb._bulkDeleteHandler = function () {
+                const card = this.closest('[data-card-archived]');
+                const box  = this.closest('label')?.querySelector('.bulk-delete-checkbox-box');
+                const icon = this.closest('label')?.querySelector('.bulk-delete-checkbox-icon');
+
+                if (box)  box.style.backgroundColor = this.checked ? '#dc2626' : '';
+                if (icon) icon.style.opacity = this.checked ? '1' : '0';
+
+                if (card) {
+                    card.style.boxShadow = this.checked
+                        ? '0 0 0 2px #dc2626'
+                        : '0 4px 12px rgba(0,0,0,0.20)';
+                }
+
+                const selected = section.querySelectorAll('input[name="item_ids[]"]:checked').length;
+                if (countEl) {
+                    countEl.textContent = `${selected} Item${selected !== 1 ? 's' : ''} Selected`;
+                }
+            };
+
+            cb.addEventListener('change', cb._bulkDeleteHandler);
+        });
+    }
+};
 });
