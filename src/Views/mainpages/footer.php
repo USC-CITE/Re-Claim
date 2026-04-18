@@ -17,6 +17,7 @@
                 <ul class="space-y-4 lg:space-y-7">
                     <li><a href="/" class="text-sm text-white hover:text-white hover:underline transition-colors">Homepage</a></li>
                     <li><a href="<?= isset($_SESSION['user_id']) ? '/lost' : '/register' ?>" class="text-sm text-white hover:text-white hover:underline transition-colors">Lost Items Feed</a></li>
+                    <?= isset($_SESSION['user_id']) ? '<li><a href="/found" class="text-sm text-white hover:text-white hover:underline transition-colors">Found Items Feed</a></li>' : '' ?>
                 </ul>
             </div>
 
