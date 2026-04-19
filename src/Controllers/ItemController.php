@@ -46,20 +46,23 @@ class ItemController
                 $archiveDisplay = $item['archive_date'] ?? null;
             }
 
+            $fullName = trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? ''));
+
             return [
-                'id' => $item['id'],
-                'item_name' => $item['item_name'] ?? 'Unnamed Item',
-                'image_url' => $imageUrl,
-                'event_date' => $item['event_date'] ?? null,
-                'location' => $item['location_name'] ?? 'Unknown Location',
-                'room_number' => $item['room_number'] ?? null,
-                'description' => $item['description'] ?: 'No description provided.',
-                'categories' => $categories,
-                'status' => $item['status'] ?? 'Unrecovered',
-                'status_tag' => ($item['status'] ?? 'Unrecovered') === 'Recovered' ? 'Recovered' : 'Lost',
-                'archive_date' => $archiveDisplay,
-                'contact_info' => (function($raw) {
-                    $d = json_decode($raw, true);
+                'id'            => $item['id'],
+                'item_name'     => $item['item_name'],
+                'title'         => $item['item_name'], // For compatibility
+                'description'   => $item['description'],
+                'location'      => $item['location_name'],
+                'event_date'    => $item['event_date'],
+                'date_found'    => $item['event_date'], // For compatibility
+                'image_url'     => $imageUrl,
+                'status'        => $item['status'],
+                'status_tag'    => ($item['status'] ?? 'Unrecovered') === 'Recovered' ? 'Recovered' : 'Lost',
+                'categories'    => $categories,
+                'name'          => $fullName ?: 'Unknown User',
+                'contact_info'  => (function($raw) {
+                    $d = json_decode((string)$raw, true);
                     return is_array($d) ? ($d['phone'] ?? $raw) : $raw;
                 })($item['contact_details'] ?? ''),
                 'contact_social_links' => (function($raw) {
@@ -67,18 +70,10 @@ class ItemController
                     $links = is_array($d) ? ($d['social_links'] ?? []) : [];
                     return array_map(fn($link) => [
                         'url' => $link,
-                        'platform' => self::detectPlatform($link),
+                        'platform' => self::detectPlatform($link)
                     ], $links);
                 })($item['contact_details'] ?? ''),
-                'name' => trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? '')),
-                'can_recover' => isset($_SESSION['user_id'], $item['user_id'])
-                    && (int)$item['user_id'] === (int)$_SESSION['user_id']
-                    && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
-                    && ($item['item_type'] ?? 'lost') === 'lost',
-                'can_archive' => isset($_SESSION['user_id'], $item['user_id'])
-                    && (int)$item['user_id'] === (int)$_SESSION['user_id']
-                    && ($item['item_type'] ?? 'lost') === 'lost'
-                    && !($item['is_archived'] ?? false),
+                'archive_date'  => $archiveDisplay
             ];
         }, $rawItems);
 
@@ -120,17 +115,22 @@ class ItemController
                 $archiveDateDisplay = $item['archive_date'] ?? null;
             }
 
+            $fullName = trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? ''));
+
             return [
-                'id' => $item['id'] ?? uniqid(),
+                'id' => $item['id'],
+                'item_name' => $item['item_name'],
                 'title' => $item['item_name'] ?: "Found Item",
                 'status' => $item['status'],
                 'status_tag' => ($item['status'] ?? 'Unrecovered') === 'Recovered' ? 'Recovered' : 'Found',
                 'image_url' => !empty($item['image_path']) ? '/' . $item['image_path'] : null,
                 'date_found' => $dateDisplay,
+                'event_date' => $item['event_date'], // For compatibility
                 'archive_date' => $archiveDateDisplay,
                 'location' => $item['location_name'],
                 'description' => $item['description'] ?: 'No description provided.',
                 'categories' => $categories,
+                'name' => $fullName ?: 'Unknown User',
                 'contact_info' => (function($raw) {
                     $d = json_decode($raw, true);
                     return is_array($d) ? ($d['phone'] ?? $raw) : $raw;
@@ -140,11 +140,9 @@ class ItemController
                     $links = is_array($d) ? ($d['social_links'] ?? []) : [];
                     return array_map(fn($link) => [
                         'url' => $link,
-                        'platform' => self::detectPlatform($link),
+                        'platform' => self::detectPlatform($link)
                     ], $links);
                 })($item['contact_details'] ?? ''),
-                'item_type' => $item['item_type'] ?? 'found',
-                'name' => trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? '')),
                 'can_recover' => isset($_SESSION['user_id'], $item['user_id'])
                     && (int)$item['user_id'] === (int)$_SESSION['user_id']
                     && ($item['status'] ?? 'Unrecovered') === 'Unrecovered'
@@ -162,6 +160,19 @@ class ItemController
         }
 
         require __DIR__ . '/../Views/found/index.php';
+    }
+
+    private static function detectPlatform($url)
+    {
+        $url = strtolower($url);
+        if (strpos($url, 'facebook.com') !== false || strpos($url, 'fb.com') !== false) return 'Facebook';
+        if (strpos($url, 'instagram.com') !== false) return 'Instagram';
+        if (strpos($url, 'x.com') !== false || strpos($url, 'twitter.com') !== false) return 'X (Twitter)';
+        if (strpos($url, 'linkedin.com') !== false) return 'LinkedIn';
+        if (strpos($url, 'm.me') !== false) return 'Messenger';
+        if (strpos($url, 'whatsapp.com') !== false || strpos($url, 'wa.me') !== false) return 'WhatsApp';
+        if (strpos($url, 't.me') !== false || strpos($url, 'telegram.org') !== false) return 'Telegram';
+        return 'Social Media';
     }
 
 
@@ -572,13 +583,5 @@ class ItemController
         
         $isLostRoute = strpos($_SERVER['REQUEST_URI'], '/lost') !== false;
         return $isLostRoute ? '/lost' : '/found';
-    }
-
-    private static function detectPlatform(string $url): string
-    {
-        $host = strtolower(parse_url($url, PHP_URL_HOST) ?? '');
-        $host = preg_replace('/^www\./', '', $host);
-        $hostParts = explode('.', $host);
-        return !empty($hostParts[0]) ? ucfirst($hostParts[0]) : 'Link';
     }
 }
