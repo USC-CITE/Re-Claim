@@ -18,7 +18,9 @@ function toggleBulkArchiveMode() {
 
   const isActive = !bulkForm.classList.contains("bulk-archive-mode");
   bulkForm.classList.toggle("bulk-archive-mode", isActive);
-  toggleButton.textContent = isActive ? "Cancel Archive Selection" : "Archive Lost Items";
+  toggleButton.textContent = isActive
+    ? "Cancel Archive Selection"
+    : "Archive Lost Items";
 
   // Bulk checkboxes and submit button live outside the form, so they are toggled manually here.
   bulkBoxes.forEach(function (box) {
@@ -31,9 +33,11 @@ function toggleBulkArchiveMode() {
 
   if (!isActive) {
     // Clear previous selections when archive mode is cancelled.
-    bulkForm.querySelectorAll('input[name="item_ids[]"]').forEach(function (checkbox) {
-      checkbox.checked = false;
-    });
+    bulkForm
+      .querySelectorAll('input[name="item_ids[]"]')
+      .forEach(function (checkbox) {
+        checkbox.checked = false;
+      });
   }
 }
 
@@ -67,8 +71,8 @@ function setupListingFilters(config) {
         .map(function (card) {
           return (card.dataset.itemLocation || "").trim();
         })
-        .filter(Boolean)
-    )
+        .filter(Boolean),
+    ),
   ).sort();
 
   const categoryValues = [];
@@ -76,7 +80,7 @@ function setupListingFilters(config) {
     (card.dataset.itemCategories || "")
       .split("|")
       .map(function (category) {
-        return category.trim().replace(/^"+|"+$/g, ''); 
+        return category.trim().replace(/^"+|"+$/g, "");
       })
       .filter(Boolean)
       .forEach(function (category) {
@@ -99,7 +103,10 @@ function setupListingFilters(config) {
     cards.forEach(function (card) {
       const titleElement = card.querySelector(".item-card-title");
       const title = titleElement ? titleElement.textContent.toLowerCase() : "";
-      const status = (card.dataset.itemStatus || "").trim();
+      const statusOrType = config.isRecovered
+        ? (card.dataset.itemType || "").trim()
+        : (card.dataset.itemStatus || "").trim();
+
       const location = (card.dataset.itemLocation || "").trim();
       const categories = (card.dataset.itemCategories || "")
         .split("|")
@@ -107,26 +114,32 @@ function setupListingFilters(config) {
           return category.trim();
         })
         .filter(Boolean);
+
       const matchesSearch = query === "" || title.includes(query);
-      const matchesStatus = statusValue === "" || status === statusValue;
-      const matchesLocation = locationValue === "" || location === locationValue;
+      const matchesStatusOrType =
+        statusValue === "" || statusOrType === statusValue;
+      const matchesLocation =
+        locationValue === "" || location === locationValue;
       const matchesCategory =
         categoryValue === "" || categories.includes(categoryValue);
       const isMatch =
-        matchesSearch && matchesStatus && matchesLocation && matchesCategory;
+        matchesSearch &&
+        matchesStatusOrType &&
+        matchesLocation &&
+        matchesCategory;
 
       card.style.display = isMatch ? "" : "none";
       if (isMatch) visibleCount += 1;
-      });
+    });
 
-      if (emptyState) {
-        emptyState.style.display = visibleCount === 0 ? "block" : "none";
-      }
+    if (emptyState) {
+      emptyState.style.display = visibleCount === 0 ? "block" : "none";
+    }
 
-      if (listingGrid) {
-        listingGrid.style.display = visibleCount === 0 ? "none" : "flex";
-      }
-    };
+    if (listingGrid) {
+      listingGrid.style.display = visibleCount === 0 ? "none" : "flex";
+    }
+  };
 
   if (searchInput.form) {
     searchInput.form.addEventListener("submit", function (event) {
@@ -149,10 +162,29 @@ function setupListingFilters(config) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  setupListingFilters({
-    searchInputId: "lost-search",
-    statusFilterId: "lost-status-filter",
-    locationFilterId: "lost-location-filter",
-    categoryFilterId: "lost-category-filter",
-  });
+  const isRecoveredPage = !!document.getElementById("recovered-search");
+
+  if (isRecoveredPage) {
+    setupListingFilters({
+      searchInputId: "recovered-search",
+      statusFilterId: "recovered-type-filter", // map 'type' filter to 'status' logic
+      locationFilterId: "recovered-location-filter",
+      categoryFilterId: "recovered-category-filter",
+      isRecovered: true,
+    });
+  } else if (document.getElementById("lost-search")) {
+    setupListingFilters({
+      searchInputId: "lost-search",
+      statusFilterId: "lost-status-filter",
+      locationFilterId: "lost-location-filter",
+      categoryFilterId: "lost-category-filter",
+    });
+  } else if (document.getElementById("found-search")) {
+    setupListingFilters({
+      searchInputId: "found-search",
+      statusFilterId: "found-status-filter",
+      locationFilterId: "found-location-filter",
+      categoryFilterId: "found-category-filter",
+    });
+  }
 });

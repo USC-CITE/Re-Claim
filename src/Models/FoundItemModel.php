@@ -35,6 +35,21 @@ class FoundItemModel
         $sql = "SELECT * FROM lost_and_found_items 
                 WHERE item_type = 'found' 
                     AND is_archived = 0
+                    AND status = 'Unrecovered'
+                ORDER BY event_date DESC, created_at DESC";
+
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
+    public function getRecovered(): array
+    {
+        $this->autoArchiveExpired();
+
+        $sql = "SELECT * FROM lost_and_found_items 
+                WHERE item_type = 'found' 
+                    AND is_archived = 0
+                    AND status = 'Recovered'
                 ORDER BY event_date DESC, created_at DESC";
 
         $stmt = $this->db->query($sql);
