@@ -85,6 +85,9 @@ $router->post('/found/recover', [ItemController::class, 'recover']);
 $router->post('/found/archive', [ItemController::class, 'archive']);
 $router->post('/found/delay-archive', [ItemController::class, 'delayArchive']);
 
+/* Recovered Items */
+$router->get('/recovered', [ItemController::class, 'listRecoveredItems']);
+
 /* Unified Post Item */
 $router->get('/post-item', [ItemController::class, 'showPostForm']);
 $router->post('/post-item', [ItemController::class, 'submitPostForm']);

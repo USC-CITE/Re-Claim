@@ -60,6 +60,11 @@
                     Found Items
                 </a>
             </li>
+            <li>
+                <a href="/recovered" class="border-b-2 border-transparent pb-1 text-secondary transition-colors hover:text-secondary">
+                    Recovered Items
+                </a>
+            </li>
         </ul>
     </nav>
 
