@@ -30,13 +30,13 @@ class LostItemModel
                 (
                     item_type, item_name, image_path, category, description, event_date, status,
                     location_name, room_number, latitude, longitude,
-                    first_name, last_name, contact_details, user_id, archive_date
+                    first_name, last_name, contact_details, user_id, archive_date, is_archived
                 )
                 VALUES
                 (
                     'lost', :item_name, :image_path, :category, :description, :event_date, :status,
                     :location_name, :room_number, :latitude, :longitude,
-                    :first_name, :last_name, :contact_details, :user_id, DATE_ADD(NOW(), INTERVAL 30 DAY)
+                    :first_name, :last_name, :contact_details, :user_id, DATE_ADD(NOW(), INTERVAL 30 DAY), 0
                 )";
 
         $stmt = $this->db->prepare($sql);
