@@ -60,6 +60,7 @@
                 name="item_name"
                 placeholder="e.g., Black Wallet"
                 required
+                maxlength="80"
                 value="<?= htmlspecialchars($old['item_name'] ?? '') ?>"
                 class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
             >
@@ -167,6 +168,7 @@
             <textarea
                 name="description"
                 rows="4"
+                maxlength="500"
                 placeholder="Color, brand, or any distinguishing marks."
                 class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white resize"
             ><?= htmlspecialchars($old['description'] ?? '') ?></textarea>

@@ -6,6 +6,7 @@
     <title>Found Items</title>
     <link rel="stylesheet" href="/css/app.css">
     <script src="/js/found/index.js" defer></script>
+    <script src="/js/main/card-truncation.js" defer></script>
 </head>
 <body class="font-poppins bg-white text-primary min-h-screen overflow-x-hidden">
 <?php require __DIR__ . "/../mainpages/header.php"?>
@@ -154,7 +155,9 @@
                             <span>Last seen at <span class="font-medium text-primary"><?= htmlspecialchars($item['location'] ?: 'Unknown location') ?></span></span>
                         </div>
 
-                        <p class="text-sm font-normal text-primary"><?= htmlspecialchars($item['description']) ?></p>
+                        <div class="description-container mt-3">
+                            <p class="text-sm font-normal text-primary description-text break-all"><?= htmlspecialchars($item['description']) ?></p>
+                        </div>
                     </div>
                     
                     <footer class="mt-auto flex w-full flex-wrap justify-end gap-3 pt-2">
