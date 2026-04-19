@@ -251,12 +251,12 @@
                 <label class="text-sm font-semibold text-black">Social Links:</label>
                 <div id="social-links-container" class="flex flex-col gap-2">
                     <?php
-                        $prefillLinks = $old['social_links'] ?? ($_SESSION['social_links'] ?? []);
+                        $prefillLinks = $old['social_links'] ?? ($user['social_links'] ?? []);
                         if (!is_array($prefillLinks)) $prefillLinks = [];
                     ?>
                     <?php foreach ($prefillLinks as $link): ?>
                         <div class="flex gap-2 social-link-row">
-                            <input type="url" name="social_links[]"
+                            <input type="text" name="social_links[]"
                                 value="<?= htmlspecialchars($link) ?>"
                                 placeholder="https://platform.com/yourprofile"
                                 class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white required-for-lost">
@@ -266,7 +266,7 @@
                     <?php endforeach; ?>
                     <?php if (empty($prefillLinks)): ?>
                         <div class="flex gap-2 social-link-row">
-                            <input type="url" name="social_links[]"
+                            <input type="text" name="social_links[]"
                                 placeholder="https://platform.com/yourprofile"
                                 class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white required-for-lost">
                             <button type="button" onclick="removeSocialLinkRow(this)"

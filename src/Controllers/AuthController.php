@@ -106,6 +106,9 @@ class AuthController{
             $confirmPass = trim($_POST["confirm-pass"] ?? "");
             $phoneNum = trim($_POST['phone-num'] ?? "");
             $socialLink = trim($_POST['social-link'] ?? "");
+            if ($socialLink !== '' && !preg_match('~^(?:f|ht)tps?://~i', $socialLink)) {
+                $socialLink = 'https://' . $socialLink;
+            }
 
             // Generate OTP
             $otp = random_int(100000, 999999); // secure 6-digit OTP

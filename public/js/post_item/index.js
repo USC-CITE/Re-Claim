@@ -159,7 +159,7 @@ function addSocialLinkRow() {
     const div = document.createElement('div');
     div.className = 'flex gap-2 social-link-row';
     const reqClass = statusSelect.value === 'Lost' ? 'required-for-lost' : '';
-    div.innerHTML = `<input type="url" name="social_links[]" placeholder="https://platform.com/yourprofile" class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white ${reqClass}"><button type="button" onclick="removeSocialLinkRow(this)" class="px-3 py-2 border border-gray-300 rounded-xl text-sm hover:bg-red-100 transition shrink-0">✕</button>`;
+    div.innerHTML = `<input type="text" name="social_links[]" placeholder="facebook.com/yourprofile" class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white ${reqClass}"><button type="button" onclick="removeSocialLinkRow(this)" class="px-3 py-2 border border-gray-300 rounded-xl text-sm hover:bg-red-100 transition shrink-0">✕</button>`;
     if (statusSelect.value === 'Lost') {
         div.querySelector('input').required = true;
     }

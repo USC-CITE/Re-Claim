@@ -9,6 +9,7 @@ namespace App\Controllers;
 use App\Core\Router;
 use App\Models\LostItemModel;
 use App\Models\FoundItemModel;
+use App\Models\UserModel;
 use PDOException;
 use Exception;
 use DateTime;
@@ -242,12 +243,36 @@ class ItemController
             exit;
         }
         
+        $socialLinks = [];
+        try {
+            $config = require __DIR__ . '/../Config/config.php';
+            $userModel = new UserModel($config);
+            
+            // Fetch from main users table (legacy/primary column)
+            $userData = $userModel->findById((string)$_SESSION['user_id']);
+            if ($userData && !empty($userData['social_link'])) {
+                $socialLinks[] = $userData['social_link'];
+            }
+
+            // Fetch from links table (multiple links)
+            $dbSocialLinks = $userModel->getSocialLinks($_SESSION['user_id']);
+            if (is_array($dbSocialLinks)) {
+                @$extraLinks = array_column($dbSocialLinks, 'social_link');
+                $socialLinks = array_merge($socialLinks, $extraLinks);
+            }
+
+            $socialLinks = array_unique(array_filter($socialLinks));
+        } catch (\Throwable $e) {
+            // Silently fail
+        }
+
         $user = [
             'id' => $_SESSION['user_id'] ?? null,
             'email' => $_SESSION['user_email'] ?? null,
             'first_name' => $_SESSION['first_name'] ?? null,
             'last_name' => $_SESSION['last_name'] ?? null,
             'phone_number' => $_SESSION['phone_number'] ?? null,
+            'social_links' => $socialLinks
         ];
 
         $old = $_SESSION['old'] ?? [];
@@ -314,7 +339,23 @@ class ItemController
             $firstName = trim($_POST['first_name'] ?? '');
             $lastName  = trim($_POST['last_name'] ?? '');
             $contact   = trim($_POST['contact_details'] ?? '');
-            $socialLinks = array_values(array_filter(array_map('trim', $_POST['social_links'] ?? []), fn($l) => filter_var($l, FILTER_VALIDATE_URL)));
+            $socialLinksRaw = $_POST['social_links'] ?? [];
+            $socialLinks = [];
+            if (is_array($socialLinksRaw)) {
+                foreach ($socialLinksRaw as $link) {
+                    $link = trim($link);
+                    if ($link === '') continue;
+                    
+                    // Automatically add https:// if no protocol is found
+                    if (!preg_match('~^(?:f|ht)tps?://~i', $link)) {
+                        $link = 'https://' . $link;
+                    }
+                    
+                    if (filter_var($link, FILTER_VALIDATE_URL)) {
+                        $socialLinks[] = $link;
+                    }
+                }
+            }
 
             if (empty($firstName)) {
                 throw new Exception('Please provide your first name.');

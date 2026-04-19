@@ -260,8 +260,14 @@ class ProfileController{
             $errors['phone_number'] = 'Invalid phone number format';
         }
 
-        if ($social && !filter_var($social, FILTER_VALIDATE_URL)) {
-            $errors['social_link'] = 'Invalid social link URL';
+        if ($social) {
+            $social = trim($social);
+            if (!preg_match('~^(?:f|ht)tps?://~i', $social)) {
+                $social = 'https://' . $social;
+            }
+            if (!filter_var($social, FILTER_VALIDATE_URL)) {
+                $errors['social_link'] = 'Invalid social link URL';
+            }
         }
 
         // Ensure it an array
@@ -270,10 +276,20 @@ class ProfileController{
         }
 
         // Clean, validate, and limit to 3 fields
-        $socialLinks = array_filter(array_map(function ($link){
+        $validatedSocialLinks = [];
+        foreach ($socialLinks as $link) {
             $link = trim($link);
-            return filter_var($link, FILTER_VALIDATE_URL) ? $link : null; 
-        }, $socialLinks));
+            if ($link === '') continue;
+            
+            if (!preg_match('~^(?:f|ht)tps?://~i', $link)) {
+                $link = 'https://' . $link;
+            }
+            
+            if (filter_var($link, FILTER_VALIDATE_URL)) {
+                $validatedSocialLinks[] = $link;
+            }
+        }
+        $socialLinks = $validatedSocialLinks;
 
         // =========================
         // 3. HANDLE AVATAR UPLOAD
@@ -327,10 +343,13 @@ class ProfileController{
         // Enfore 3 max
         $socialLinks = array_slice($socialLinks, 0, 3);
 
-        $user->deleteSocialLinks($userId);
-
-        foreach($socialLinks as $link){
-            $user->addSocialLinks($userId, $link);
+        try {
+            $user->deleteSocialLinks($userId);
+            foreach($socialLinks as $link){
+                $user->addSocialLinks($userId, $link);
+            }
+        } catch (\Throwable $e) {
+            // Silently fail if table is missing or DB error occurs
         }
 
         // If error array has values return to frontend
@@ -346,13 +365,13 @@ class ProfileController{
         // =========================
         // 4. UPDATE DATABASE
         // =========================
-        $user->updateFullProfile($userId, [
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'phone_number' => $phone,
-            'social_link' => $social,
-            'avatar_path' => $currentAvatar
-        ]);
+            $user->updateFullProfile($userId, [
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'phone_number' => $phone,
+                'social_link' => $social,
+                'avatar_path' => $currentAvatar
+            ]);
 
         // =========================
         // 5. UPDATE SESSION

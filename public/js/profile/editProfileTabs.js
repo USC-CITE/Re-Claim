@@ -138,10 +138,10 @@ document.addEventListener("DOMContentLoaded", function () {
             row.className = "flex gap-2";
 
             row.innerHTML = `
-                <input type="url"
+                <input type="text"
                     name="social_links[]"
                     class="w-full border rounded-lg px-3 py-2 border-gray-300 text-sm"
-                    placeholder="https://..." />
+                    placeholder="facebook.com/yourprofile" />
 
                 <button type="button"
                     onclick="removeLink(this)"
@@ -203,8 +203,9 @@ document.addEventListener("DOMContentLoaded", function () {
             row.className = "flex gap-2";
 
             row.innerHTML = `
-                <input type="url" name="social_links[]"
+                <input type="text" name="social_links[]"
                     value="${link}"
+                    placeholder="facebook.com/yourprofile"
                     class="w-full border rounded-lg px-3 py-2 border-gray-300 text-sm">
 
                 <button type="button"

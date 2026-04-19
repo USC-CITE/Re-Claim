@@ -223,7 +223,7 @@
 
                                 <?php foreach ($links as $i => $link): ?>
                                     <div class="flex gap-2">
-                                        <input type="url"
+                                        <input type="text"
                                             name="social_links[]"
                                             value="<?= htmlspecialchars($link) ?>"
                                             class="w-full border rounded-lg px-3 py-2 border-gray-300 text-sm">
