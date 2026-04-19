@@ -76,7 +76,7 @@ class LostItemController
                 'can_archive' => isset($_SESSION['user_id'], $item['user_id'])
                     && (int)$item['user_id'] === (int)$_SESSION['user_id']
                     && ($item['item_type'] ?? 'lost') === 'lost'
-                    && ($item['status'] ?? '') !== 'Archived',
+                    && !($item['is_archived'] ?? false),
             ];
         }, $rawItems);
 

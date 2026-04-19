@@ -19,7 +19,7 @@ class FoundItemModel
     public function autoArchiveExpired(): void
     {
         $sql = "UPDATE lost_and_found_items 
-                SET status = 'Archived',
+                SET is_archived = 1,
                     archive_date = NOW()
                 WHERE item_type = 'found'
                 AND status IN ('Unrecovered', 'Recovered') 
@@ -34,7 +34,7 @@ class FoundItemModel
 
         $sql = "SELECT * FROM lost_and_found_items 
                 WHERE item_type = 'found' 
-                AND status != 'Archived' 
+                    AND is_archived = 0
                 ORDER BY event_date DESC, created_at DESC";
 
         $stmt = $this->db->query($sql);
@@ -44,9 +44,9 @@ class FoundItemModel
     public function create(array $data): bool
     {
         $sql = "INSERT INTO lost_and_found_items 
-                (item_type, image_path, item_name, event_date, location_name, room_number, latitude, longitude, category, description, first_name, last_name, contact_details, user_id, status, archive_date)
+                (item_type, image_path, item_name, event_date, location_name, room_number, latitude, longitude, category, description, first_name, last_name, contact_details, user_id, status, archive_date, is_archived)
                 VALUES
-                (:item_type, :image_path, :item_name, :event_date, :location_name, :room_number, :latitude, :longitude, :category, :description, :first_name, :last_name, :contact_details, :user_id, 'Unrecovered', DATE_ADD(NOW(), INTERVAL 30 DAY))";
+                (:item_type, :image_path, :item_name, :event_date, :location_name, :room_number, :latitude, :longitude, :category, :description, :first_name, :last_name, :contact_details, :user_id, 'Unrecovered', DATE_ADD(NOW(), INTERVAL 30 DAY), 0)";
 
         $stmt = $this->db->prepare($sql);
 
@@ -97,7 +97,7 @@ class FoundItemModel
 
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
         $sql = "UPDATE lost_and_found_items 
-                SET status = 'Archived',
+                SET is_archived = 1,
                     archive_date = NOW()
                 WHERE item_type = 'found'
                 AND user_id = ? 
@@ -114,7 +114,7 @@ class FoundItemModel
                 WHERE id = :id
                 AND user_id = :user_id
                 AND item_type = 'found'
-                AND status != 'Archived'";
+                AND is_archived = 0";
 
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([

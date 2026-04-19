@@ -215,7 +215,7 @@
                     </div>
                     <?php if ($lostBulkAvailable): ?>
                         <button type="button" id="toggle-bulk-archive-lost"
-                            onclick="toggleBulkArchiveMode('lost')"
+                            onclick="toggleBulkMode('lost')"
                             class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-800 bg-white text-gray-800 hover:bg-gray-100 transition">
                             Archive Lost Items
                         </button>
@@ -234,7 +234,7 @@
                     <span id="bulk-count-lost" class="text-sm font-semibold text-gray-800">0 Items Selected</span>
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
                         <button type="button"
-                            onclick="toggleBulkArchiveMode('lost')"
+                           onclick="toggleBulkMode('lost')"
                             class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-400 bg-white text-gray-800 hover:bg-gray-50 transition text-center">
                             Cancel Archive Selection
                         </button>
@@ -422,9 +422,9 @@
                     </div>
                     <?php if ($foundBulkAvailable): ?>
                         <button type="button" id="toggle-bulk-archive-found"
-                            onclick="toggleBulkArchiveMode('found')"
+                            onclick="toggleBulkMode('found')"
                             class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-800 bg-white text-gray-800 hover:bg-gray-100 transition">
-                            Archive Lost Items
+                            Archive Found Items
                         </button>
                     <?php endif; ?>
                 </div>
@@ -442,7 +442,7 @@
                     <span id="bulk-count-found" class="text-sm font-semibold text-gray-800">0 Items Selected</span>
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
                         <button type="button"
-                            onclick="toggleBulkArchiveMode('found')"
+                            onclick="toggleBulkMode('found')"
                             class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-400 bg-white text-gray-800 hover:bg-gray-50 transition text-center">
                             Cancel Archive Selection
                         </button>
@@ -622,51 +622,142 @@
             </section>
 
             <section class="tab-content mt-12 mb-12" id="archive">
-                <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h4 class="text-xl font-semibold">Archived Items</h4>
+                        <p class="text-sm text-slate-500">Permanently delete your archived posts.</p>
+                    </div>
                     <?php if (!empty($archivedItems)): ?>
-                        <form id="bulk-delete-archived-form" method="POST" action="/profile/archived/delete" onsubmit="return confirm('Delete the selected archived items permanently? This cannot be undone.');">
-                            <?php \App\Core\Router::setCsrf(); ?>
-                        </form>
-                        <ul>
-                        <?php foreach ($archivedItems as $item): ?>
-                            <li class="archived-list-item">
-                                <div class="flex items-start justify-between gap-4 w-full">
-                                    <label class="flex items-start gap-3 flex-1">
-                                        <input type="checkbox" name="item_ids[]" value="<?= (int)$item['id'] ?>" form="bulk-delete-archived-form">
-                                        <span class="flex-1">
-                                            <h5>
+                        <button type="button" id="toggle-bulk-delete-archived"
+                            onclick="toggleBulkMode('archived')"
+                            class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-800 bg-white text-gray-800 hover:bg-gray-100 transition">
+                            Delete Archived Items
+                        </button>
+                    <?php endif; ?>
+                </div>
+
+                <?php if (!empty($archivedItems)): ?>
+                    <form id="bulk-delete-archived-form" method="POST" action="/profile/archived/delete" onsubmit="return confirm('Delete the selected archived items permanently? This cannot be undone.');">
+                        <?php \App\Core\Router::setCsrf(); ?>
+                    </form>
+
+                    <!-- Bulk Action Bar -->
+                    <div id="bulk-action-bar-archived" class="hidden flex-col sm:flex-row items-start sm:items-center justify-between bg-red-50 rounded-xl px-5 py-3 mb-6 gap-3">
+                        <span id="bulk-count-archived" class="text-sm font-semibold text-red-800">0 Items Selected</span>
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+                            <button type="button"
+                                onclick="toggleBulkMode('archived')"
+                                class="px-4 py-2 text-sm font-semibold rounded-full border border-gray-400 bg-white text-gray-800 hover:bg-gray-50 transition text-center">
+                                Cancel Selection
+                            </button>
+                            <button type="submit" form="bulk-delete-archived-form"
+                                class="flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-full bg-red-600 text-white hover:bg-red-700 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M3 6H5H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6L18.1327 19.1425C18.0579 20.1891 17.187 21 16.1378 21H7.86224C6.81296 21 5.94208 20.1891 5.86732 19.1425L5 6H19Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Confirm Delete Selection
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="archived-items-section">
+                        <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4 justify-items-center">
+                            <?php foreach ($archivedItems as $item): ?>
+                                <div data-card-archived
+                                    class="border rounded-2xl p-4 bg-white w-full min-h-[480px] flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.20)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)] transition-shadow duration-300">
+
+                                    <!-- Card Header -->
+                                    <div class="relative py-2 mb-4 border-b-2 border-[#5B5B5B]">
+                                        <div class="pr-8">
+                                            <h3 class="font-semibold text-lg">
+                                                <span class="status-tag-<?= strtolower($item['status_tag']) ?>">
+                                                    [<?= htmlspecialchars($item['status_tag']) ?>]
+                                                </span>
                                                 <?= htmlspecialchars($item['item_name']) ?>
-                                                <small class="archived-item-type">
-                                                    <mark><?= htmlspecialchars($item['item_type']) ?></mark>
-                                                </small>
-                                            </h5>
+                                            </h3>
+                                            <?php if (!empty($item['categories'])): ?>
+                                                <div class="mt-3 flex flex-wrap gap-2">
+                                                    <?php foreach ($item['categories'] as $category): ?>
+                                                        <span class="inline-flex items-center justify-center rounded-[12px] border border-[#03325C] bg-[#E6EFF6] px-3 text-sm font-medium text-[#044177]" style="height:30px; min-width:121px;">
+                                                            <?= htmlspecialchars(trim($category, '"')) ?>
+                                                        </span>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
 
-                                            <p><?= htmlspecialchars($item['description']) ?></p>
-                                            <small>
-                                                <strong>Status:</strong> <?= htmlspecialchars($item['status']) ?>
-                                                <br>
-                                                <strong>Archived On:</strong> <?= htmlspecialchars($item['archive_date']) ?>
-                                            </small>
-                                        </span>
-                                    </label>
+                                        <!-- Bulk delete checkbox -->
+                                        <label class="bulk-delete-box absolute top-2 right-0 hidden cursor-pointer">
+                                            <input type="checkbox"
+                                                name="item_ids[]"
+                                                value="<?= (int)$item['id'] ?>"
+                                                form="bulk-delete-archived-form"
+                                                class="sr-only bulk-delete-checkbox">
+                                            <div class="bulk-delete-checkbox-box w-6 h-6 rounded border-2 border-red-500 bg-white flex items-center justify-center transition-colors duration-150">
+                                                <svg class="bulk-delete-checkbox-icon opacity-0 transition-opacity duration-150" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.6 9.06133C18.8502 8.81132 18.9908 8.47217 18.9909 8.11847C18.9911 7.76478 18.8507 7.42552 18.6007 7.17533C18.3507 6.92515 18.0115 6.78452 17.6578 6.7844C17.3041 6.78427 16.9649 6.92466 16.7147 7.17467L10.1147 13.7747L7.28667 10.9467C7.16287 10.8228 7.01589 10.7245 6.85412 10.6574C6.69234 10.5903 6.51894 10.5558 6.3438 10.5557C5.99011 10.5556 5.65085 10.696 5.40067 10.946C5.15048 11.196 5.00986 11.5352 5.00973 11.8889C5.0096 12.2426 5.14999 12.5818 5.4 12.832L9.07733 16.5093C9.21353 16.6456 9.37525 16.7537 9.55324 16.8274C9.73123 16.9012 9.922 16.9392 10.1147 16.9392C10.3073 16.9392 10.4981 16.9012 10.6761 16.8274C10.8541 16.7537 11.0158 16.6456 11.152 16.5093L18.6 9.06133Z" fill="white"/>
+                                                </svg>
+                                            </div>
+                                        </label>
+                                    </div>
 
-                                    <form method="POST" action="/profile/archived/delete" class="ml-auto" onsubmit="return confirm('Delete this archived item permanently? This cannot be undone.');">
+                                    <!-- Card Content -->
+                                    <div class="flex flex-col flex-grow">
+                                        <?php if (!empty($item['image_path'])): ?>
+                                            <img src="/<?= htmlspecialchars(ltrim($item['image_path'], '/')) ?>"
+                                                alt="<?= htmlspecialchars($item['item_name']) ?>"
+                                                class="w-full h-60 object-cover rounded-lg">
+                                        <?php else: ?>
+                                            <div class="flex h-60 w-full items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 text-sm text-gray-400">
+                                                No image
+                                            </div>
+                                        <?php endif; ?>
+
+                                        <div class="flex items-center gap-1 mt-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c-3.866 0-7 3.134-7 7 0 4.418 7 11 7 11s7-6.582 7-11c0-3.866-3.134-7-7-7z"/>
+                                                <circle cx="12" cy="10" r="2"/>
+                                            </svg>
+                                            <p class="text-sm">Last seen at
+                                                <span class="font-semibold"><?= htmlspecialchars($item['location_name']) ?></span>
+                                                <?php if (!empty($item['room_number'])): ?>
+                                                    - Room <?= htmlspecialchars($item['room_number']) ?>
+                                                <?php endif; ?>
+                                            </p>
+                                        </div>
+
+                                        <p class="text-sm mt-2 mb-2">
+                                            <?= htmlspecialchars($item['description']) ?>
+                                        </p>
+
+                                        <!-- Archived date -->
+                                        <p class="text-xs text-slate-400 mt-auto pt-3 border-t border-gray-100">
+                                            Archived on: <span class="font-medium text-slate-500"><?= htmlspecialchars($item['archive_date']) ?></span>
+                                        </p>
+                                    </div>
+
+                                    <!-- Single Delete Button -->
+                                    <form method="POST" action="/profile/archived/delete" onsubmit="return confirm('Delete this item permanently? This cannot be undone.');">
                                         <?php \App\Core\Router::setCsrf(); ?>
                                         <input type="hidden" name="item_ids[]" value="<?= (int)$item['id'] ?>">
-                                        <button type="submit" class="secondary outline archived-delete-button" aria-label="Delete permanently" title="Delete permanently">
-                                            &#128465;
+                                        <button type="submit"
+                                            class="mt-4 w-full min-h-[52px] rounded-[16px] bg-red-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-700 inline-flex items-center justify-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                                <path d="M3 6H5H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6L18.1327 19.1425C18.0579 20.1891 17.187 21 16.1378 21H7.86224C6.81296 21 5.94208 20.1891 5.86732 19.1425L5 6H19Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            Delete Item
                                         </button>
                                     </form>
                                 </div>
-                            </li>
-                        <?php endforeach; ?>
-                        </ul>
+                            <?php endforeach; ?>
+                        </article>
+                    </div>
 
-                        <button type="submit" form="bulk-delete-archived-form" class="secondary">Delete Selected</button>
-                    <?php else: ?>
-                        <h2 class="text-lg font-semibold text-gray-700">No archived posts yet.</h2>
-                    <?php endif; ?> 
-                </article>
+                <?php else: ?>
+                    <h2 class="text-lg font-semibold text-gray-700">No archived posts yet.</h2>
+                <?php endif; ?>
             </section>
         </section>
     </main>

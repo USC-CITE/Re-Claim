@@ -30,13 +30,13 @@ class LostItemModel
                 (
                     item_type, item_name, image_path, category, description, event_date, status,
                     location_name, room_number, latitude, longitude,
-                    first_name, last_name, contact_details, user_id, archive_date
+                    first_name, last_name, contact_details, user_id, archive_date, is_archived
                 )
                 VALUES
                 (
                     'lost', :item_name, :image_path, :category, :description, :event_date, :status,
                     :location_name, :room_number, :latitude, :longitude,
-                    :first_name, :last_name, :contact_details, :user_id, DATE_ADD(NOW(), INTERVAL 30 DAY)
+                    :first_name, :last_name, :contact_details, :user_id, DATE_ADD(NOW(), INTERVAL 30 DAY), 0
                 )";
 
         $stmt = $this->db->prepare($sql);
@@ -67,7 +67,7 @@ class LostItemModel
     public function autoArchiveExpired(): void
     {
         $sql = "UPDATE lost_and_found_items
-                SET status = 'Archived',
+                SET is_archived = 1,
                     archive_date = NOW()
                 WHERE item_type = 'lost'
                 AND status IN ('Unrecovered', 'Recovered')
@@ -86,7 +86,7 @@ class LostItemModel
         $sql = "SELECT *
                 FROM lost_and_found_items
                 WHERE item_type = 'lost'
-                  AND status != 'Archived'
+                  AND is_archived = 0
                 ORDER BY event_date DESC, created_at DESC";
 
         $stmt = $this->db->query($sql);
@@ -117,7 +117,7 @@ class LostItemModel
 
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
         $sql = "UPDATE lost_and_found_items
-                SET status = 'Archived',
+                SET is_archived = 1,
                     archive_date = NOW()
                 WHERE item_type = 'lost'
                 AND user_id = ?
@@ -134,7 +134,7 @@ class LostItemModel
                 WHERE id = :id
                 AND user_id = :user_id
                 AND item_type = 'lost'
-                AND status != 'Archived'";
+                AND is_archived = 0";
 
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([

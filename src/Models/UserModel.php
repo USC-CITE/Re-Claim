@@ -96,7 +96,7 @@ class UserModel {
             "SELECT * FROM lost_and_found_items
              WHERE user_id = :id
                AND item_type = :type
-               AND status != 'Archived'
+               AND is_archived = 0
              ORDER BY created_at DESC"
         );
 
@@ -114,7 +114,7 @@ class UserModel {
         $stmt = $this->db->prepare(
             "SELECT * FROM lost_and_found_items
              WHERE user_id = :id
-               AND status = 'Archived'
+               AND is_archived = 1
              ORDER BY created_at DESC"
         );
 
@@ -136,7 +136,7 @@ class UserModel {
             "SELECT id, image_path
              FROM lost_and_found_items
              WHERE user_id = ?
-               AND status = 'Archived'
+               AND is_archived = 1
                AND id IN ($placeholders)"
         );
 
@@ -155,7 +155,7 @@ class UserModel {
         $stmt = $this->db->prepare(
             "DELETE FROM lost_and_found_items
              WHERE user_id = ?
-               AND status = 'Archived'
+               AND is_archived = 1
                AND id IN ($placeholders)"
         );
 
