@@ -162,6 +162,64 @@ class ItemController
         require __DIR__ . '/../Views/found/index.php';
     }
 
+    public static function listRecoveredItems()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+            exit;
+        }
+
+        $config = require __DIR__ . '/../Config/config.php';
+        $lostModel = new LostItemModel($config);
+        $foundModel = new FoundItemModel($config);
+
+        $recoveredLost = $lostModel->getRecovered();
+        $recoveredFound = $foundModel->getRecovered();
+
+        $allRecovered = array_merge($recoveredLost, $recoveredFound);
+
+        // Sort by event_date descending
+        usort($allRecovered, function($a, $b) {
+            return ($b['event_date'] ?? '') <=> ($a['event_date'] ?? '');
+        });
+
+        $items = array_map(function($item) {
+            $categories = [];
+            if (!empty($item['category'])) {
+                $decoded = json_decode($item['category'], true);
+                $categories = is_array($decoded) ? $decoded : [$item['category']];
+            }
+
+            $imageUrl = !empty($item['image_path']) ? '/' . ltrim($item['image_path'], '/') : null;
+            $isLost = ($item['item_type'] ?? 'lost') === 'lost';
+
+            return [
+                'id'            => $item['id'],
+                'item_name'     => $item['item_name'],
+                'title'         => $item['item_name'],
+                'description'   => $item['description'],
+                'location'      => $item['location_name'],
+                'event_date'    => $item['event_date'],
+                'date_found'    => $item['event_date'], 
+                'image_url'     => $imageUrl,
+                'status'        => $item['status'],
+                'status_tag'    => 'Recovered',
+                'item_type'     => $item['item_type'],
+                'categories'    => $categories,
+                'name'          => trim(($item['first_name'] ?? '') . ' ' . ($item['last_name'] ?? '')),
+                'contact_info'  => (function($raw) {
+                    $d = json_decode((string)$raw, true);
+                    return is_array($d) ? ($d['phone'] ?? $raw) : $raw;
+                })($item['contact_details'] ?? ''),
+            ];
+        }, $allRecovered);
+
+        $flash = $_SESSION['flash'] ?? null;
+        if ($flash) unset($_SESSION['flash']);
+
+        require __DIR__ . '/../Views/recovered/index.php';
+    }
+
     private static function detectPlatform($url)
     {
         $url = strtolower($url);
