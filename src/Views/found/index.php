@@ -129,9 +129,6 @@
                         </div>
                         </div>
                     </header>
-                        </div>
-                        </div>
-                    </header>
 
                     <div class="w-full self-center border-t border-secondary"></div>
                     
@@ -167,7 +164,8 @@
                     </footer>
 
                     <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
-                    <dialog id="contact-modal-<?= $item['id'] ?>" class="border-none bg-transparent p-0 backdrop:bg-black/30 w-full max-w-[480px] rounded-[24px]" style="left:50%; top:50%; transform:translate(-50%,-50%); max-width:calc(100vw - 2rem);" 
+                    <dialog id="contact-modal-<?= $item['id'] ?>" class="border-none bg-transparent p-0 backdrop:bg-black/30 w-full max-w-[480px] rounded-[24px]"
+                    style="left:50%; top:50%; transform:translate(-50%,-50%); lg:max-width:calc(50vw - 2rem) max-width:calc(100vw - 2rem);" 
                     onclick="if(event.target === this) closeModal('contact-modal-<?= $item['id'] ?>')">
                         <article class="bg-white shadow-[0_4px_16px_0_rgba(0,0,0,0.20)] rounded-[24px] p-6 flex flex-col gap-4">
 
