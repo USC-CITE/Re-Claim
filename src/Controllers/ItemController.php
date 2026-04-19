@@ -335,6 +335,9 @@ class ItemController
             if (empty($itemName)) {
                 throw new Exception('Please provide an item name/title.');
             }
+            if (mb_strlen($itemName) > 80) {
+                throw new Exception('Item name must not exceed 80 characters.');
+            }
 
             $firstName = trim($_POST['first_name'] ?? '');
             $lastName  = trim($_POST['last_name'] ?? '');
@@ -440,6 +443,9 @@ class ItemController
             $categoryJson = json_encode($category);
 
             $description = trim($_POST['description'] ?? '');
+            if (mb_strlen($description) > 500) {
+                throw new Exception('Description must not exceed 500 characters.');
+            }
             if ($description === '') {
                 $description = null;
             }
