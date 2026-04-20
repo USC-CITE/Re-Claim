@@ -240,7 +240,10 @@ class AuthController{
         $userId = $model->create($registrationData);
         
         // Mark email as verified immediately after creation
-        $model->verifyOtp($email, $otp);
+        if (!$model->verifyOtp($email, $otp)) {
+            echo "Registration completed but verification status failed to update. Try and login to verify your account.";
+            return;
+        }
         
         // Set session for authenticated user
         $_SESSION['user_id'] = $userId;
