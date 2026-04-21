@@ -153,7 +153,10 @@ class AuthController{
             if(!$socialLink){
                 $errors['social_link'] = "✕ Social link is required.";
             }
-
+            // Check password length
+            if($password && strlen($password) < 6){
+                $errors['password'] = "✕ Password must be atleast 6 characters.";
+            }
             // Invalid email format
             if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
                     $errors['wvsu_email'] = "✕ Please enter a valid email format";
