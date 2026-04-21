@@ -100,7 +100,7 @@
 
     <!--FOUND ITEM CARDS -->
     <?php if (empty($foundItems)): ?>
-        <p>No found items reported yet.</p>
+        <p class="text-center py-10">No found items reported yet.</p>
     <?php else: ?>
         <section class="flex flex-wrap justify-center gap-6" data-listing-grid>
             <?php foreach ($foundItems as $item): ?>

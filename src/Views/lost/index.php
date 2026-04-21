@@ -102,7 +102,7 @@
   <?php endif; ?>
 
   <?php if (empty($lostItems)): ?>
-    <p>No lost items posted yet.</p>
+    <p class="text-center py-10">No lost items posted yet.</p>
   <?php else: ?>
     <!--LOST ITEM CARDS -->
     <section class="flex flex-wrap justify-center gap-6" data-listing-grid>
