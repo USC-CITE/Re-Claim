@@ -62,7 +62,8 @@
             <?php endif; ?>
 
             <!-- Form -->
-            <form method="POST" action="/forgot-password" class="space-y-5">
+            <form method="POST" action="/forgot-password" class="space-y-4">
+                <?php \App\Core\Router::setCsrf(); ?>
                 <!-- WVSU Email Address -->
                 <div>
                     <label class="text-md font-medium text-primary" for="email">WVSU Email Address</label>

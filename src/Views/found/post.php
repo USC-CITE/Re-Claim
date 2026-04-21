@@ -21,7 +21,7 @@
         </div>
     <?php endif; ?>
 
-    <form method="POST" action="/found/post" enctype="multipart/form-data" class="flex flex-col gap-4">
+    <form action="/found/post" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
         <?php \App\Core\Router::setCsrf(); ?>
 
         <!-- ===== ITEM INFORMATION SECTION ====== -->

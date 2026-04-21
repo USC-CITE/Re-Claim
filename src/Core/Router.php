@@ -53,16 +53,19 @@ class Router{
             session_start();
         }
         
-        //Start session here
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $uri = rtrim($uri, '/');
         $uri = $uri === '' ? '/' : $uri;
 
         $method = $_SERVER['REQUEST_METHOD'];
+
+        // Security: CSRF Protection for all POST requests
+        if ($method === 'POST') {
+            if (!self::isCsrfValid()) {
+                header('HTTP/1.1 403 Forbidden');
+                die('Error 403: Security token (CSRF) mismatch or missing. Action denied.');
+            }
+        }
 
         foreach ($this->routes[$method] ?? [] as $routeData) {
 

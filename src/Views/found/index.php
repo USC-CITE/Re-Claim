@@ -17,7 +17,8 @@
       <!-- SEARCH AND FILTER -->
     <section class="mb-8 flex justify-center">
         <!-- SEARCH BAR -->
-        <form class="flex w-full max-w-[575px] items-center justify-center gap-3" role="search">
+        <form class="flex w-full max-w-[575px] items-center justify-center gap-3" role="search" method="POST">
+            <?php \App\Core\Router::setCsrf(); ?>
             <label for="found-search" class="sr-only">Search found items</label>
             <section class="relative h-[40px] min-w-0 flex-1 max-w-[521px] overflow-hidden rounded-[12px] border border-[#212121] bg-transparent">
                 <input
@@ -110,7 +111,7 @@
                     <header class="flex w-full flex-col items-start gap-4">
                         <div class="flex w-full items-start gap-3">
                         <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[124px] bg-white-600 text-sm font-semibold text-primary">
-                            <?= strtoupper(substr((string)($item['name'] ?: 'A'), 0, 1)) ?>
+                            <?= htmlspecialchars(strtoupper(substr((string)($item['name'] ?: 'A'), 0, 1))) ?>
                         </div>
                         <div class="min-w-0 flex-1">
                             <p class="item-card-title break-words text-lg font-semibold text-primary">
