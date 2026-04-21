@@ -117,17 +117,49 @@ class AuthController{
             $errors = [];
             
             $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
-            // Validation Logic
-            if(!$firstName || !$lastName || !$email || !$password || !$confirmPass || !$phoneNum || !$socialLink){
-                throw new Exception("All fields are mandatory!");
+            // Validation Each Input fields
+
+            // [1] First Name
+            if(!$firstName){
+                $errors['first_name'] = "✕ First name is required.";
             }
 
-           // Invalid email format
-           if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-                $errors['wvsu_email'] = "✕ Please enter a valid email format";
-           }else if(!preg_match('/@wvsu\.edu\.ph$/', $email)){ // Invalid WVSU email
-                $errors['wvsu_email'] = "✕ Please use your official WVSU email address.";
-           }
+            // [2] Last Name
+            if(!$lastName){
+                $errors['last_name'] = "✕ Last name is required.";
+            }
+
+            // [3] WVSU Email
+            if(!$email){
+                $errors['wvsu_email'] = "✕ WVSU email address is required.";
+            }
+
+            // [4] Password
+            if(!$password){
+                $errors['password'] = "✕ Password is required.";
+            }
+
+            // [5] Confirm Password
+            if(!$confirmPass){
+                $errors['confirm_pass'] = "✕ Password confirmation is required.";
+            }
+
+            // [6] Phone Number
+            if(!$phoneNum){
+                $errors['phone_number'] = "✕ Phone number is required.";
+            }
+            
+            // [7] Social Link
+            if(!$socialLink){
+                $errors['social_link'] = "✕ Social link is required.";
+            }
+
+            // Invalid email format
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                    $errors['wvsu_email'] = "✕ Please enter a valid email format";
+            }else if(!preg_match('/@wvsu\.edu\.ph$/', $email)){ // Invalid WVSU email
+                    $errors['wvsu_email'] = "✕ Please use your official WVSU email address.";
+            }
 
         
             // Check password if matching
@@ -135,6 +167,15 @@ class AuthController{
                 $errors['confirm_pass'] = "✕ Password does not match";
             }
 
+            // Validate Phone number format
+            if ($phoneNum && !preg_match('/^[0-9+\-() ]+$/', $phoneNum)) {
+                $errors['phone_number'] = '✕ Invalid phone number.';
+            }
+
+            // Validate Social link format
+            if ($socialLink && !filter_var($socialLink, FILTER_VALIDATE_URL)) {
+                $errors['social_link'] = '✕ Please enter valid social link URL.';
+            }
             // Hash password
             $hashPass = password_hash($password, PASSWORD_DEFAULT);
             $model = new UserModel($config);
@@ -159,7 +200,7 @@ class AuthController{
             }else{ 
                 // [2] Email already exists
                 if($user['email_verified'] == 1){
-                    $errors['wvsu_email'] =  "✕ The email address '$email' is already in use.";
+                    $errors['wvsu_email'] =  "✕ The '$email' is already in use.";
                 }
                 // [3] Email already exists but not verified -> Redirect To OTP
                 else{
