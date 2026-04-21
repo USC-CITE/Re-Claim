@@ -36,6 +36,7 @@
 
             <!-- Form -->
             <form method="POST" action="/register/" class="space-y-4">
+                <?php \App\Core\Router::setCsrf(); ?>
                 <!-- Names Grid -->
                 <div class="grid grid-cols-2 gap-4">
                     <div>

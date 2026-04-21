@@ -49,6 +49,7 @@ define('ASSETS_URL', BASE_URL . 'assets/')?>
                             </li>
                             <li> 
                                 <form action='/logout' method='post'>
+                                    <?php \App\Core\Router::setCsrf(); ?>
                                     <button type='submit' class='hover:text-blue-600 transition'>Logout</button>
                                 </form>
                             </li>

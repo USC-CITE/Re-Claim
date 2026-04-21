@@ -107,6 +107,7 @@
         <section class="tab-content active max-w-2xl mx-auto" id="edit-profile">
             <!-- Unified Form for Edit Profile -->
             <form action="/profile/edit" method="post" enctype="multipart/form-data" class="space-y-10 mb-6">
+                <?php \App\Core\Router::setCsrf(); ?>
                 
                 <?php \App\Core\Router::setCsrf(); ?>
                 <!-- Avatar -->
@@ -270,6 +271,7 @@
 
         <section class="tab-content max-w-2xl mx-auto" id="change-pass">
             <form action="/profile/change-password" method="post" class="space-y-6 mb-2 mt-8">
+                <?php \App\Core\Router::setCsrf(); ?>
                 <p class="text-sm mb-4">A verification email will be sent once all fields are correctly filled out.</p>
 
                 <!-- Main Section -->
@@ -359,6 +361,7 @@
                 </div>
                 
                 <form action="/profile/change-password/verify" method="POST" class="space-y-2">
+                    <?php \App\Core\Router::setCsrf(); ?>
                     <input class="w-full mt-1 border rounded-lg px-3 py-2 text-sm <?= !empty($errors['otp']) ? 'border-red-500 border-2' : 'border-gray-300' ?> algin-" placeholder="Enter 6-digit code" name="otp">
                     <p class="text-red-500 text-sm text-left w-full">
                         <?= isset($errors['otp']) ? '✕ ' . $errors['otp'] : '' ?>
