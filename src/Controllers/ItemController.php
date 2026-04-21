@@ -35,7 +35,8 @@ class ItemController
             $categories = [];
             if (!empty($item['category'])) {
                 $decoded = json_decode($item['category'], true);
-                $categories = is_array($decoded) ? $decoded : [$item['category']];
+                $categories = is_array($decoded) ? $decoded : [$decoded ?? $item['category']];
+                $categories = array_map(fn($c) => trim((string)$c, '"'), $categories);
             }
 
             $imageUrl = !empty($item['image_path']) ? '/' . ltrim($item['image_path'], '/') : null;
@@ -99,7 +100,8 @@ class ItemController
             $categories = [];
             if (!empty($item['category'])) {
                 $decoded = json_decode($item['category'], true);
-                $categories = is_array($decoded) ? $decoded : [$item['category']];
+                $categories = is_array($decoded) ? $decoded : [$decoded ?? $item['category']];
+                $categories = array_map(fn($c) => trim((string)$c, '"'), $categories);
             }
 
             try {
@@ -188,7 +190,8 @@ class ItemController
             $categories = [];
             if (!empty($item['category'])) {
                 $decoded = json_decode($item['category'], true);
-                $categories = is_array($decoded) ? $decoded : [$item['category']];
+                $categories = is_array($decoded) ? $decoded : [$decoded ?? $item['category']];
+                $categories = array_map(fn($c) => trim((string)$c, '"'), $categories);
             }
 
             $imageUrl = !empty($item['image_path']) ? '/' . ltrim($item['image_path'], '/') : null;
@@ -440,7 +443,7 @@ class ItemController
             if (empty($category)) {
                 throw new Exception('Please select a category.');
             }
-            $categoryJson = json_encode($category);
+            $categoryJson = json_encode([$category]);
 
             $description = trim($_POST['description'] ?? '');
             if (mb_strlen($description) > 500) {
