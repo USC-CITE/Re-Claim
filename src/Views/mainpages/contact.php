@@ -107,6 +107,7 @@
 
                 <!-- Message Form -->
                 <form method="post" action="/contact/send" class="space-y-3">
+                    <?php \App\Core\Router::setCsrf(); ?>
                     <div>
                         <label class="block text-[16px] font-medium text-gray-900 mb-1" for="name">Name </label>
                         <input name="name" type="text" required

@@ -44,7 +44,8 @@
             </div>
             <?php endif; ?>
 
-            <form method="POST" action="/login" class="space-y-5">
+            <form method="POST" action="/login/" class="space-y-4">
+                <?php \App\Core\Router::setCsrf(); ?>
                 <!-- WVSU Email Address -->
                 <div>
                     <label class="text-md font-medium text-primary" for="email">WVSU Email Address</label>
