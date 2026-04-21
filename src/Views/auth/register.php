@@ -3,12 +3,18 @@
     * Purpose: UI rendering and templates
     * Rules: No business logic or DB access
 -->
+<?php 
+    $errors = $_SESSION['errors'] ?? [];
+
+    unset($_SESSION['errors']);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/css/app.css">
     <script src="/js/auth/password_toggle.js" defer type="module"></script>
     <title>WVSU ReClaim - Create Account</title>
@@ -49,7 +55,10 @@
                 <div>
                     <label class="text-sm font-semibold text-primary" for="email">WVSU Email Address</label>
                     <input type="email" name="email" id="email" required
-                           class="w-full px-4 py-2 text-sm border border-white-700 rounded-lg bg-white placeholder-secondary">
+                           class="w-full px-4 py-2 text-sm border <?= !empty($errors['wvsu_email']) ? 'border-red-500 border-2' : 'border-white-700' ?> rounded-lg bg-white placeholder-secondary">
+                    <p class="text-sm text-red-900">
+                        <?= $errors['wvsu_email'] ?? '' ?>
+                    </p>
                 </div>
 
                 <!-- Password -->
@@ -66,7 +75,10 @@
                     <label class="text-sm font-semibold text-primary" for="confirm-pass">Confirm Password</label>
                     <div class="relative">
                         <input id="confirm-password" type="password" name="confirm-pass" required
-                               class="w-full pl-4 pr-12 py-2 text-sm border border-white-700 rounded-lg bg-white placeholder-secondary">
+                               class="w-full pl-4 pr-12 py-2 text-sm border <?= !empty($errors['confirm_pass']) ? 'border-red-500 border-2' : 'border-white-700' ?> rounded-lg bg-white placeholder-secondary">
+                        <p class="text-sm text-red-900">
+                            <?= $errors['confirm_pass'] ?? '' ?>
+                        </p>
                     </div>
                 </div>
 

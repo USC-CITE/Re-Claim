@@ -112,6 +112,9 @@ class AuthController{
     
             // Hash generated OTP
             $v_code_hashed = password_hash($otp, PASSWORD_DEFAULT);
+
+            // Array for errors
+            $errors = [];
             
             $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
             // Validation Logic
@@ -119,14 +122,17 @@ class AuthController{
                 throw new Exception("All fields are mandatory!");
             }
 
-            if (!str_ends_with($email, '@wvsu.edu.ph') || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                echo "[DEBUG]: Invalid email format";
-                return $email;
-            }
+           // Invalid email format
+           if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                $errors['wvsu_email'] = "✕ Please enter a valid email format";
+           }else if(!preg_match('/@wvsu\.edu\.ph$/', $email)){ // Invalid WVSU email
+                $errors['wvsu_email'] = "✕ Please use your official WVSU email address.";
+           }
 
+        
             // Check password if matching
             if($password !== $confirmPass){
-                throw new Exception("Password does not match!");
+                $errors['confirm_pass'] = "✕ Password does not match";
             }
 
             // Hash password
@@ -153,7 +159,7 @@ class AuthController{
             }else{ 
                 // [2] Email already exists
                 if($user['email_verified'] == 1){
-                    throw new Exception("Registration failed: The email address '$email' is already in use.");
+                    $errors['wvsu_email'] =  "✕ The email address '$email' is already in use.";
                 }
                 // [3] Email already exists but not verified -> Redirect To OTP
                 else{
@@ -163,6 +169,11 @@ class AuthController{
                 }
             }
            
+            if(!empty($errors)){
+                $_SESSION['errors'] = $errors;
+                header('Location: /register');
+                exit();
+            }
             // Store user email to be used in OTP verification
             $_SESSION['pending_email'] = $email;
             $_SESSION['first_name'] = $firstName;
