@@ -192,12 +192,13 @@ class AuthController{
 
             // Email Verification Scenarios
             if($user){
-                // [1] Email already exists
-                if($user['email_verified'] == 1){
-                    $errors['wvsu_email'] =  "✕ The '$email' is already in use.";
+                // [1] Email already exists and is verified
+                if((int)$user['email_verified'] === 1){
+                    $errors['wvsu_email'] =  "✕ The email address '$email' is already in use.";
+                } else {
+                    // [2] Email already exists but not verified -> Direct to login
+                    $errors['wvsu_email'] = "✕ This email is already registered but unverified. Please log in to continue.";
                 }
-                // [2] Email already exists but not verified -> Update OTP and allow re-registration
-                $model->updateOtp($email, $v_code_hashed, $expires);
             }
             // NOTE: Do NOT create user yet! Defer creation until OTP verification to prevent database spam.
             // This prevents attackers from filling the database with unverified accounts.
@@ -295,12 +296,20 @@ class AuthController{
             return;
         }
         
-        $userId = $model->create($registrationData);
-        
-        // Mark email as verified immediately after creation
-        if (!$model->verifyOtp($email, $otp)) {
-            echo "Registration completed but verification status failed to update. Try and login to verify your account.";
-            return;
+        try {
+            $userId = $model->create($registrationData);
+            
+            // Mark email as verified immediately after creation
+            if (!$model->verifyOtp($email, $otp)) {
+                echo "Registration completed but verification status failed to update. Try and login to verify your account.";
+                return;
+            }
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] === 1062) {
+                echo "Registration failed: The email address '$email' is already in use.";
+                return;
+            }
+            throw $e;
         }
         
         // Set session for authenticated user
