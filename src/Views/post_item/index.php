@@ -124,6 +124,7 @@
                 name="event_date"
                 id="event_date"
                 required
+                max="<?= date('Y-m-d') ?>"
                 value="<?= htmlspecialchars($old['event_date'] ?? '') ?>"
                 class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
             >
@@ -183,7 +184,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="shrink-0">
                         <path d="M11 16V7.85L8.4 10.45L7 9L12 4L17 9L15.6 10.45L13 7.85V16H11ZM6 20C5.45 20 4.97933 19.8043 4.588 19.413C4.19667 19.0217 4.00067 18.5507 4 18V15H6V18H18V15H20V18C20 18.55 19.8043 19.021 19.413 19.413C19.0217 19.805 18.5507 20.0007 18 20H6Z" fill="black"/>
                     </svg>
-                    <input type="file" id="item_image" name="item_image" accept="image/jpeg,image/png,image/webp,image/avif" class="hidden">
+                    <input type="file" id="item_image" name="item_image" accept="image/jpeg,image/png,image/webp,image/avif" required class="sr-only">
                 </label>
                 <small class="text-xs text-gray-500">Accepts: JPG, JPEG, PNG, WEBP, AVIF</small>
                 <div id="preview-container" class="w-full">
