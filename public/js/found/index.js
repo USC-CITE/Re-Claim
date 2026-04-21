@@ -151,7 +151,6 @@ function setupListingFilters(config) {
 document.addEventListener("DOMContentLoaded", function () {
     setupListingFilters({
         searchInputId: "found-search",
-        statusFilterId: "found-status-filter",
         locationFilterId: "found-location-filter",
         categoryFilterId: "found-category-filter",
     });

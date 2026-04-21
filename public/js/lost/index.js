@@ -175,14 +175,12 @@ document.addEventListener("DOMContentLoaded", function () {
   } else if (document.getElementById("lost-search")) {
     setupListingFilters({
       searchInputId: "lost-search",
-      statusFilterId: "lost-status-filter",
       locationFilterId: "lost-location-filter",
       categoryFilterId: "lost-category-filter",
     });
   } else if (document.getElementById("found-search")) {
     setupListingFilters({
       searchInputId: "found-search",
-      statusFilterId: "found-status-filter",
       locationFilterId: "found-location-filter",
       categoryFilterId: "found-category-filter",
     });

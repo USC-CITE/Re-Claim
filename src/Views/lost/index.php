@@ -71,15 +71,7 @@
   </nav>
 
   <section class="mx-auto mb-8 hidden w-full max-w-[841px] rounded-[32px] bg-white p-8 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)]" data-filter-panel>
-    <div class="grid gap-6 md:grid-cols-3">
-      <label class="flex flex-col gap-2 text-lg font-semibold text-black">
-        Recovery status
-        <select id="lost-status-filter" class="h-10 w-full rounded-[8px] border border-white-700 bg-white px-4 text-sm font-normal text-black">
-          <option value="">All statuses</option>
-          <option value="Unrecovered">Unrecovered</option>
-          <option value="Recovered">Recovered</option>
-        </select>
-      </label>
+    <div class="grid gap-6 md:grid-cols-2">
       <label class="flex flex-col gap-2 text-lg font-semibold text-black">
         Location
         <select id="lost-location-filter" class="h-10 w-full rounded-[8px] border border-white-700 bg-white px-4 text-sm font-normal text-black">
