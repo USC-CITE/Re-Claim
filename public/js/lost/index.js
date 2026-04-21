@@ -111,7 +111,7 @@ function setupListingFilters(config) {
       const categories = (card.dataset.itemCategories || "")
         .split("|")
         .map(function (category) {
-          return category.trim();
+          return category.trim().replace(/^"+|"+$/g, "");
         })
         .filter(Boolean);
 
