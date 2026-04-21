@@ -114,23 +114,73 @@ class AuthController{
     
             // Hash generated OTP
             $v_code_hashed = password_hash($otp, PASSWORD_DEFAULT);
+
+            // Array for errors
+            $errors = [];
             
             $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
-            // Validation Logic
-            if(!$firstName || !$lastName || !$email || !$password || !$confirmPass || !$phoneNum || !$socialLink){
-                throw new Exception("All fields are mandatory!");
+            // Validation Each Input fields
+
+            // [1] First Name
+            if(!$firstName){
+                $errors['first_name'] = "✕ First name is required.";
             }
 
-            if (!str_ends_with($email, '@wvsu.edu.ph') || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                echo "[DEBUG]: Invalid email format";
-                return $email;
+            // [2] Last Name
+            if(!$lastName){
+                $errors['last_name'] = "✕ Last name is required.";
             }
 
+            // [3] WVSU Email
+            if(!$email){
+                $errors['wvsu_email'] = "✕ WVSU email address is required.";
+            }
+
+            // [4] Password
+            if(!$password){
+                $errors['password'] = "✕ Password is required.";
+            }
+
+            // [5] Confirm Password
+            if(!$confirmPass){
+                $errors['confirm_pass'] = "✕ Password confirmation is required.";
+            }
+
+            // [6] Phone Number
+            if(!$phoneNum){
+                $errors['phone_number'] = "✕ Phone number is required.";
+            }
+            
+            // [7] Social Link
+            if(!$socialLink){
+                $errors['social_link'] = "✕ Social link is required.";
+            }
+            // Check password length
+            if($password && strlen($password) < 6){
+                $errors['password'] = "✕ Password must be atleast 6 characters.";
+            }
+            // Invalid email format
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                    $errors['wvsu_email'] = "✕ Please enter a valid email format";
+            }else if(!preg_match('/@wvsu\.edu\.ph$/', $email)){ // Invalid WVSU email
+                    $errors['wvsu_email'] = "✕ Please use your official WVSU email address.";
+            }
+
+        
             // Check password if matching
             if($password !== $confirmPass){
-                throw new Exception("Password does not match!");
+                $errors['confirm_pass'] = "✕ Password does not match";
             }
 
+            // Validate Phone number format
+            if ($phoneNum && !preg_match('/^[0-9+\-() ]+$/', $phoneNum)) {
+                $errors['phone_number'] = '✕ Invalid phone number.';
+            }
+
+            // Validate Social link format
+            if ($socialLink && !filter_var($socialLink, FILTER_VALIDATE_URL)) {
+                $errors['social_link'] = '✕ Please enter valid social link URL.';
+            }
             // Hash password
             $hashPass = password_hash($password, PASSWORD_DEFAULT);
             $model = new UserModel($config);
@@ -141,7 +191,7 @@ class AuthController{
             if($user){
                 // [1] Email already exists
                 if($user['email_verified'] == 1){
-                    throw new Exception("Registration failed: The email address '$email' is already in use.");
+                    $errors['wvsu_email'] =  "✕ The '$email' is already in use.";
                 }
                 // [2] Email already exists but not verified -> Update OTP and allow re-registration
                 $model->updateOtp($email, $v_code_hashed, $expires);
@@ -149,7 +199,12 @@ class AuthController{
             // NOTE: Do NOT create user yet! Defer creation until OTP verification to prevent database spam.
             // This prevents attackers from filling the database with unverified accounts.
            
-            // Store user registration data in session to be used after OTP verification
+            if(!empty($errors)){
+                $_SESSION['errors'] = $errors;
+                header('Location: /register');
+                exit();
+            }
+            // Store user email to be used in OTP verification
             $_SESSION['pending_email'] = $email;
             $_SESSION['pending_registration'] = [
                 'first_name' => $firstName,

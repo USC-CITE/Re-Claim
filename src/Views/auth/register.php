@@ -3,6 +3,11 @@
     * Purpose: UI rendering and templates
     * Rules: No business logic or DB access
 -->
+<?php 
+    $errors = $_SESSION['errors'] ?? [];
+
+    unset($_SESSION['errors']);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,12 +41,18 @@
                     <div>
                         <label class="text-sm font-semibold text-primary" for="firstname">First Name</label>
                         <input type="text" name="firstname" id="firstname" required
-                               class="w-full px-4 py-2 text-sm border border-white-700 rounded-lg bg-white placeholder-secondary">
+                               class="w-full px-4 py-2 text-sm border <?= !empty($errors['first_name']) ? 'border-red-500 border-2' : 'border-white-700' ?> rounded-lg bg-white placeholder-secondary">
+                        <p class="text-sm text-red-500">
+                            <?= $errors['first_name'] ?? '' ?>
+                        </p>
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-primary" for="lastname">Last Name</label>
                         <input type="text" name="lastname" id="lastname" required
-                               class="w-full px-4 py-2 text-sm border border-white-700 rounded-lg bg-white placeholder-secondary">
+                               class="w-full px-4 py-2 text-sm border <?= !empty($errors['last_name']) ? 'border-red-500 border-2' : 'border-white-700' ?> rounded-lg bg-white placeholder-secondary">
+                        <p class="text-sm text-red-500">
+                            <?= $errors['last_name'] ?? '' ?>
+                        </p>
                     </div>
                 </div>
 
@@ -49,16 +60,22 @@
                 <div>
                     <label class="text-sm font-semibold text-primary" for="email">WVSU Email Address</label>
                     <input type="email" name="email" id="email" required
-                           class="w-full px-4 py-2 text-sm border border-white-700 rounded-lg bg-white placeholder-secondary">
+                           class="w-full px-4 py-2 text-sm border <?= !empty($errors['wvsu_email']) ? 'border-red-500 border-2' : 'border-white-700' ?> rounded-lg bg-white placeholder-secondary">
+                    <p class="text-sm text-red-500">
+                        <?= $errors['wvsu_email'] ?? '' ?>
+                    </p>
                 </div>
 
                 <!-- Password -->
                 <div>
                     <label class="text-sm font-semibold text-primary" for="password">Password</label>
                     <div class="relative">
-                        <input id="password" type="password" name="password" required 
-                               class="w-full pl-4 pr-12 py-2 text-sm border border-white-700 rounded-lg bg-white placeholder-secondary">
+                        <input id="password" type="password" name="password" required
+                               class="w-full pl-4 pr-12 py-2 text-sm border <?= !empty($errors['password']) ? 'border-red-500 border-2' : 'border-white-700' ?> rounded-lg bg-white placeholder-secondary">
                     </div>
+                    <p class="text-sm text-red-500">
+                        <?= $errors['password'] ?? '' ?>
+                    </p>
                 </div>
 
                 <!-- Confirm Password -->
@@ -66,21 +83,31 @@
                     <label class="text-sm font-semibold text-primary" for="confirm-pass">Confirm Password</label>
                     <div class="relative">
                         <input id="confirm-password" type="password" name="confirm-pass" required
-                               class="w-full pl-4 pr-12 py-2 text-sm border border-white-700 rounded-lg bg-white placeholder-secondary">
+                               class="w-full pl-4 pr-12 py-2 text-sm border <?= !empty($errors['confirm_pass']) ? 'border-red-500 border-2' : 'border-white-700' ?> rounded-lg bg-white placeholder-secondary">
+                       
                     </div>
+                    <p class="text-sm text-red-500">
+                        <?= $errors['confirm_pass'] ?? '' ?>
+                    </p>
                 </div>
 
                 <!-- Phone and Social Media Link Grid -->
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="text-sm font-semibold text-primary" for="phone-num">Mobile Phone No.</label>
-                        <input type="text" name="phone-num" id="phone-num" required
-                               class="w-full px-4 py-2 text-sm border border-white-700 rounded-lg bg-white placeholder-secondary">
+                        <input type="tel" name="phone-num" id="phone-num" placeholder="09XXXXXXXX" required
+                               class="w-full px-4 py-2 text-sm border <?= !empty($errors['phone_number']) ? 'border-red-500 border-2' : 'border-white-700' ?> rounded-lg bg-white placeholder-secondary">
+                        <p class="text-sm text-red-500">
+                            <?= $errors['phone_number'] ?? '' ?>
+                        </p>
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-primary" for="social-link">Social Media Link</label>
-                        <input type="text" name="social-link" id="social-link" required
-                               class="w-full px-4 py-2 text-sm border border-white-700 rounded-lg bg-white placeholder-secondary">
+                        <input type="url" name="social-link" id="social-link" required
+                               class="w-full px-4 py-2 text-sm border <?= !empty($errors['social_link']) ? 'border-red-500 border-2' : 'border-white-700' ?> rounded-lg bg-white placeholder-secondary">
+                        <p class="text-sm text-red-500">
+                            <?= $errors['social_link'] ?? '' ?>
+                        </p>
                     </div>
                 </div>
 
