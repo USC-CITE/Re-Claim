@@ -17,7 +17,10 @@
                 <ul class="space-y-4 lg:space-y-7">
                     <li><a href="/" class="text-sm text-white hover:text-white hover:underline transition-colors">Homepage</a></li>
                     <li><a href="<?= isset($_SESSION['user_id']) ? '/lost' : '/register' ?>" class="text-sm text-white hover:text-white hover:underline transition-colors"><?= isset($_SESSION['user_id']) ? 'Lost Items Feed' : 'Register' ?></a></li>
-                    <?= isset($_SESSION['user_id']) ? '<li><a href="/found" class="text-sm text-white hover:text-white hover:underline transition-colors">Found Items Feed</a></li>' : '' ?>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <li><a href="/found" class="text-sm text-white hover:text-white hover:underline transition-colors">Found Items Feed</a></li>
+                        <li><a href="/recovered" class="text-sm text-white hover:text-white hover:underline transition-colors">Recovered Items Feed</a></li>
+                    <?php endif; ?>
                     <li><a href="/terms-of-service" class="text-sm text-white hover:text-white hover:underline transition-colors">Terms of Service</a></li>
                     <li><a href="/privacy-policy" class="text-sm text-white hover:text-white hover:underline transition-colors">Privacy Policy</a></li>
                 </ul>
@@ -27,8 +30,8 @@
             <div class="flex flex-col">
                 <h4 class="font-semibold text-md mb-6 lg:mb-8">Post</h4>
                 <ul class="space-y-4 lg:space-y-7">
-                    <li><a href="<?= isset($_SESSION['user_id']) ? '/lost/post' : '/register' ?>" class="text-sm text-white hover:text-white hover:underline transition-colors">Post Lost Item</a></li>
-                    <li><a href="<?= isset($_SESSION['user_id']) ? '/found/post' : '/register' ?>" class="text-sm text-white hover:text-white hover:underline transition-colors">Post Found Item</a></li>
+                    <li><a href="<?= isset($_SESSION['user_id']) ? '/post-item?status=Lost' : '/register' ?>" class="text-sm text-white hover:text-white hover:underline transition-colors">Post Lost Item</a></li>
+                    <li><a href="<?= isset($_SESSION['user_id']) ? '/post-item?status=Found' : '/register' ?>" class="text-sm text-white hover:text-white hover:underline transition-colors">Post Found Item</a></li>
                 </ul>
             </div>
 

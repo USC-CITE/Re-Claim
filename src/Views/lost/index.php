@@ -6,6 +6,7 @@
   <title>Lost Items</title>
   <link rel="stylesheet" href="/css/app.css">
   <script src="/js/lost/index.js" defer></script>
+  <script src="/js/main/card-truncation.js" defer></script>
 </head>
 <body class="font-poppins bg-white text-primary min-h-screen overflow-x-hidden">
 <?php require __DIR__ . "/../mainpages/header.php"?>
@@ -61,19 +62,16 @@
           Found Items
         </a>
       </li>
+      <li>
+        <a href="/recovered" class="border-b-2 border-transparent pb-1 text-secondary transition-colors hover:text-secondary">
+          Recovered Items
+        </a>
+      </li>
     </ul>
   </nav>
 
   <section class="mx-auto mb-8 hidden w-full max-w-[841px] rounded-[32px] bg-white p-8 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)]" data-filter-panel>
-    <div class="grid gap-6 md:grid-cols-3">
-      <label class="flex flex-col gap-2 text-lg font-semibold text-black">
-        Recovery status
-        <select id="lost-status-filter" class="h-10 w-full rounded-[8px] border border-white-700 bg-white px-4 text-sm font-normal text-black">
-          <option value="">All statuses</option>
-          <option value="Unrecovered">Unrecovered</option>
-          <option value="Recovered">Recovered</option>
-        </select>
-      </label>
+    <div class="grid gap-6 md:grid-cols-2">
       <label class="flex flex-col gap-2 text-lg font-semibold text-black">
         Location
         <select id="lost-location-filter" class="h-10 w-full rounded-[8px] border border-white-700 bg-white px-4 text-sm font-normal text-black">
@@ -104,7 +102,7 @@
   <?php endif; ?>
 
   <?php if (empty($lostItems)): ?>
-    <p>No lost items posted yet.</p>
+    <p class="text-center py-10">No lost items posted yet.</p>
   <?php else: ?>
     <!--LOST ITEM CARDS -->
     <section class="flex flex-wrap justify-center gap-6" data-listing-grid>
@@ -135,7 +133,7 @@
               <?php if (!empty($item['categories'])): ?>
                 <div class="mt-3 flex flex-wrap gap-2">
                   <?php foreach ($item['categories'] as $category): ?>
-                    <span class="inline-flex items-center justify-center rounded-[12px] border border-[#03325C] bg-[#E6EFF6] px-3 text-sm font-medium text-[#044177]" style="height:30px; min-width:121px;"><?= htmlspecialchars(trim($category, '"')) ?></span>
+                    <span class="inline-flex items-center justify-center rounded-[12px] border border-[#03325C] bg-[#E6EFF6] px-3 text-sm font-medium text-[#044177]" style="height:30px; min-width:121px;"><?= htmlspecialchars($category) ?></span>
                   <?php endforeach; ?>
                 </div>
               <?php endif; ?>
@@ -162,7 +160,9 @@
               <span>Last seen at <span class="font-medium text-primary"><?= htmlspecialchars($item['location'] ?: 'Unknown location') ?></span></span>
             </div>
 
-            <p class="text-sm font-normal text-primary"><?= htmlspecialchars($item['description']) ?></p>
+            <div class="description-container mt-3">
+              <p class="text-sm font-normal text-primary description-text break-all"><?= htmlspecialchars($item['description']) ?></p>
+            </div>
           </div>
 
           <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
@@ -178,8 +178,8 @@
           <?php endif; ?>
 
           <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
-            <dialog id="contact-modal-<?= $item['id'] ?>" class="border-none bg-transparent p-0 backdrop:bg-black/30 w-full max-w-[480px] rounded-[24px]" s
-            style="left:50%; top:50%; transform:translate(-50%,-50%); max-width:calc(100vw - 2rem);" 
+            <dialog id="contact-modal-<?= $item['id'] ?>" class="border-none bg-transparent p-0 backdrop:bg-black/30 w-full max-w-[480px] rounded-[24px]"
+            style="left:50%; top:50%; transform:translate(-50%,-50%); lg:max-width:calc(50vw - 2rem) max-width:calc(100vw - 2rem);" 
             onclick="if(event.target === this) closeModal('contact-modal-<?= $item['id'] ?>')">
               <article class="bg-white shadow-[0_4px_16px_0_rgba(0,0,0,0.20)] rounded-[24px] p-6 flex flex-col gap-4">
 
