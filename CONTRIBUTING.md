@@ -12,9 +12,9 @@ for all involved. The community looks forward to your contribution.
 
 - [Code of Conduct](#code-of-conduct)
 - [I have a Question](#i-have-a-question)
+- [Development Guides](#development-guides)
 - [Your First Code Contribution](#your-first-code-contribution)
 - [Style Guides](#style-guides)
-- [Development Guides](#development-guides)
 - [Attribution](#attribution)
 
 ## Code of Conduct
@@ -32,6 +32,12 @@ If you still need help:
 - Open a [Github Issue](/issues/new)
 - Provide as much context as possible
 - Include relevant environment details (PHP version, browser, OS, etc)
+
+
+## Development Guides
+- Please read the official CITE Development Guide for Git workflow and development standards:
+
+   👉 https://github.com/USC-CITE/development-guides/blob/main/cite-git-workflow.md
 
 
 ## Your First Code Contribution
@@ -52,12 +58,6 @@ If you still need help:
 - Use prepared statements for database queries
 - Validate all user inputs
 - Keep code readable and modular
-
-
-## Development Guides
-- Please read the official CITE Development Guide for Git workflow and development standards:
-
-   👉 https://github.com/USC-CITE/development-guides/blob/main/cite-git-workflow.md
 
 
 ## Attribution
