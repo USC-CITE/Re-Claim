@@ -111,7 +111,7 @@
               </div>
               <div class="min-w-0 flex-1">
                 <p class="item-card-title break-words text-lg font-semibold text-primary">
-                  <span class="mr-1 status-tag-recovered"> [Resolved] </span>
+                  <span class="mr-1 status-tag-recovered"> [Recovered] </span>
                   <?= htmlspecialchars($item['item_name']) ?>
                 </p>
                 <?php
