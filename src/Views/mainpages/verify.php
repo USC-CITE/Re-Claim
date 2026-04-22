@@ -27,6 +27,7 @@
         </div>
 
         <form method="POST" action="/resend-otp">
+            <?php \App\Core\Router::setCsrf(); ?>
             <b>
                 <?= htmlspecialchars($_SESSION['resend_message'] ?? '') ?>
                 <?php unset($_SESSION['resend_message']); ?>    
