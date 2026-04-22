@@ -77,7 +77,8 @@ class Router{
         }
 
         http_response_code(404);
-        echo "404 - Route not found";
+        require __DIR__ . '/../Views/errors/404.php';
+        exit;
     }
 
     private function sanitizeUri(string $uri):string
