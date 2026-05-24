@@ -241,13 +241,29 @@ class AuthController{
             if ($e->errorInfo[1] === 1062) {
                 echo "Registration failed: The email address '$email' is already in use.";
             } else {
-                error_log($e->getMessage(), 3, __DIR__ . "/../../logs/database_errors.log");
+                // TODO: Create a logger class to handle this instead of raw error_log calls in controllers
+                $logEntry = sprintf(
+                    "[%s] ERROR | File: %s | Line: %d | Message: %s\n",
+                    date('Y-m-d H:i:s'),
+                    $e->getFile(),
+                    $e->getLine(),
+                    $e->getMessage()
+                );
+                error_log($logEntry, 3, __DIR__ . "/../../logs/database_errors.log");
                 // TODO: Replace with proper 500 error page
                 echo "500 Error: An unexpected error occurred during registration. Please try again later.";
             }
         } catch (Exception $e) {
             // General Error Handling (Validation, etc.)
-            error_log($e->getMessage(), 3, __DIR__ . "/../../logs/php_errors.log");
+            // TODO: Create a logger class to handle this instead of raw error_log calls in controllers
+            $logEntry = sprintf(
+                "[%s] ERROR | File: %s | Line: %d | Message: %s\n",
+                date('Y-m-d H:i:s'),
+                $e->getFile(),
+                $e->getLine(),
+                $e->getMessage()
+            );
+            error_log($logEntry, 3, __DIR__ . "/../../logs/php_errors.log");
             // TODO: Replace with proper 500 error page
             echo "500 Error: An unexpected error occurred. Please try again later.";
         }
@@ -315,7 +331,14 @@ class AuthController{
                 return;
             }
             // TODO: Replace with proper 500 error page
-            error_log($e->getMessage(), 3, __DIR__ . "/../../logs/database_errors.log");
+            $logEntry = sprintf(
+                "[%s] ERROR | File: %s | Line: %d | Message: %s\n",
+                date('Y-m-d H:i:s'),
+                $e->getFile(),
+                $e->getLine(),
+                $e->getMessage()
+            );
+            error_log($logEntry, 3, __DIR__ . "/../../logs/database_errors.log");
             echo "500 Error: An unexpected error occurred. Please try again later.";
             return;
         }
