@@ -3,6 +3,11 @@
     * Layer: Controller
     * Purpose: Handle HTTP requests and responses
     * Rules: No direct DB queries or HTML markup
+
+    * logs/
+    * ├── .gitkeep
+    * ├── php_errors.log        # PHP core errors (php.ini configured)
+    * └── database_errors.log       # Database exceptions caught in controllers
 */
 
 namespace App\Controllers;
@@ -236,12 +241,15 @@ class AuthController{
             if ($e->errorInfo[1] === 1062) {
                 echo "Registration failed: The email address '$email' is already in use.";
             } else {
-                error_log("Database Error: " . $e->getMessage());
-                echo "An unexpected error occurred during registration. Please try again later." . $e->getMessage();
+                error_log($e->getMessage(), 3, __DIR__ . "/../../logs/database_errors.log");
+                // TODO: Replace with proper 500 error page
+                echo "500 Error: An unexpected error occurred during registration. Please try again later.";
             }
         } catch (Exception $e) {
             // General Error Handling (Validation, etc.)
-            echo "Error: " . $e->getMessage();
+            error_log($e->getMessage(), 3, __DIR__ . "/../../logs/php_errors.log");
+            // TODO: Replace with proper 500 error page
+            echo "500 Error: An unexpected error occurred. Please try again later.";
         }
     }
 
@@ -306,7 +314,10 @@ class AuthController{
                 echo "Registration failed: The email address '$email' is already in use.";
                 return;
             }
-            throw $e;
+            // TODO: Replace with proper 500 error page
+            error_log($e->getMessage(), 3, __DIR__ . "/../../logs/database_errors.log");
+            echo "500 Error: An unexpected error occurred. Please try again later.";
+            return;
         }
         
         // Set session for authenticated user
