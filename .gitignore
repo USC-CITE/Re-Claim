@@ -1,6 +1,8 @@
 apache2/
 mysql/
 
+logs/*.log
+
 vendor/
 node_modules/
 
