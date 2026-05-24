@@ -61,7 +61,7 @@
                     <label class="text-sm font-semibold text-primary" for="email">WVSU Email Address</label>
                     <input type="email" name="email" id="email" required
                            class="w-full px-4 py-2 text-sm border <?= !empty($errors['wvsu_email']) ? 'border-red-500 border-2' : 'border-white-700' ?> rounded-lg bg-white placeholder-secondary">
-                    <p class="text-sm text-red-500">
+                    <p class="text-sm text-red-500 break-all">
                         <?= $errors['wvsu_email'] ?? '' ?>
                     </p>
                 </div>
