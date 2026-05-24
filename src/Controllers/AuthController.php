@@ -197,7 +197,7 @@ class AuthController{
                     $errors['wvsu_email'] =  "✕ The email address '$email' is already in use.";
                 } else {
                     // [2] Email already exists but not verified -> Direct to login
-                    $errors['wvsu_email'] = "✕ This email is already registered but unverified. Please log in to continue.";
+                    $errors['wvsu_email'] = "✕ The email address '$email' already registered but unverified. Please log in to continue.";
                 }
             }
             // NOTE: Do NOT create user yet! Defer creation until OTP verification to prevent database spam.
