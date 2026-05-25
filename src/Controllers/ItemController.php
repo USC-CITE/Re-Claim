@@ -21,10 +21,6 @@ class ItemController
     // LISTING VIEWS
     public static function listLostItems()
     {   
-        if (!isset($_SESSION['user_id'])) {
-            header("Location: /login");
-            exit;
-        }
 
         $config = require __DIR__ . '/../Config/config.php';
         $model = new LostItemModel($config);
