@@ -170,7 +170,12 @@
             <button
               type="button"
               class="mt-auto inline-flex w-full items-center justify-center gap-[10px] self-center rounded-[16px] bg-primary-500 px-6 py-3 text-md font-semibold text-white-500 transition-colors hover:bg-primary-600 sm:max-w-[362px]"
-              onclick="openModal('contact-modal-<?= $item['id'] ?>')">
+                  <?php if (!empty($_SESSION['user_id'])): ?>
+                  onclick="openModal('contact-modal-<?= $item['id'] ?>')"
+                  <?php else: ?>
+                    onclick="window.location.href='/login'"
+                  <?php endif; ?>
+                >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" viewBox="0 0 24 21" fill="none" class="h-[21px] w-6 shrink-0" aria-hidden="true">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M24 10.5C24 16.299 18.6274 21 12 21C9.76254 21 7.66811 20.4642 5.87515 19.5312L0 21L2.00745 16.3159C0.739202 14.6509 0 12.651 0 10.5C0 4.70101 5.37258 0 12 0C18.6274 0 24 4.70101 24 10.5ZM7.5 9H4.5V12H7.5V9ZM19.5 9H16.5V12H19.5V9ZM10.5 9H13.5V12H10.5V9Z" fill="white"/>
               </svg>

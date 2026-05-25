@@ -27,9 +27,7 @@ define('ASSETS_URL', BASE_URL . 'assets/') ?>
                     // The found lost & found and post an item link would only be visible once a user is logged in
                     if(isset($_SESSION['user_id'])){
                         echo "
-                        <li>
-                            <a href='/lost' class='hover:text-blue-500 transition'>Lost & Found</a>
-                        </li>
+                      
                         <li>
                             <a href='/post-item' class='hover:text-blue-500 transition'>Post an item</a>
                         </li>
@@ -37,6 +35,10 @@ define('ASSETS_URL', BASE_URL . 'assets/') ?>
                     }     
                 ?>
 
+                <li>
+                    <a href='/lost' class='hover:text-blue-500 transition'>Lost & Found</a>
+                </li>
+                
                 <li>
                     <a href="/contact" class='whitespace-nowrap hover:text-blue-500 transition'>Contact Us</a>
                 </li>
