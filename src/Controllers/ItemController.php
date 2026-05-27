@@ -83,10 +83,6 @@ class ItemController
 
     public static function listFoundItems()
     {
-        if (!isset($_SESSION['user_id'])) {
-            header("Location: /login");
-            exit;
-        }
 
         $config = require __DIR__ . '/../Config/config.php';
         $model = new FoundItemModel($config);
