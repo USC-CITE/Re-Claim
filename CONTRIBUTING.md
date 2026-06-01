@@ -44,21 +44,22 @@ If you still need help:
 
 1. Fork the repository
 2. Clone your fork
+
 3. Create a branch:<br>
 `git checkout -b [category]/[issue-reference]/[description]`
 4. Build and run the application using Docker:<br>
-`docker compose up --build -d`
-To restart existing containers:
-`docker compose start`
-To stop containers:
-`docker compose stop`
-To view logs:
-`docker compose logs -f`
-4. Make changes
-5. Test locally
-6. Commit changes
-7. Push branch
-8. Open a Pull Request
+`docker compose up --build -d`<br><br>
+To restart existing containers:<br>
+   `docker compose start`<br><br>
+   To stop containers:<br>
+   `docker compose stop`<br><br>
+   To view logs:<br>
+   `docker compose logs -f`<br>
+5. Make changes
+6. Test locally
+7. Commit changes
+8. Push branch
+9. Open a Pull Request
 
 
 ## Style Guides
