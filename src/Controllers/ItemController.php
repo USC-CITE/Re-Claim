@@ -159,11 +159,6 @@ class ItemController
 
     public static function listRecoveredItems()
     {
-        if (!isset($_SESSION['user_id'])) {
-            header("Location: /login");
-            exit;
-        }
-
         $config = require __DIR__ . '/../Config/config.php';
         $lostModel = new LostItemModel($config);
         $foundModel = new FoundItemModel($config);
