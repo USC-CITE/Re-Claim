@@ -44,10 +44,17 @@ If you still need help:
 
 1. Fork the repository
 2. Clone your fork
+3. Additional Setup Files
+   Some required development files are not currently included in the repository. Before running the project, download and place the following files/folders in the project root directory:
+- `php.ini`
+- `apache2/`
+- `mysql/`
 
-3. Create a branch:<br>
-`git checkout -b [category]/[issue-reference]/[description]`
-4. Build and run the application using Docker:<br>
+   Download them here:
+   https://drive.google.com/drive/folders/1OMmJvei1bpF5yXvun5yII0-fJpOr_9WU?usp=sharing
+4. Create a branch:<br>
+`git checkout -b [category]/[issue-reference]/[description]`<br>
+5. Build and run the application using Docker:<br>
 `docker compose up --build -d`<br><br>
 To restart existing containers:<br>
    `docker compose start`<br><br>
@@ -55,11 +62,11 @@ To restart existing containers:<br>
    `docker compose stop`<br><br>
    To view logs:<br>
    `docker compose logs -f`<br>
-5. Make changes
-6. Test locally
-7. Commit changes
-8. Push branch
-9. Open a Pull Request
+6. Make changes
+7. Test locally
+8. Commit changes
+9. Push branch
+10. Open a Pull Request
 
 
 ## Style Guides
