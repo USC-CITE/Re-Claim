@@ -105,7 +105,7 @@
     <?php else: ?>
         <section class="flex flex-wrap justify-center gap-6" data-listing-grid>
             <?php foreach ($foundItems as $item): ?>
-                <article class="item-card flex h-full w-full max-w-[405px] min-w-0 flex-col items-start gap-4 overflow-hidden rounded-[32px] border border-[#d9d9d9] bg-white px-4 py-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)] sm:px-[22px] sm:py-6" data-item-status="<?= htmlspecialchars((string)($item['status'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" data-item-location="<?= htmlspecialchars((string)($item['location'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" data-item-categories="<?= htmlspecialchars(implode('|', $item['categories'] ?? []), ENT_QUOTES, 'UTF-8') ?>">
+                <article class="item-card flex h-full w-full min-h-[480px] max-w-[405px] min-w-0 flex-col items-start gap-4 overflow-hidden rounded-[32px] border border-[#d9d9d9] bg-white px-4 py-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)] sm:px-[22px] sm:py-6" data-item-status="<?= htmlspecialchars((string)($item['status'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" data-item-location="<?= htmlspecialchars((string)($item['location'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" data-item-categories="<?= htmlspecialchars(implode('|', $item['categories'] ?? []), ENT_QUOTES, 'UTF-8') ?>">
                     <header class="flex w-full flex-col items-start gap-4">
                         <div class="flex w-full items-start gap-3">
                         <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[124px] bg-white-600 text-sm font-semibold text-primary">
