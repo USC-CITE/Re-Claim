@@ -24,7 +24,7 @@ you are expected to act professionally and respectfully toward others. If you en
 
 
 ## I Have A Question
-Before asking question, please:
+Before asking a question, please:
 - Search existing [Issue](/issues)
 - Check the documentation and README
 
@@ -62,11 +62,21 @@ To restart existing containers:<br>
    `docker compose stop`<br><br>
    To view logs:<br>
    `docker compose logs -f`<br>
-6. Make changes
-7. Test locally
-8. Commit changes
-9. Push branch
-10. Open a Pull Request
+6. Install Dependencies and Build Assets:
+Once your containers are running, you need to initialize your backend packages and compile your frontend assets. <br>
+Run the following commands:
+**PHP Dependencies (Composer)**
+   `docker compose exec reclaim-server composer install`
+**Node Modules**
+    `docker compose exec reclaim-server npm install`
+**Tailwind CSS**
+   `docker compose exec reclaim-server npm run build  `
+
+7. Make changes
+8. Test locally
+9. Commit changes
+10. Push branch
+11. Open a Pull Request
 
 
 ## Style Guides
