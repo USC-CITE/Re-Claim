@@ -145,7 +145,7 @@
           <div class="w-full self-center border-t border-secondary"></div>
 
           <?php if (!empty($item['image_url'])): ?>
-            <img src="<?= htmlspecialchars($item['image_url']) ?>" alt="Lost item image" class="h-auto max-h-[420px] w-full rounded-2xl object-cover sm:h-[260.188px] sm:max-w-[362px] sm:self-center">
+            <img src="<?= htmlspecialchars($item['image_url']) ?>" alt="Lost item image" class="h-auto max-h-[420px] w-full rounded-2xl object-contain sm:h-[260.188px] sm:max-w-[362px] sm:self-center">
           <?php else: ?>
             <div class="flex h-[260.188px] w-full items-center justify-center rounded-2xl border border-dashed border-white-700 bg-white-50 text-sm text-secondary sm:max-w-[362px] sm:self-center">
               <small>No image</small>
