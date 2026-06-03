@@ -44,8 +44,8 @@ If you still need help:
 
 1. Fork the repository
 2. Clone your fork
-3. Additional Setup Files
-   Some required development files are not currently included in the repository. Before running the project, download and place the following files/folders in the project root directory:
+3. Additional Setup Files: 
+Some required development files are not currently included in the repository. Before running the project, download and place the following files/folders in the project root directory:
 - `php.ini`
 - `apache2/`
 - `mysql/`
