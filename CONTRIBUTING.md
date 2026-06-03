@@ -66,11 +66,11 @@ To restart existing containers:<br>
 Once your containers are running, you need to initialize your backend packages and compile your frontend assets. <br>
 Run the following commands:
 **PHP Dependencies (Composer)**
-   `docker compose exec reclaim-server composer install`
+   `composer install`
 **Node Modules**
-    `docker compose exec reclaim-server npm install`
+    `npm install`
 **Tailwind CSS**
-   `docker compose exec reclaim-server npm run build  `
+   `npm run build  `
 
 7. Make changes
 8. Test locally
