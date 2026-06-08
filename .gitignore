@@ -1,6 +1,8 @@
 apache2/
 mysql/
 
+logs/
+
 vendor/
 node_modules/
 composer.lock
