@@ -82,5 +82,5 @@ Run the following commands:<br>
 
 This guide is adapted from open-source contributing best practices, including https://contributing.md/, and tailored for the WVSU: Re-Claim project under WVSU - SPARK Hub in collaboration with USC-CITE.
 
-Special thanks to the contributors and the CITE Development Guides for workflow standards:
+Special thanks to the [contributors](https://reclaim.wvsu-usc.org/humans.txt) and the CITE Development Guides for workflow standards:
 https://github.com/USC-CITE/development-guides
