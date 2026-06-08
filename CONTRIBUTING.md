@@ -6,8 +6,6 @@ All types of contributions are encouraged and valued. Please make sure to read t
 making your contribution. It will make it a lot easier for us maintainers and smooth out the experience
 for all involved. The community looks forward to your contribution.
 
-## Project Repo
-
 ## Table of Contents
 
 - [Code of Conduct](#code-of-conduct)
@@ -35,48 +33,43 @@ If you still need help:
 
 
 ## Development Guides
-- Please read the official CITE Development Guide for Git workflow and development standards:
-
-   👉 https://github.com/USC-CITE/development-guides/blob/main/cite-git-workflow.md
-
+👉 Please read the [official CITE Development Guide](https://github.com/USC-CITE/development-guides/blob/main/cite-git-workflow.md) for Git workflow and development standards:
 
 ## Your First Code Contribution
 
 1. Fork the repository
 2. Clone your fork
-3. Additional Setup Files: 
-Some required development files are not currently included in the repository. Before running the project, download and place the following files/folders in the project root directory:
+3. Rename `.env.example` to `.env`
+4. Some required development files are not currently included in the repository. Before running the project, [download](https://drive.google.com/drive/folders/1OMmJvei1bpF5yXvun5yII0-fJpOr_9WU?usp=sharing) and place the following files/folders in the project root directory.
 - `php.ini`
 - `apache2/`
 - `mysql/`
-
-   Download them here:
-   https://drive.google.com/drive/folders/1OMmJvei1bpF5yXvun5yII0-fJpOr_9WU?usp=sharing
-4. Create a branch:<br>
+- `dev_reclaim_app.sql`
+5. Create a branch:<br>
 `git checkout -b [category]/[issue-reference]/[description]`<br>
-5. Build and run the application using Docker:<br>
-`docker compose up --build -d`<br><br>
+6. Build and run the application using Docker:<br>
+`docker compose up --build -d`<br>
 To restart existing containers:<br>
-   `docker compose start`<br><br>
+   `docker compose start`<br>
    To stop containers:<br>
-   `docker compose stop`<br><br>
+   `docker compose stop`<br>
    To view logs:<br>
    `docker compose logs -f`<br>
-6. Install Dependencies and Build Assets:
-Once your containers are running, you need to initialize your backend packages and compile your frontend assets. <br>
-Run the following commands:
+7. Import `dev_reclaim_app.sql` to your MySQL database and create your custom user with password via a database client [(DB Visualizer)](https://www.dbvis.com/) or the command line
+8. Once your containers are running, you need to initialize your backend packages and compile your frontend assets.
+Run the following commands:<br>
 **PHP Dependencies (Composer)**
-   `composer install`
+   `composer install`<br>
 **Node Modules**
-    `npm install`
+    `npm install`<br>
 **Tailwind CSS**
    `npm run build  `
 
-7. Make changes
-8. Test locally
-9. Commit changes
-10. Push branch
-11. Open a Pull Request
+9. Make changes
+10. Test locally
+11. Commit changes
+12. Push branch
+13. Open a Pull Request
 
 
 ## Style Guides
