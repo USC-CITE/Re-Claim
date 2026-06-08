@@ -1,7 +1,7 @@
 apache2/
 mysql/
 
-logs/
+logs/*.log
 
 vendor/
 node_modules/
@@ -12,4 +12,9 @@ php.ini
 uploads/
 .env
 
+
 /public/css/app.css
+
+.DS_Store
+**/.DS_Store
+

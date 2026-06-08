@@ -3,6 +3,11 @@
     * Layer: Controller
     * Purpose: Handle HTTP requests and responses
     * Rules: No direct DB queries or HTML markup
+
+    * logs/
+    * ├── .gitkeep
+    * ├── php_errors.log        # PHP core errors (php.ini configured)
+    * └── database_errors.log       # Database exceptions caught in controllers
 */
 
 namespace App\Controllers;
@@ -27,7 +32,9 @@ class AuthController{
     }
 
     public static function showVerify(){
-        if (!isset($_SESSION['user_id'])) {
+        // Security Fix: Only allow access if user is in registration flow (has pending_email set)
+        // This prevents unauthorized access before OTP verification
+        if (!isset($_SESSION['pending_email'])) {
             header("Location: /login");
             exit;
         }
@@ -106,6 +113,9 @@ class AuthController{
             $confirmPass = trim($_POST["confirm-pass"] ?? "");
             $phoneNum = trim($_POST['phone-num'] ?? "");
             $socialLink = trim($_POST['social-link'] ?? "");
+            if ($socialLink !== '' && !preg_match('~^(?:f|ht)tps?://~i', $socialLink)) {
+                $socialLink = 'https://' . $socialLink;
+            }
 
             // Generate OTP
             $otp = random_int(100000, 999999); // secure 6-digit OTP
@@ -186,32 +196,17 @@ class AuthController{
             $user = $model->findByEmail($email);
 
             // Email Verification Scenarios
-            if(!$user){
-                // [1] User email is available
-               // Stores the userId that the create method returns
-                $userId = $model->create([ 
-                    'first_name' => $firstName,
-                    'last_name' => $lastName, 
-                    'email' => $email, 
-                    'hashedPass' => $hashPass,
-                    'phone_number' => $phoneNum,
-                    'social_link' => $socialLink,
-                    'v_code_hashed' => $v_code_hashed,
-                    'v_code_expiry' => $expires
-
-                ]);
-            }else{ 
-                // [2] Email already exists
-                if($user['email_verified'] == 1){
-                    $errors['wvsu_email'] =  "✕ The '$email' is already in use.";
-                }
-                // [3] Email already exists but not verified -> Redirect To OTP
-                else{
-                    $model->updateOtp($email, $v_code_hashed, $expires);
-
-                    $userId = $user['id'];
+            if($user){
+                // [1] Email already exists and is verified
+                if((int)$user['email_verified'] === 1){
+                    $errors['wvsu_email'] =  "✕ The email address '$email' is already in use.";
+                } else {
+                    // [2] Email already exists but not verified -> Direct to login
+                    $errors['wvsu_email'] = "✕ The email address '$email' already registered but unverified. Please log in to continue.";
                 }
             }
+            // NOTE: Do NOT create user yet! Defer creation until OTP verification to prevent database spam.
+            // This prevents attackers from filling the database with unverified accounts.
            
             if(!empty($errors)){
                 $_SESSION['errors'] = $errors;
@@ -220,14 +215,24 @@ class AuthController{
             }
             // Store user email to be used in OTP verification
             $_SESSION['pending_email'] = $email;
+            $_SESSION['pending_registration'] = [
+                'first_name' => $firstName,
+                'last_name' => $lastName, 
+                'email' => $email, 
+                'hashedPass' => $hashPass,
+                'phone_number' => $phoneNum,
+                'social_link' => $socialLink,
+                'v_code_hashed' => $v_code_hashed,
+                'v_code_expiry' => $expires
+            ];
             $_SESSION['first_name'] = $firstName;
             $_SESSION['full_name'] = $firstName . ' ' . $lastName;
             // For the OTP UI timer
             $_SESSION['social_link'] = $socialLink;
             $_SESSION['phone_number'] = $phoneNum;
             $_SESSION['otp_expires_at'] = $expires;
-            $_SESSION['avatar'] = $user['avatar_path'];
-            $_SESSION['user_id'] = $userId;
+            // NOTE: Do NOT set $_SESSION['user_id'] until OTP is verified!
+            // This prevents unauthorized access to protected routes before email verification
             // Send OTP via Gmail
             if (Mailer::sendOtp($email, $firstName, $otp)) {
                 echo "Registration successful! Check your email for the OTP.";
@@ -239,12 +244,31 @@ class AuthController{
             if ($e->errorInfo[1] === 1062) {
                 echo "Registration failed: The email address '$email' is already in use.";
             } else {
-                error_log("Database Error: " . $e->getMessage());
-                echo "An unexpected error occurred during registration. Please try again later." . $e->getMessage();
+                // TODO: Create a logger class to handle this instead of raw error_log calls in controllers
+                $logEntry = sprintf(
+                    "[%s] ERROR | File: %s | Line: %d | Message: %s\n",
+                    date('Y-m-d H:i:s'),
+                    $e->getFile(),
+                    $e->getLine(),
+                    $e->getMessage()
+                );
+                error_log($logEntry, 3, __DIR__ . "/../../logs/database_errors.log");
+                // TODO: Replace with proper 500 error page
+                echo "500 Error: An unexpected error occurred during registration. Please try again later.";
             }
         } catch (Exception $e) {
             // General Error Handling (Validation, etc.)
-            echo "Error: " . $e->getMessage();
+            // TODO: Create a logger class to handle this instead of raw error_log calls in controllers
+            $logEntry = sprintf(
+                "[%s] ERROR | File: %s | Line: %d | Message: %s\n",
+                date('Y-m-d H:i:s'),
+                $e->getFile(),
+                $e->getLine(),
+                $e->getMessage()
+            );
+            error_log($logEntry, 3, __DIR__ . "/../../logs/php_errors.log");
+            // TODO: Replace with proper 500 error page
+            echo "500 Error: An unexpected error occurred. Please try again later.";
         }
     }
 
@@ -259,27 +283,82 @@ class AuthController{
             return;
         }
 
-        $model = new UserModel($config);
-
-        if ($model->verifyOtp($email, $otp)) {
+        // Check if this is a new registration or existing unverified account
+        if (!isset($_SESSION['pending_registration'])) {
+            // Existing account - user should already be in database
+            $model = new UserModel($config);
             
-            $user = $model->findByEmail($email);
-            if($user){
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['wvsu_email'] = $user['wvsu_email'];
-                $_SESSION['first_name'] = $user['first_name'];
-                $_SESSION['last_name'] = $user['last_name'];
+            if ($model->verifyOtp($email, $otp)) {
+                $user = $model->findByEmail($email);
+                if($user){
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['wvsu_email'] = $user['wvsu_email'];
+                    $_SESSION['first_name'] = $user['first_name'];
+                    $_SESSION['last_name'] = $user['last_name'];
+                }
+
+                // Clean up 
+                unset($_SESSION['pending_email']);
+                unset($_SESSION['otp_expires_at']);
+
+                header('Location: /');
+                exit();
+            } else {    
+                echo "Invalid or expired OTP.";
+                return;
             }
-
-            // Clean up 
-            unset($_SESSION['pending_email']);
-            unset($_SESSION['otp_expires_at']);
-
-            header('Location: /');
-            exit();
-        } else {    
-            echo "Invalid or expired OTP.";
         }
+        
+        // New registration flow - verify OTP then create user
+        $registrationData = $_SESSION['pending_registration'];
+        $model = new UserModel($config);
+        
+        // Verify the OTP from session
+        $hashedOtp = $registrationData['v_code_hashed'];
+        if (!password_verify($otp, $hashedOtp)) {
+            echo "Invalid or expired OTP.";
+            return;
+        }
+        
+        try {
+            $userId = $model->create($registrationData);
+            
+            // Mark email as verified immediately after creation
+            if (!$model->verifyOtp($email, $otp)) {
+                echo "Registration completed but verification status failed to update. Try and login to verify your account.";
+                return;
+            }
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] === 1062) {
+                echo "Registration failed: The email address '$email' is already in use.";
+                return;
+            }
+            // TODO: Replace with proper 500 error page
+            $logEntry = sprintf(
+                "[%s] ERROR | File: %s | Line: %d | Message: %s\n",
+                date('Y-m-d H:i:s'),
+                $e->getFile(),
+                $e->getLine(),
+                $e->getMessage()
+            );
+            error_log($logEntry, 3, __DIR__ . "/../../logs/database_errors.log");
+            echo "500 Error: An unexpected error occurred. Please try again later.";
+            return;
+        }
+        
+        // Set session for authenticated user
+        $_SESSION['user_id'] = $userId;
+        $_SESSION['wvsu_email'] = $email;
+        $_SESSION['first_name'] = $registrationData['first_name'];
+        $_SESSION['last_name'] = $registrationData['last_name'];
+        
+        // Clean up 
+        unset($_SESSION['pending_email']);
+        unset($_SESSION['pending_registration']);
+        unset($_SESSION['otp_expires_at']);
+
+        header('Location: /');
+        exit();
     }
 
     public static function resendOtp(array $config){
@@ -297,8 +376,16 @@ class AuthController{
         $hashed = password_hash($otp, PASSWORD_DEFAULT);
         $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
 
-        $model = new UserModel($config);
-        $model->updateOtp($email, $hashed, $expires);
+        // Check if this is a new registration (has pending_registration) or existing account
+        if (isset($_SESSION['pending_registration'])) {
+            // New registration - update OTP in session
+            $_SESSION['pending_registration']['v_code_hashed'] = $hashed;
+            $_SESSION['pending_registration']['v_code_expiry'] = $expires;
+        } else {
+            // Existing account - update OTP in database
+            $model = new UserModel($config);
+            $model->updateOtp($email, $hashed, $expires);
+        }
 
         if(Mailer::sendOtp($email, $firstName, $otp)){
             $_SESSION['resend_message'] = "New OTP sent to your email";

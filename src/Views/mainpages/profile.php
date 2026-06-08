@@ -272,7 +272,7 @@
                                             <span class="status-tag-<?= strtolower($item['status_tag']) ?>">
                                                 [<?= htmlspecialchars($item['status_tag']) ?>]
                                             </span>
-                                            </span> <?= htmlspecialchars($item['item_name']) ?>
+                                            <?= htmlspecialchars($item['item_name']) ?>
                                         </h3>
                                         <p class="text-sm"><?= date("F j, Y", strtotime($item['event_date'])) ?></p>
                                          <?php if (!empty($item['categories'])): ?>
@@ -330,9 +330,11 @@
                                     </div>
                                     
                                     <!-- Item Description -->
-                                    <p class="text-sm mt-2 mb-2">
-                                        <?= htmlspecialchars($item['description'] ?? 'No description provided.') ?>
-                                    </p>
+                                    <div class="description-container mt-2 mb-2">
+                                        <p class="text-sm description-text break-all">
+                                            <?= htmlspecialchars($item['description'] ?? 'No description provided.') ?>
+                                        </p>
+                                    </div>
                                 </div>
 
                                 <?php if (!empty($item['can_archive'])): ?>
@@ -537,9 +539,11 @@
                                     </div>
                                     
                                     <!-- Item Description -->
-                                    <p class="text-sm mt-2">
-                                        <?= htmlspecialchars($item['description'] ?? 'No description provided.') ?>
-                                    </p>
+                                    <div class="description-container mt-2">
+                                        <p class="text-sm description-text break-all">
+                                            <?= htmlspecialchars($item['description'] ?? 'No description provided.') ?>
+                                        </p>
+                                    </div>
                                 </div>
 
                                 <?php if (!empty($item['can_archive'])): ?>
@@ -727,9 +731,11 @@
                                             </p>
                                         </div>
 
-                                        <p class="text-sm mt-2 mb-2">
-                                            <?= htmlspecialchars($item['description']) ?>
-                                        </p>
+                                        <div class="description-container mt-2 mb-2">
+                                            <p class="text-sm description-text break-all">
+                                                <?= htmlspecialchars($item['description']) ?>
+                                            </p>
+                                        </div>
 
                                         <!-- Archived date -->
                                         <p class="text-xs text-slate-400 mt-auto pt-3 border-t border-gray-100">
@@ -762,6 +768,7 @@
         </section>
     </main>
     <script src="/js/profile/tabs.js"></script>
+    <script src="/js/main/card-truncation.js" defer></script>
     <?php require __DIR__ . "/footer.php"?>
 </body>
 </html>

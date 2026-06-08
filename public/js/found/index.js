@@ -104,7 +104,7 @@ function setupListingFilters(config) {
             const categories = (card.dataset.itemCategories || "")
                 .split("|")
                 .map(function (category) {
-                    return category.trim();
+                    return category.trim().replace(/^"+|"+$/g, '');
                 })
                 .filter(Boolean);
             const matchesSearch = query === "" || title.includes(query);
@@ -151,7 +151,6 @@ function setupListingFilters(config) {
 document.addEventListener("DOMContentLoaded", function () {
     setupListingFilters({
         searchInputId: "found-search",
-        statusFilterId: "found-status-filter",
         locationFilterId: "found-location-filter",
         categoryFilterId: "found-category-filter",
     });

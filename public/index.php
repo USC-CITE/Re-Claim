@@ -11,11 +11,9 @@ require __DIR__ . '/../src/init.php';
 $config = require_once __DIR__ . '/../src/Config/config.php';
 
 use App\Controllers\AuthController;
-use App\Controllers\LostItemController;
+use App\Controllers\ItemController;
 use App\Core\Router;
 use App\Core\Database;
-
-use App\Controllers\FoundItemController;  
 use App\Controllers\ProfileController;
 use App\Controllers\ContactController;
 
@@ -67,12 +65,10 @@ $router->post('/resend-otp', fn() => AuthController::resendOtp($config));
 $router->post('/logout', [AuthController::class, 'logout']);
 
 /* Lost Item */
-$router->get('/lost', [LostItemController::class, 'index']);
-$router->get('/lost/post', [LostItemController::class, 'showPostForm']);
-$router->post('/lost/post', [LostItemController::class, 'submitPostForm']);
-$router->post('/lost/recover', [LostItemController::class, 'recover']);
-$router->post('/lost/archive', [LostItemController::class, 'archive']);
-$router->post('/lost/delay-archive', [LostItemController::class, 'delayArchive']);
+$router->get('/lost', [ItemController::class, 'listLostItems']);
+$router->post('/lost/recover', [ItemController::class, 'recover']);
+$router->post('/lost/archive', [ItemController::class, 'archive']);
+$router->post('/lost/delay-archive', [ItemController::class, 'delayArchive']);
 
 /* User Profile Routes */
 $router->get('/profile', [ProfileController::class, 'showProfile']);
@@ -84,11 +80,16 @@ $router->post('/profile/change-password/verify', [ProfileController::class, 'ver
 $router->post('/profile/delete', [ProfileController::class, 'deleteAccount']);
 
 /* Found Item */
-$router->get('/found', [FoundItemController::class, 'index']);      // List Page
-$router->get('/found/post', [FoundItemController::class, 'showPostForm']); // Post Page
-$router->post('/found/post', [FoundItemController::class, 'submitPostForm']); // Submit Action
-$router->post('/found/recover', [FoundItemController::class, 'recover']); // Mark found item as recovered
-$router->post('/found/archive', [\App\Controllers\FoundItemController::class, 'archive']);
-$router->post('/found/delay-archive', [\App\Controllers\FoundItemController::class, 'delayArchive']);
+$router->get('/found', [ItemController::class, 'listFoundItems']);
+$router->post('/found/recover', [ItemController::class, 'recover']);
+$router->post('/found/archive', [ItemController::class, 'archive']);
+$router->post('/found/delay-archive', [ItemController::class, 'delayArchive']);
+
+/* Recovered Items */
+$router->get('/recovered', [ItemController::class, 'listRecoveredItems']);
+
+/* Unified Post Item */
+$router->get('/post-item', [ItemController::class, 'showPostForm']);
+$router->post('/post-item', [ItemController::class, 'submitPostForm']);
 
 $router->dispatch();

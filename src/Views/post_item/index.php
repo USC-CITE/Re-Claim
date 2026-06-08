@@ -1,6 +1,6 @@
 <!--
     * Layer: View
-    * Purpose: UI for posting a lost item
+    * Purpose: UI for reporting an item (Lost or Found)
     * Rules: No business logic or DB access
 -->
 
@@ -9,9 +9,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Lost Item</title>
+    <title>Report an Item</title>
     <link rel="stylesheet" href="/css/app.css">
-    <script src="/js/lost/post.js" defer></script>
+    <script src="/js/post_item/index.js" defer></script>
 </head>
 
 <body class="font-poppins bg-white text-primary min-h-screen overflow-x-hidden">
@@ -20,7 +20,7 @@
 
 <main class="max-w-xl mx-auto w-full px-5 py-8 sm:px-6 sm:py-10">
 
-    <h2 class="text-3xl font-bold text-center mb-8">Report a Lost Item</h2>
+    <h2 class="text-3xl font-bold text-center mb-8">Report an Item</h2>
 
     <?php if (!empty($flash['error'])): ?>
         <div class="border-l-4 border-red-500 bg-red-100 p-4 mb-6 rounded-lg">
@@ -34,12 +34,24 @@
         </div>
     <?php endif; ?>
 
-    <form method="POST" action="/lost/post" enctype="multipart/form-data" class="flex flex-col gap-4">
+    <form method="POST" action="/post-item" enctype="multipart/form-data" class="flex flex-col gap-4">
     <?php \App\Core\Router::setCsrf(); ?>
 
      <!-- ===== ITEM INFORMATION SECTION ====== -->
     <fieldset class="flex flex-col gap-6 border-none p-0">
         
+        <!-- STATUS TAG-->
+        <div class="flex flex-col gap-2">
+            <label class="text-sm font-semibold text-black">Status Tag:</label>
+            <select name="status" id="status-select" required
+                class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
+                
+                <option value="Lost" <?= (($old['status'] ?? 'Lost') === 'Lost') ? 'selected' : '' ?>>Lost</option>
+                <option value="Found" <?= (($old['status'] ?? '') === 'Found') ? 'selected' : '' ?>>Found</option>
+                
+            </select>
+        </div>
+
         <!-- ITEM NAME -->
         <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold text-black">Item Name:</label>
@@ -48,6 +60,7 @@
                 name="item_name"
                 placeholder="e.g., Black Wallet"
                 required
+                maxlength="80"
                 value="<?= htmlspecialchars($old['item_name'] ?? '') ?>"
                 class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
             >
@@ -55,7 +68,7 @@
 
         <!-- LOCATION -->
         <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold text-black">Location Item was Lost:</label>
+            <label class="text-sm font-semibold text-black" id="location-label">Location where item was Lost:</label>
             <select name="location" id="location" required
                 class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
                 <option value="">-- Select Location --</option>
@@ -104,13 +117,14 @@
 
         <!-- DATE & TIME -->
         <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold text-black">Date Item was Lost:</label>
+            <label class="text-sm font-semibold text-black" id="date-label">Date Item was Lost:</label>
             <div class="w-full overflow-hidden rounded-xl border border-gray-300">
             <input
                 type="date"
                 name="event_date"
                 id="event_date"
                 required
+                max="<?= date('Y-m-d') ?>"
                 value="<?= htmlspecialchars($old['event_date'] ?? '') ?>"
                 class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white"
             >
@@ -118,7 +132,7 @@
         </div>
 
         <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold text-black">Time Item was Lost:</label>
+            <label class="text-sm font-semibold text-black" id="time-label">Time Item was Lost:</label>
             <div class="w-full overflow-hidden rounded-xl border border-gray-300">
             <input
                 type="time"
@@ -148,18 +162,6 @@
                 <option value="Others" <?= (($old['category'] ?? '') === 'Others') ? 'selected' : '' ?>>Others</option>
             </select>
         </div>
-
-        <!-- STATUS TAG-->
-        <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold text-black">Status Tag:</label>
-            <select name="status" id="status-select" required
-                class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
-                
-                <option value="Lost" <?= (($old['status'] ?? 'Lost') !== 'Found') ? 'selected' : '' ?>>Lost</option>
-                <option value="Found" <?= (($old['status'] ?? '') === 'Found') ? 'selected' : '' ?>>Found</option>
-                
-            </select>
-        </div>
         
         <!-- ITEM DESCRIPTION -->
         <div class="flex flex-col gap-2">
@@ -167,6 +169,7 @@
             <textarea
                 name="description"
                 rows="4"
+                maxlength="500"
                 placeholder="Color, brand, or any distinguishing marks."
                 class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white resize"
             ><?= htmlspecialchars($old['description'] ?? '') ?></textarea>
@@ -181,7 +184,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="shrink-0">
                         <path d="M11 16V7.85L8.4 10.45L7 9L12 4L17 9L15.6 10.45L13 7.85V16H11ZM6 20C5.45 20 4.97933 19.8043 4.588 19.413C4.19667 19.0217 4.00067 18.5507 4 18V15H6V18H18V15H20V18C20 18.55 19.8043 19.021 19.413 19.413C19.0217 19.805 18.5507 20.0007 18 20H6Z" fill="black"/>
                     </svg>
-                    <input type="file" id="item_image" name="item_image" accept="image/jpeg,image/png,image/webp,image/avif" required class="hidden">
+                    <input type="file" id="item_image" name="item_image" accept="image/jpeg,image/png,image/webp,image/avif" required class="sr-only">
                 </label>
                 <small class="text-xs text-gray-500">Accepts: JPG, JPEG, PNG, WEBP, AVIF</small>
                 <div id="preview-container" class="w-full">
@@ -210,7 +213,7 @@
         </fieldset>
 
         <!-- ===== CONTACT INFORMATION SECTION ====== -->
-        <fieldset class="flex flex-col gap-4 border-none p-0">
+        <fieldset class="flex flex-col gap-4 border-none p-0 mt-4">
             <h3 class="text-sm font-semibold text-black">Contact Information</h3>
 
             <div class="flex flex-col gap-2">
@@ -251,24 +254,24 @@
                 <label class="text-sm font-semibold text-black">Social Links:</label>
                 <div id="social-links-container" class="flex flex-col gap-2">
                     <?php
-                        $prefillLinks = $old['social_links'] ?? ($_SESSION['social_links'] ?? []);
+                        $prefillLinks = $old['social_links'] ?? ($user['social_links'] ?? []);
                         if (!is_array($prefillLinks)) $prefillLinks = [];
                     ?>
                     <?php foreach ($prefillLinks as $link): ?>
                         <div class="flex gap-2 social-link-row">
-                            <input type="url" name="social_links[]"
+                            <input type="text" name="social_links[]"
                                 value="<?= htmlspecialchars($link) ?>"
-                                placeholder="https://platform.com/yourprofile" required
-                                class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
+                                placeholder="https://platform.com/yourprofile"
+                                class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white required-for-lost">
                             <button type="button" onclick="removeSocialLinkRow(this)"
                                 class="px-3 py-2 border border-gray-300 rounded-xl text-sm hover:bg-red-100 transition shrink-0">✕</button>
                         </div>
                     <?php endforeach; ?>
                     <?php if (empty($prefillLinks)): ?>
                         <div class="flex gap-2 social-link-row">
-                            <input type="url" name="social_links[]"
+                            <input type="text" name="social_links[]"
                                 placeholder="https://platform.com/yourprofile"
-                                class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white">
+                                class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 bg-white required-for-lost">
                             <button type="button" onclick="removeSocialLinkRow(this)"
                                 class="px-3 py-2 border border-gray-300 rounded-xl text-sm hover:bg-red-100 transition shrink-0">✕</button>
                         </div>
@@ -295,9 +298,9 @@
         <!-- ===== ACTION BUTTONS ==== -->
         <section class="flex flex-row gap-8 mt-2 justify-center">
             <button type="button"
-                onclick="window.location.href='/lost'"
+                onclick="window.history.back()"
                 class="flex items-center justify-center px-6 py-3 rounded-2xl border border-black bg-white text-black font-semibold text-sm transition hover:bg-gray-100">
-                Reset
+                Go Back
             </button>
             <button type="submit"
                 class="flex items-center justify-center px-6 py-3 rounded-2xl bg-[#E6BA05] text-white font-semibold text-sm transition hover:bg-yellow-500">

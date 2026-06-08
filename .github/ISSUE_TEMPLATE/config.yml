@@ -1,5 +1,8 @@
 blank_issues_enabled: true
 contact_links:
+    - name: Feature/Enhancement Request
+      url: https://github.com/USC-CITE/Re-Claim/blob/main/.github/ISSUE_TEMPLATE/3_feature_request.md
+      about: Request a new feature or enhancement to an existing feature.
     - name: Bug Report
       url: https://github.com/USC-CITE/Re-Claim/blob/main/.github/ISSUE_TEMPLATE/1_bug_report.md
       about: File a bug report to fix something.

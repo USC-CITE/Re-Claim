@@ -6,6 +6,7 @@
     <title>Found Items</title>
     <link rel="stylesheet" href="/css/app.css">
     <script src="/js/found/index.js" defer></script>
+    <script src="/js/main/card-truncation.js" defer></script>
 </head>
 <body class="font-poppins bg-white text-primary min-h-screen overflow-x-hidden">
 <?php require __DIR__ . "/../mainpages/header.php"?>
@@ -17,7 +18,8 @@
       <!-- SEARCH AND FILTER -->
     <section class="mb-8 flex justify-center">
         <!-- SEARCH BAR -->
-        <form class="flex w-full max-w-[575px] items-center justify-center gap-3" role="search">
+        <form class="flex w-full max-w-[575px] items-center justify-center gap-3" role="search" method="POST">
+            <?php \App\Core\Router::setCsrf(); ?>
             <label for="found-search" class="sr-only">Search found items</label>
             <section class="relative h-[40px] min-w-0 flex-1 max-w-[521px] overflow-hidden rounded-[12px] border border-[#212121] bg-transparent">
                 <input
@@ -60,19 +62,16 @@
                     Found Items
                 </a>
             </li>
+            <li>
+                <a href="/recovered" class="border-b-2 border-transparent pb-1 text-secondary transition-colors hover:text-secondary">
+                    Recovered Items
+                </a>
+            </li>
         </ul>
     </nav>
 
     <section class="mx-auto mb-8 hidden w-full max-w-[841px] rounded-[32px] bg-white p-8 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)]" data-filter-panel>
-        <div class="grid gap-6 md:grid-cols-3">
-            <label class="flex flex-col gap-2 text-lg font-semibold text-black">
-                Recovery status
-                <select id="found-status-filter" class="h-10 w-full rounded-[8px] border border-white-700 bg-white px-4 text-sm font-normal text-black">
-                    <option value="">All statuses</option>
-                    <option value="Unrecovered">Unrecovered</option>
-                    <option value="Recovered">Recovered</option>
-                </select>
-            </label>
+        <div class="grid gap-6 md:grid-cols-2">
             <label class="flex flex-col gap-2 text-lg font-semibold text-black">
                 Location
                 <select id="found-location-filter" class="h-10 w-full rounded-[8px] border border-white-700 bg-white px-4 text-sm font-normal text-black">
@@ -102,7 +101,7 @@
 
     <!--FOUND ITEM CARDS -->
     <?php if (empty($foundItems)): ?>
-        <p>No found items reported yet.</p>
+        <p class="text-center py-10">No found items reported yet.</p>
     <?php else: ?>
         <section class="flex flex-wrap justify-center gap-6" data-listing-grid>
             <?php foreach ($foundItems as $item): ?>
@@ -110,7 +109,7 @@
                     <header class="flex w-full flex-col items-start gap-4">
                         <div class="flex w-full items-start gap-3">
                         <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[124px] bg-white-600 text-sm font-semibold text-primary">
-                            <?= strtoupper(substr((string)($item['name'] ?: 'A'), 0, 1)) ?>
+                            <?= htmlspecialchars(strtoupper(substr((string)($item['name'] ?: 'A'), 0, 1))) ?>
                         </div>
                         <div class="min-w-0 flex-1">
                             <p class="item-card-title break-words text-lg font-semibold text-primary">
@@ -122,13 +121,10 @@
                             <?php if (!empty($item['categories'])): ?>
                               <div class="mt-3 flex flex-wrap gap-2">
                                 <?php foreach ($item['categories'] as $category): ?>
-                                  <span class="inline-flex items-center justify-center rounded-[12px] border border-[#03325C] bg-[#E6EFF6] px-3 text-sm font-medium text-[#044177]" style="height:30px; min-width:121px;"><?= htmlspecialchars(trim($category, '"')) ?></span>
+                                  <span class="inline-flex items-center justify-center rounded-[12px] border border-[#03325C] bg-[#E6EFF6] px-3 text-sm font-medium text-[#044177]" style="height:30px; min-width:121px;"><?= htmlspecialchars($category) ?></span>
                                 <?php endforeach; ?>
                               </div>
                             <?php endif; ?>
-                        </div>
-                        </div>
-                    </header>
                         </div>
                         </div>
                     </header>
@@ -152,12 +148,20 @@
                             <span>Last seen at <span class="font-medium text-primary"><?= htmlspecialchars($item['location'] ?: 'Unknown location') ?></span></span>
                         </div>
 
-                        <p class="text-sm font-normal text-primary"><?= htmlspecialchars($item['description']) ?></p>
+                        <div class="description-container mt-3">
+                            <p class="text-sm font-normal text-primary description-text break-all"><?= htmlspecialchars($item['description']) ?></p>
+                        </div>
                     </div>
                     
                     <footer class="mt-auto flex w-full flex-wrap justify-end gap-3 pt-2">
                         <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
-                            <button class="ml-auto inline-flex w-full items-center justify-center gap-[10px] self-center rounded-[16px] bg-primary-500 px-6 py-3 text-md font-semibold text-white-500 transition-colors hover:bg-primary-600 sm:max-w-[362px]" onclick="openModal('contact-modal-<?= $item['id'] ?>')">
+                            <button class="ml-auto inline-flex w-full items-center justify-center gap-[10px] self-center rounded-[16px] bg-primary-500 px-6 py-3 text-md font-semibold text-white-500 transition-colors hover:bg-primary-600 sm:max-w-[362px]" 
+                            <?php if (!empty($_SESSION['user_id'])): ?>
+                                onclick="openModal('contact-modal-<?= $item['id'] ?>')"
+                                <?php else: ?>
+                                    onclick="window.location.href='/login'"
+                                <?php endif; ?>
+                                >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" viewBox="0 0 24 21" fill="none" class="h-[21px] w-6 shrink-0" aria-hidden="true">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M24 10.5C24 16.299 18.6274 21 12 21C9.76254 21 7.66811 20.4642 5.87515 19.5312L0 21L2.00745 16.3159C0.739202 14.6509 0 12.651 0 10.5C0 4.70101 5.37258 0 12 0C18.6274 0 24 4.70101 24 10.5ZM7.5 9H4.5V12H7.5V9ZM19.5 9H16.5V12H19.5V9ZM10.5 9H13.5V12H10.5V9Z" fill="white"/>
                                 </svg>
@@ -167,7 +171,8 @@
                     </footer>
 
                     <?php if (($item['status'] ?? '') !== 'Recovered'): ?>
-                    <dialog id="contact-modal-<?= $item['id'] ?>" class="border-none bg-transparent p-0 backdrop:bg-black/30 w-full max-w-[480px] rounded-[24px]" style="left:50%; top:50%; transform:translate(-50%,-50%); max-width:calc(100vw - 2rem);" 
+                    <dialog id="contact-modal-<?= $item['id'] ?>" class="border-none bg-transparent p-0 backdrop:bg-black/30 w-full max-w-[480px] rounded-[24px]"
+                    style="left:50%; top:50%; transform:translate(-50%,-50%); lg:max-width:calc(50vw - 2rem) max-width:calc(100vw - 2rem);" 
                     onclick="if(event.target === this) closeModal('contact-modal-<?= $item['id'] ?>')">
                         <article class="bg-white shadow-[0_4px_16px_0_rgba(0,0,0,0.20)] rounded-[24px] p-6 flex flex-col gap-4">
 

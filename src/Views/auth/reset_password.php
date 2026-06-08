@@ -45,7 +45,8 @@
             <?php endif; ?>
 
             <!-- Form -->
-            <form method="POST" action="/reset-password" class="space-y-5">
+            <form method="POST" action="/reset-password" class="space-y-4">
+                <?php \App\Core\Router::setCsrf(); ?>
                 <!-- Hidden token -->
                 <input type="hidden" name="token" value="<?= htmlspecialchars($token ?? '') ?>">
 
