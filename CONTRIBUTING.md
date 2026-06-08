@@ -17,8 +17,7 @@ for all involved. The community looks forward to your contribution.
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by a respectful and inclusive environment. By participating,
-you are expected to act professionally and respectfully toward others. If you encounter unacceptable behavior, please report via Github Issues.
+This project and everyone participating in it is governed by a respectful and inclusive environment. By participating, you are expected to act professionally and respectfully toward others. If you encounter unacceptable behavior, please report via GitHub Issues.
 
 
 ## I Have A Question
@@ -27,7 +26,7 @@ Before asking a question, please:
 - Check the documentation and README
 
 If you still need help:
-- Open a [Github Issue](/issues/new)
+- Open a [GitHub Issue](/issues/new)
 - Provide as much context as possible
 - Include relevant environment details (PHP version, browser, OS, etc)
 
