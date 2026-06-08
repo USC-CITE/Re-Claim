@@ -3,6 +3,8 @@ mysql/
 
 vendor/
 node_modules/
+composer.lock
+package-lock.json
 
 php.ini
 uploads/
