@@ -23,16 +23,30 @@ class Mailer{
         // Parse the fields inside the .env into an array
         $env = parse_ini_file($envPath);
 
+        if (isset($env['EMAIL_ENABLED']) && $env['EMAIL_ENABLED'] === 'false') {
+            error_log("Email disabled via environment");
+            return true;
+        }
+
         try{
 
             //Server settings
             $mail->isSMTP();
             $mail->Host       = $env['SMTP_HOSTNAME'];
-            $mail->SMTPAuth   = true;
-            $mail->Username   = $env['ADMIN_EMAIL']; 
-            $mail->Password   = $env['SMTP_PASSWORD'];   // Gmail App Password
-            $mail->SMTPSecure = 'ssl';
-            $mail->Port       = $env['SMTP_PORT'] ?? 465;
+            $mail->Port       = $env['SMTP_PORT'] ?? 1025;  // Mailhog default port
+            $mail->SMTPAuth = !empty($env['SMTP_USERNAME']);
+
+            if($mail->SMTPAuth){
+                $mail->Username = $env['SMTP_USERNAME'];
+                $mail->Password = $env['SMTP_PASSWORD'];
+            }
+
+
+            if (!empty($env['SMTP_SECURE']) && $env['SMTP_SECURE'] === 'true') {
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            } else {
+                $mail->SMTPSecure = false;
+            }
 
             //Recipients
             $mail->setFrom($env['ADMIN_EMAIL'], 'WVSU ReClaim');
