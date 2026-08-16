@@ -5,6 +5,12 @@
  */
 require_once __DIR__ . '/../vendor/autoload.php';
 
+if (!defined('APP_URL')) {
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    define('APP_URL', $protocol . '://' . $host);
+}
+
 spl_autoload_register(function ($class) {
     $prefix = 'App\\';          // Our root namespace
     $baseDir = __DIR__ . '/';   // Points to src/

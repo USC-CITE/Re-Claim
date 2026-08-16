@@ -1,34 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/app.css">
-    <meta name="theme-color" content="#055BA8">
-    <meta name="description" content="Find items found by other people.">
-    <meta name="keywords" content="lost and found, lost & found, wvsu, west visayas state university, main campus, re:claim, reclaim">
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Found Items — WVSU Re:Claim">
-    <meta property="og:description" content="FInd items found by other people">
-    <meta property="og:url" content="https://reclaim.wvsu-usc.org/found">
-    <meta property="og:image" content="https://reclaim.wvsu-usc.org/assets/Re_Claim Logo Icon.svg">
-    <meta property="og:site_name" content="Re:Claim">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Found Items - WVSU Re:Claim">
-    <meta name="twitter:description" content="Find items found by other people.">
-    <meta name="twitter:image" content="https://reclaim.wvsu-usc.org/assets/Re_Claim Logo Icon.svg">
-    <link rel="canonical" href="https://reclaim.wvsu-usc.org/found">
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="Re:Claim" />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
-    <title>Found Items — WVSU Re:Claim</title>
-    <script src="/js/found/index.js" defer></script>
-    <script src="/js/main/card-truncation.js" defer></script>
-</head>
+<?php
+$pageTitle = 'Found Items — WVSU Re:Claim';
+$pageDescription = 'Find items found by other people.';
+$canonicalUrl = APP_URL . '/found';
+$extraHead = '<link rel="stylesheet" href="/css/app.css">' . "\n" . '<script src="/js/found/index.js" defer></script>' . "\n" . '<script src="/js/main/card-truncation.js" defer></script>';
+require __DIR__ . '/../partials/head.php';
+?>
 <body class="font-poppins bg-white text-primary min-h-screen overflow-x-hidden">
 <?php require __DIR__ . "/../mainpages/header.php"?>
 <main class="mx-auto max-w-[1327px] px-4 py-8 sm:px-6 sm:py-10">
