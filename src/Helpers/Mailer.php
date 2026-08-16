@@ -28,10 +28,10 @@ class Mailer{
             //Server settings
             $mail->isSMTP();
             $mail->Host       = $env['SMTP_HOSTNAME'];
-            $mail->SMTPAuth   = true;
+            $mail->SMTPAuth   = $env['SMTP_AUTH'] ?? true; // Enable SMTP authentication
             $mail->Username   = $env['ADMIN_EMAIL']; 
             $mail->Password   = $env['SMTP_PASSWORD'];   // Gmail App Password
-            $mail->SMTPSecure = 'ssl';
+            $mail->SMTPSecure = $env['SMTP_SECURE'] ?? PHPMailer::ENCRYPTION_SMTPS; // Use SSL/TLS encryption
             $mail->Port       = $env['SMTP_PORT'] ?? 465;
 
             //Recipients
