@@ -3,8 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recovered Items</title>
   <link rel="stylesheet" href="/css/app.css">
+  <meta name="theme-color" content="#055BA8">
+  <meta name="description" content="Find already recovered items.">
+  <meta name="keywords" content="lost and found, lost & found, wvsu, west visayas state university, main campus, re:claim, reclaim">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Recovered Items — WVSU Re:Claim">
+  <meta property="og:description" content="Find already recovered items.">
+  <meta property="og:url" content="https://reclaim.wvsu-usc.org/recovered">
+  <meta property="og:image" content="https://reclaim.wvsu-usc.org/assets/Re_Claim Logo Icon.svg">
+  <meta property="og:site_name" content="Re:Claim">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Recovered Items - WVSU Re:Claim">
+  <meta name="twitter:description" content="Find already recovered items.">
+  <meta name="twitter:image" content="https://reclaim.wvsu-usc.org/assets/Re_Claim Logo Icon.svg">
+  <link rel="canonical" href="https://reclaim.wvsu-usc.org/recovered">
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Re:Claim" />
+  <link rel="manifest" href="/favicon/site.webmanifest" />
+  <title>Recovered Items — WVSU Re:Claim</title>
   <script src="/js/lost/index.js" defer></script>
   <script src="/js/main/card-truncation.js" defer></script>
 </head>

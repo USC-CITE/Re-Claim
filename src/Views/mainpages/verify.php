@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@latest/css/pico.min.css">
-    <title>WVSU ReClaim: OTP Verification</title>
+    <title>OTP Verification - WVSU Re:Claim</title> 
 </head>
 <body>
     <main class="container">
