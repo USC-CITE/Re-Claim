@@ -8,32 +8,13 @@ unset($_SESSION['show_otp_modal']);
 unset($_SESSION['errors']);
 unset($_SESSION['flash']);
 ?>
-<!DOCTYPE html>
-<html lang="en" class="no-js">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <meta name="theme-color" content="#055BA8">
-    <meta name="description" content="Access your profile settings.">
-    <meta name="twitter:image" content="https://reclaim.wvsu-usc.org/assets/Re_Claim Logo Icon.svg">
-    <link rel="canonical" href="https://reclaim.wvsu-usc.org/profile/settings">
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="Re:Claim" />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
-    <title>Profile Settings — WVSU Re:Claim</title>
-    
-    <script>
-        // Progressive enhancement: detect JS
-        document.documentElement.classList.remove('no-js');
-        document.documentElement.classList.add('js');
-
-        const originalAvatar = "<?= htmlspecialchars($_SESSION['avatar'] ?? '/avatars/default.png') ?>";
-    </script>
+<?php
+$pageTitle = 'Profile Settings — WVSU Re:Claim';
+$pageDescription = 'Access your profile settings.';
+$canonicalUrl = APP_URL . '/profile/settings';
+$extraHead = '<script src="https://cdn.tailwindcss.com"></script>' . "\n" . '<script>' . "\n" . "document.documentElement.classList.remove(\'no-js\');\n" . "document.documentElement.classList.add(\'js\');\n" . "const originalAvatar = \"" . htmlspecialchars($_SESSION['avatar'] ?? '/avatars/default.png') . "\";\n" . '</script>';
+require __DIR__ . '/../partials/head.php';
+?>
 
     <style>
         /* Tabs default */

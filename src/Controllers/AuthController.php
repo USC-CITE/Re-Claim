@@ -438,13 +438,7 @@ class AuthController{
         $model->storeResetToken($email, $hashedToken, $expires);
 
         // reset link
-        $protocol = 'http';
-        if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
-            ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https') {
-            $protocol = 'https';
-        }
-        $host = $_SERVER['HTTP_HOST'];
-        $resetLink = "{$protocol}://{$host}/reset-password?token={$token}";
+        $resetLink = APP_URL . "/reset-password?token={$token}";
 
         // Send reset email
         Mailer::sendResetLink($email, $user['first_name'], $resetLink);

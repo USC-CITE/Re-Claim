@@ -1,37 +1,11 @@
 <?php
-    $currentHost = htmlspecialchars($_SERVER['HTTP_HOST']);
+$pageTitle = 'Re:Claim — WVSU’s Lost & Found Platform';
+$pageDescription = 'Re:Claim is a centralized lost and found tracking system for West Visayas State University - Main Campus.';
+$canonicalUrl = APP_URL;
+$ogImage = APP_URL . '/assets/Re_Claim Logo Icon.svg';
+$extraHead = '<link rel="stylesheet" href="/css/app.css">';
+require __DIR__ . '/../partials/head.php';
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="theme-color" content="#055BA8">
-    <meta name="description" content="Re:Claim is a centralized lost and found tracking system for West Visayas State University - Main Campus.">
-    <meta name="keywords" content="lost and found, lost & found, wvsu, west visayas state university, main campus, re:claim, reclaim">
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Re:Claim — WVSU's Lost & Found Platform">
-    <meta property="og:description" content="A centralized lost and found tracking system for West Visayas State University - Main Campus.">
-    <meta property="og:url" content="https://reclaim.wvsu-usc.org">
-    <meta property="og:image" content="https://reclaim.wvsu-usc.org/assets/Re_Claim Logo Icon.svg">
-    <meta property="og:site_name" content="Re:Claim">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Re:Claim — WVSU's Lost & Found Platform">
-    <meta name="twitter:description" content="A centralized lost and found tracking system for West Visayas State University - Main Campus.">
-    <meta name="twitter:image" content="assets/Re_Claim Logo Icon.svg">
-    <link rel="canonical" href="<? echo htmlspecialchars($_SERVER['HTTP_HOST']); ?>">
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="Re:Claim" />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
-    <title>Re:Claim — WVSU’s Lost & Found Platform</title>
-    <link rel="stylesheet" href="/css/app.css">
-</head>
 <body>
     <?php require __DIR__ . "/header.php"?>
     <main class="w-full flex flex-col items-center">

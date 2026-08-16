@@ -1,34 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/css/app.css">
-    <title>Contact - WVSU Re:Claim</title>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="theme-color" content="#055BA8">
-    <meta name="description" content="If you have questions, problems, or suggestions related to Re:Claim, send us a message.">
-    <meta name="keywords" content="lost and found, lost & found, wvsu, west visayas state university, main campus, re:claim, reclaim">
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Contact - WVSU Re:Claim">
-    <meta property="og:description" content="If you have questions, problems, or suggestions related to Re:Claim, send us a message.">
-    <meta property="og:url" content="https://reclaim.wvsu-usc.org/contact">
-    <meta property="og:image" content="https://reclaim.wvsu-usc.org/assets/Re_Claim Logo Icon.svg">
-    <meta property="og:site_name" content="Re:Claim">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Contact - WVSU Re:Claim">
-    <meta name="twitter:description" content="If you have questions, problems, or suggestions related to Re:Claim, send us a message.">
-    <meta name="twitter:image" content="https://reclaim.wvsu-usc.org/assets/Re_Claim Logo Icon.svg">
-    <link rel="canonical" href="https://reclaim.wvsu-usc.org/contact">
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="Re:Claim" />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
-</head>
+<?php
+$pageTitle = 'Contact - WVSU Re:Claim';
+$pageDescription = 'If you have questions, problems, or suggestions related to Re:Claim, send us a message.';
+$canonicalUrl = APP_URL . '/contact';
+$extraHead = '<script src="https://cdn.tailwindcss.com"></script>' . "\n" . '<link rel="stylesheet" href="/css/app.css">';
+require __DIR__ . '/../partials/head.php';
+?>
 <body>
     <?php require __DIR__ . "/header.php";?>
     <main class="max-w-7xl mx-auto px-6 py-20">
