@@ -9,37 +9,13 @@
     unset($_SESSION['errors']);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/app.css">
-    <script src="/js/auth/password_toggle.js" defer type="module"></script>
-    <title>Register - WVSU Re:Claim</title>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="theme-color" content="#055BA8">
-    <meta name="description" content="Register an account on WVSU Re:Claim.">
-    <meta name="keywords" content="lost and found, lost & found, wvsu, west visayas state university, main campus, re:claim, reclaim">
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Register - WVSU Re:Claim">
-    <meta property="og:description" content="Register an account on WVSU Re:Claim.">
-    <meta property="og:url" content="https://reclaim.wvsu-usc.org/register">
-    <meta property="og:image" content="https://reclaim.wvsu-usc.org/assets/Re_Claim Logo Icon.svg">
-    <meta property="og:site_name" content="Re:Claim">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Register - WVSU Re:Claim">
-    <meta name="twitter:description" content="Register an account on WVSU Re:Claim">
-    <meta name="twitter:image" content="https://reclaim.wvsu-usc.org/assets/Re_Claim Logo Icon.svg">
-    <link rel="canonical" href="https://reclaim.wvsu-usc.org/register">
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="Re:Claim" />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
-</head>
+<?php
+$pageTitle = 'Register - WVSU Re:Claim';
+$pageDescription = 'Register an account on WVSU Re:Claim.';
+$canonicalUrl = APP_URL . '/register';
+$extraHead = '<link rel="stylesheet" href="/css/app.css">' . "\n" . '<script src="/js/auth/password_toggle.js" defer type="module"></script>';
+require __DIR__ . '/../partials/head.php';
+?>
 <body class="font-poppins bg-white min-h-screen flex items-center justify-center p-6 lg:p-10">
     <main class="grid grid-cols-1 lg:grid-cols-2 gap-10 w-full max-w-7xl mx-auto h-full items-center">
         

@@ -1,12 +1,11 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@latest/css/pico.min.css">
-    <title>OTP Verification - WVSU Re:Claim</title> 
-</head>
+<?php
+$pageTitle = 'OTP Verification - WVSU Re:Claim';
+$pageDescription = 'Verify your account using the one-time passcode sent to you.';
+$canonicalUrl = APP_URL . '/verify';
+$extraHead = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@latest/css/pico.min.css">';
+require __DIR__ . '/../partials/head.php';
+?>
 <body>
     <main class="container">
         <form method="POST" action="/verify" class="space-y-6">
