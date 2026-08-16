@@ -6,7 +6,7 @@ repos:
         name: standard
         entry: npx standard
         types: [javascript]
-        files: ^public/site/templates/
+        files: ^public/js
         language: system
 
       # Prettier Check (HTML, CSS, JS)
@@ -14,5 +14,5 @@ repos:
         name: prettier
         entry: npx prettier --check
         types_or: [html, css]
-        files: ^public/site/templates/
+        files: ^public/
         language: system
