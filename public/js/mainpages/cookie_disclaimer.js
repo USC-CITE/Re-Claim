@@ -1,83 +1,83 @@
-document.addEventListener("DOMContentLoaded", function () {
-  var consentKey = "reclaim_cookie_consent";
-  var consentVersion = 1;
-  var consentExpiryDays = 180;
+document.addEventListener('DOMContentLoaded', function () {
+  const consentKey = 'reclaim_cookie_consent'
+  const consentVersion = 1
+  const consentExpiryDays = 180
 
-  function safeGetStorage(key) {
+  function safeGetStorage (key) {
     try {
-      return localStorage.getItem(key);
+      return localStorage.getItem(key)
     } catch (error) {
-      return null;
+      return null
     }
   }
 
-  function safeSetStorage(key, value) {
+  function safeSetStorage (key, value) {
     try {
-      localStorage.setItem(key, value);
+      localStorage.setItem(key, value)
     } catch (error) {
       // localStorage may be blocked in private mode or strict browsers.
     }
   }
 
-  function readCookie(name) {
-    var prefix = name + "=";
-    var entries = document.cookie ? document.cookie.split(";") : [];
+  function readCookie (name) {
+    const prefix = name + '='
+    const entries = document.cookie ? document.cookie.split(';') : []
 
-    for (var index = 0; index < entries.length; index += 1) {
-      var cookie = entries[index].trim();
+    for (let index = 0; index < entries.length; index += 1) {
+      const cookie = entries[index].trim()
       if (cookie.indexOf(prefix) === 0) {
-        return decodeURIComponent(cookie.slice(prefix.length));
+        return decodeURIComponent(cookie.slice(prefix.length))
       }
     }
 
-    return null;
+    return null
   }
 
-  function writeCookie(name, value, days) {
-    var maxAge = days * 24 * 60 * 60;
-    var secureFlag = window.location.protocol === "https:" ? "; Secure" : "";
+  function writeCookie (name, value, days) {
+    const maxAge = days * 24 * 60 * 60
+    const secureFlag = window.location.protocol === 'https:' ? '; Secure' : ''
     document.cookie =
       name +
-      "=" +
+      '=' +
       encodeURIComponent(value) +
-      "; Max-Age=" +
+      '; Max-Age=' +
       maxAge +
-      "; Path=/; SameSite=Lax" +
-      secureFlag;
+      '; Path=/; SameSite=Lax' +
+      secureFlag
   }
 
-  function parseConsent(rawValue) {
+  function parseConsent (rawValue) {
     if (!rawValue) {
-      return null;
+      return null
     }
 
     try {
-      var parsed = JSON.parse(rawValue);
-      var validStatus =
-        parsed.status === "accepted" || parsed.status === "rejected";
-      var validVersion = parsed.version === consentVersion;
-      var notExpired =
-        typeof parsed.expiresAt === "number" && Date.now() < parsed.expiresAt;
+      const parsed = JSON.parse(rawValue)
+      const validStatus =
+        parsed.status === 'accepted' || parsed.status === 'rejected'
+      const validVersion = parsed.version === consentVersion
+      const notExpired =
+        typeof parsed.expiresAt === 'number' && Date.now() < parsed.expiresAt
 
       if (validStatus && validVersion && notExpired) {
-        return parsed;
+        return parsed
       }
     } catch (error) {
-      return null;
+      return null
     }
 
-    return null;
+    return null
   }
 
   // Umami Script
 
-  function loadUmamiScript() {
-    var script = document.createElement("script");
-    script.src = "https://cloud.umami.is/script.js";
+  function loadUmamiScript () {
+    const script = document.createElement('script')
+    script.src = 'https://cloud.umami.is/script.js'
     script.setAttribute(
-      "data-website-id",
-      "48dd6012-bf70-4253-be54-35b793acf16b",
-    );
+      'data-website-id',
+      '48dd6012-bf70-4253-be54-35b793acf16b'
+    )
 
     // TODO: Uncomment when transferring to production
     // document.head.appendChild(script);
@@ -85,77 +85,77 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // This runs before the banner guard so script is injected correctly on all pages, even those without the cookie banner element.
 
-  var storedRecord = parseConsent(safeGetStorage(consentKey));
+  let storedRecord = parseConsent(safeGetStorage(consentKey))
   if (!storedRecord) {
-    storedRecord = parseConsent(readCookie(consentKey));
+    storedRecord = parseConsent(readCookie(consentKey))
   }
 
   if (storedRecord) {
-    if (storedRecord.status === "accepted") {
-      loadUmamiScript();
+    if (storedRecord.status === 'accepted') {
+      loadUmamiScript()
     }
   }
 
   // Banner
 
-  var banner = document.getElementById("cookie-consent-banner");
+  const banner = document.getElementById('cookie-consent-banner')
 
   if (!banner) {
-    return;
+    return
   }
 
   // Banner is already decided then hide it and stop.
   if (storedRecord) {
-    hideBanner();
-    return;
+    hideBanner()
+    return
   }
 
-  function hideBanner() {
-    banner.classList.add("hidden");
-    banner.setAttribute("aria-hidden", "true");
+  function hideBanner () {
+    banner.classList.add('hidden')
+    banner.setAttribute('aria-hidden', 'true')
   }
 
-  function persistConsent(status) {
-    var expiresAt = Date.now() + consentExpiryDays * 24 * 60 * 60 * 1000;
-    var record = JSON.stringify({
-      status: status,
+  function persistConsent (status) {
+    const expiresAt = Date.now() + consentExpiryDays * 24 * 60 * 60 * 1000
+    const record = JSON.stringify({
+      status,
       version: consentVersion,
       createdAt: Date.now(),
-      expiresAt: expiresAt,
-    });
+      expiresAt
+    })
 
-    safeSetStorage(consentKey, record);
-    writeCookie(consentKey, record, consentExpiryDays);
+    safeSetStorage(consentKey, record)
+    writeCookie(consentKey, record, consentExpiryDays)
   }
 
-  function setConsent(choice) {
-    if (choice !== "accepted" && choice !== "rejected") {
-      return;
+  function setConsent (choice) {
+    if (choice !== 'accepted' && choice !== 'rejected') {
+      return
     }
 
-    persistConsent(choice);
-    hideBanner();
+    persistConsent(choice)
+    hideBanner()
 
-    if (choice === "accepted") {
-      loadUmamiScript();
+    if (choice === 'accepted') {
+      loadUmamiScript()
     }
   }
 
-  banner.addEventListener("click", function (event) {
-    var target = event.target.closest("[data-consent-action]");
+  banner.addEventListener('click', function (event) {
+    const target = event.target.closest('[data-consent-action]')
     if (!target) {
-      return;
+      return
     }
 
-    var choice = target.getAttribute("data-consent-action");
-    if (choice === "accepted" || choice === "rejected") {
-      setConsent(choice);
+    const choice = target.getAttribute('data-consent-action')
+    if (choice === 'accepted' || choice === 'rejected') {
+      setConsent(choice)
     }
-  });
+  })
 
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape" && !banner.classList.contains("hidden")) {
-      setConsent("rejected");
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && !banner.classList.contains('hidden')) {
+      setConsent('rejected')
     }
-  });
-});
+  })
+})
