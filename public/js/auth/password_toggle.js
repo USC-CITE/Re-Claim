@@ -4,25 +4,25 @@
  */
 const initPasswordToggle = () => {
   // Select all password inputs that need a toggle
-  const passwordInputs = document.querySelectorAll('input[type="password"]');
+  const passwordInputs = document.querySelectorAll('input[type="password"]')
 
   passwordInputs.forEach((passwordInput, index) => {
-    const container = passwordInput.parentElement;
-    if (!container || !container.classList.contains("relative")) return;
+    const container = passwordInput.parentElement
+    if (!container || !container.classList.contains('relative')) return
 
     // Avoid duplicate injection
-    const existingToggle = container.querySelector(".password-toggle-btn");
-    if (existingToggle) return;
+    const existingToggle = container.querySelector('.password-toggle-btn')
+    if (existingToggle) return
 
-    const toggleButton = document.createElement("button");
-    toggleButton.type = "button";
+    const toggleButton = document.createElement('button')
+    toggleButton.type = 'button'
     toggleButton.className =
-      "password-toggle-btn absolute right-0 inset-y-0 pr-3.5 flex items-center cursor-pointer z-10 outline-none border-none focus:shadow-none";
-    toggleButton.setAttribute("aria-label", "Show password");
-    toggleButton.setAttribute("aria-pressed", "false");
-    toggleButton.tabIndex = -1;
+      'password-toggle-btn absolute right-0 inset-y-0 pr-3.5 flex items-center cursor-pointer z-10 outline-none border-none focus:shadow-none'
+    toggleButton.setAttribute('aria-label', 'Show password')
+    toggleButton.setAttribute('aria-pressed', 'false')
+    toggleButton.tabIndex = -1
 
-    toggleButton.id = `toggle_password_${index}`;
+    toggleButton.id = `toggle_password_${index}`
 
     // SVG Icons
     toggleButton.innerHTML = `
@@ -33,26 +33,26 @@ const initPasswordToggle = () => {
             <svg class="eye-closed-icon hidden" xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
                 <path d="M11.0374 5.73793L9.49432 3.62063M6.3614 6.67313V4.49099M1.68539 5.73793L3.22473 3.62562M0.750183 0.750183C2.99467 5.73793 9.72812 5.73793 11.9726 0.750183" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-        `;
+        `
 
-    const openIcon = toggleButton.querySelector(".eye-open-icon");
-    const closedIcon = toggleButton.querySelector(".eye-closed-icon");
+    const openIcon = toggleButton.querySelector('.eye-open-icon')
+    const closedIcon = toggleButton.querySelector('.eye-closed-icon')
 
-    toggleButton.addEventListener("click", () => {
-      const wasPassword = passwordInput.type === "password";
-      passwordInput.type = wasPassword ? "text" : "password";
+    toggleButton.addEventListener('click', () => {
+      const wasPassword = passwordInput.type === 'password'
+      passwordInput.type = wasPassword ? 'text' : 'password'
 
-      openIcon.classList.toggle("hidden", wasPassword);
-      closedIcon.classList.toggle("hidden", !wasPassword);
+      openIcon.classList.toggle('hidden', wasPassword)
+      closedIcon.classList.toggle('hidden', !wasPassword)
 
-      toggleButton.setAttribute("aria-pressed", wasPassword ? "true" : "false");
+      toggleButton.setAttribute('aria-pressed', wasPassword ? 'true' : 'false')
       toggleButton.setAttribute(
-        wasPassword ? "Hide password" : "Show password",
-      );
-    });
+        wasPassword ? 'Hide password' : 'Show password'
+      )
+    })
 
-    container.appendChild(toggleButton);
-  });
-};
+    container.appendChild(toggleButton)
+  })
+}
 
-document.addEventListener("DOMContentLoaded", initPasswordToggle);
+document.addEventListener('DOMContentLoaded', initPasswordToggle)
