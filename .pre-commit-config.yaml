@@ -1,0 +1,18 @@
+repos:
+  - repo: local
+    hooks:
+      # JavaScript Standard Style Linter
+      - id: standard
+        name: standard
+        entry: npx standard
+        types: [javascript]
+        files: ^public/site/templates/
+        language: system
+
+      # Prettier Check (HTML, CSS, JS)
+      - id: prettier
+        name: prettier
+        entry: npx prettier --check
+        types_or: [html, css]
+        files: ^public/site/templates/
+        language: system
