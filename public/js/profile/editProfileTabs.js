@@ -1,7 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
   const buttons = document.querySelectorAll('.tab-btn')
   const tabs = document.querySelectorAll('.tab-content')
-  const pageTitle = document.getElementById('page-title')
+
+  window.openModal = function (id) {
+    const modal = document.getElementById(id)
+    if (modal) modal.showModal()
+  }
+
+  window.closeModal = function (id) {
+    const modal = document.getElementById(id)
+    if (modal) modal.close()
+  }
 
   const input = document.getElementById('avatarInput')
   const fileName = document.getElementById('file-name')
@@ -11,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Avatar Preview
   const avatarPreview = document.getElementById('avatarPreview')
+  const originalAvatar = avatarPreview ? avatarPreview.src : ''
 
   // Delete state flag
   let isDeleted = false
@@ -47,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
     fileName.textContent = file ? file.name : ''
 
     if (file) {
-      const reader = new FileReader()
+      const reader = new window.FileReader()
 
       reader.onload = function (e) {
         avatarPreview.src = e.target.result
@@ -97,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
     button.addEventListener('click', function () {
       activateTab(this.dataset.tab)
 
-      history.replaceState(null, '', `#${this.dataset.tab}`)
+      window.history.replaceState(null, '', `#${this.dataset.tab}`)
     })
   })
 
@@ -108,13 +118,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const MAX_LINKS = 3
   const container = document.getElementById('socialLinksContainer')
   const addBtn = document.getElementById('addLinkBtn')
+  let updateState = function () {}
 
   if (container && addBtn) {
     function getCount () {
       return container.querySelectorAll("input[name='social_links[]']").length
     }
 
-    function updateState () {
+    updateState = function () {
       const count = getCount()
 
       if (count >= MAX_LINKS) {
@@ -223,17 +234,21 @@ document.addEventListener('DOMContentLoaded', function () {
   const closeModal = document.getElementById('closeModal')
   const modal = document.getElementById('otpModal')
 
-  closeModal.addEventListener('click', () => {
-    modal.classList.add('hidden')
-  })
+  if (closeModal && modal) {
+    closeModal.addEventListener('click', () => {
+      modal.classList.add('hidden')
+    })
+  }
 
   // Tab Navigation for Upload Avatar
-  const avatarLabel = document.querySelector('label[for="avatarInput"')
+  const avatarLabel = document.querySelector('label[for="avatarInput"]')
 
-  avatarLabel.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault()
-      input.click()
-    }
-  })
+  if (avatarLabel && input) {
+    avatarLabel.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault()
+        input.click()
+      }
+    })
+  }
 })

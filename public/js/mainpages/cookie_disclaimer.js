@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function safeGetStorage (key) {
     try {
-      return localStorage.getItem(key)
+      return window.localStorage.getItem(key)
     } catch (error) {
       return null
     }
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function safeSetStorage (key, value) {
     try {
-      localStorage.setItem(key, value)
+      window.localStorage.setItem(key, value)
     } catch (error) {
       // localStorage may be blocked in private mode or strict browsers.
     }

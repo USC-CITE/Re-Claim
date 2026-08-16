@@ -2,7 +2,7 @@
 document.getElementById('item_image').addEventListener('change', function (event) {
   const file = event.target.files[0]
   if (file) {
-    const reader = new FileReader()
+    const reader = new window.FileReader()
     reader.onload = function (e) {
       const img = document.getElementById('preview-image')
       img.src = e.target.result
@@ -38,9 +38,9 @@ document.getElementById('camera-button').addEventListener('click', function (e) 
           ctx.drawImage(video, 0, 0)
 
           canvas.toBlob(function (blob) {
-            const dt = new DataTransfer()
+            const dt = new window.DataTransfer()
 
-            const now = new Date()
+            const now = new window.Date()
             const timestamp = now.getFullYear() +
                             String(now.getMonth() + 1).padStart(2, '0') +
                             String(now.getDate()).padStart(2, '0') + '_' +
@@ -58,7 +58,7 @@ document.getElementById('camera-button').addEventListener('click', function (e) 
             document.getElementById('item_image').files = dt.files
 
             const img = document.getElementById('preview-image')
-            const reader = new FileReader()
+            const reader = new window.FileReader()
             reader.onload = function (e) {
               img.src = e.target.result
               img.style.display = 'block'
@@ -77,10 +77,10 @@ document.getElementById('camera-button').addEventListener('click', function (e) 
         }
       })
       .catch(function (err) {
-        alert('Camera access denied or unavailable: ' + err.message)
+        window.alert('Camera access denied or unavailable: ' + err.message)
       })
   } else {
-    alert('Camera is not supported on this device.')
+    window.alert('Camera is not supported on this device.')
   }
 })
 
@@ -142,19 +142,23 @@ function updateLabels () {
     locationLabel.textContent = 'Location where item was Found:'
     dateLabel.textContent = 'Date Item was Found:'
     timeLabel.textContent = 'Time Item was Found:'
-    document.querySelectorAll('.required-for-lost').forEach(el => el.required = false)
+    document.querySelectorAll('.required-for-lost').forEach(el => {
+      el.required = false
+    })
   } else {
     locationLabel.textContent = 'Location where item was Lost:'
     dateLabel.textContent = 'Date Item was Lost:'
     timeLabel.textContent = 'Time Item was Lost:'
-    document.querySelectorAll('.required-for-lost').forEach(el => el.required = true)
+    document.querySelectorAll('.required-for-lost').forEach(el => {
+      el.required = true
+    })
   }
 }
 
 statusSelect.addEventListener('change', updateLabels)
 updateLabels() // Initialize
 
-function addSocialLinkRow () {
+window.addSocialLinkRow = function () {
   const container = document.getElementById('social-links-container')
   const div = document.createElement('div')
   div.className = 'flex gap-2 social-link-row'
@@ -166,7 +170,7 @@ function addSocialLinkRow () {
   container.appendChild(div)
 }
 
-function removeSocialLinkRow (button) {
+window.removeSocialLinkRow = function (button) {
   const container = document.getElementById('social-links-container')
   const rows = container.querySelectorAll('.social-link-row')
 
