@@ -1,0 +1,34 @@
+name: Deploy Re:Claim to Staging
+
+on:
+  push:
+    branches: [ staging ] 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Build Frontend
+        run: |
+          if [ -f package.json ]; then
+            npm ci
+            npm run build --if-present
+          fi
+      - name: Deploy to Hostinger via SSH
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_RECLAIM_STAGING }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          TARGET: "/home/${{ secrets.SSH_USERNAME }}/public_html/staging_reclaim"
+          SOURCE: "."
+          EXCLUDE: "/.git/, /.github/, /node_modules/, /tests/, Dockerfile*, docker-compose.yml, .env, README.md, .gitignore, .dockerignore, /.github/, /.vscode/, /apache2/, /mysql/, composer*, package*, php.ini, LICENSE.txt"
