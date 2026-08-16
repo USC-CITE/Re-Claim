@@ -1,5 +1,13 @@
 version: "3"
 services:
+  reclaim-mailhog:
+    image: mailhog/mailhog
+    container_name: reclaim-mailhog
+    ports:
+      - 8025:8025
+      - 1025:1025
+    networks:
+      - backend
   reclaim-server:
     build:
       context: ./
@@ -14,6 +22,7 @@ services:
       - backend
     depends_on:
       - reclaim-database
+      - reclaim-mailhog
   reclaim-database:
     build: 
       context: ./
