@@ -22,6 +22,8 @@
   "homepage": "https://github.com/USC-CITE/Re-Claim#readme",
   "devDependencies": {
     "@tailwindcss/cli": "^4.2.1",
+    "prettier": "^3.9.6",
+    "standard": "^17.1.2",
     "tailwindcss": "^4.2.1"
   }
 }
