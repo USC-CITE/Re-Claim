@@ -1,48 +1,48 @@
 /* Local Poppins font-face definitions */
 @font-face {
-  font-family: "Poppins";
-  src: url("/assets/fonts/poppins-v24-latin-regular.woff2") format("woff2");
+  font-family: 'Poppins';
+  src: url('/assets/fonts/poppins-v24-latin-regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Poppins";
-  src: url("/assets/fonts/poppins-v24-latin-500.woff2") format("woff2");
+  font-family: 'Poppins';
+  src: url('/assets/fonts/poppins-v24-latin-500.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Poppins";
-  src: url("/assets/fonts/poppins-v24-latin-600.woff2") format("woff2");
+  font-family: 'Poppins';
+  src: url('/assets/fonts/poppins-v24-latin-600.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Poppins";
-  src: url("/assets/fonts/poppins-v24-latin-700.woff2") format("woff2");
+  font-family: 'Poppins';
+  src: url('/assets/fonts/poppins-v24-latin-700.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Poppins";
-  src: url("/assets/fonts/poppins-v24-latin-800.woff2") format("woff2");
+  font-family: 'Poppins';
+  src: url('/assets/fonts/poppins-v24-latin-800.woff2') format('woff2');
   font-weight: 800;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Poppins";
-  src: url("/assets/fonts/poppins-v24-latin-900.woff2") format("woff2");
+  font-family: 'Poppins';
+  src: url('/assets/fonts/poppins-v24-latin-900.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
 
-@import "tailwindcss";
+@import 'tailwindcss';
 @source "../../src/**/*.php";
 @source "../../public/**/*.js";
 
@@ -77,7 +77,7 @@ html {
 }
 
 .site-footer::before {
-  content: "";
+  content: '';
   position: absolute;
   left: calc(var(--spacing) * 20);
   right: auto;
@@ -85,8 +85,8 @@ html {
   width: calc(var(--spacing) * 160);
   height: calc(var(--spacing) * 160);
   background-color: var(--color-primary-600);
-  -webkit-mask-image: url("/assets/reclaim-logo.svg");
-  mask-image: url("/assets/reclaim-logo.svg");
+  -webkit-mask-image: url('/assets/reclaim-logo.svg');
+  mask-image: url('/assets/reclaim-logo.svg');
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-size: contain;
@@ -107,8 +107,8 @@ html {
 
 @theme {
   /* Typography */
-  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
-  --font-poppins: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  --font-poppins: 'Poppins', ui-sans-serif, system-ui, sans-serif;
 
   /* Typography Sizes */
   --text-display-xl: 3.75rem; /* 60px */
@@ -200,22 +200,22 @@ html {
 }
 
 .status-tag-recovered {
-    color: #055BA8;
-    font-family: var(--font-poppins);
-    font-size: 20px;
-    font-weight: 600;
+  color: #055ba8;
+  font-family: var(--font-poppins);
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .status-tag-lost {
-    color: #DC2626;
-    font-family: var(--font-poppins);
-    font-size: 20px;
-    font-weight: 600;
+  color: #dc2626;
+  font-family: var(--font-poppins);
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .status-tag-found {
-    color: #16A34A;
-    font-family: var(--font-poppins);
-    font-size: 20px;
-    font-weight: 600;
+  color: #16a34a;
+  font-family: var(--font-poppins);
+  font-size: 20px;
+  font-weight: 600;
 }
