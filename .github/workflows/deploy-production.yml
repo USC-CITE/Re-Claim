@@ -17,14 +17,6 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config --global --add safe.directory /app
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: '24'
-      
-      - name: Setup Composer
-        uses: php-actions/composer@v6
-
       - name: Transfer package.json
         uses: easingthemes/ssh-deploy@main
         with:
@@ -45,6 +37,14 @@ jobs:
           TARGET: "/home/${{ secrets.SSH_USERNAME }}/public_html/reclaim"
           SOURCE: "./composer.json"
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      
+      - name: Setup Composer and install dependencies
+        uses: php-actions/composer@v6
+
       - name: Build Frontend
         run: |
           if [ -f package.json ]; then
@@ -53,12 +53,6 @@ jobs:
             else
               npm install --omit=dev
             fi
-          fi
-      
-      - name: Build Backend
-        run: |
-          if [ -f composer.json ]; then
-            composer install --no-dev --optimize-autoloader
           fi
           
       - name: Deploy Frontend
