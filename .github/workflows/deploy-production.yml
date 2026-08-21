@@ -22,11 +22,19 @@ jobs:
             if [ -f package-lock.json ]; then
               npm ci
             else
-              npm install
+              npm install --omit=dev
             fi
             npm run build --if-present
           fi
-      - name: Deploy to Hostinger via SSH
+      
+
+      - name: Build Backend
+        run: |
+          if [ -f composer.json ]; then
+            composer install --no-dev --optimize-autoloader
+          fi
+          
+      - name: Deploy Frontend
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_RECLAIM_PRODUCTION }}
@@ -34,5 +42,16 @@ jobs:
           REMOTE_USER: ${{ secrets.SSH_USERNAME }}
           REMOTE_PORT: ${{ secrets.SSH_PORT }}
           TARGET: "/home/${{ secrets.SSH_USERNAME }}/public_html/reclaim"
-          SOURCE: "."
-          EXCLUDE: "/.git/, /.github/, /node_modules/, /tests/, Dockerfile*, docker-compose.yml, .env, README.md, .gitignore, .dockerignore, /.github/, /.vscode/, /apache2/, /mysql/, composer*, package*, php.ini, LICENSE.txt"
+          SOURCE: "./public/"
+          EXCLUDE: "/.git/, /.github/, /node_modules/"
+
+      - name: Deploy Backend
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_RECLAIM_PRODUCTION }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          TARGET: "/home/${{ secrets.SSH_USERNAME }}/public_html/reclaim"
+          SOURCE: "./src"
+          EXCLUDE: "/.git/, /.github/, /node_modules/"
