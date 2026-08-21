@@ -1,5 +1,13 @@
 version: "3"
 services:
+  reclaim-mailhog:
+    image: mailhog/mailhog
+    container_name: reclaim-mailhog
+    ports:
+      - 8025:8025
+      - 1025:1025
+    networks:
+      - backend
   reclaim-server:
     build:
       context: ./
@@ -8,12 +16,16 @@ services:
     ports:
       - 49152:80 # port is solely for development
     volumes:
+      - ./public:/var/www/ReClaim/public
       - ./src:/var/www/ReClaim/src
-      - ./:/var/www/ReClaim
+      - ./node_modules:/var/www/ReClaim/node_modules
+      - ./vendor:/var/www/ReClaim/vendor
+      - ./.env:/var/www/ReClaim/.env
     networks: 
       - backend
     depends_on:
       - reclaim-database
+      - reclaim-mailhog
   reclaim-database:
     build: 
       context: ./

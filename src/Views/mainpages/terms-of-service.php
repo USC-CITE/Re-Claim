@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/app.css">
-    <title>Terms of Service - WVSU ReClaim</title>
-</head>
+<?php
+$pageTitle = 'Terms of Service - WVSU Re:Claim';
+$pageDescription = 'By using Re:Claim, you agree to follow these Terms of Service. Please use the platform responsibly and respectfully.';
+$canonicalUrl = APP_URL . '/terms-of-service';
+$extraHead = '<link rel="stylesheet" href="/css/app.css">';
+require __DIR__ . '/../partials/head.php';
+?>
 <body>
     <?php require __DIR__ . "/header.php";?>
     <main class="max-w-4xl mx-auto px-6 py-20">

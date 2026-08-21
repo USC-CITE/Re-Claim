@@ -9,15 +9,13 @@
     unset($_SESSION['errors']);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/app.css">
-    <script src="/js/auth/password_toggle.js" defer type="module"></script>
-    <title>WVSU ReClaim - Create Account</title>
-</head>
+<?php
+$pageTitle = 'Register - WVSU Re:Claim';
+$pageDescription = 'Register an account on WVSU Re:Claim.';
+$canonicalUrl = APP_URL . '/register';
+$extraHead = '<link rel="stylesheet" href="/css/app.css">' . "\n" . '<script src="/js/auth/password_toggle.js" defer type="module"></script>';
+require __DIR__ . '/../partials/head.php';
+?>
 <body class="font-poppins bg-white min-h-screen flex items-center justify-center p-6 lg:p-10">
     <main class="grid grid-cols-1 lg:grid-cols-2 gap-10 w-full max-w-7xl mx-auto h-full items-center">
         

@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" class="no-js">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/css/app.css">
-    <title>WVSU ReClaim</title>
-     <script>
-        // This would handle the page javascript status if class is 'js' then works if still 'no-js' does not work
-        document.documentElement.classList.remove('no-js');
-        document.documentElement.classList.add('js');
-    </script>
+<?php
+$pageTitle = 'Profile — WVSU Re:Claim';
+$pageDescription = 'Access your account profile for Re:Claim.';
+$canonicalUrl = APP_URL . '/profile';
+$extraHead = '<script src="https://cdn.tailwindcss.com"></script>' . "\n" . '<link rel="stylesheet" href="/css/app.css">' . "\n" . '<script>' . "\n" . "document.documentElement.classList.remove(\'no-js\');\n" . "document.documentElement.classList.add(\'js\');\n" . '</script>';
+require __DIR__ . '/../partials/head.php';
+?>
     <style>
         /* Default: show everything */
         .no-js .tab-content {

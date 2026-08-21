@@ -1,0 +1,76 @@
+name: Deploy Re:Claim to Staging
+
+on:
+  push:
+    branches: [ staging ] 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Mark workspace as safe
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config --global --add safe.directory /app
+
+      - name: Transfer package.json
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_RECLAIM_STAGING }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          TARGET: "/home/${{ secrets.SSH_USERNAME }}/public_html/staging_reclaim"
+          SOURCE: "./package.json"
+
+      # Composer dependencies must be installed manually due to previous issues with the php-actions/composer@v6 action. This is a temporary solution until the issue is resolved.
+      - name: Transfer composer.json
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_RECLAIM_STAGING }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          TARGET: "/home/${{ secrets.SSH_USERNAME }}/public_html/staging_reclaim"
+          SOURCE: "./composer.json"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Build Frontend
+        run: |
+          if [ -f package.json ]; then
+            if [ -f package-lock.json ]; then
+              npm ci
+            else
+              npm install --omit=dev
+            fi
+          fi
+
+      - name: Deploy Frontend
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_RECLAIM_STAGING }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          TARGET: "/home/${{ secrets.SSH_USERNAME }}/public_html/staging_reclaim"
+          SOURCE: "./public/"
+          EXCLUDE: "/.git/, /.github/, /node_modules/"
+
+      - name: Deploy Backend
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_RECLAIM_STAGING }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          TARGET: "/home/${{ secrets.SSH_USERNAME }}/public_html/staging_reclaim"
+          SOURCE: "./src"
+          EXCLUDE: "/.git/, /.github/, /node_modules/"

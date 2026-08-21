@@ -4,15 +4,13 @@
     * Rules: No business logic or DB access
 -->
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/app.css">
-    <title>WVSU ReClaim - Forgot Password</title>
-</head>
+<?php
+$pageTitle = 'Forgot Password - WVSU Re:Claim';
+$pageDescription = "Reset your account's password if you forgot it.";
+$canonicalUrl = APP_URL . '/forgot-password';
+$extraHead = '<link rel="stylesheet" href="/css/app.css">';
+require __DIR__ . '/../partials/head.php';
+?>
 
 <body class="font-poppins bg-white min-h-screen flex items-center justify-center p-6 lg:p-10">
     <main class="grid grid-cols-1 lg:grid-cols-2 gap-10 w-full max-w-7xl mx-auto h-full items-center">

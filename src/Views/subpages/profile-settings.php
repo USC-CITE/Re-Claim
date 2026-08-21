@@ -8,53 +8,38 @@ unset($_SESSION['show_otp_modal']);
 unset($_SESSION['errors']);
 unset($_SESSION['flash']);
 ?>
-<!DOCTYPE html>
-<html lang="en" class="no-js">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>WVSU ReClaim</title>
-
-    <script>
-        // Progressive enhancement: detect JS
-        document.documentElement.classList.remove('no-js');
-        document.documentElement.classList.add('js');
-
-        const originalAvatar = "<?= htmlspecialchars($_SESSION['avatar'] ?? '/avatars/default.png') ?>";
-    </script>
+<?php
+$pageTitle = 'Profile Settings — WVSU Re:Claim';
+$pageDescription = 'Access your profile settings.';
+$canonicalUrl = APP_URL . '/profile/settings';
+$extraHead = '<script src="https://cdn.tailwindcss.com"></script>' . "\n" . '<script>' . "\n" . "document.documentElement.classList.remove(\'no-js\');\n" . "document.documentElement.classList.add(\'js\');\n" . "const originalAvatar = \"" . htmlspecialchars($_SESSION['avatar'] ?? '/avatars/default.png') . "\";\n" . '</script>';
+require __DIR__ . '/../partials/head.php';
+?>
 
     <style>
         /* Tabs default */
         .no-js .tab-content {
             display: block;
         }
-
         .js .tab-content {
             display: none;
         }
-
         .js .tab-content.active {
             display: block;
         }
-
-        .js .tab-btn.active {
-            color: #044177;
-            border-bottom: 2px solid #044177;
+        .js .tab-btn.active { 
+            color: #044177; 
+            border-bottom: 2px solid #044177; 
         }
 
-        /* Hide scrollbar for Chrome, Safari and Opera */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Hide scrollbar for IE, Edge and Firefox */
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            /* IE and Edge */
-            scrollbar-width: none;
-            /* Firefox */
+        /* Hide scrollbar for Chrome, Safari and Opera */ 
+        .no-scrollbar::-webkit-scrollbar { 
+            display: none; 
+        } 
+        /* Hide scrollbar for IE, Edge and Firefox */ 
+        .no-scrollbar { 
+            -ms-overflow-style: none; /* IE and Edge */ 
+            scrollbar-width: none; /* Firefox */ 
         }
     </style>
 </head>

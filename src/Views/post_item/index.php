@@ -4,15 +4,13 @@
     * Rules: No business logic or DB access
 -->
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report an Item</title>
-    <link rel="stylesheet" href="/css/app.css">
-    <script src="/js/post_item/index.js" defer></script>
-</head>
+<?php
+$pageTitle = 'Report an Item — WVSU Re:Claim';
+$pageDescription = 'Report an item that is lost or found.';
+$canonicalUrl = APP_URL . '/post-item';
+$extraHead = '<link rel="stylesheet" href="/css/app.css">' . "\n" . '<script src="/js/post_item/index.js" defer></script>';
+require __DIR__ . '/../partials/head.php';
+?>
 
 <body class="font-poppins bg-white text-primary min-h-screen overflow-x-hidden">
 

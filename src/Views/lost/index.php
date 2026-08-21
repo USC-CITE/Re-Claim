@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lost Items</title>
-  <link rel="stylesheet" href="/css/app.css">
-  <script src="/js/lost/index.js" defer></script>
-  <script src="/js/main/card-truncation.js" defer></script>
-</head>
+<?php
+$pageTitle = 'Lost Items — WVSU Re:Claim';
+$pageDescription = 'Find your lost items.';
+$canonicalUrl = APP_URL . '/lost';
+$extraHead = '<link rel="stylesheet" href="/css/app.css">' . "\n" . '<script src="/js/lost/index.js" defer></script>' . "\n" . '<script src="/js/main/card-truncation.js" defer></script>';
+require __DIR__ . '/../partials/head.php';
+?>
 <body class="font-poppins bg-white text-primary min-h-screen overflow-x-hidden">
 <?php require __DIR__ . "/../mainpages/header.php"?>
 

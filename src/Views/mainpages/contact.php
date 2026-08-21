@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/css/app.css">
-    <title>WVSU ReClaim</title>
-</head>
+<?php
+$pageTitle = 'Contact - WVSU Re:Claim';
+$pageDescription = 'If you have questions, problems, or suggestions related to Re:Claim, send us a message.';
+$canonicalUrl = APP_URL . '/contact';
+$extraHead = '<script src="https://cdn.tailwindcss.com"></script>' . "\n" . '<link rel="stylesheet" href="/css/app.css">';
+require __DIR__ . '/../partials/head.php';
+?>
 <body>
     <?php require __DIR__ . "/header.php";?>
     <main class="max-w-7xl mx-auto px-6 py-20">

@@ -5,10 +5,10 @@
      * All HTTP requests pass through this file.
      * Contains no business logic.
  */
-require __DIR__ . '/../src/init.php';
+require __DIR__ . '/src/init.php';
 
 // Declare as variable the dictionary that config.php returns
-$config = require_once __DIR__ . '/../src/Config/config.php';
+$config = require_once __DIR__ . '/src/Config/config.php';
 
 use App\Controllers\AuthController;
 use App\Controllers\ItemController;
@@ -25,16 +25,16 @@ $db = Database::connect($config['db']);
 /* Routes */
 /* [PUBLIC ROUTES] */
 $router->get('/', function () {
-    require __DIR__ . "/../src/Views/mainpages/view_index.php";
+    require __DIR__ . "/src/Views/mainpages/view_index.php";
     
 });
 $router->get('/contact', [ContactController::class, 'showContactPage']);
 $router->post('/contact/send', [ContactController::class, 'sendMessage']);
 $router->get('/terms-of-service', function() {
-    require __DIR__ . '/../src/Views/mainpages/terms-of-service.php';
+    require __DIR__ . '/src/Views/mainpages/terms-of-service.php';
 });
 $router->get('/privacy-policy', function() {
-    require __DIR__ . '/../src/Views/mainpages/privacy-policy.php';
+    require __DIR__ . '/src/Views/mainpages/privacy-policy.php';
 });
 $router->get('/login', [AuthController::class, 'showLogin']);
 $router->get('/forgot-password', [AuthController::class, 'showForgotPassword']);
