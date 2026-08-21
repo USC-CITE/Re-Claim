@@ -27,6 +27,7 @@ jobs:
           TARGET: "/home/${{ secrets.SSH_USERNAME }}/public_html/staging_reclaim"
           SOURCE: "./package.json"
 
+      # Composer dependencies must be installed manually due to previous issues with the php-actions/composer@v6 action. This is a temporary solution until the issue is resolved.
       - name: Transfer composer.json
         uses: easingthemes/ssh-deploy@main
         with:
@@ -41,20 +42,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '24'
-
-      - name: Setup Composer and install dependencies
-        uses: php-actions/composer@v6
-        env:
-          COMPOSER: "composer.json"
-        with:
-          php_version: '8.0'
-          dev: no
-          args: '--ignore-platform-reqs --optimize-autoloader'
-          ssh_key: ${{ secrets.SSH_PRIVATE_KEY_RECLAIM_STAGING }}
-          ssh_key_pub: ${{ secrets.SSH_PUBLIC_KEY_RECLAIM_STAGING }}
-          ssh_domain: ${{ secrets.SSH_HOST }}
-          ssh_port: ${{ secrets.SSH_PORT }}
-          working_dir: "/home/${{ secrets.SSH_USERNAME }}/public_html/staging_reclaim"
 
       - name: Build Frontend
         run: |
