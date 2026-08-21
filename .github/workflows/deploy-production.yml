@@ -20,7 +20,7 @@ jobs:
       - name: Setup Composer
         uses: php-actions/composer@v6
 
-      - name: Transfer package.json and composer.json
+      - name: Transfer package.json
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_RECLAIM_PRODUCTION }}
@@ -28,8 +28,17 @@ jobs:
           REMOTE_USER: ${{ secrets.SSH_USERNAME }}
           REMOTE_PORT: ${{ secrets.SSH_PORT }}
           TARGET: "/home/${{ secrets.SSH_USERNAME }}/public_html/reclaim"
-          SOURCE: "./package.json, ./composer.json"
-          EXCLUDE: "/.git/, /.github/, /node_modules/"
+          SOURCE: "./package.json"
+
+      - name: Transfer composer.json
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_RECLAIM_PRODUCTION }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          TARGET: "/home/${{ secrets.SSH_USERNAME }}/public_html/reclaim"
+          SOURCE: "./composer.json"
 
       - name: Build Frontend
         run: |
