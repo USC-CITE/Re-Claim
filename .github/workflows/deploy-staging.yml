@@ -44,6 +44,17 @@ jobs:
 
       - name: Setup Composer and install dependencies
         uses: php-actions/composer@v6
+        env:
+          COMPOSER: "composer.json"
+        with:
+          php_version: '8.0'
+          dev: no
+          args: '--ignore-platform-reqs --optimize-autoloader'
+          ssh_key: ${{ secrets.SSH_PRIVATE_KEY_RECLAIM_STAGING }}
+          ssh_pub: ${{ secrets.SSH_PUBLIC_KEY_RECLAIM_STAGING }}
+          ssh_host: ${{ secrets.SSH_HOST }}
+          ssh_port: ${{ secrets.SSH_PORT }}
+          working_dir: "/home/${{ secrets.SSH_USERNAME }}/public_html/staging_reclaim"
 
       - name: Build Frontend
         run: |
