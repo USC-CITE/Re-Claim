@@ -51,8 +51,8 @@ jobs:
           dev: no
           args: '--ignore-platform-reqs --optimize-autoloader'
           ssh_key: ${{ secrets.SSH_PRIVATE_KEY_RECLAIM_STAGING }}
-          ssh_pub: ${{ secrets.SSH_PUBLIC_KEY_RECLAIM_STAGING }}
-          ssh_host: ${{ secrets.SSH_HOST }}
+          ssh_key_pub: ${{ secrets.SSH_PUBLIC_KEY_RECLAIM_STAGING }}
+          ssh_domain: ${{ secrets.SSH_HOST }}
           ssh_port: ${{ secrets.SSH_PORT }}
           working_dir: "/home/${{ secrets.SSH_USERNAME }}/public_html/staging_reclaim"
 
