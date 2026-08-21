@@ -34,6 +34,8 @@ RUN adduser webuser
 RUN adduser --group webgroup
 RUN adduser webuser webgroup
 
+WORKDIR /var/www/ReClaim
+
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "curl -f http://localhost/" ]
 
 # Run Apache in foreground
