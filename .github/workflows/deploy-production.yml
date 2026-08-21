@@ -24,7 +24,6 @@ jobs:
             else
               npm install --omit=dev
             fi
-            npm run build --if-present
           fi
       
 
