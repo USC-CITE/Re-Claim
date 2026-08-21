@@ -11,10 +11,25 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
+
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: '24'
+      
+      - name: Setup Composer
+        uses: php-actions/composer@v6
+
+      - name: Transfer package.json and composer.json
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_RECLAIM_PRODUCTION }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          TARGET: "/home/${{ secrets.SSH_USERNAME }}/public_html/reclaim"
+          SOURCE: "./package.json, ./composer.json"
+          EXCLUDE: "/.git/, /.github/, /node_modules/"
 
       - name: Build Frontend
         run: |
@@ -26,7 +41,6 @@ jobs:
             fi
           fi
       
-
       - name: Build Backend
         run: |
           if [ -f composer.json ]; then
