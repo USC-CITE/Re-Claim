@@ -95,7 +95,7 @@ require __DIR__ . '/../partials/head.php';
   <?php else: ?>
     <section class="flex flex-wrap justify-center gap-6" data-listing-grid>
       <?php foreach ($items as $item): ?>
-        <article class="item-card flex h-full w-full max-w-[405px] min-w-0 flex-col items-start gap-4 overflow-hidden rounded-[32px] border border-[#d9d9d9] bg-white px-4 py-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)] sm:px-[22px] sm:py-6" 
+        <article class="item-card flex w-full min-h-[480px] w-full max-w-[405px] min-w-0 flex-col items-start gap-4 overflow-hidden rounded-[32px] border border-[#d9d9d9] bg-white px-4 py-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.20)] sm:px-[22px] sm:py-6" 
                  data-item-status="Recovered" 
                  data-item-type="<?= htmlspecialchars($item['item_type']) ?>"
                  data-item-location="<?= htmlspecialchars($item['location']) ?>" 
@@ -137,7 +137,7 @@ require __DIR__ . '/../partials/head.php';
           <div class="w-full self-center border-t border-secondary"></div>
 
           <?php if (!empty($item['image_url'])): ?>
-            <img src="<?= htmlspecialchars($item['image_url']) ?>" alt="Recovered item image" class="h-auto max-h-[420px] w-full rounded-2xl object-cover sm:h-[260.188px] sm:max-w-[362px] sm:self-center">
+            <img src="<?= htmlspecialchars($item['image_url']) ?>" alt="Recovered item image" class="h-auto max-h-[420px] w-full rounded-2xl object-contain sm:h-[260.188px] sm:max-w-[362px] sm:self-center">
           <?php else: ?>
             <div class="flex h-[260.188px] w-full items-center justify-center rounded-2xl border border-dashed border-white-700 bg-white-50 text-sm text-secondary sm:max-w-[362px] sm:self-center">
               <small>No image</small>
