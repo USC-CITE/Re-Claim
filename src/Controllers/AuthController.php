@@ -89,6 +89,22 @@ class AuthController{
             exit();
         }
 
+        // If remember me is checked, extend session cookie lifetime (e.g. 30 days)
+        $rememberMe = isset($_POST['remember_me']);
+        if ($rememberMe) {
+            $lifetime = 30 * 24 * 60 * 60; // 30 days
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(),
+                session_id(),
+                time() + $lifetime,
+                $params['path'] ?? '/',
+                $params['domain'] ?? '',
+                $params['secure'] ?? false,
+                $params['httponly'] ?? true
+            );
+        }
+
         // If no errors
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['first_name'] = $user['first_name'];
