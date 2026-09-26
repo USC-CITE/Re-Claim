@@ -12,7 +12,7 @@ unset($_SESSION['flash']);
 $pageTitle = 'Profile Settings — WVSU Re:Claim';
 $pageDescription = 'Access your profile settings.';
 $canonicalUrl = APP_URL . '/profile/settings';
-$extraHead = '<script src="https://cdn.tailwindcss.com"></script>' . "\n" . '<script>' . "\n" . "document.documentElement.classList.remove(\'no-js\');\n" . "document.documentElement.classList.add(\'js\');\n" . "const originalAvatar = \"" . htmlspecialchars($_SESSION['avatar'] ?? '/avatars/default.png') . "\";\n" . '</script>';
+$extraHead = '<script src="https://cdn.tailwindcss.com"></script>' . "\n" . '<script>' . "const originalAvatar = \"" . htmlspecialchars($_SESSION['avatar'] ?? '/avatars/default.png') . "\";\n" . '</script>';
 require __DIR__ . '/../partials/head.php';
 ?>
 
