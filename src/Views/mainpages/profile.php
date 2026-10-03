@@ -2,7 +2,7 @@
 $pageTitle = 'Profile — WVSU Re:Claim';
 $pageDescription = 'Access your account profile for Re:Claim.';
 $canonicalUrl = APP_URL . '/profile';
-$extraHead = '<script src="https://cdn.tailwindcss.com"></script>' . "\n" . '<link rel="stylesheet" href="/css/app.css">' . "\n" . '<script>' . "\n" . "document.documentElement.classList.remove(\'no-js\');\n" . "document.documentElement.classList.add(\'js\');\n" . '</script>';
+$extraHead =  '<link rel="stylesheet" href="/css/app.css">';
 require __DIR__ . '/../partials/head.php';
 ?>
     <style>

@@ -42,7 +42,10 @@ class Mailer{
             }
 
 
-            if (!empty($env['SMTP_SECURE']) && $env['SMTP_SECURE'] === 'true') {
+            
+            if (($env['SMTP_SECURE'] ?? '') === 'ssl') {
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            } elseif (($env['SMTP_SECURE'] ?? '') === 'tls') {
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             } else {
                 $mail->SMTPSecure = false;
@@ -61,6 +64,9 @@ class Mailer{
             $mail->isHTML(true);
             $mail->Subject = $subject;
             $mail->Body    = $body;
+            
+            // Exit if SMTP connection fails
+            $mail->Timeout = 10;
             
             $mail->send();
             return true;
