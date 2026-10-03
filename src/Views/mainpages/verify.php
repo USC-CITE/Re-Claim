@@ -222,7 +222,7 @@ require __DIR__ . '/../partials/head.php';
 
 
         <!-- Right Side -->
-        <?php require __DIR__ . '../../auth/hero_panel.php'; ?>
+        <?php require __DIR__ . '/../../auth/hero_panel.php'; ?>
 
     </main>
 
