@@ -69,7 +69,7 @@ class AuthController{
 
         // Handle if user not exist
         if(!$user){
-            $_SESSION['error'] = 'No account found. Please register first.';
+            $_SESSION['error'] = 'Invalid credentials. Please try again.';
             header('Location: /login');
             exit();
         }
