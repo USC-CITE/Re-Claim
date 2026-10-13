@@ -89,6 +89,31 @@ class AuthController{
             exit();
         }
 
+        // If remember me is checked, issue a database-backed selector/validator token
+        $rememberMe = isset($_POST['remember_me']);
+        if ($rememberMe) {
+            $selector = bin2hex(random_bytes(16));
+            $validator = bin2hex(random_bytes(32));
+            $validatorHash = hash('sha256', $validator);
+            $expiresAt = date('Y-m-d H:i:s', time() + (30 * 24 * 60 * 60));
+
+            $model->storeRememberToken((int)$user['id'], $selector, $validatorHash, $expiresAt);
+
+            $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+            setcookie(
+                'remember_token',
+                $selector . ':' . $validator,
+                [
+                    'expires' => time() + (30 * 24 * 60 * 60),
+                    'path' => '/',
+                    'domain' => '',
+                    'secure' => $isSecure,
+                    'httponly' => true,
+                    'samesite' => 'Lax'
+                ]
+            );
+        }
+
         // If no errors
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['first_name'] = $user['first_name'];
@@ -399,7 +424,28 @@ class AuthController{
 
     }
 
-    public static function logout(){
+    public static function logout(array $config = []){
+        // Clear remember token from DB and cookie if present
+        if (!empty($_COOKIE['remember_token'])) {
+            $parts = explode(':', $_COOKIE['remember_token'], 2);
+            if (count($parts) === 2 && !empty($config)) {
+                try {
+                    $model = new UserModel($config);
+                    $model->deleteRememberTokenBySelector($parts[0]);
+                } catch (\Throwable $e) {
+                    // Ignore DB cleanup failure on logout to ensure session is cleared
+                }
+            }
+            setcookie('remember_token', '', [
+                'expires' => time() - 3600,
+                'path' => '/',
+                'domain' => '',
+                'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443),
+                'httponly' => true,
+                'samesite' => 'Lax'
+            ]);
+        }
+
         // Clean sesssion
         $_SESSION = [];
 

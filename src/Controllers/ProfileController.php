@@ -538,4 +538,105 @@ class ProfileController{
         header("Location: /register");
         exit;
     }
+
+    public static function currentRememberSelector(): ?string
+    {
+        if (empty($_COOKIE['remember_token'])) {
+            return null;
+        }
+        $parts = explode(':', $_COOKIE['remember_token'], 2);
+        return count($parts) === 2 && $parts[0] !== '' ? $parts[0] : null;
+    }
+
+    public static function showSessions()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+            exit;
+        }
+
+        $config = require __DIR__ . "/../Config/config.php";
+        $user = new UserModel($config);
+        $userId = (int)$_SESSION['user_id'];
+
+        // Lazy cleanup so expired sessions never linger in the list.
+        $user->pruneExpiredRememberTokens();
+        $rememberTokens = $user->listRememberTokensByUserId($userId);
+        $currentSelector = self::currentRememberSelector();
+
+        $flash = $_SESSION['flash'] ?? null;
+        if ($flash) {
+            unset($_SESSION['flash']);
+        }
+
+        require __DIR__ . "/../Views/subpages/profile-sessions.php";
+    }
+
+    public static function revokeSession(): void
+    {
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token.");
+        }
+
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+            exit;
+        }
+
+        $selector = trim((string)($_POST['selector'] ?? ''));
+        $config = require __DIR__ . "/../Config/config.php";
+        $user = new UserModel($config);
+        $userId = (int)$_SESSION['user_id'];
+
+        if ($selector !== '' && $user->deleteRememberTokenForUser($userId, $selector)) {
+            $_SESSION['flash'] = ['success' => 'Session revoked.'];
+
+            // Revoking the current device's token also clears its cookie.
+            if (hash_equals((string)self::currentRememberSelector(), $selector)) {
+                $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+                    || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+                setcookie('remember_token', '', [
+                    'expires' => time() - 3600,
+                    'path' => '/',
+                    'domain' => '',
+                    'secure' => $isSecure,
+                    'httponly' => true,
+                    'samesite' => 'Lax'
+                ]);
+            }
+        } else {
+            // Generic message: never reveal whether the selector exists.
+            $_SESSION['flash'] = ['error' => 'That session could not be revoked.'];
+        }
+
+        header('Location: /profile/sessions');
+        exit;
+    }
+
+    public static function revokeOtherSessions(): void
+    {
+        if (!Router::isCsrfValid()) {
+            http_response_code(403);
+            die("Security Error: Invalid CSRF Token.");
+        }
+
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+            exit;
+        }
+
+        $config = require __DIR__ . "/../Config/config.php";
+        $user = new UserModel($config);
+        $userId = (int)$_SESSION['user_id'];
+
+        $deleted = $user->deleteOtherRememberTokens($userId, self::currentRememberSelector());
+
+        $_SESSION['flash'] = $deleted > 0
+            ? ['success' => $deleted === 1 ? '1 other session revoked.' : "{$deleted} other sessions revoked."]
+            : ['error' => 'No other sessions to revoke.'];
+
+        header('Location: /profile/sessions');
+        exit;
+    }
 }

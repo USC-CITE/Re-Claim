@@ -73,6 +73,12 @@ require __DIR__ . '/../partials/head.php';
             <h1 class="text-4xl font-semibold">Account Settings</h1>
         </header>
 
+        <p class="mb-6">
+            <a class="font-semibold text-[#044177] underline" href="/profile/sessions">
+                Manage persistent (Remember Me) sessions
+            </a>
+        </p>
+
         <!-- Tab Buttons -->
         <nav class="relative w-full border-b border-gray-400 pb-4 mb-6">
             <div class="flex justify-center sm:justify-start">
