@@ -2,7 +2,7 @@
 $pageTitle = 'Contact - WVSU Re:Claim';
 $pageDescription = 'If you have questions, problems, or suggestions related to Re:Claim, send us a message.';
 $canonicalUrl = APP_URL . '/contact';
-$extraHead = '<script src="https://cdn.tailwindcss.com"></script>' . "\n" . '<link rel="stylesheet" href="/css/app.css">';
+$extraHead = '<link rel="stylesheet" href="/css/app.css">';
 require __DIR__ . '/../partials/head.php';
 ?>
 <body>

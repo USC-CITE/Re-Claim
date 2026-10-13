@@ -16,7 +16,7 @@ $ogImage = $ogImage ?? APP_URL . '/assets/Re_Claim Logo Icon.svg';
 $extraHead = $extraHead ?? '';
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,5 +43,11 @@ $extraHead = $extraHead ?? '';
     <meta name="apple-mobile-web-app-title" content="<?= htmlspecialchars(SITE_NAME) ?>" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <title><?= htmlspecialchars($pageTitle) ?></title>
+
+    <script>
+        document.documentElement.classList.remove('no-js');
+        document.documentElement.classList.add('js');
+    </script>
+
     <?= $extraHead ?>
 </head>

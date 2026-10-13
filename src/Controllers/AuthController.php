@@ -414,39 +414,55 @@ class AuthController{
         $email = trim($_POST['email'] ?? '');
 
         // Validate email format
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !str_ends_with($email, '@wvsu.edu.ph')) {
+        if (
+            !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+            !str_ends_with(strtolower($email), '@wvsu.edu.ph')
+        ) {
             $_SESSION['error'] = 'Please use a valid WVSU email address (@wvsu.edu.ph).';
             header('Location: /forgot-password');
             exit();
         }
 
-        $model = new UserModel($config);
-        $user = $model->findByEmail($email);
+        $successMessage = 'If an account with that email exists, a password reset link has been sent.';
 
-        if (!$user || (int)$user['email_verified'] !== 1) {
-            // Show generic success to prevent email enumeration
-            $_SESSION['success'] = 'If an account with that email exists, a password reset link has been sent.';
-            header('Location: /forgot-password');
-            exit();
+        try {
+            $model = new UserModel($config);
+            $user = $model->findByEmail($email);
+
+            // Generic response to prevent email enumeration
+            if (!$user || (int)$user['email_verified'] !== 1) {
+                $_SESSION['success'] = $successMessage;
+                header('Location: /forgot-password');
+                exit();
+            }
+
+            // Generate a secure reset token
+            $token = bin2hex(random_bytes(32));
+            $hashedToken = password_hash($token, PASSWORD_DEFAULT);
+            $expires = date('Y-m-d H:i:s', strtotime('+30 minutes'));
+
+            // Store hashed token in the database
+            $model->storeResetToken($email, $hashedToken, $expires);
+
+            // Generate reset link
+            $resetLink = APP_URL . "/reset-password?token={$token}";
+
+            // Send reset email
+            if (!Mailer::sendResetLink($email, $user['first_name'], $resetLink)) {
+                error_log("Password reset email failed for: {$email}");
+            }
+
+            $_SESSION['success'] = $successMessage;
+        } catch (\Throwable $e) {
+            error_log('Forgot password error: ' . $e->getMessage());
+
+            $_SESSION['error'] = 'Unable to process your request right now. Please try again later.';
         }
-        
-        // Generate a secure token
-        $token = bin2hex(random_bytes(32));
-        $hashedToken = password_hash($token, PASSWORD_DEFAULT);
-        $expires = date('Y-m-d H:i:s', strtotime('+30 minutes'));
 
-        $model->storeResetToken($email, $hashedToken, $expires);
-
-        // reset link
-        $resetLink = APP_URL . "/reset-password?token={$token}";
-
-        // Send reset email
-        Mailer::sendResetLink($email, $user['first_name'], $resetLink);
-
-        $_SESSION['success'] = 'If an account with that email exists, a password reset link has been sent.';
         header('Location: /forgot-password');
         exit();
     }
+
     public static function showResetPassword(array $config){
         $token = $_GET['token'] ?? '';
 

@@ -131,6 +131,11 @@ class ProfileController{
 
     }
     public static function showProfileSettings(){
+        
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+            exit;
+        }
         require __DIR__ . '/../Views/subpages/profile-settings.php';
     }
 
