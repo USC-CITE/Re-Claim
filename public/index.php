@@ -17,7 +17,7 @@ use App\Core\Database;
 use App\Controllers\ProfileController;
 use App\Controllers\ContactController;
 
-$router = new Router();
+$router = new Router($config);
 
 // This passes the config variable as an argument to the connect() METHOD
 $db = Database::connect($config['db']);
@@ -62,7 +62,9 @@ $router->post('/verify', function() use ($config) {
     AuthController::verify($config);
 });
 $router->post('/resend-otp', fn() => AuthController::resendOtp($config));
-$router->post('/logout', [AuthController::class, 'logout']);
+$router->post('/logout', function () use ($config) {
+    AuthController::logout($config);
+});
 
 /* Lost Item */
 $router->get('/lost', [ItemController::class, 'listLostItems']);

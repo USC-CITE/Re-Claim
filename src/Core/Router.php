@@ -19,6 +19,12 @@ Availability: https://github.com/phprouter/main
 class Router
 {
     private array $routes = [];
+    private array $config = [];
+
+    public function __construct(array $config = [])
+    {
+        $this->config = $config;
+    }
 
     public function get(string $route, $handler): void
     {
@@ -63,6 +69,8 @@ class Router
         if (\session_status() === PHP_SESSION_NONE) {
             \session_start();
         }
+
+        $this->authenticateFromRememberCookie();
 
         $uri = \parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $uri = \rtrim($uri, '/');
@@ -149,6 +157,96 @@ class Router
         return isset($_SESSION['csrf']) &&
             !empty($token) &&
             \hash_equals($_SESSION['csrf'], $token);
+    }
+
+    private function authenticateFromRememberCookie(): void
+    {
+        if (!empty($_SESSION['user_id']) || empty($_COOKIE['remember_token'])) {
+            return;
+        }
+
+        $parts = \explode(':', $_COOKIE['remember_token'], 2);
+        if (\count($parts) !== 2) {
+            $this->clearRememberCookie();
+            return;
+        }
+
+        [$selector, $validator] = $parts;
+        if (empty($selector) || empty($validator)) {
+            $this->clearRememberCookie();
+            return;
+        }
+
+        try {
+            $userModel = new \App\Models\UserModel($this->config);
+            $tokenRecord = $userModel->findRememberTokenBySelector($selector);
+
+            if (!$tokenRecord) {
+                $this->clearRememberCookie();
+                return;
+            }
+
+            $calculatedHash = \hash('sha256', $validator);
+            if (!\hash_equals($tokenRecord['validator_hash'], $calculatedHash)) {
+                $userModel->deleteRememberTokenBySelector($selector);
+                $this->clearRememberCookie();
+                return;
+            }
+
+            $user = $userModel->findById((string)$tokenRecord['user_id']);
+            if (!$user) {
+                $userModel->deleteRememberTokenBySelector($selector);
+                $this->clearRememberCookie();
+                return;
+            }
+
+            // Restore user session
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['first_name'] = $user['first_name'];
+            $_SESSION['last_name'] = $user['last_name'];
+            $_SESSION['phone_number'] = $user['phone_number'];
+            $_SESSION['social_link'] = $user['social_link'];
+            $_SESSION['wvsu_email'] = $user['wvsu_email'];
+            $_SESSION['avatar'] = $user['avatar_path'];
+
+            // Rotate validator for replay protection
+            $newValidator = \bin2hex(\random_bytes(32));
+            $newValidatorHash = \hash('sha256', $newValidator);
+            $expiresAt = \date('Y-m-d H:i:s', \time() + (30 * 24 * 60 * 60));
+
+            $userModel->deleteRememberTokenBySelector($selector);
+            $newSelector = \bin2hex(\random_bytes(16));
+            $userModel->storeRememberToken((int)$user['id'], $newSelector, $newValidatorHash, $expiresAt);
+
+            $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+            \setcookie(
+                'remember_token',
+                $newSelector . ':' . $newValidator,
+                [
+                    'expires' => \time() + (30 * 24 * 60 * 60),
+                    'path' => '/',
+                    'domain' => '',
+                    'secure' => $isSecure,
+                    'httponly' => true,
+                    'samesite' => 'Lax'
+                ]
+            );
+        } catch (\Throwable $e) {
+            // If DB connection fails or table error, do not break the whole request
+        }
+    }
+
+    private function clearRememberCookie(): void
+    {
+        $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+        \setcookie('remember_token', '', [
+            'expires' => \time() - 3600,
+            'path' => '/',
+            'domain' => '',
+            'secure' => $isSecure,
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
     }
 }
 ?>

@@ -256,6 +256,49 @@ class UserModel {
         return $stmt->execute([$userId]);
     }
 
+    public function initRememberTokensTable(): void {
+        $sql = "CREATE TABLE IF NOT EXISTS user_remember_tokens (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,
+            selector VARCHAR(64) NOT NULL UNIQUE,
+            validator_hash VARCHAR(128) NOT NULL,
+            expires_at DATETIME NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_user_id (user_id),
+            INDEX idx_selector (selector)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
+        $this->db->exec($sql);
+    }
+
+    public function storeRememberToken(int $userId, string $selector, string $validatorHash, string $expiresAt): bool {
+        $this->initRememberTokensTable();
+        $stmt = $this->db->prepare(
+            "INSERT INTO user_remember_tokens (user_id, selector, validator_hash, expires_at) VALUES (?, ?, ?, ?)"
+        );
+        return $stmt->execute([$userId, $selector, $validatorHash, $expiresAt]);
+    }
+
+    public function findRememberTokenBySelector(string $selector): ?array {
+        $this->initRememberTokensTable();
+        $stmt = $this->db->prepare(
+            "SELECT * FROM user_remember_tokens WHERE selector = ? AND expires_at > NOW() LIMIT 1"
+        );
+        $stmt->execute([$selector]);
+        $token = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $token ?: null;
+    }
+
+    public function deleteRememberTokenBySelector(string $selector): bool {
+        $this->initRememberTokensTable();
+        $stmt = $this->db->prepare("DELETE FROM user_remember_tokens WHERE selector = ?");
+        return $stmt->execute([$selector]);
+    }
+
+    public function deleteRememberTokensByUserId(int $userId): bool {
+        $this->initRememberTokensTable();
+        $stmt = $this->db->prepare("DELETE FROM user_remember_tokens WHERE user_id = ?");
+        return $stmt->execute([$userId]);
+    }
 }
 
 
